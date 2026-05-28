@@ -10,17 +10,17 @@ function App() {
   })
   
   return (
-    <div className="text-[16px] relative bg-[#000]">
-        <div className="absolute top-0 left-0 z-[800] bg-transparent px-[16px] pb-[2rem] w-full flex justify-between items-center">
+    <div className="text-[16px] relative bg-[#000] pt-0">
+        <div className="absolute top-0 left-0 z-[800] px-[16px] pb-[2rem] w-full flex justify-between items-center bg-linear-to-b from-[#19222436] to-[#a8d3ec12] text-white font-bold">
           <div className="flex-[0.3]">
               <img />
               <div>
                 <h2 className="text-wrap">REVES INDOCHINE</h2>
-                <div> DREAM OF INDOCHINE </div>
+                <div className="text-[8px]"> DREAM OF INDOCHINE </div>
               </div>
           </div>
         <div className="flex-1 flex items-center relative">
-            <div className="px-4 py-2 bg-opacity rounded cursor-pointer" onMouseEnter={() => setOpenDetail({open: true, pop: 1})} 
+            <div className="px-4 py-2 bg-opacity rounded cursor-pointer hover:bg-[#fff]" onMouseEnter={() => setOpenDetail({open: true, pop: 1})} 
               onMouseLeave={() => setOpenDetail({open: false, pop: 0})}
             >
               VIETNAM TOUR
@@ -50,13 +50,17 @@ function App() {
               </ul>
             </motion.div>)}
             </AnimatePresence>
-          </div>
-          
-          <div>
+            
+              <div>
             <h2 className="peer">TRAVEL INFORMATION</h2>
             <h2 className="block peer-hover:hidden">Clear data</h2>
           </div>
-
+          </div>
+          
+      </div>
+      
+      <div className="relative w-full">
+        <img src="https://www.anhdulich.vn/storage/sliders/ha-long-bay-copy.jpg"  className="w-full max-h-[350px] object-cover"/>
       </div>
     </div>
   )
