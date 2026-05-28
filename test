@@ -1,0 +1,65 @@
+import React from 'react';
+import { useState } from 'react'
+import { motion, AnimatePresence  } from "framer-motion";
+
+function App() {
+  const [count, setCount] = useState(0)
+  const [openDetail, setOpenDetail] = useState({
+    open: false,
+    pop: 0
+  })
+  
+  return (
+    <div className="text-[16px] relative bg-[#000]">
+        <div className="absolute top-0 left-0 z-[800] bg-transparent px-[16px] pb-[2rem] w-full flex justify-between items-center">
+          <div className="flex-[0.3]">
+              <img />
+              <div>
+                <h2 className="text-wrap">REVES INDOCHINE</h2>
+                <div> DREAM OF INDOCHINE </div>
+              </div>
+          </div>
+        <div className="flex-1 flex items-center relative">
+            <div className="px-4 py-2 bg-opacity rounded cursor-pointer" onMouseEnter={() => setOpenDetail({open: true, pop: 1})} 
+              onMouseLeave={() => setOpenDetail({open: false, pop: 0})}
+            >
+              VIETNAM TOUR
+            </div>
+          
+            <AnimatePresence>
+              {openDetail?.open && openDetail?.pop === 1 && (
+              <motion.div
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.15 }}
+              className="absolute left-0 top-full mt-2 w-48 bg-white text-black rounded shadow-lg 
+                         opacity-0
+                         transform transition-all"
+            >
+              <ul className="py-2">
+                <motion.li whileHover={{ scale: 1.05 }} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  Value 1
+                </motion.li>
+                <motion.li whileHover={{ scale: 1.05 }} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  Value 2
+                </motion.li>
+                <motion.li whileHover={{ scale: 1.05 }} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  Value 3
+                </motion.li>
+              </ul>
+            </motion.div>)}
+            </AnimatePresence>
+          </div>
+          
+          <div>
+            <h2 className="peer">TRAVEL INFORMATION</h2>
+            <h2 className="block peer-hover:hidden">Clear data</h2>
+          </div>
+
+      </div>
+    </div>
+  )
+}
+
+export default App
