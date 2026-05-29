@@ -6,21 +6,13 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [lang, setLang] = useState("en");
 
-    const login = (data) => {
-        setUser(data);
+    const login = (data) => setUser(data);
+    const logout = () => setUser(null);
+
+    const changeLang = (newLang) => {
+        setLang(newLang);
     };
 
-    const logout = () => {
-        setUser(null);
-    };
-
-    const changeLang = () => {
-        if (lang === "en") {
-            setLang("fr");
-        } else {
-            setLang("en");
-        }
-    };
     return (
         <AuthContext.Provider
             value={{

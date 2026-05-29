@@ -1,4 +1,8 @@
 {
+     "lang":{
+          "fr": "French",
+          "en": "English"
+     },
      "navbar": {
           "vietnam_tour": "vietnam tour",
           "7days_vn_tour": "7 Days Vietnam Tours",
@@ -6,7 +10,28 @@
           "12days_vn_tour": "12 Days Vietnam Tours",
           "2w_vn_tour": "2 Weeks Vietnam Tours",
           "3w_vn_tour": "3 Weeks Vietnam Tours",
-          "travel_infor": "Travel information"
-     }
+          "travel_infor": "Travel information",
+
+          "cultural_tour": "Cultural Tours",
+          "family_holiday": "Family Holidays",
+          "nature_adventure":"Nature & Adventure",
+          "honeymoon_tour":"Honeymoon Tours",
+          "bike_tour":"Bike Tours",
+          "luxury_travel":"Luxury Travel",
+          "off_beaten_track":"Off-the-Beaten-Track",
+          "food_culinary_tour":"Food & Culinary Tours",
+          "wellness_relaxation":"Wellness & Relaxation",
+          "photo_tour":"Photography Tours",
+          "all_style_tour": "Style Tours",
+          "combine_tour": "Combine Tours",
+          "northen_vn":"Northern Vietnam",
+          "central_vn": "Central Vietnam",
+          "south_vn":"Southern Vietnam"
+
+
+     },
+          "about_us": "About us",
+          "blog": "Blog",
+          "contact_us": "Contact us"
 
 }

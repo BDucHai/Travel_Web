@@ -5,6 +5,9 @@ import vietnamtour2 from "./vietnamtour2.jpg";
 import vietnamtour3 from "./vietnamtour3.jpg";
 import vietnamtour4 from "./vietnamtour4.jpg";
 import vietnamtour5 from "./vietnamtour5.jpg";
+import combinetour from "./combinetour.jpg";
+import hoian from "./hoian.gif";
+import hue from "./hue.jpg";
 
 export const imgBanner = {
     cungvulam,
@@ -14,4 +17,7 @@ export const imgBanner = {
     vietnamtour3,
     vietnamtour4,
     vietnamtour5,
+    combinetour,
+    hoian,
+    hue,
 };
