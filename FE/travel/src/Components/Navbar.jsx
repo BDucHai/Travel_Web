@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+    import React, { useContext, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { imgBanner } from "../assets/images";
@@ -11,6 +11,9 @@ const Navbar = () => {
         open: false,
         pop: 0,
     });
+
+      const [openNavMobile, setOpenNavMobile] = useState(false);
+  const [navChild, setNavChild] = useState(0); 
 
     const itemData = [
         imgBanner.cungvulam,
@@ -341,7 +344,33 @@ const Navbar = () => {
                             {t("contact_us")}
                         </div>
                     </div>
+                      <div className="flex-1 flex justify-end items-center lg:hidden">
+                        <div className="px-[0.8rem] py-[0.4rem] w-4 h-4  hover:bg-[#ccc]" onClick={() => {
+                        setOpenNavMobile(!openNavMobile);
+                        setNavChild(0)}
+                        }>
+                          abcde
+                        </div>
+                     
+                    </div>
                 </div>
+                   {openNavMobile && (
+        <motion.div className={`w-full bg-cyan-500`} initial={{  height: 0 }}   // trạng thái ban đầu
+      animate={{ height: "80%" }}    // trạng thái sau khi animate
+      transition={{ duration: 0.5 }}>    // thời gian chuyển động>
+          <List>
+            <ListItemButton>
+              <ListItemText primary="Home" />
+            </ListItemButton>
+            <ListItemButton>
+              <ListItemText primary="About" />
+            </ListItemButton>
+            <ListItemButton>
+              <ListItemText primary="Contact" />
+            </ListItemButton>
+          </List>
+        </motion.div>
+)}
             </div>
         </>
     );
