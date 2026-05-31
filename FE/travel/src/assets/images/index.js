@@ -8,6 +8,18 @@ import vietnamtour5 from "./vietnamtour5.jpg";
 import combinetour from "./combinetour.jpg";
 import hoian from "./hoian.gif";
 import hue from "./hue.jpg";
+import france from "./france.png";
+import eng from "./eng.png";
+import sampleBanner from "./sampleBanner.jpg";
+import sampleBanner1 from "./sampleBanner1.jpeg";
+import sampleBanner2 from "./sampleBanner2.jpg";
+import cardSample from "./cardImgExample.jpg";
+import tailor from "./tailor_map.svg";
+import expertise from "./expertise.svg";
+import authentic from "./authentic.svg";
+import diamond from "./diamond.svg";
+import handshake from "./handshake.svg";
+import plant from "./plant.svg";
 
 export const imgBanner = {
     cungvulam,
@@ -20,4 +32,25 @@ export const imgBanner = {
     combinetour,
     hoian,
     hue,
+    sampleBanner,
+    sampleBanner1,
+    sampleBanner2,
+};
+
+export const imgLang = {
+    france,
+    eng,
+};
+
+export const imgCardSample = {
+    cardSample,
+};
+
+export const imgReason = {
+    tailor,
+    expertise,
+    diamond,
+    plant,
+    handshake,
+    authentic,
 };

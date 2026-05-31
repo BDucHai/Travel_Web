@@ -38,6 +38,10 @@ code {
 .bg-blue-fly {
     background-color: #82e3f0;
 }
+.bg-text-sub-content {
+    color: #8b8a8c;
+    font-size: 0.9rem;
+}
 /* <= 1024px */
 @media (max-width: 1024px) {
 }

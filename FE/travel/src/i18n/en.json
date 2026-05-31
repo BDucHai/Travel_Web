@@ -22,6 +22,7 @@
           "food_culinary_tour":"Food & Culinary Tours",
           "wellness_relaxation":"Wellness & Relaxation",
           "photo_tour":"Photography Tours",
+          "duration": "Duration",
           "all_style_tour": "Style Tours",
           "combine_tour": "Combine Tours",
           "northen_vn":"Northern Vietnam",
@@ -32,6 +33,28 @@
      },
           "about_us": "About us",
           "blog": "Blog",
-          "contact_us": "Contact us"
+          "contact_us": "Contact us",
+          "top_pick_tour": "Top Pick Tours",
+          "view_all_tour": "View All Tours",
+          "tour_by_style": "Tours By Style",
+          "explore_style": "Explore all styles",
+          "reason_choose": "Why reves indochine",
+          "our_client_say": "What our clients say",
+
+          "tailor": "Tailor-made experiences",
+          "tailor_desc": "Every trip is customized to match  your travel style and interest.",
+          "local_expertise": "Local Expertise",
+          "local_expertise_desc": "Our local experts design authentic journeys with insider knowledge.",
+          "authentic_immersion": "Authentic Immersion",
+          "authentic_immersion_desc": "We take you deeper to connect with local cultures and communities.",
+          "quanlity_comfort": "Quality & Comfort",
+          "quanlity_comfort_desc": "Handpicked services to ensure comfort, safety and quality throughout.",
+          "trusted": "Trusted Local Network",
+          "trusted_desc": "String relationships with trusted partners across Indochina.",
+          "responsible": "Responsible Tourism",
+          "responsible_desc": "We travel mindfully and support sustainable tourism.",
+
+          "by_duration": "By Duration",
+          "by_style": "By Style"
 
 }
