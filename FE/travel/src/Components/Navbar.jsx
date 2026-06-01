@@ -5,9 +5,9 @@ import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { LuTableOfContents } from "react-icons/lu";
 import { IoCaretDownOutline } from "react-icons/io5";
-import { imgBanner, imgLang } from "../assets/images";
+import { imgBanner, imgGlobal, imgLang } from "../assets/images";
 
-const Navbar = () => {
+const Navbar = ({ home }) => {
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
     const { changeLang } = useAuth();
@@ -76,14 +76,12 @@ const Navbar = () => {
 
     return (
         <>
-            <div className="absolute top-0 left-0 z-[800] pt-[0.5rem] md:px-[2rem] w-full bg-linear-to-b from-[#2d3435f2] to-[#3c4d5678] text-white text[1rem] xl:text-[1.3rem] font-roboto font-bold">
+            <div
+                className={`${home ? "absolute bg-linear-to-b from-[#2d3435f2] to-[#3c4d5678] text-white" : "sticky top-0 bg-[#f8ffff] text-[#000]"} top-0 left-0 z-[800] py-[0.5rem] md:px-[2rem] w-full text[1rem] xl:text-[1.3rem] font-roboto font-bold`}>
                 {/* I18 language */}
                 <div className="hidden lg:flex items-center justify-end">
                     <div
-                        className="
-                                        flex items-center gap-1 p-1 rounded-full
-                                        bg-white/10 backdrop-blur-xl border border-white/20 shadow-lg
-                                    ">
+                        className={`flex items-center gap-1 p-1 rounded-full ${home ? "bg-white/10" : "bg-[#000]"}  backdrop-blur-xl border border-white/20 shadow-lg`}>
                         {/* EN */}
                         <button
                             onClick={() => {
@@ -126,20 +124,24 @@ const Navbar = () => {
                         className="flex-1 lg:flex-[0.3] flex gap-2 items-center cursor-pointer"
                         onClick={() => navigate("/")}>
                         <img
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRrOxSg6_VdeBw0ejwGgGKbeQxaDsxKVaxuw&s"
+                            src={imgGlobal.logo}
                             className="w-[2rem] h-[2rem] lg:w-[3.1rem] lg:h-[3.1rem] object-cover"
                             alt="logo"
                         />
                         <div>
-                            <h2 className="text-wrap text-[1rem] lg:text-[1.4rem] w-[60px] text-[#f0f6cc]">
+                            <h2
+                                className={`text-wrap text-[1rem] lg:text-[1.4rem] w-[60px] ${home ? "text-[#f0f6cc]" : "text-dark"}`}>
                                 REVES INDOCHINE
                             </h2>
-                            <div className="text-[0.4rem] lg:text-[0.6rem] mb-[0.1rem]"> DREAM OF INDOCHINE </div>
+                            <div
+                                className={`text-[0.4rem] lg:text-[0.6rem] mb-[0.1rem] ${home ? "" : "text-[#000000a8]"}`}>
+                                DREAM OF INDOCHINE
+                            </div>
                         </div>
                     </div>
                     <div className="hidden lg:flex relative flex-1 items-center">
                         <div
-                            className="px-4 py-2 rounded cursor-pointer hover-nav-color uppercase"
+                            className={`px-4 py-2 rounded cursor-pointer ${home ? "hover-nav-color" : "text-dark hover:text-[#ef8d21]"} uppercase`}
                             onMouseEnter={() => setOpenDetail({ open: true, pop: 1 })}
                             onMouseLeave={() => setOpenDetail({ open: false, pop: 0 })}>
                             {t("navbar.vietnam_tour")}
@@ -203,7 +205,7 @@ const Navbar = () => {
 
                         {/* TRAVEL INFORMATION */}
                         <div
-                            className="px-4 py-2 rounded cursor-pointer hover-nav-color uppercase"
+                            className={`px-4 py-2 rounded cursor-pointer ${home ? "hover-nav-color" : "text-dark hover:text-[#ef8d21]"} uppercase`}
                             onMouseEnter={() => setOpenDetail({ open: true, pop: 2 })}
                             onMouseLeave={() => setOpenDetail({ open: false, pop: 0 })}>
                             {t("navbar.travel_infor")}
@@ -271,12 +273,17 @@ const Navbar = () => {
                         </div>
 
                         {/* About US */}
-                        <div className="px-4 py-2 rounded cursor-pointer hover-nav-color uppercase">
+                        <div
+                            className={`px-4 py-2 rounded cursor-pointer ${home ? "hover-nav-color" : "text-dark hover:text-[#ef8d21]"} uppercase`}>
                             {t("about_us")}
                         </div>
 
                         {/* About US */}
-                        <div className="px-4 py-2 rounded cursor-pointer hover-nav-color uppercase">{t("blog")}</div>
+                        <div
+                            className={`px-4 py-2 rounded cursor-pointer ${home ? "hover-nav-color" : "text-dark hover:text-[#ef8d21]"} uppercase`}
+                            onClick={() => navigate("/blog")}>
+                            {t("blog")}
+                        </div>
 
                         {/* Contact  */}
                         <div

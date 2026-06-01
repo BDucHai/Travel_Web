@@ -5,7 +5,7 @@ import Footer from "../Components/Footer";
 export default function MainLayout() {
     return (
         <div className="relative min-h-[100vh]">
-            <Navbar />
+            <Navbar home={true}/>
 
             <main>
                 <Outlet />

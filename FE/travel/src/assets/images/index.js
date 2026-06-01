@@ -20,6 +20,8 @@ import authentic from "./authentic.svg";
 import diamond from "./diamond.svg";
 import handshake from "./handshake.svg";
 import plant from "./plant.svg";
+import logo from "./logo.png";
+import bannerBlog from "./bannerBlog.jpg";
 
 export const imgBanner = {
     cungvulam,
@@ -35,6 +37,7 @@ export const imgBanner = {
     sampleBanner,
     sampleBanner1,
     sampleBanner2,
+    logo,
 };
 
 export const imgLang = {
@@ -53,4 +56,9 @@ export const imgReason = {
     plant,
     handshake,
     authentic,
+};
+
+export const imgGlobal = {
+    logo,
+    bannerBlog,
 };
