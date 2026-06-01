@@ -8,7 +8,6 @@ import CardStyleHome from "../Components/CardStyleHome";
 import CommentCard from "../Components/CommentCard";
 import { RiArrowLeftFill } from "react-icons/ri";
 import { RiArrowRightFill } from "react-icons/ri";
-import Footer from "../Components/Footer";
 const Home = () => {
     const { t } = useTranslation();
 
@@ -131,6 +130,8 @@ const Home = () => {
             rating: 5,
             name: "Jessica M.",
             country: "Australia",
+            date: "06/25/2026",
+            img: "https://thf.bing.com/th/id/OIP.zwFcHylMP8dnd3O64uj8HQHaE7?cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3",
         },
         {
             id: 2,
@@ -139,6 +140,8 @@ const Home = () => {
             rating: 5,
             name: "Mark T.",
             country: "United Kingdom",
+            date: "06/25/2026",
+            img: "https://thf.bing.com/th/id/OIP.zwFcHylMP8dnd3O64uj8HQHaE7?cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3",
         },
         {
             id: 3,
@@ -147,6 +150,8 @@ const Home = () => {
             rating: 5,
             name: "Sofia L.",
             country: "France",
+            date: "06/25/2026",
+            img: "https://thf.bing.com/th/id/OIP.zwFcHylMP8dnd3O64uj8HQHaE7?cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3",
         },
         {
             id: 7,
@@ -155,6 +160,8 @@ const Home = () => {
             rating: 5,
             name: "Jessica M.",
             country: "Australia",
+            date: "06/25/2026",
+            img: "https://thf.bing.com/th/id/OIP.zwFcHylMP8dnd3O64uj8HQHaE7?cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3",
         },
         {
             id: 8,
@@ -163,6 +170,8 @@ const Home = () => {
             rating: 5,
             name: "Mark T.",
             country: "United Kingdom",
+            date: "06/25/2026",
+            img: "https://thf.bing.com/th/id/OIP.zwFcHylMP8dnd3O64uj8HQHaE7?cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3",
         },
         {
             id: 9,
@@ -171,6 +180,8 @@ const Home = () => {
             rating: 5,
             name: "Sofia L.",
             country: "France",
+            date: "06/25/2026",
+            img: "https://thf.bing.com/th/id/OIP.zwFcHylMP8dnd3O64uj8HQHaE7?cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3",
         },
         {
             id: 4,
@@ -179,6 +190,8 @@ const Home = () => {
             rating: 5,
             name: "Jessica M.",
             country: "Australia",
+            date: "06/25/2026",
+            img: "https://thf.bing.com/th/id/OIP.zwFcHylMP8dnd3O64uj8HQHaE7?cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3",
         },
         {
             id: 5,
@@ -187,6 +200,8 @@ const Home = () => {
             rating: 5,
             name: "Mark T.",
             country: "United Kingdom",
+            date: "06/25/2026",
+            img: "https://thf.bing.com/th/id/OIP.zwFcHylMP8dnd3O64uj8HQHaE7?cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3",
         },
         {
             id: 6,
@@ -195,6 +210,8 @@ const Home = () => {
             rating: 5,
             name: "Sofia L.",
             country: "France",
+            date: "06/25/2026",
+            img: "https://thf.bing.com/th/id/OIP.zwFcHylMP8dnd3O64uj8HQHaE7?cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3",
         },
     ];
 
@@ -340,11 +357,14 @@ const Home = () => {
                         <RiArrowRightFill />
                     </div>
                 </div>
-
+                <div className="flex-box-center mt-[1.5rem]">
+                    <div className="px-[3rem] py-[0.5rem] border-[2px] border-[#d38518] text-[#d38518] font-semibold uppercase cursor-pointer hover:bg-[#c39562] hover:text-white">
+                        {t("review_see_all")}
+                    </div>
+                </div>
                 {/* End client say */}
             </div>
 
-            <Footer />
         </>
     );
 };
