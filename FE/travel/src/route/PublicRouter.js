@@ -1,10 +1,14 @@
 import Home from "../Pages/Home";
+import Blog from "../Pages/Blog";
 
 const publicRoutes = [
     { path: "/", component: Home },
-//     { path: "movies/:movieName/:movieID", component: SingleMovie },
 //     { path: "genre/:gen", component: Genre },
 //     { path: "search/:title", component: ListSearchMovie },
 ];
 
-export { publicRoutes };
+const routesNavSticky = [
+    { path: "/blog", component: Blog },
+]
+
+export { publicRoutes, routesNavSticky };
