@@ -1,4 +1,4 @@
-import {useState}, React from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -6,7 +6,9 @@ import {
   Avatar,
   TextField,
   Box,
+  IconButton,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 const ContactModal = ({ open, onClose }) => {
   const [contactPlan, setContactPlan] = useState({
@@ -14,11 +16,27 @@ const ContactModal = ({ open, onClose }) => {
     email: "",
     phone: "",
     content: "",
-  })
+  });
+
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>Contact Us</DialogTitle>
-      <DialogContent>
+      <DialogTitle sx={{ m: 0, p: 2 }}>
+        Contact Us
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
+
+      <DialogContent dividers>
         <Box display="flex" alignItems="center" mb={2}>
           <Avatar alt="Phuong Hoang" src="/avatar.png" />
           <Box ml={2}>
@@ -35,39 +53,39 @@ const ContactModal = ({ open, onClose }) => {
           rows={5}
           fullWidth
           variant="outlined"
-         onChange={(e) => {
-            setContactPlan((prev) => ({ ...prev, content: e.target.value }));
-          }}
           margin="normal"
+          onChange={(e) =>
+            setContactPlan((prev) => ({ ...prev, content: e.target.value }))
+          }
         />
 
-        {/* Email + Name */}
+        {/* Email + Name + Phone */}
         <TextField
           label="Your Email"
           fullWidth
           variant="outlined"
           margin="normal"
-          onChange={(e) => {
-            setContactPlan((prev) => ({ ...prev, email: e.target.value }));
-          }}
+          onChange={(e) =>
+            setContactPlan((prev) => ({ ...prev, email: e.target.value }))
+          }
         />
         <TextField
           label="Your Name"
           fullWidth
           variant="outlined"
           margin="normal"
-          onChange={(e) => {
-            setContactPlan((prev) => ({ ...prev, name: e.target.value }));
-          }}
+          onChange={(e) =>
+            setContactPlan((prev) => ({ ...prev, name: e.target.value }))
+          }
         />
         <TextField
-          label="Your phone"
+          label="Your Phone"
           fullWidth
           variant="outlined"
           margin="normal"
-          onChange={(e) => {
-            setContactPlan((prev) => ({ ...prev, phone: e.target.value }));
-          }}
+          onChange={(e) =>
+            setContactPlan((prev) => ({ ...prev, phone: e.target.value }))
+          }
         />
 
         {/* Submit button */}
