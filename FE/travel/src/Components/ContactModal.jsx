@@ -1,4 +1,4 @@
-import React from "react";
+import {useState}, React from "react";
 import {
   Dialog,
   DialogTitle,
@@ -9,6 +9,12 @@ import {
 } from "@mui/material";
 
 const ContactModal = ({ open, onClose }) => {
+  const [contactPlan, setContactPlan] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    content: "",
+  })
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle>Contact Us</DialogTitle>
@@ -29,6 +35,9 @@ const ContactModal = ({ open, onClose }) => {
           rows={5}
           fullWidth
           variant="outlined"
+         onChange={(e) => {
+            setContactPlan((prev) => ({ ...prev, content: e.target.value }));
+          }}
           margin="normal"
         />
 
@@ -38,12 +47,27 @@ const ContactModal = ({ open, onClose }) => {
           fullWidth
           variant="outlined"
           margin="normal"
+          onChange={(e) => {
+            setContactPlan((prev) => ({ ...prev, email: e.target.value }));
+          }}
         />
         <TextField
           label="Your Name"
           fullWidth
           variant="outlined"
           margin="normal"
+          onChange={(e) => {
+            setContactPlan((prev) => ({ ...prev, name: e.target.value }));
+          }}
+        />
+        <TextField
+          label="Your phone"
+          fullWidth
+          variant="outlined"
+          margin="normal"
+          onChange={(e) => {
+            setContactPlan((prev) => ({ ...prev, phone: e.target.value }));
+          }}
         />
 
         {/* Submit button */}
