@@ -15,7 +15,7 @@ const CommentCard = ({ comment }) => {
     
     return (
         <>
-        <div className="relative flex flex-col w-full h-[18rem] lg:h-[20rem] border-[1px] border-[#3b97897d] rounded-[0.2rem] bg-white">
+        <div className="relative flex flex-col w-full h-[18rem] lg:h-[21rem] border-[1px] border-[#3b97897d] rounded-[0.2rem] bg-white">
             <div className="flex-1 px-[1rem] lg:px-[2rem] py-[0.6rem] flex flex-col">
                 <div className="text-[#d38518] text-[1.5rem]">
                     <PiShootingStarThin />
