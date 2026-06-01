@@ -41,21 +41,21 @@ const Footer = () => {
                             rel="noopener noreferrer"
                             className="flex items-center gap-2 no-underline">
                             <CiMail className="text-[#d38518]"/>
-                            hhp238@gmail.com
+                            reves.indochine@gmail.com
                         </a>
                     </div>
 
                     <div className="flex mt-[0.85rem]">
-                        <a href="tel:0123456789" className="flex items-center gap-2 no-underline">
+                        <a href="tel:0968133933" className="flex items-center gap-2 no-underline">
                             <CiPhone className="text-[#d38518]"/>
-                            +84 123 456 789
+                            +84 968 133 933
                         </a>
                     </div>
 
                     <div className="flex items-center mt-[0.85rem]">
                         <div className="flex gap-2 no-underline text-wrap">
                             <CiLocationOn className="text-[#d38518]"/>
-                            123 Le Loi Street, District 1, Ho Chi Minh City, VietNam
+                            01, Lane 167/45 - Rue Quang Tien, Tay Mo, Hanoi, Vietnam
                         </div>
                     </div>
                 </div>
