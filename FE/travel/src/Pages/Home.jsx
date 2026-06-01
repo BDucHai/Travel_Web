@@ -8,6 +8,8 @@ import CardStyleHome from "../Components/CardStyleHome";
 import CommentCard from "../Components/CommentCard";
 import { RiArrowLeftFill } from "react-icons/ri";
 import { RiArrowRightFill } from "react-icons/ri";
+import useMediaQuery from "@mui/material/useMediaQuery";
+
 const Home = () => {
     const { t } = useTranslation();
 
@@ -215,14 +217,16 @@ const Home = () => {
         },
     ];
 
-    const chunkSize = 3;
+    const isLargeScreen = useMediaQuery("(min-width:1024px)");
+
+    const chunkSize = isLargeScreen ? 3 : 2;
 
     const slides = [];
     for (let i = 0; i < commentTest.length; i += chunkSize) {
         slides.push(commentTest.slice(i, i + chunkSize));
     }
 
-    const totalSlides = Math.ceil(commentTest.length / 3);
+    const totalSlides = Math.ceil(commentTest.length / chunkSize);
 
     useEffect(() => {}, []);
     return (
