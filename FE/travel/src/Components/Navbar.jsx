@@ -129,10 +129,10 @@ const Navbar = ({ home }) => {
                             alt="logo"
                         />
                         <div>
-                            <h2
+                            <div
                                 className={`text-wrap text-[1rem] lg:text-[1.4rem] w-[60px] ${home ? "text-[#f0f6cc]" : "text-dark"}`}>
                                 REVES INDOCHINE
-                            </h2>
+                            </div>
                             <div
                                 className={`text-[0.4rem] lg:text-[0.6rem] mb-[0.1rem] ${home ? "" : "text-[#000000a8]"}`}>
                                 DREAM OF INDOCHINE

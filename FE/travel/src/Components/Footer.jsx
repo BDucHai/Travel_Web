@@ -1,13 +1,13 @@
 import React from "react";
 import { useState } from "react";
-import { useNavigate, useNavigation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { CiMail } from "react-icons/ci";
 import { CiPhone, CiLocationOn } from "react-icons/ci";
 import { useTranslation } from "react-i18next";
 import { TiSocialFacebook, TiSocialInstagram, TiSocialYoutube, TiSocialTwitter } from "react-icons/ti";
-import TextField from "@mui/material/TextField";
 import { IoIosSend } from "react-icons/io";
 import { imgGlobal } from "../assets/images";
+import { FaWhatsapp } from "react-icons/fa";
 
 const Footer = () => {
     const navigate = useNavigate();
@@ -27,9 +27,9 @@ const Footer = () => {
                             alt="logo"
                         />
                         <div>
-                            <h2 className="text-wrap text-[1rem] lg:text-[1.4rem] w-[60px] font-medium">
+                            <div className="text-wrap text-[1rem] lg:text-[1.4rem] w-[60px] font-medium">
                                 REVES INDOCHINE
-                            </h2>
+                            </div>
                             <div className="text-[0.4rem] lg:text-[0.6rem] mb-[0.1rem]"> DREAM OF INDOCHINE </div>
                         </div>
                     </div>
@@ -64,9 +64,9 @@ const Footer = () => {
 
                 {/* VietNamTour */}
                 <div className="hidden lg:block">
-                    <h2 className="text-[1rem] mb-[0.5rem] uppercase font-medium text-[#d38518]">
+                    <div className="text-[1rem] mb-[0.5rem] uppercase font-medium text-[#d38518]">
                         {t("navbar.vietnam_tour")}
-                    </h2>
+                    </div>
                     <div className="py-[0.5rem] text-[#e6ebeb]">{t("by_duration")}</div>
                     <div className="py-[0.5rem] text-[#e6ebeb]">{t("by_style")}</div>
                     <div className="py-[0.5rem] text-[#e6ebeb]">{t("navbar.combine_tour")}</div>
@@ -75,9 +75,9 @@ const Footer = () => {
 
                 {/* Travel Information */}
                 <div className="hidden lg:block">
-                    <h2 className="text-[1rem] mb-[0.5rem] uppercase font-medium text-[#d38518]">
+                    <div className="text-[1rem] mb-[0.5rem] uppercase font-medium text-[#d38518]">
                         {t("navbar.travel_infor")}
-                    </h2>
+                    </div>
                     <div className="py-[0.5rem] text-[#e6ebeb]">{t("navbar.northen_vn")}</div>
                     <div className="py-[0.5rem] text-[#e6ebeb]">{t("navbar.central_vn")}</div>
                     <div className="py-[0.5rem] text-[#e6ebeb]">{t("navbar.south_vn")}</div>
@@ -86,25 +86,25 @@ const Footer = () => {
 
                 {/* About us */}
                 <div className="hidden lg:block">
-                    <h2 className="text-[1rem] mb-[0.5rem] uppercase font-medium cursor-pointer text-[#d38518] hover:text-[#fff]">
+                    <div className="text-[1rem] mb-[0.5rem] uppercase font-medium cursor-pointer text-[#d38518] hover:text-[#fff]">
                         {t("about_us")}
-                    </h2>
+                    </div>
                 </div>
                 {/* END About us */}
 
                 {/* Blog */}
                 <div className="hidden lg:block">
-                    <h2
+                    <div
                         className="text-[1rem] mb-[0.5rem] uppercase font-medium cursor-pointer text-[#d38518] hover:text-[#fff]"
                         onClick={() => navigate("/blog")}>
                         {t("blog")}
-                    </h2>
+                    </div>
                 </div>
                 {/* END Blog */}
 
                 {/* Follow us */}
                 <div>
-                    <h2 className="text-[1rem] mb-[0.5rem] uppercase font-medium text-[#d38518]">{t("follow")}</h2>
+                    <div className="text-[1rem] mb-[0.5rem] uppercase font-medium text-[#d38518]">{t("follow")}</div>
                     <div className="flex items-center">
                         <div className="p-[0.25rem] border-[1px] border- rounded-full cursor-pointer">
                             <TiSocialFacebook className="w-[1.25rem] h-[1.25rem]" />
@@ -115,12 +115,18 @@ const Footer = () => {
                         <div className="p-[0.25rem] border-[1px] border- rounded-full cursor-pointer ml-[0.8rem]">
                             <TiSocialYoutube className="w-[1.25rem] h-[1.25rem]" />
                         </div>
-                        <div className="p-[0.25rem] border-[1px] border- rounded-full cursor-pointer ml-[0.8rem]">
-                            <TiSocialTwitter className="w-[1.25rem] h-[1.25rem]" />
+                        <div className="p-[0.25rem] border-[1px] rounded-full cursor-pointer ml-[0.8rem]">
+                            <a
+                                href="https://wa.me/84968133933"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center justify-center">
+                                <FaWhatsapp className="w-[1.25rem] h-[1.25rem]" />
+                            </a>
                         </div>
                     </div>
                     <div className="mt-[1rem]">
-                        <h2>{t("subcribe_ourletter")}</h2>
+                        <div>{t("subcribe_ourletter")}</div>
                         <div className="mt-[0.5rem] flex items-center h-[2rem]">
                             <input
                                 type="text"
@@ -142,8 +148,8 @@ const Footer = () => {
             <div className="flex justify-between items-center border-t-[1px] bg-[#161515fa] text-white border-[#bc8b3869] px-[1rem] lg:px-[3rem] text-[0.6rem]">
                 <div>@2026 Reves Indochine. All rights reserved</div>
                 <div className="flex items-center">
-                    <h2 className="text-center px-[1rem] border-r-[1px] border-white">Privacy Policy</h2>
-                    <h2 className="text-center px-[1rem]">Term & Conditions</h2>
+                    <div className="text-center px-[1rem] border-r-[1px] border-white">Privacy Policy</div>
+                    <div className="text-center px-[1rem]">Term & Conditions</div>
                 </div>
             </div>
         </>

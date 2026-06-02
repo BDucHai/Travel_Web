@@ -3,7 +3,7 @@ import { Dialog, DialogTitle, DialogContent, Avatar, TextField, Box, IconButton 
 
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
-const ContactModal = ({ open, onClose }) => {
+const ContactModal = ({ t, open, onClose }) => {
     const [contactPlan, setContactPlan] = useState({
         name: "",
         email: "",
@@ -11,10 +11,12 @@ const ContactModal = ({ open, onClose }) => {
         content: "",
     });
 
+    const handleCreateRequest = () => {};
+
     return (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
             <DialogTitle sx={{ m: 0, p: 2 }}>
-                Contact Us
+                {t("contact_us")}
                 <IconButton
                     aria-label="close"
                     onClick={onClose}
@@ -22,23 +24,30 @@ const ContactModal = ({ open, onClose }) => {
                         position: "absolute",
                         right: 8,
                         top: 8,
-                        color: (theme) => theme.palette.grey[500],
+                        color: "#000",
                     }}>
                     <IoIosCloseCircleOutline />
                 </IconButton>
             </DialogTitle>
 
             <DialogContent dividers>
-                <Box display="flex" alignItems="center" mb={2}>
+                <Box
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        flexDirection: "row",
+                        mb: 2,
+                    }}>
                     <Avatar alt="Phuong Hoang" src="/avatar.png" />
-                    <Box ml={2}>
+
+                    <Box sx={{ marginLeft: "1rem" }}>
                         <p className="font-semibold">Hello I'm Phuong HOANG, your specialist.</p>
                     </Box>
                 </Box>
 
                 {/* Multi-line content area */}
                 <TextField
-                    label="Your Content"
+                    label={t("your_request")}
                     multiline
                     rows={5}
                     fullWidth
@@ -49,21 +58,21 @@ const ContactModal = ({ open, onClose }) => {
 
                 {/* Email + Name + Phone */}
                 <TextField
-                    label="Your Email"
+                    label={t("your_email")}
                     fullWidth
                     variant="outlined"
                     margin="normal"
                     onChange={(e) => setContactPlan((prev) => ({ ...prev, email: e.target.value }))}
                 />
                 <TextField
-                    label="Your Name"
+                    label={t("your_name")}
                     fullWidth
                     variant="outlined"
                     margin="normal"
                     onChange={(e) => setContactPlan((prev) => ({ ...prev, name: e.target.value }))}
                 />
                 <TextField
-                    label="Your Phone"
+                    label={t("your_phone")}
                     fullWidth
                     variant="outlined"
                     margin="normal"
@@ -74,11 +83,11 @@ const ContactModal = ({ open, onClose }) => {
                 <div
                     onClick={onClose}
                     className="mt-4 w-full bg-blue-600 text-white text-center py-2 rounded cursor-pointer">
-                    Submit
+                    {t("send")}
                 </div>
 
                 {/* Info text */}
-                <p className="mt-2 text-sm text-gray-500">
+                <p className="mb-2 mt-4 text-sm text-gray-500 text-center">
                     Our information & quotes are free. Don’t hesitate to ask us!
                 </p>
             </DialogContent>

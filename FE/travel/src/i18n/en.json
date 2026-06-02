@@ -66,9 +66,16 @@
           "stories": "Stories, guides and travel tips from across Indochina",
           "view": "views",
           "load_more": "Load more",
+          "loading": "Loading...",
+          "send": "Send",
+          "your_request": "Your request",
+          "your_email": "Your email",
+          "your_phone": "Your phone",
+          "your_name": "Your name",
           
           "blogPage": {
-               "most_read": "The most read,"
+               "most_read": "The most read",
+               "lastest": "Lastest article"
           }
 
 }
