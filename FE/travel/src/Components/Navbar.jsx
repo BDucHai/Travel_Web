@@ -88,7 +88,7 @@ const Navbar = ({ home }) => {
                                 i18n.changeLanguage("en");
                                 changeLang("en");
                             }}
-                            className={`relative font-semibold rounded-full transition-all duration-300 px-2 py-1 text-[10px] lg:px-4 lg:py-1.5 lg:text-xs
+                            className={`relative font-semibold rounded-full transition-all duration-300 px-1 py-1 text-[10px] lg:px-3 lg:py-1.5 lg:text-xs
                                             ${
                                                 i18n.language === "en"
                                                     ? "bg-white text-black shadow-md scale-[1.03]"
@@ -106,8 +106,8 @@ const Navbar = ({ home }) => {
                             }}
                             className={`
                                                 relative font-semibold rounded-full transition-all duration-300
-                                                px-2 py-1 text-[10px]
-                                                lg:px-4 lg:py-1.5 lg:text-xs
+                                                px-1 py-1 text-[10px]
+                                                lg:px-3 lg:py-1.5 lg:text-xs
                                                 ${
                                                     i18n.language === "fr"
                                                         ? "bg-white text-black shadow-md scale-[1.03]"

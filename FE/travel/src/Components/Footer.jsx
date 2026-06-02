@@ -86,7 +86,7 @@ const Footer = () => {
 
                 {/* About us */}
                 <div className="hidden lg:block">
-                    <h2 className="text-[1rem] mb-[0.5rem] uppercase font-medium cursor-pointer text-[#d38518] hover:text-[#7eb9f9]">
+                    <h2 className="text-[1rem] mb-[0.5rem] uppercase font-medium cursor-pointer text-[#d38518] hover:text-[#fff]">
                         {t("about_us")}
                     </h2>
                 </div>
@@ -95,7 +95,7 @@ const Footer = () => {
                 {/* Blog */}
                 <div className="hidden lg:block">
                     <h2
-                        className="text-[1rem] mb-[0.5rem] uppercase font-medium cursor-pointer text-[#d38518] hover:text-[#7eb9f9]"
+                        className="text-[1rem] mb-[0.5rem] uppercase font-medium cursor-pointer text-[#d38518] hover:text-[#fff]"
                         onClick={() => navigate("/blog")}>
                         {t("blog")}
                     </h2>
