@@ -45,6 +45,8 @@ const Blog = () => {
             views: "6200"
         }
     ])
+
+    const [listBlog, setListBlog] = useState([]);
     return (
         <>
             <div>
@@ -141,9 +143,20 @@ const Blog = () => {
                             </div>
                     </div>
                     {/* End most read */}
-
+                    <hr className="mt-[0.5rem] text-[#bc8b3869]" />
                     {/* Start Laster article  */}
+                    <div classname="pt-[1rem] pb-[3rem]">
+                         <div className="text-center mt-[2rem] mb-[1rem] py-[0.5rem] text-[1rem] lg:text-[1.5rem] text-[#000000c9] tracking-[1.5px] font-semibold font-inter uppercase">
+                            {t("blogPage.most_read")}
+                            <hr className="mx-auto mt-[0.5rem] w-[4rem] border-2 text-[#efb771]" />
+                            </div>
+                    </div>
                     <div>
+                    </div>
+                    <div className="flex-box-center mt-[1.5rem]">
+                        <div className="px-[3rem] py-[0.5rem] border-[2px] border-[#d38518] text-[#d38518] font-semibold uppercase cursor-pointer hover:bg-[#c39562] hover:text-white">
+                            {t("load_more")}
+                        </div>
                     </div>
                     {/* End Laster article  */}
                 </div>
