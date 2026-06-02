@@ -63,6 +63,11 @@
 
           "our_travel_blog": "Our travel blog",
           "inspiration_for": "Inspiration for your next journey",
-          "stories": "Stories, guides and travel tips from across Indochina"
+          "stories": "Stories, guides and travel tips from across Indochina",
+          "view": "views",
+          
+          "blogPage": {
+               "most_read": "The most read,"
+          }
 
 }
