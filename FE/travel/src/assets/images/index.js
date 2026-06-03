@@ -19,6 +19,7 @@ import expertise from "./expertise.svg";
 import authentic from "./authentic.svg";
 import diamond from "./diamond.svg";
 import handshake from "./handshake.svg";
+import holidayVillage from "./holidayVillage.svg";
 import plant from "./plant.svg";
 import logo from "./logo.png";
 import bannerBlog from "./bannerBlog.jpg";
@@ -56,6 +57,7 @@ export const imgReason = {
     plant,
     handshake,
     authentic,
+    holidayVillage,
 };
 
 export const imgGlobal = {

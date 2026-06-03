@@ -76,6 +76,22 @@
           "blogPage": {
                "most_read": "The most read",
                "lastest": "Lastest article"
+          },
+
+          "aboutUs": {
+               "craft": "Crafting meaningful journeys throught Indochina",
+               "craft_desc": "Authentic experiences, carefully crafted by local experts who know Indochina by heart",
+               "our_story": "Our Story",
+               "content_ourStory": "Reves Indochine was born out of a passion for travel and a deep love for the rich tapestry of cultures, landscapes, and experiences that Indochina has to offer. Our founders, a group of seasoned travelers and local experts, came together with a shared vision: to create authentic, meaningful journeys that connect travelers with the heart and soul of Indochina. With years of experience exploring the region and building strong relationships with local communities, we set out to craft unforgettable travel experiences that go beyond the surface, allowing our clients to truly immerse themselves in the beauty and diversity of Indochina.",
+               "our_philosophy": "Our philosophy",
+               "authentic": "Authentic",
+               "authentic_desc": "We take you beyond the typical routes to discover the real Indochina throught local culture, people and traditions.",
+               "personal": "Personal",
+               "personal_desc": "Every journey is tailored around you. We listen, understand, adn design experiences that fit your pace, interests and dreams",
+               "meaningful": "Meaningful",
+               "meaningful_desc": "We create experiences that touch your heart and stay with you long after you return home.",
+               "responsible": "Responsible",
+               "responsible_desc": "We are committed to sustainable tourism, supporting local communities and preserving the beauty of Indochina for future generations."
           }
 
 }

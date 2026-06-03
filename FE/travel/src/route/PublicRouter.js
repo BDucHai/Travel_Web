@@ -6,12 +6,12 @@ import CreateBlog from "../Pages/Admin/CreateBlog";
 
 const publicRoutes = [
     { path: "/", component: Home },
-    {path: "/about", component: AboutUs}
 ];
 
 const routesNavSticky = [
     { path: "/blog", component: Blog },
     { path: "/blog/:id", component: BlogDetail },
+    {path: "/about", component: AboutUs}
 ];
 
 const routeAdmin = [

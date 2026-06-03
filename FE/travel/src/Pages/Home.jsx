@@ -295,9 +295,9 @@ const Home = () => {
                     viewport={{ once: true, amount: 0.2 }}>
                     {reason.map((t) => (
                         <div className="flex-box-center flex-col">
-                            <img src={t.img} alt={t.title} className="w-[60px] h-[60px]" />
-                            <div className="text-wrap font-bold text-center mb-[0.5rem]">{t.title}</div>
-                            <div className="bg-text-sub-content text-center">{t.description}</div>
+                            <img src={t?.img} alt={t?.title} className="w-[60px] h-[60px]" />
+                            <div className="text-wrap font-bold text-center mb-[0.5rem]">{t?.title}</div>
+                            <div className="bg-text-sub-content text-center">{t?.description}</div>
                         </div>
                     ))}
                 </motion.div>
