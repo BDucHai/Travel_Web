@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import { publicRoutes, routesNavSticky } from "./route/PublicRouter";
+import { publicRoutes, routesNavSticky, routeAdmin } from "./route/PublicRouter";
 import MainLayout from "./Layouts/MainLayout";
 import SecondLayout from "./Layouts/SecondLayout";
 
@@ -16,6 +16,12 @@ function App() {
                 </Route>
                 <Route element={<SecondLayout />}>
                     {routesNavSticky.map((route, index) => {
+                        const Page = route.component;
+                        return <Route key={index} path={route.path} element={<Page />} />;
+                    })}
+                </Route>
+                <Route >
+                    {routeAdmin.map((route, index) => {
                         const Page = route.component;
                         return <Route key={index} path={route.path} element={<Page />} />;
                     })}

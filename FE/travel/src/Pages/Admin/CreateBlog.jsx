@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { uploadImage } from "../utils/uploadImage";
+import { uploadImage } from "../../utils/uploadImage";
 import BlogEditor from "../../Components/AdminComponent/BlogEditor";
 
 const CreateBlog = () => {

@@ -1,11 +1,12 @@
 import Home from "../Pages/Home";
 import Blog from "../Pages/Blog";
 import BlogDetail from "../Pages/BlogDetail";
+import AboutUs from "../Pages/AboutUs";
+import CreateBlog from "../Pages/Admin/CreateBlog";
 
 const publicRoutes = [
     { path: "/", component: Home },
-    //     { path: "genre/:gen", component: Genre },
-    //     { path: "search/:title", component: ListSearchMovie },
+    {path: "/about", component: AboutUs}
 ];
 
 const routesNavSticky = [
@@ -13,4 +14,8 @@ const routesNavSticky = [
     { path: "/blog/:id", component: BlogDetail },
 ];
 
-export { publicRoutes, routesNavSticky };
+const routeAdmin = [
+    { path: "/admin/create/blog", component: CreateBlog},
+]
+
+export { publicRoutes, routesNavSticky, routeAdmin };

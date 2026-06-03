@@ -135,7 +135,7 @@ const Blog = () => {
                         className="min-h-[180px] max-h-[300px] w-full object-cover"
                     />
                     <div className="absolute top-0 left-0 w-full h-full bg-[#577b7c7d] z-[2]"></div>
-                    <div className="text-white width-[50%] md:width-[40%] lg:width-[30%] absolute z-[300] left-1/2 top-1/2 -translate-1/2 text-center">
+                    <div className="text-white w-[50%] md:w-[40%] lg:w-[30%] absolute z-[300] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
                         <div className="font-semibold text-[#f5c289] text-[1rem] lg:text-[1.25rem] uppercase">
                             {t("our_travel_blog")}
                         </div>

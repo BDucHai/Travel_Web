@@ -15,7 +15,7 @@ import { $generateHtmlFromNodes } from "@lexical/html";
 import { HeadingNode } from "@lexical/rich-text";
 
 import { useRef } from "react";
-import { uploadImage } from "../utils/uploadImage";
+import { uploadImage } from "../../utils/uploadImage";
 
 const theme = {};
 
