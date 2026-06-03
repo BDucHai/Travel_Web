@@ -43,7 +43,7 @@
 
           "tailor": "Tailor-made experiences",
           "tailor_desc": "Every trip is customized to match  your travel style and interest.",
-          "local_expertise": "Local Expertise",
+          "local_expertise": "Local Experts",
           "local_expertise_desc": "Our local experts design authentic journeys with insider knowledge.",
           "authentic_immersion": "Authentic Immersion",
           "authentic_immersion_desc": "We take you deeper to connect with local cultures and communities.",
@@ -82,16 +82,19 @@
                "craft": "Crafting meaningful journeys throught Indochina",
                "craft_desc": "Authentic experiences, carefully crafted by local experts who know Indochina by heart",
                "our_story": "Our Story",
-               "content_ourStory": "Reves Indochine was born out of a passion for travel and a deep love for the rich tapestry of cultures, landscapes, and experiences that Indochina has to offer. Our founders, a group of seasoned travelers and local experts, came together with a shared vision: to create authentic, meaningful journeys that connect travelers with the heart and soul of Indochina. With years of experience exploring the region and building strong relationships with local communities, we set out to craft unforgettable travel experiences that go beyond the surface, allowing our clients to truly immerse themselves in the beauty and diversity of Indochina.",
+               "content_ourStory": "Reves Indochine began with a passion for sharing the true essence of Vietnam.\n\n After 20 years of working in the travel industry, we realized that the most unforgettable journeys are not defined by famous landmarks, but by the stories, people, and emotions behind them. That realization inspired us to create something more personal, something more meaningful. \n\nReves Indochine was founded to offer carefully designed, tailor-made experiences that go beyond the ordinary. We take the time to understand each traveler, crafting journeys that reflect their pace, interests, and expectations. \n\n As a boutique travel company, we value quality over quantity. We work closely with trusted local partners, handpick every service, and remain attentive to every detail—so you can travel with confidence and ease. \n\n Our goal is simple: to turn your trip into a story worth telling.",
                "our_philosophy": "Our philosophy",
                "authentic": "Authentic",
                "authentic_desc": "We take you beyond the typical routes to discover the real Indochina throught local culture, people and traditions.",
                "personal": "Personal",
-               "personal_desc": "Every journey is tailored around you. We listen, understand, adn design experiences that fit your pace, interests and dreams",
+               "personal_desc": "Every journey is tailored around you. We listen, understand, adn design experiences that fit your pace, interests and dreams.",
                "meaningful": "Meaningful",
                "meaningful_desc": "We create experiences that touch your heart and stay with you long after you return home.",
                "responsible": "Responsible",
-               "responsible_desc": "We are committed to sustainable tourism, supporting local communities and preserving the beauty of Indochina for future generations."
+               "responsible_desc": "We are committed to sustainable tourism, supporting local communities and preserving the beauty of Indochina for future generations.",
+               "network_oversea": "Network oversea representative",
+               "network_oversea_desc": "We have a dedicated representative in Frnace to support you before, during and after your trip.",
+               "meet_team": "Meet our team"
           }
 
 }

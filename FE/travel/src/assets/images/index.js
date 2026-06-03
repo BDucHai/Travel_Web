@@ -23,6 +23,9 @@ import holidayVillage from "./holidayVillage.svg";
 import plant from "./plant.svg";
 import logo from "./logo.png";
 import bannerBlog from "./bannerBlog.jpg";
+import mountain from "./mountain.png";
+import talk from "./talk.png";
+import userConnect from "./userconnect.svg"
 
 export const imgBanner = {
     cungvulam,
@@ -58,6 +61,9 @@ export const imgReason = {
     handshake,
     authentic,
     holidayVillage,
+    mountain,
+    talk,
+    userConnect
 };
 
 export const imgGlobal = {

@@ -294,18 +294,14 @@ const Home = () => {
                     transition={{ duration: 0.4, ease: "easeOut" }}
                     viewport={{ once: true, amount: 0.2 }}>
                     {reason.map((t) => (
-                        <div className="flex-box-center flex-col">
+                        <div className="flex items-center justify-start flex-col">
                             <img src={t?.img} alt={t?.title} className="w-[60px] h-[60px]" />
                             <div className="text-wrap font-bold text-center mb-[0.5rem]">{t?.title}</div>
                             <div className="bg-text-sub-content text-center">{t?.description}</div>
                         </div>
                     ))}
                 </motion.div>
-                <div className="flex-box-center mt-[1.5rem]">
-                    <div className="px-[3rem] py-[0.5rem] border-[2px] border-[#d38518] text-[#d38518] font-semibold uppercase cursor-pointer hover:bg-[#c39562] hover:text-white">
-                        {t("explore_style")}
-                    </div>
-                </div>
+
                 {/* End Reason chossse indochine */}
                 <hr className="mt-[1.5rem] text-[#bc8b3869]" />
 
@@ -368,7 +364,6 @@ const Home = () => {
                 </div>
                 {/* End client say */}
             </div>
-
         </>
     );
 };
