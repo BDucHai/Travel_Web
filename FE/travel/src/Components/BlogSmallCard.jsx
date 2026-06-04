@@ -4,14 +4,19 @@ import { useTranslation } from "react-i18next";
 import { CiCalendar } from "react-icons/ci";
 import { FaEye } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const BlogSmallCard = ({ blog }) => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
     return (
         <motion.div
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className="bg-white shadow-md rounded-md overflow-hidden border border-gray-200 cursor-pointer hover:bg-[#55646821]">
+            className="bg-white shadow-md rounded-md overflow-hidden border border-gray-200 cursor-pointer hover:bg-[#55646821]"
+            onClick={() => {
+                navigate("/blog/detail");
+            }}>
             <img src={blog?.image} alt={blog?.title} className="w-full h-[10rem] lg:h-[12rem] object-cover" />
 
             {/* Nội dung */}

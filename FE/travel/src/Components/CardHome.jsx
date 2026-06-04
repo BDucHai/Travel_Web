@@ -5,8 +5,18 @@ import { FaLongArrowAltRight } from "react-icons/fa";
 const CardHome = ({ tour }) => {
     const { t } = useTranslation();
     return (
-        <div className="relative flex flex-col w-full h-[22rem] lg:h-[28rem] border-[1px] border-[#3b97897d] rounded-[0.2rem] bg-white">
-            <img src={tour?.img} alt={tour?.id} className="h-[45%] w-full" />
+        <div className="relative flex flex-col w-full h-[22rem] lg:h-[28rem] border-[1px] border-[#3b97897d] rounded-[0.2rem] bg-white overflow-hidden">
+            <div className="h-[45%] overflow-hidden">
+                <img
+                    src={tour?.img}
+                    alt={tour?.id}
+                    className="h-full w-full
+                                    object-cover
+                                    hover:scale-[110%]
+                                    transition-all
+                                    duration-500"
+                />
+            </div>
             <div className="absolute top-2 left-2 px-[0.5rem] py-[0.25rem] rounded-[0.2rem] bg-[#efb771cf] text-white font-semibold text-[0.7rem] uppercase">
                 {tour?.slug}
             </div>

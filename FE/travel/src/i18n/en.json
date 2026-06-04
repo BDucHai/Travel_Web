@@ -68,8 +68,11 @@
           "load_more": "Load more",
           "loading": "Loading...",
           "send": "Send",
+          "send_inquiry": "Send My Inquiry",
           "your_request": "Your request",
+          "your_question": "Your question",
           "your_email": "Your email",
+          "what_app": "WhatsApp (Phone number)",
           "your_phone": "Your phone",
           "your_name": "Your name",
           

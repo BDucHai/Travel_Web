@@ -25,7 +25,12 @@ import logo from "./logo.png";
 import bannerBlog from "./bannerBlog.jpg";
 import mountain from "./mountain.png";
 import talk from "./talk.png";
-import userConnect from "./userconnect.svg"
+import userConnect from "./userconnect.svg";
+import chat from "./chat.svg";
+import date from "./date.svg";
+import headphone from "./headphone.svg";
+import security from "./headphone.svg";
+import people from "./people.svg";
 
 export const imgBanner = {
     cungvulam,
@@ -63,7 +68,12 @@ export const imgReason = {
     holidayVillage,
     mountain,
     talk,
-    userConnect
+    userConnect,
+    chat,
+    date,
+    headphone,
+    security,
+    people,
 };
 
 export const imgGlobal = {

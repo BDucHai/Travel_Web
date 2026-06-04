@@ -7,9 +7,12 @@ import { useTranslation } from "react-i18next";
 import { CiCalendar } from "react-icons/ci";
 import { FaEye } from "react-icons/fa";
 import BlogSmallCard from "../Components/BlogSmallCard";
+import { useNavigate } from "react-router-dom";
 
 const Blog = () => {
     const { t } = useTranslation();
+
+    const navigate = useNavigate();
     const [openContactModal, setOpenContactModal] = useState(false);
 
     const [top4MostRead, setTop4MostRead] = useState([
@@ -159,7 +162,9 @@ const Blog = () => {
                             {/* PC blog lon */}
                             <div
                                 className="hidden lg:flex lg:col-span-2 flex-col lg:flex-row border-1 border-[#ccc] lg:border-0 cursor-pointer"
-                                onClick={() => {}}>
+                                onClick={() => {
+                                    navigate("/blog/detail");
+                                }}>
                                 <img
                                     src={top4MostRead?.[0]?.image}
                                     alt={top4MostRead?.[0]?.title}
@@ -190,7 +195,9 @@ const Blog = () => {
                                     <div
                                         key={post?.id}
                                         className="flex flex-col lg:flex-row border-1 border-[#ccc] lg:border-0 cursor-pointer"
-                                        onClick={() => {}}>
+                                        onClick={() => {
+                                            navigate("/blog/detail");
+                                        }}>
                                         <img
                                             src={post?.image}
                                             alt={post?.title}
@@ -221,7 +228,9 @@ const Blog = () => {
                                 <div
                                     key={post?.id}
                                     className="flex flex-col md:flex-row lg:hidden border-1 border-[#ccc] lg:border-0"
-                                    onClick={() => {}}>
+                                    onClick={() => {
+                                        navigate("/blog/detail");
+                                    }}>
                                     <img src={post?.image} alt={post?.title} className="w-full md:w-1/3 object-cover" />
                                     <div className="flex flex-col justify-between p-2 w-full md:w-2/3">
                                         <div>

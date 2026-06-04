@@ -87,37 +87,37 @@ const AboutUs = () => {
 
     const representativeFrance = [
         {
-            img: imgReason.tailor,
+            img: imgReason.chat,
             title: t("aboutUs.local_support"),
             description: t("aboutUs.local_support_desc"),
         },
-         {
-            img: imgReason.tailor,
+        {
+            img: imgReason.date,
             title: t("aboutUs.personal_assistance"),
             description: t("aboutUs.personal_assistance_desc"),
         },
-         {
-            img: imgReason.tailor,
+        {
+            img: imgReason.handshake,
             title: t("aboutUs.peace"),
             description: t("aboutUs.peace_desc"),
         },
-         {
-            img: imgReason.tailor,
+        {
+            img: imgReason.headphone,
             title: t("aboutUs.avaiable"),
             description: t("aboutUs.avaiable_desc"),
         },
 
-         {
-            img: imgReason.tailor,
+        {
+            img: imgReason.people,
             title: t("aboutUs.trusted"),
             description: t("aboutUs.trusted_desc"),
         },
         {
-            img: imgReason.tailor,
+            img: imgReason.security,
             title: t("aboutUs.satisfaction"),
             description: t("aboutUs.satisfaction_desc"),
-        }
-    ]
+        },
+    ];
     return (
         <>
             <div className="relative w-full max-h-[450px] text-[1rem]">
@@ -175,17 +175,25 @@ const AboutUs = () => {
                 </div>
                 <div className="flex flex-start border-1 border-[#8d8f87] p-[0.2rem] mt-[1rem] rounded-[2px]">
                     <div className="hidden lg:block w-[40%]">
-                        <img src="https://media.istockphoto.com/id/484682530/photo/eiffel-tower.jpg?s=612x612&w=0&k=20&c=p1wanuEM4WUZzomo6R9S2OwOktShdga-YNpnnl4ao7I=" alt="france" className="w-full h-full object-cover"  />
+                        <img
+                            src="https://media.istockphoto.com/id/484682530/photo/eiffel-tower.jpg?s=612x612&w=0&k=20&c=p1wanuEM4WUZzomo6R9S2OwOktShdga-YNpnnl4ao7I="
+                            alt="france"
+                            className="w-full h-full object-cover"
+                        />
                     </div>
                     <div className="lg:px-[1.5rem] xl:px-[3rem] py-[0.25rem]">
-                        <div className="text-[1.5rem] font-semibold mb-[1rem] font-inter">{t("aboutUs.representative_france")}</div>
-                            <div className="flex-1 grid grid-cols-3 gap-6">
+                        <div className="text-[1.5rem] text-[#0e6387] font-semibold mb-[1rem] font-inter">
+                            {t("aboutUs.representative_france")}
+                        </div>
+                        <div className="flex-1 grid grid-cols-3 gap-6">
                             {representativeFrance.map((t) => (
                                 <div className="flex justify-start items-start">
                                     <img src={t?.img} alt={t?.title} className="w-[60px] h-[60px]" />
                                     <div>
                                         <div className="text-wrap font-bold text-center mb-[0.25rem]">{t?.title}</div>
-                                        <div className="text-wrap bg-text-sub-content text-center">{t?.description}</div>
+                                        <div className="text-wrap bg-text-sub-content text-center">
+                                            {t?.description}
+                                        </div>
                                     </div>
                                 </div>
                             ))}
@@ -193,8 +201,8 @@ const AboutUs = () => {
                     </div>
                 </div>
                 <div className="lg:px-[1.5rem] xl:px-[3rem] mt-[1.5rem] text-center">
-                        <div className="font-bold">{t("aboutUs.with_us")}</div>
-                        <div className="text-[1.5rem] text-[#db7e0b] font-dancing">{t("aboutUs.let_create")}</div>
+                    <div className="font-bold">{t("aboutUs.with_us")}</div>
+                    <div className="text-[1.5rem] text-[#db7e0b] font-dancing">{t("aboutUs.let_create")}</div>
                 </div>
 
                 {/* Meet team */}
@@ -225,7 +233,7 @@ const AboutUs = () => {
                     ))}
                 </div>
 
-                 <hr className="mt-[2rem] text-[#bc8b3869]" />
+                <hr className="mt-[2rem] text-[#bc8b3869]" />
 
                 {/* Last CTA */}
                 <div className="bg-[#f5f5f5] p-6 text-center">
@@ -235,13 +243,11 @@ const AboutUs = () => {
                     </h2>
 
                     {/* Nút CTA */}
-                    <button
-                        className="bg-[#12acb3] hover:bg-[#e98f21] hover:scale-[105%] transition-all duration-150 text-white font-semibold py-3 px-8 rounded-md shadow-md transition duration-300 cursor-pointer"
-                    >
+                    <button className="bg-[#12acb3] hover:bg-[#e98f21] hover:scale-[105%] transition-all duration-150 text-white font-semibold py-3 px-8 rounded-md shadow-md transition duration-300 cursor-pointer">
                         {t("aboutUs.plan_my_trip")}
                     </button>
-                    </div>
                 </div>
+            </div>
         </>
     );
 };
