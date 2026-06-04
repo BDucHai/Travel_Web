@@ -142,7 +142,7 @@ const Blog = () => {
                         <div className="py-[0.5rem] font-marcellus text-[1.5rem] lg:text-[2.5rem] text-wrap font-bold">
                             {t("inspiration_for")}
                         </div>
-                        <div className="font_dancing text-[1rem] lg:text-[1.25rem] text-wrap">{t("stories")}</div>
+                        <div className="font-dancing text-[1rem] lg:text-[1.25rem] text-wrap">{t("stories")}</div>
                     </div>
                 </div>
 

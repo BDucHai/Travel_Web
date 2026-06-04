@@ -21,7 +21,7 @@ code {
     font-family: "Roboto", sans-serif;
 }
 
-.font_dancing {
+.font-dancing {
     font-family: "Dancing Script", sans-serif;
 }
 
@@ -48,7 +48,7 @@ code {
     background-color: #82e3f0;
 }
 .bg-text-sub-content {
-    color: #8b8a8c;
+    color: #3b3b3b;
     font-size: 0.9rem;
 }
 /* <= 1024px */

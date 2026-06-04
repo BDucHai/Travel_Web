@@ -124,14 +124,14 @@ const AboutUs = () => {
                 <img
                     src="https://static.vecteezy.com/system/resources/previews/008/741/315/non_2x/asian-backpack-couple-tourist-holding-city-map-crossing-the-road-travel-people-vacation-lifestyle-concept-free-photo.jpg"
                     alt="bannerBlog"
-                    className="w-full max-h-[450px] object-cover"
+                    className="w-full min-h-[100px] lg:min-h-[300px] max-h-[200px] lg:max-h-[400px] object-cover"
                 />
-                <div className="absolute h-full w-[80%] lg:w-[50%] top-0 left-0 bg-gradient-to-r from-black/70 to-transparent z-10"></div>
+                <div className="absolute h-full w-[100%] lg:w-[50%] top-0 left-0 bg-gradient-to-r from-black/70 to-transparent z-10"></div>
                 <div className="absolute left-5 left-[2.5rem] top-1/2 -translate-y-1/2 text-white w-[80%] lg:w-[30%] z-[30]">
                     <div className="py-[0.5rem] font-marcellus text-[1.5rem] lg:text-[2.5rem] text-wrap font-bold">
                         {t("aboutUs.craft")}
                     </div>
-                    <div className="font_dancing lg:text-[1.25rem] text-wrap">{t("aboutUs.craft_desc")}</div>
+                    <div className="font-dancing lg:text-[1.25rem] text-wrap">{t("aboutUs.craft_desc")}</div>
                 </div>
             </div>
             <div className="bg-[#fcf5ef] w-full px-[3rem] lg:px-[3rem] pb-[4rem]">
@@ -149,7 +149,7 @@ const AboutUs = () => {
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 lg:px-[1.5rem] xl:px-[5rem]">
                     {ourPhilosophy?.map((t, index) => (
                         <div
-                            className="flex items-center justify-start flex-col border-[1px] border-[#efb771] rounded-lg p-[1rem]"
+                            className="flex items-center justify-start flex-col border-[1px] border-[#8d8f87] bg-[#fff] rounded-lg p-[1rem]"
                             key={index}>
                             <img src={t?.img} alt={t?.title} className="w-[60px] h-[60px]" />
                             <div className="text-wrap font-bold text-center mb-[0.5rem]">{t?.title}</div>
@@ -166,35 +166,35 @@ const AboutUs = () => {
                 </div>
                 <div className="grid grid-cols-3 lg:grid-cols-7 gap-3 md:gap-4 lg:px-[1.5rem] xl:px-[3rem]">
                     {reason.map((t) => (
-                        <div className="flex items-center justify-start flex-col">
+                        <div className="flex items-center justify-start flex-col border-[1px] border-[#8d8f87] rounded-sm bg-[#fff] py-[1rem] px-[0.5rem]">
                             <img src={t?.img} alt={t?.title} className="w-[60px] h-[60px]" />
                             <div className="text-wrap font-bold text-center mb-[1rem]">{t?.title}</div>
                             <div className="bg-text-sub-content text-center">{t?.description}</div>
                         </div>
                     ))}
                 </div>
-                <div className="flex">
-                    <div className="hidden lg:block lg:flex-[0.7]">
+                <div className="flex flex-start border-1 border-[#8d8f87] p-[0.2rem] mt-[1rem] rounded-[2px]">
+                    <div className="hidden lg:block w-[40%]">
                         <img src="https://media.istockphoto.com/id/484682530/photo/eiffel-tower.jpg?s=612x612&w=0&k=20&c=p1wanuEM4WUZzomo6R9S2OwOktShdga-YNpnnl4ao7I=" alt="france" className="w-full h-full object-cover"  />
                     </div>
-                    <div className="lg:px-[1.5rem] xl:px-[3rem] py-[1rem]">
-                        <div className="text-[1.5rem]">{t("aboutUs.representative_france")}</div>
-                            <div className="flex-1 grid grid-cols-3 gap-4">
+                    <div className="lg:px-[1.5rem] xl:px-[3rem] py-[0.25rem]">
+                        <div className="text-[1.5rem] font-semibold mb-[1rem] font-inter">{t("aboutUs.representative_france")}</div>
+                            <div className="flex-1 grid grid-cols-3 gap-6">
                             {representativeFrance.map((t) => (
-                                <div className="flex items-center justify-start">
+                                <div className="flex justify-start items-start">
                                     <img src={t?.img} alt={t?.title} className="w-[60px] h-[60px]" />
                                     <div>
-                                        <div className="text-wrap font-bold text-center mb-[1rem]">{t?.title}</div>
-                                        <div className="bg-text-sub-content text-center">{t?.description}</div>
+                                        <div className="text-wrap font-bold text-center mb-[0.25rem]">{t?.title}</div>
+                                        <div className="text-wrap bg-text-sub-content text-center">{t?.description}</div>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     </div>
-                    <div className="lg:px-[1.5rem] xl:px-[3rem]">
-                        <div>{t("aboutUs.with_us")}</div>
-                        <div className="text-[#efb771] font-dancing">{t("aboutUs.let_create")}</div>
-                    </div>
+                </div>
+                <div className="lg:px-[1.5rem] xl:px-[3rem] mt-[1.5rem] text-center">
+                        <div className="font-bold">{t("aboutUs.with_us")}</div>
+                        <div className="text-[1.5rem] text-[#db7e0b] font-dancing">{t("aboutUs.let_create")}</div>
                 </div>
 
                 {/* Meet team */}
@@ -224,7 +224,24 @@ const AboutUs = () => {
                         </div>
                     ))}
                 </div>
-            </div>
+
+                 <hr className="mt-[2rem] text-[#bc8b3869]" />
+
+                {/* Last CTA */}
+                <div className="bg-[#f5f5f5] p-6 text-center">
+                    {/* Tiêu đề */}
+                    <h2 className="text-2xl lg:text-4xl font-bold text-gray-800 mb-6 font-inter">
+                        {t("aboutUs.ready")}
+                    </h2>
+
+                    {/* Nút CTA */}
+                    <button
+                        className="bg-[#12acb3] hover:bg-[#e98f21] hover:scale-[105%] transition-all duration-150 text-white font-semibold py-3 px-8 rounded-md shadow-md transition duration-300 cursor-pointer"
+                    >
+                        {t("aboutUs.plan_my_trip")}
+                    </button>
+                    </div>
+                </div>
         </>
     );
 };
