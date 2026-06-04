@@ -85,6 +85,39 @@ const AboutUs = () => {
         },
     ];
 
+    const representativeFrance = [
+        {
+            img: imgReason.tailor,
+            title: t("aboutUs.local_support"),
+            description: t("aboutUs.local_support_desc"),
+        },
+         {
+            img: imgReason.tailor,
+            title: t("aboutUs.personal_assistance"),
+            description: t("aboutUs.personal_assistance_desc"),
+        },
+         {
+            img: imgReason.tailor,
+            title: t("aboutUs.peace"),
+            description: t("aboutUs.peace_desc"),
+        },
+         {
+            img: imgReason.tailor,
+            title: t("aboutUs.avaiable"),
+            description: t("aboutUs.avaiable_desc"),
+        },
+
+         {
+            img: imgReason.tailor,
+            title: t("aboutUs.trusted"),
+            description: t("aboutUs.trusted_desc"),
+        },
+        {
+            img: imgReason.tailor,
+            title: t("aboutUs.satisfaction"),
+            description: t("aboutUs.satisfaction_desc"),
+        }
+    ]
     return (
         <>
             <div className="relative w-full max-h-[450px] text-[1rem]">
@@ -139,6 +172,29 @@ const AboutUs = () => {
                             <div className="bg-text-sub-content text-center">{t?.description}</div>
                         </div>
                     ))}
+                </div>
+                <div className="flex">
+                    <div className="hidden lg:block lg:flex-[0.7]">
+                        <img src="https://media.istockphoto.com/id/484682530/photo/eiffel-tower.jpg?s=612x612&w=0&k=20&c=p1wanuEM4WUZzomo6R9S2OwOktShdga-YNpnnl4ao7I=" alt="france" className="w-full h-full object-cover"  />
+                    </div>
+                    <div className="lg:px-[1.5rem] xl:px-[3rem] py-[1rem]">
+                        <div className="text-[1.5rem]">{t("aboutUs.representative_france")}</div>
+                            <div className="flex-1 grid grid-cols-3 gap-4">
+                            {representativeFrance.map((t) => (
+                                <div className="flex items-center justify-start">
+                                    <img src={t?.img} alt={t?.title} className="w-[60px] h-[60px]" />
+                                    <div>
+                                        <div className="text-wrap font-bold text-center mb-[1rem]">{t?.title}</div>
+                                        <div className="bg-text-sub-content text-center">{t?.description}</div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="lg:px-[1.5rem] xl:px-[3rem]">
+                        <div>{t("aboutUs.with_us")}</div>
+                        <div className="text-[#efb771] font-dancing">{t("aboutUs.let_create")}</div>
+                    </div>
                 </div>
 
                 {/* Meet team */}
