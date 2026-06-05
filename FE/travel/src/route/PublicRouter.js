@@ -15,7 +15,11 @@ const routesNavSticky = [
 ];
 
 const routeAdmin = [
-    { path: "/admin/create/blog", component: CreateBlog},
+    { path: "/admin/login", component: Login },
+    { path: "/admin/create/blog", component: CreateBlog}
 ]
 
-export { publicRoutes, routesNavSticky, routeAdmin };
+const routeLogin = [
+    { path: "/admin/login", component: Login },
+]
+export { publicRoutes, routesNavSticky, routeAdmin, routeLogin };

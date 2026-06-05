@@ -13,10 +13,21 @@ export const AuthProvider = ({ children }) => {
         setLang(newLang);
     };
 
+    useEffect(() => {
+        const data = JSON.parse(localStorage.getItem("session"));
+        if (data && new Date().getTime() < data.expiry) {
+            setUser(data.user);
+        } else {
+            localStorage.removeItem("session");
+            setUser(null);
+        }
+        }, []);
+
     return (
         <AuthContext.Provider
             value={{
                 user,
+                setUser,
                 lang,
                 login,
                 logout,
