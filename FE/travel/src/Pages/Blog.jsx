@@ -29,7 +29,7 @@ const Blog = () => {
 
     const [top4MostRead, setTop4MostRead] = useState([
         {
-            id:1,
+            id: 1,
             image: "https://thf.bing.com/th/id/OIP.luCvHavLy5_ZcsAcss9K4wHaFj?cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3",
             guide: "VIETNAM GUIDE",
             meta_title: "10 Must-Visit Places in Vietnam for First Time Travelers",
@@ -39,7 +39,7 @@ const Blog = () => {
             views: "12500",
         },
         {
-            id:2,
+            id: 2,
             image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
             guide: "CAMBODIA GUIDE",
             meta_title: "Angkor Wat: The Complete Traveler's Guide",
@@ -49,7 +49,7 @@ const Blog = () => {
             views: "14300",
         },
         {
-            id:3,
+            id: 3,
             image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
             guide: "CAMBODIA GUIDE",
             meta_title: "Angkor Wat: The Complete Traveler's Guide",
@@ -59,7 +59,7 @@ const Blog = () => {
             views: "7600",
         },
         {
-            id:4,
+            id: 4,
             image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
             guide: "VIETNAM CULTURE",
             meta_title: "Vietnamese Culture: Custom & Traditions",
@@ -144,9 +144,7 @@ const Blog = () => {
         //     ...params,
         //     page: params.page + 1,
         // };
-
         // const newData = await getBlog(nextParams);
-
         // mutate(
         //     {
         //         ...listBlogs,
@@ -154,7 +152,6 @@ const Blog = () => {
         //     },
         //     false,
         // );
-
         // setParams(nextParams);
     };
 

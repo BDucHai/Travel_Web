@@ -3,12 +3,12 @@ import { Dialog, DialogTitle, DialogContent, Avatar, TextField, Box, IconButton 
 
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
-const ContactModal = ({ t, open, onClose }) => {
+const ContactModal = ({ t, open, onClose, content = "" }) => {
     const [contactPlan, setContactPlan] = useState({
         name: "",
         email: "",
         phone: "",
-        content: "",
+        content: content,
     });
 
     const handleCreateRequest = () => {};

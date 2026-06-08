@@ -140,6 +140,8 @@
                "update_fail": "Update Failed! Please try again!",
                "delete_success": "Delete Successfully!",
                "delete_fail": "Delete Failed! Please try again!"
-          }
+          },
+          "itinerary": "Itinerary"
+          
 
 }

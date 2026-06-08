@@ -1,9 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import ContactModal from "../Components/ContactModal";
+import { getToursById } from "../api/Tour";
+import { duration } from "@mui/material";
 
 const TourDetail = () => {
     const { id } = useParams();
+    const { t } = useTranslation();
+
+    const [tour, setTour] = useState({
+        title: "okla",
+        slug: "VietnamTour",
+        shortDescription: "abc",
+        overview: "Mot con sadasdascasvtbvfdvs",
+        duration_days: "10days 9 nights",
+        priceFrom: "200USD",
+        featuredImageUrl: "",
+        isFeature: "",
+    });
+
+    const [contactModal, setContactModal] = useState(false);
+
+    const handleGetTour = async () => {
+        const res = await getToursById(id);
+        setTour(res);
+    };
+
+    useEffect(() => {
+        //    handleGetTour();
+    }, []);
     return (
         <div className="min-h-screen bg-[#fcf5ef] text-gray-800">
             {/* HERO */}
@@ -21,12 +48,10 @@ const TourDetail = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="text-4xl md:text-6xl font-bold">
-                        Vietnam Highlights Journey
+                        {tour?.title}
                     </motion.h1>
 
-                    <p className="mt-3 text-lg text-white/80">
-                        A curated North to South experience through Vietnam’s culture, nature & heritage
-                    </p>
+                    <p className="mt-3 text-lg text-white/80">{tour?.shortDescription}</p>
                 </div>
             </div>
 
@@ -37,11 +62,7 @@ const TourDetail = () => {
                     {/* OVERVIEW */}
                     <section>
                         <h2 className="text-2xl font-bold mb-4">Overview</h2>
-                        <p className="text-gray-600 leading-relaxed">
-                            Discover Vietnam from Hanoi to Ho Chi Minh City through an unforgettable journey combining
-                            culture, nature, cuisine, and local life. This tour is designed for travelers who want to
-                            experience the essence of Vietnam in a smooth and well-paced itinerary.
-                        </p>
+                        <p className="text-gray-600 leading-relaxed">{tour?.overview}</p>
                     </section>
 
                     {/* HIGHLIGHTS */}
@@ -68,30 +89,35 @@ const TourDetail = () => {
                     </section>
 
                     {/* ITINERARY */}
+                    {/* ITINERARY */}
                     <section>
-                        <h2 className="text-2xl font-bold mb-6">Itinerary</h2>
+                        <h2 className="text-2xl font-bold mb-6">{t("itinerary")}</h2>
 
-                        <div className="space-y-6 border-l border-gray-300 pl-6">
+                        <div className="space-y-8">
                             {[
                                 {
                                     day: "Day 1",
                                     title: "Arrival in Hanoi",
                                     desc: "Airport pickup, check-in hotel, free time in Old Quarter.",
+                                    img: "https://images.unsplash.com/photo-1528127269322-539801943592",
                                 },
                                 {
                                     day: "Day 2",
                                     title: "Hanoi City Tour",
                                     desc: "Visit Temple of Literature, Ho Chi Minh Mausoleum, street food tour.",
+                                    img: "https://images.unsplash.com/photo-1509030450996-9a8a7c9f4f2c",
                                 },
                                 {
                                     day: "Day 3",
                                     title: "Ha Long Bay Cruise",
                                     desc: "Overnight cruise through limestone karsts and emerald waters.",
+                                    img: "https://images.unsplash.com/photo-1528127269322-539801943592",
                                 },
                                 {
                                     day: "Day 4",
                                     title: "Hoi An Ancient Town",
                                     desc: "Explore lantern streets, Japanese bridge and riverside cafés.",
+                                    img: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
                                 },
                             ].map((item, i) => (
                                 <motion.div
@@ -99,14 +125,34 @@ const TourDetail = () => {
                                     initial={{ opacity: 0, x: -20 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: true }}
-                                    className="relative">
-                                    <div className="absolute -left-[30px] top-2 w-3 h-3 bg-[#e38c2b] rounded-full" />
+                                    className="
+                                             flex flex-col md:flex-row gap-5
+                                             bg-white rounded-2xl shadow-sm
+                                             overflow-hidden
+                                             hover:shadow-md transition
+                                        ">
+                                    {/* IMAGE */}
+                                    <div className="md:w-1/3 h-48 md:h-auto overflow-hidden">
+                                        <img
+                                            src={item?.img}
+                                            alt={item?.title}
+                                            className="w-full h-full object-cover hover:scale-110 transition duration-500"
+                                        />
+                                    </div>
 
-                                    <h3 className="font-semibold text-lg text-[#e38c2b]">
-                                        {item.day} — {item.title}
-                                    </h3>
+                                    {/* CONTENT */}
+                                    <div className="flex-1 p-5 relative">
+                                        {/* timeline dot */}
+                                        <div className="absolute left-0 top-6 w-3 h-3 bg-[#e38c2b] rounded-full" />
 
-                                    <p className="text-gray-600 mt-1">{item.desc}</p>
+                                        <div className="pl-4">
+                                            <h3 className="font-semibold text-lg text-[#e38c2b]">
+                                                {item?.day} — {item?.title}
+                                            </h3>
+
+                                            <p className="text-gray-600 mt-2 leading-relaxed">{item?.desc}</p>
+                                        </div>
+                                    </div>
                                 </motion.div>
                             ))}
                         </div>
@@ -130,7 +176,7 @@ const TourDetail = () => {
                 </div>
 
                 {/* RIGHT SIDEBAR */}
-                {/* <div className="lg:col-span-4">
+                <div className="lg:col-span-4">
                     <div className="sticky top-10 bg-white rounded-2xl shadow-md p-6 space-y-6">
                         <div>
                             <p className="text-gray-500 text-sm">Duration</p>
@@ -147,12 +193,15 @@ const TourDetail = () => {
                             <p className="font-semibold">Private / Group Tour</p>
                         </div>
 
-                        <button className="w-full py-3 bg-[#e38c2b] text-white rounded-xl hover:bg-black transition">
-                            Book Now
+                        <button
+                            className="w-full py-3 bg-[#e38c2b] text-white rounded-xl hover:bg-black transition cursor-pointer"
+                            onClick={() => setContactModal(true)}>
+                            {t("contact_us")}
                         </button>
                     </div>
-                </div> */}
+                </div>
             </div>
+            <ContactModal t={t} open={contactModal} onClose={() => setContactModal(false)} content={tour?.title} />
         </div>
     );
 };
