@@ -4,10 +4,15 @@ import { publicRoutes, routesNavSticky, routeAdmin, routeLogin } from "./route/P
 import MainLayout from "./Layouts/MainLayout";
 import SecondLayout from "./Layouts/SecondLayout";
 import AdminLayout from "./Layouts/AdminLayout";
+import ScrollToTop from "./utils/ScrollToTop";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
     return (
         <div className="App">
+            <ScrollToTop />
+            <ToastContainer position="top-right" autoClose={3000} />
             <Routes>
                 <Route element={<MainLayout />}>
                     {publicRoutes.map((route, index) => {
@@ -23,7 +28,7 @@ function App() {
                 </Route>
                 {/* AAdmin */}
 
-                 <Route>
+                <Route>
                     {routeLogin.map((route, index) => {
                         const Page = route.component;
                         return <Route key={index} path={route.path} element={<Page />} />;

@@ -86,7 +86,9 @@ const Footer = () => {
 
                 {/* About us */}
                 <div className="hidden lg:block">
-                    <div className="text-[1rem] mb-[0.5rem] uppercase font-medium cursor-pointer text-[#d38518] hover:text-[#fff]">
+                    <div
+                        className="text-[1rem] mb-[0.5rem] uppercase font-medium cursor-pointer text-[#d38518] hover:text-[#fff]"
+                        onClick={() => navigate("/about")}>
                         {t("about_us")}
                     </div>
                 </div>

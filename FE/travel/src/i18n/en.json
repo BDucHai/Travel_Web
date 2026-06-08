@@ -115,6 +115,28 @@
                "let_create": "Let's create your Indochina story together",
                "ready": "Ready To Start Your Journey?",
                "plan_my_trip": "Plan My Trip"
+          },
+
+          "admin":{
+               "menu": "Admin Menu",
+               "view_page": "View Page",
+               "list_blog": "List Blog",
+               "create_blog": "Create Blog",
+               "manage_review": "Manage Review",
+               "tour":"Manage Tour"
+          },
+
+          "notify":{
+               "create_success": "Create Successfully!",
+               "create_fail": "Create Fail! Please try again!",
+               "get_success": "Load information suceessfully!",
+               "get_fail": "Load information fail. Please try again!",
+               "success": "Successfull",
+               "fail": "Error",
+               "update_success": "Update Successfully!",
+               "update_fail": "Update Failed! Please try again!",
+               "delete_success": "Delete Successfully!",
+               "delete_fail": "Delete Failed! Please try again!"
           }
 
 }

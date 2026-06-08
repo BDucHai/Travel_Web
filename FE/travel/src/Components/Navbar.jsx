@@ -274,7 +274,8 @@ const Navbar = ({ home }) => {
 
                         {/* About US */}
                         <div
-                            className={`px-4 py-2 rounded cursor-pointer ${home ? "hover-nav-color" : "text-dark hover:text-[#ef8d21]"} uppercase`} onClick={() => navigate("/about")}>
+                            className={`px-4 py-2 rounded cursor-pointer ${home ? "hover-nav-color" : "text-dark hover:text-[#ef8d21]"} uppercase`}
+                            onClick={() => navigate("/about")}>
                             {t("about_us")}
                         </div>
 

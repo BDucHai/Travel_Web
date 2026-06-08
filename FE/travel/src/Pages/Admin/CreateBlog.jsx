@@ -1,18 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { uploadImage } from "../../utils/uploadImage";
 import BlogEditor from "../../Components/AdminComponent/BlogEditor";
+import { useParams } from "react-router-dom";
+import { getBlogById } from "../../api/Blog";
 
 const CreateBlog = () => {
+    const { id } = useParams();
+
     const [title, setTitle] = useState("");
+    const [titleFr, setTitleFr] = useState("");
     const [heroImage, setHeroImage] = useState("");
     const [content, setContent] = useState("");
+    const [contentFr, setContentFr] = useState("");
+    const [heroLoading, setHeroLoading] = useState(false);
 
     const handleHeroUpload = async (e) => {
         const file = e.target.files[0];
+        setHeroLoading(true);
 
-        const url = await uploadImage(file);
+        const data = await uploadImage(file);
 
-        setHeroImage(url);
+        setHeroImage(data?.url);
+        setHeroLoading(false);
     };
 
     const handleSubmit = async () => {
@@ -25,17 +34,54 @@ const CreateBlog = () => {
         console.log(payload);
 
         // CALL API SAVE BLOG
+
+        setTitle("");
+        setTitleFr("");
+        setHeroImage("");
+        setContent("");
+        setContentFr("");
     };
 
+    const handleGetBlog = async (id) => {
+        const res = await getBlogById(id);
+        setTitle(res?.title);
+        setTitleFr(res?.titleFr);
+        setHeroImage(res?.heroImage);
+        setContent(res?.content);
+        setContentFr(res?.contentFr);
+    };
+
+    useEffect(() => {
+        if (id) {
+            handleGetBlog(id);
+        }
+    }, [id]);
+
     return (
-        <div className="max-w-[1200px] mx-auto py-10 px-5">
+        <div className="w-full mx-auto py-10 px-5 bg-[radial-gradient(circle,_#0e3637_0%,_#0d0d11ab_70%)] text-white">
             <h1 className="text-5xl font-bold mb-10">Create Blog</h1>
 
             {/* TITLE */}
             <input
                 value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                onChange={(e) => setTitle(e.target?.value)}
                 placeholder="Blog title..."
+                className="
+                    w-full
+                    border
+                    rounded-2xl
+                    p-5
+                    text-4xl
+                    font-bold
+                    mb-8
+                    outline-none
+                "
+            />
+
+            <input
+                value={titleFr}
+                onChange={(e) => setTitleFr(e.target?.value)}
+                placeholder="Titre du blog ..."
                 className="
                     w-full
                     border
@@ -54,8 +100,9 @@ const CreateBlog = () => {
 
                 <label
                     className="
-                        w-full
-                        h-[300px]
+                        w-auto
+                        min-h-[200px]
+                        h-auto
                         border-2
                         border-dashed
                         rounded-2xl
@@ -65,6 +112,11 @@ const CreateBlog = () => {
                         cursor-pointer
                         overflow-hidden
                     ">
+                    {heroLoading && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-10">
+                            <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin" />
+                        </div>
+                    )}
                     {heroImage ? (
                         <img
                             src={heroImage}
@@ -84,7 +136,10 @@ const CreateBlog = () => {
             </div>
 
             {/* CONTENT */}
-            <BlogEditor setContent={setContent} />
+            <BlogEditor content={content} setContent={setContent} />
+
+            <div className="mt-[3rem] mb-[0.5rem] text-[2.5rem] font-bold">France Content</div>
+            <BlogEditor content={contentFr} setContent={setContentFr} />
 
             {/* SUBMIT */}
             <button

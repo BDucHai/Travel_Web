@@ -4,12 +4,10 @@ export const uploadImage = async (file) => {
     const formData = new FormData();
 
     formData.append("file", file);
-    formData.append("upload_preset", "YOUR_UPLOAD_PRESET");
 
-    const res = await axios.post("https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/image/upload/blog", formData);
+    formData.append("upload_preset", "blog_upload");
 
-    return {
-        url: res.data.secure_url,
-        public_id: res.data.public_id,
-    };
+    const res = await axios.post("https://api.cloudinary.com/v1_1/dtpgcvc0q/image/upload", formData);
+
+    return { id: res?.data?.id, url: res?.data?.secure_url };
 };

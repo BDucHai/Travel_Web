@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
+import { FaWhatsapp } from "react-icons/fa";
 import DOMPurify from "dompurify";
 import CardHome from "../Components/CardHome";
 import { imgCardSample } from "../assets/images";
 import { useTranslation } from "react-i18next";
+import ContactModal from "../Components/ContactModal";
+import { CgMail } from "react-icons/cg";
 
 const BlogDetail = () => {
     const { id } = useParams();
     const { t } = useTranslation();
+
+    const [openContactModal, setOpenContactModal] = useState(false);
+
     const [blog, setBlog] = useState({
         title: "10 Days In Vietnam",
         hero_image_url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
@@ -71,9 +76,9 @@ const BlogDetail = () => {
         question: "",
     });
 
-    const handleChangeValueRequest = (e) =>{
-        setRequest({...request, [e?.target?.name]: e?.target?.value});
-    }
+    const handleChangeValueRequest = (e) => {
+        setRequest({ ...request, [e?.target?.name]: e?.target?.value });
+    };
 
     useEffect(() => {
         // FETCH BLOG API
@@ -336,6 +341,26 @@ const BlogDetail = () => {
                     </div>
                 </div>
             </div>
+            {/* Floatting icon */}
+            <div className="hidden lg:block fixed bottom-4 right-4 flex flex-col gap-3 z-50">
+                <div
+                    onClick={() => setOpenContactModal(true)}
+                    className="bg-blue-600 text-white p-3 rounded-full shadow-lg cursor-pointer transition-all duration-300 ease-out mb-[1rem]
+                            hover:scale-[120%]  hover:shadow-2xl active:scale-95">
+                    <CgMail />
+                </div>
+
+                <div
+                    className="bg-green-600 text-white p-3 rounded-full shadow-lg cursor-pointer transition-all duration-300 ease-out
+                        hover:scale-[120%] hover:shadow-2xl active:scale-95">
+                    <a href="https://wa.me/84968133933" target="_blank" rel="noopener noreferrer">
+                        <FaWhatsapp />
+                    </a>
+                </div>
+            </div>
+
+            {/* Modal */}
+            <ContactModal t={t} open={openContactModal} onClose={() => setOpenContactModal(false)} />
         </div>
     );
 };

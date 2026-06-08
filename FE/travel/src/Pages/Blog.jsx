@@ -8,11 +8,19 @@ import { CiCalendar } from "react-icons/ci";
 import { FaEye } from "react-icons/fa";
 import BlogSmallCard from "../Components/BlogSmallCard";
 import { useNavigate } from "react-router-dom";
+import useSWR from "swr";
+
+
 
 const Blog = () => {
     const { t } = useTranslation();
 
     const navigate = useNavigate();
+
+    // const { data, isLoading, mutate } = useSWR("/blogs", getBlog);
+
+    //Neu co gia tri nhet vao luon k can mutate lai api
+    // mutate(newData, false);
     const [openContactModal, setOpenContactModal] = useState(false);
 
     const [top4MostRead, setTop4MostRead] = useState([
