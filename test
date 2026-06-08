@@ -15,7 +15,7 @@ function App() {
           <div className="flex-[0.3]">
               <img />
               <div>
-                <h2 className="text-wrap">REVES INDOCHINE</h2>
+                <div className="text-wrap">REVES INDOCHINE</div>
                 <div className="text-[8px]"> DREAM OF INDOCHINE </div>
               </div>
           </div>
@@ -52,8 +52,8 @@ function App() {
             </AnimatePresence>
             
               <div>
-            <h2 className="peer">TRAVEL INFORMATION</h2>
-            <h2 className="block peer-hover:hidden">Clear data</h2>
+            <div className="peer">TRAVEL INFORMATION</div>
+            <div className="block peer-hover:hidden">Clear data</div>
           </div>
           </div>
           
@@ -66,4 +66,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

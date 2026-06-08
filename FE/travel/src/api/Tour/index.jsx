@@ -3,34 +3,39 @@ import { toast } from "react-toastify";
 import { mutate } from "swr";
 import i18n from "../../i18n";
 
-export const createBlog = async (data) => {
+export const createTours = async (data) => {
     try {
-        await axiosClient.post("/blogs", data);
+        await axiosClient.post("/tours", data);
 
         toast.success(i18n.t("notify.create_success"));
-        mutate("/blogs");
+        mutate("/tours");
     } catch (error) {
         toast.error(i18n.t("notify.create_fail"));
     }
 };
 
-export const deleteBlog = async (id) => {
+export const deleteTours = async (id) => {
     try {
-        // await axiosClient.delete(`/blogs/${id}`);
+        // await axiosClient.delete(`/tours/${id}`);
 
         toast.success(i18n.t("notify.delete_success"));
 
-        mutate("/blogs");
+        mutate("/tours");
     } catch (error) {
         toast.error(i18n.t("notify.delete_fail"));
     }
 };
 
-export const getBlog = async ([url, params]) => axiosClient.get(url, { params }).then((res) => res.data);
+export const getTours = async (params) => {
+    const response = await axiosClient.get("/tours", {
+        params,
+    });
+    return response?.data;
+};
 
-export const getBlogById = async ({ id }) => {
+export const getToursById = async ({ id }) => {
     try {
-        const res = await axiosClient.get(`/blog/${id}`);
+        const res = await axiosClient.get(`/tours/${id}`);
 
         return res?.data;
     } catch (err) {
@@ -38,9 +43,9 @@ export const getBlogById = async ({ id }) => {
     }
 };
 
-export const updateBlog = async ({ id, data }) => {
+export const updateTours = async ({ id, data }) => {
     try {
-        const res = await axiosClient.post(`/blog/${id}`, data);
+        const res = await axiosClient.post(`/tours/${id}`, data);
 
         toast.success(i18n.t("notify.update_success"));
 

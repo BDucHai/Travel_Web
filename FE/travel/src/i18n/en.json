@@ -75,6 +75,8 @@
           "what_app": "WhatsApp (Phone number)",
           "your_phone": "Your phone",
           "your_name": "Your name",
+
+          "detail": "Detail",
           
           "blogPage": {
                "most_read": "The most read",
@@ -123,7 +125,8 @@
                "list_blog": "List Blog",
                "create_blog": "Create Blog",
                "manage_review": "Manage Review",
-               "tour":"Manage Tour"
+               "tour":"Manage Tour",
+               "create_tour": "Create Tour"
           },
 
           "notify":{

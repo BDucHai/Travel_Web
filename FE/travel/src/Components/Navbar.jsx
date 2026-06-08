@@ -23,23 +23,65 @@ const Navbar = ({ home }) => {
     const [navChildTravelInfor, setNavChildTravelInfor] = useState([]);
 
     const tourDuration = [
-        t("navbar.7days_vn_tour"),
-        t("navbar.10days_vn_tour"),
-        t("navbar.12days_vn_tour"),
-        t("navbar.2w_vn_tour"),
-        t("navbar.3w_vn_tour"),
+        {
+            slug: "7days_vn_tour",
+            title: t("navbar.7days_vn_tour"),
+        },
+        {
+            slug: "10days_vn_tour",
+            title: t("navbar.10days_vn_tour"),
+        },
+        {
+            slug: "12days_vn_tour",
+            title: t("navbar.12days_vn_tour"),
+        },
+        {
+            slug: "2w_vn_tour",
+            title: t("navbar.2w_vn_tour"),
+        },
+        {
+            slug: "3w_vn_tour",
+            title: t("navbar.3w_vn_tour"),
+        },
     ];
 
     const tourStyle = [
-        t("navbar.cultural_tour"),
-        t("navbar.family_holiday"),
-        t("navbar.nature_adventure"),
-        t("navbar.honeymoon_tour"),
-        t("navbar.bike_tour"),
-        t("navbar.luxury_travel"),
-        t("navbar.off_beaten_track"),
-        t("navbar.food_culinary_tour"),
-        t("navbar.wellness_relaxation"),
+        {
+            slug: "cultural_tour",
+            title: t("navbar.cultural_tour"),
+        },
+        {
+            slug: "family_holiday",
+            title: t("navbar.family_holiday"),
+        },
+        {
+            slug: "nature_adventure",
+            title: t("navbar.nature_adventure"),
+        },
+        {
+            slug: "honeymoon_tour",
+            title: t("navbar.honeymoon_tour"),
+        },
+        {
+            slug: "bike_tour",
+            title: t("navbar.bike_tour"),
+        },
+        {
+            slug: "luxury_travel",
+            title: t("navbar.luxury_travel"),
+        },
+        {
+            slug: "off_beaten_track",
+            title: t("navbar.off_beaten_track"),
+        },
+        {
+            slug: "food_culinary_tour",
+            title: t("navbar.food_culinary_tour"),
+        },
+        {
+            slug: "wellness_relaxation",
+            title: t("navbar.wellness_relaxation"),
+        },
     ];
 
     const combineTour = [
@@ -157,9 +199,11 @@ const Navbar = ({ home }) => {
                                     transform transition-all text-[0.85rem] cursor-default normal-case">
                                         <div className="grid grid-cols-3 gap-x-[10px] gap-y-[6px] p-[0.8rem] bg-[#f8fcf3] overflow-clip">
                                             <div className="">
-                                                {tourDuration.map((tour) => (
-                                                    <div className="w-[90%] px-[0.4rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer">
-                                                        {tour}
+                                                {tourDuration?.map((tour) => (
+                                                    <div
+                                                        className="w-[90%] px-[0.4rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
+                                                        onClick={() => navigate(`/tour/${tour?.slug}`)}>
+                                                        {tour?.title}
                                                     </div>
                                                 ))}
 
@@ -181,8 +225,10 @@ const Navbar = ({ home }) => {
                                                     {t("navbar.all_style_tour")}
                                                 </div>
                                                 {tourStyle.map((style) => (
-                                                    <div className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer">
-                                                        {style}
+                                                    <div
+                                                        className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
+                                                        onClick={() => navigate(`/tour/${style?.slug}`)}>
+                                                        {style?.title}
                                                     </div>
                                                 ))}
                                             </div>
@@ -225,7 +271,9 @@ const Navbar = ({ home }) => {
                                                     {t("navbar.northen_vn")}
                                                 </div>
                                                 {travelInformation.nothern.location.map((no) => (
-                                                    <div className="w-[90%] px-[1rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer">
+                                                    <div
+                                                        className="w-[90%] px-[1rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
+                                                        onClick={() => navigate(`/tour/${no}`)}>
                                                         {no}
                                                     </div>
                                                 ))}

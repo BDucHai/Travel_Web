@@ -11,6 +11,7 @@ import { SiBlogger } from "react-icons/si";
 import { LiaBlogSolid } from "react-icons/lia";
 import { MdOutlineTour } from "react-icons/md";
 import { BiSolidCommentEdit } from "react-icons/bi";
+import { GiCampingTent } from "react-icons/gi";
 
 const SideBar = ({ openSideBar, setOpenSideBar }) => {
     const { t } = useTranslation();
@@ -46,6 +47,12 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
         },
         {
             id: 5,
+            title: t("admin.create_tour"),
+            icon: <GiCampingTent />,
+            direct: "/admin/create/tour",
+        },
+        {
+            id: 6,
             title: t("admin.manage_review"),
             icon: <BiSolidCommentEdit />,
             direct: "/admin/review",

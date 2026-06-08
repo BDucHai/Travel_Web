@@ -12,6 +12,11 @@ const CreateBlog = () => {
     const [heroImage, setHeroImage] = useState("");
     const [content, setContent] = useState("");
     const [contentFr, setContentFr] = useState("");
+    const [metaTitle, setMetaTitle] = useState("");
+    const [metaDescription, setMetaDescription] = useState("");
+
+    const [metaTitleFr, setMetaTitleFr] = useState("");
+    const [metaDescriptionFr, setMetaDescriptionFr] = useState("");
     const [heroLoading, setHeroLoading] = useState(false);
 
     const handleHeroUpload = async (e) => {
@@ -40,6 +45,10 @@ const CreateBlog = () => {
         setHeroImage("");
         setContent("");
         setContentFr("");
+        setMetaTitle("");
+        setMetaDescription("");
+        setMetaTitleFr("");
+        setMetaDescriptionFr("");
     };
 
     const handleGetBlog = async (id) => {
@@ -49,6 +58,10 @@ const CreateBlog = () => {
         setHeroImage(res?.heroImage);
         setContent(res?.content);
         setContentFr(res?.contentFr);
+        setMetaTitle(res?.metaTitle);
+        setMetaDescription(res?.metaDescription);
+        setMetaTitleFr(res?.metaTitleFr);
+        setMetaDescriptionFr(res?.metaDescriptionFr);
     };
 
     useEffect(() => {
@@ -81,7 +94,7 @@ const CreateBlog = () => {
             <input
                 value={titleFr}
                 onChange={(e) => setTitleFr(e.target?.value)}
-                placeholder="Titre du blog ..."
+                placeholder="Blog title... (FR)"
                 className="
                     w-full
                     border
@@ -92,6 +105,35 @@ const CreateBlog = () => {
                     mb-8
                     outline-none
                 "
+            />
+
+            {/* META TITLE EN */}
+            <input
+                value={metaTitle}
+                onChange={(e) => setMetaTitle(e.target.value)}
+                placeholder="Meta title (EN)..."
+                className="w-full border rounded-2xl p-4 text-[1.25rem] font-semibold mb-5 outline-none"
+            />
+
+            <textarea
+                value={metaDescription}
+                onChange={(e) => setMetaDescription(e.target.value)}
+                placeholder="Meta description (EN)..."
+                className="w-full border rounded-2xl p-4 h-28 text-[1rem] mb-8 outline-none"
+            />
+
+            <input
+                value={metaTitleFr}
+                onChange={(e) => setMetaTitleFr(e.target.value)}
+                placeholder="Meta titre (FR)..."
+                className="w-full border rounded-2xl p-4 text-[1.25rem] font-semibold mb-5 outline-none"
+            />
+
+            <textarea
+                value={metaDescriptionFr}
+                onChange={(e) => setMetaDescriptionFr(e.target.value)}
+                placeholder="Meta description (FR)..."
+                className="w-full border rounded-2xl p-4 h-28 text-[1rem] mb-8 outline-none"
             />
 
             {/* HERO IMAGE */}
