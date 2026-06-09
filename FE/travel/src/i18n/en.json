@@ -152,8 +152,13 @@
                "submit": "Submit Review",
                "customer_review": "Customer Reviews",
                "review_queue": "Review Queue",
-               "manage_accepted": "Manage Accepted"
-          }
+               "manage_accepted": "Manage Accepted",
+               "write_review": "Write Review"
+          },
+          "avatar_img": "Avatar Image",
+          "upload_avatar": "Upload Avatar",
+          "upload_multi_img": "Upload Multiple Image",
+          "travel_img": "Travel Image"
           
 
 }

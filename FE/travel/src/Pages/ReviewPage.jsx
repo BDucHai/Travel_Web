@@ -26,9 +26,6 @@ export default function ReviewPage() {
         list_image: [],
     });
 
-    // =========================
-    // FAKE DATA
-    // =========================
     const reviewFake = useMemo(
         () => [
             {
@@ -85,9 +82,6 @@ export default function ReviewPage() {
         });
     };
 
-    // =========================
-    // HANDLE AVATAR
-    // =========================
     const handleAvatarChange = (e) => {
         const file = e.target.files?.[0];
 
@@ -101,9 +95,6 @@ export default function ReviewPage() {
         }));
     };
 
-    // =========================
-    // HANDLE MULTIPLE IMAGES
-    // =========================
     const handleListImageChange = (e) => {
         const files = Array.from(e.target.files || []);
 
@@ -156,7 +147,7 @@ export default function ReviewPage() {
                         textTransform: "none",
                         paddingX: 3,
                     }}>
-                    Write Review
+                    {t("review.write_review")}
                 </Button>
             </header>
 
@@ -213,7 +204,7 @@ export default function ReviewPage() {
                                             <img
                                                 key={index}
                                                 src={img}
-                                                alt=""
+                                                alt={index}
                                                 className="
                                                     w-full
                                                     h-[180px]
@@ -288,7 +279,7 @@ export default function ReviewPage() {
 
                         {/* AVATAR */}
                         <div className="md:col-span-2">
-                            <p className="font-medium mb-2">Avatar Image</p>
+                            <p className="font-medium mb-2">{t("avatar_img")}</p>
 
                             <label
                                 className="
@@ -319,7 +310,7 @@ export default function ReviewPage() {
                                     <>
                                         <MdAddPhotoAlternate className="text-[40px]" />
 
-                                        <p className="mt-2 text-sm text-gray-500">Upload Avatar</p>
+                                        <p className="mt-2 text-sm text-gray-500">{t("upload_avatar")}</p>
                                     </>
                                 )}
 
@@ -329,7 +320,7 @@ export default function ReviewPage() {
 
                         {/* LIST IMAGES */}
                         <div className="md:col-span-2">
-                            <p className="font-medium mb-2">Travel Images</p>
+                            <p className="font-medium mb-2">{t("travel_img")}</p>
 
                             <label
                                 className="
@@ -347,7 +338,7 @@ export default function ReviewPage() {
                                 ">
                                 <MdAddPhotoAlternate className="text-[40px]" />
 
-                                <p className="mt-2 text-sm text-gray-500">Upload Multiple Images</p>
+                                <p className="mt-2 text-sm text-gray-500">{t("upload_multi_img")}</p>
 
                                 <input type="file" accept="image/*" multiple hidden onChange={handleListImageChange} />
                             </label>
