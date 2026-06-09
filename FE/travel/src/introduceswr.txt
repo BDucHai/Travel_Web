@@ -1,0 +1,19 @@
+const searchBlog = async (body) => {
+   const res = await axiosClient.post("/blogs/search", body);
+   return res.data;
+};
+
+
+const { data, mutate } = useSWR(
+   ["/blogs/search", data],
+   ([_, body]) => searchBlog(body)
+);
+
+const data = {
+   title: "react",
+   category: "frontend",
+};
+
+
+//get 1 
+const { data, mutate } = useSWR(id ? ["/blogs/detail", { id }] : null, ([_, params]) => getBlogById(params));

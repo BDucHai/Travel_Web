@@ -3,13 +3,20 @@ import { DataGrid } from "@mui/x-data-grid";
 import { motion } from "framer-motion";
 import { deleteBlog, getBlog } from "../../api/Blog";
 import { useNavigate } from "react-router-dom";
+import useSWR from "swr";
 
 const BlogManage = () => {
     const navigate = useNavigate();
     const [search, setSearch] = useState("");
     const [dateFilter, setDateFilter] = useState("");
 
-    const [blog, setBlog] = useState([
+    const { data, mutate } = useSWR(["/blogs", { search: search, dateFilter: dateFilter }], ([_, params]) =>
+        getBlog(params),
+    );
+
+    // const { data, mutate } = useSWR(["/blogs/search", filters], ([_, body]) => searchBlog(body));
+    
+    const blogFake = [
         {
             id: 1,
             title: "How to build React Admin Panel",
@@ -31,15 +38,16 @@ const BlogManage = () => {
             author: "Jane",
             views: 1450,
         },
-    ]);
+    ];
+    const blog = data || blogFake;
 
     const handleDeleteBlog = async (id) => {
         await deleteBlog(id);
+        mutate();
     };
 
     const handleSearch = async (filter) => {
-        const res = await getBlog(filter);
-        setBlog(res);
+        mutate();
     };
 
     const columns = [

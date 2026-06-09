@@ -1,6 +1,5 @@
 import axiosClient from "../axios";
 import { toast } from "react-toastify";
-import { mutate } from "swr";
 import i18n from "../../i18n";
 
 export const createBlog = async (data) => {
@@ -8,7 +7,6 @@ export const createBlog = async (data) => {
         await axiosClient.post("/blogs", data);
 
         toast.success(i18n.t("notify.create_success"));
-        mutate("/blogs");
     } catch (error) {
         toast.error(i18n.t("notify.create_fail"));
     }
@@ -16,11 +14,9 @@ export const createBlog = async (data) => {
 
 export const deleteBlog = async (id) => {
     try {
-        // await axiosClient.delete(`/blogs/${id}`);
+        await axiosClient.delete(`/blogs/${id}`);
 
         toast.success(i18n.t("notify.delete_success"));
-
-        mutate("/blogs");
     } catch (error) {
         toast.error(i18n.t("notify.delete_fail"));
     }
@@ -28,9 +24,11 @@ export const deleteBlog = async (id) => {
 
 export const getBlog = async ([url, params]) => axiosClient.get(url, { params }).then((res) => res.data);
 
+export const countBlog = async ({ id }) => axiosClient.get(`/blogs/count/${id}`);
+
 export const getBlogById = async ({ id }) => {
     try {
-        const res = await axiosClient.get(`/blog/${id}`);
+        const res = await axiosClient.get(`/blogs/${id}`);
 
         return res?.data;
     } catch (err) {
@@ -40,7 +38,7 @@ export const getBlogById = async ({ id }) => {
 
 export const updateBlog = async ({ id, data }) => {
     try {
-        const res = await axiosClient.post(`/blog/${id}`, data);
+        const res = await axiosClient.post(`/blogs/${id}`, data);
 
         toast.success(i18n.t("notify.update_success"));
 

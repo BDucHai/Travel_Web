@@ -7,16 +7,21 @@ import { imgCardSample } from "../assets/images";
 import { useTranslation } from "react-i18next";
 import ContactModal from "../Components/ContactModal";
 import { CgMail } from "react-icons/cg";
-import {useAuth} from "../contexts/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
+import useSWR from "swr";
+import { countBlog } from "../api/Blog";
+import { getTours } from "../api/Tour";
 
 const BlogDetail = () => {
     const { id } = useParams();
     const { t } = useTranslation();
 
-    const {lang} = useAuth();
+    const { lang } = useAuth();
     const [openContactModal, setOpenContactModal] = useState(false);
 
-    const [blog, setBlog] = useState({
+    // const { data: blog, mutate } = useSWR(id ? { id } : null, getBlogById);
+
+    const blog = {
         title: "10 Days In Vietnam",
         hero_image_url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
 
@@ -54,7 +59,11 @@ const BlogDetail = () => {
                 Phong cảnh ở đây thật sự tuyệt vời và khó quên.
             </p>
         `,
-    });
+    };
+
+    const { data: tours } = useSWR(["/tours", { page: 1, limit: 3, slugs: blog?.slug }], ([_, params]) =>
+        getTours(params),
+    );
 
     const tour = [
         {
@@ -98,8 +107,7 @@ const BlogDetail = () => {
     };
 
     useEffect(() => {
-        // FETCH BLOG API
-        // count+1
+        countBlog();
     }, [id]);
 
     return (
@@ -274,7 +282,7 @@ const BlogDetail = () => {
                     <h2 className="text-2xl font-serif mb-8">RELATED TOURS</h2>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {tour.map((item) => (
+                        {tour?.map((item) => (
                             <CardHome tour={item} />
                         ))}
                     </div>

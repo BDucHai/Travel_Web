@@ -1,31 +1,35 @@
 import { useEffect, useState } from "react";
 import { uploadImage } from "../../utils/uploadImage";
 import BlogEditor from "../../Components/AdminComponent/BlogEditor";
-import { useParams } from "react-router-dom";
-import { getBlogById } from "../../api/Blog";
+import { useNavigate, useParams } from "react-router-dom";
+import { createBlog, getBlogById, updateBlog } from "../../api/Blog";
+import useSWR from "swr";
 
 const CreateBlog = () => {
     const { id } = useParams();
 
-    const [title, setTitle] = useState("");
-    const [titleFr, setTitleFr] = useState("");
-    const [heroImage, setHeroImage] = useState("");
-    const [content, setContent] = useState("");
-    const [contentFr, setContentFr] = useState("");
-    const [excerptEn, setExcerptEn] = useState("");
-    const [excerptFr, setExcerptFr] = useState("");
+    const navigate = useNavigate();
 
-    const [slugEn, setSlugEn] = useState("");
-    const [slugFr, setSlugFr] = useState("");
+    const { data } = useSWR(id ? ["/blogs/detail", { id }] : null, ([_, params]) => getBlogById(params));
 
-    const [metaTitleFr, setMetaTitleFr] = useState("");
-    const [metaDescriptionFr, setMetaDescriptionFr] = useState("");
+    const [blog, setBlog] = useState({
+        titleEn: data?.title_en || "",
+        titleFr: data?.title_fr || "",
 
-    // NEW
-    const [isFeature, setIsFeature] = useState(false);
-    const [viewCount, setViewCount] = useState(0);
+        heroImage: data?.hero_image_url || null,
 
-    const [heroLoading, setHeroLoading] = useState(false);
+        contentEn: data?.content_en || "",
+        contentFr: data?.content_fr || "",
+
+        excerptEn: data?.excerpt_en || "",
+        excerptFr: data?.excerpt_fr || "",
+
+        slugEn: data?.slug_en || "",
+        slugFr: data?.slug_en || "",
+
+        isFeature: false,
+        viewCount: data?.view_count || 0,
+    });
 
     const handleHeroUpload = async (e) => {
         const file = e.target.files[0];
@@ -33,59 +37,41 @@ const CreateBlog = () => {
 
         const data = await uploadImage(file);
 
-        setHeroImage(data?.url);
+        setBlog((prev) => ({ ...prev, heroImage: data?.url }));
         setHeroLoading(false);
     };
 
+    const [heroLoading, setHeroLoading] = useState(false);
+
     const handleSubmit = async () => {
-        const payload = {
-            title,
-            hero_image_url: heroImage,
-            content,
-            slug_en: slugEn,
-            slug_fr: slugFr,
-            is_feature: isFeature,
-            view_count: Number(viewCount),
-        };
-
-        console.log(payload);
-
-        setTitle("");
-        setTitleFr("");
-        setHeroImage("");
-        setContent("");
-        setContentFr("");
-        setExcerptEn("");
-        setExcerptFr("");
-        setSlugEn("");
-        setSlugFr("");
-        setIsFeature(false);
-        setViewCount(0);
-    };
-
-    const handleGetBlog = async (id) => {
-        const res = await getBlogById(id);
-
-        setTitle(res?.title_en);
-        setTitleFr(res?.title_fr);
-        setHeroImage(res?.hero_image_url);
-        setContent(res?.content_en);
-        setContentFr(res?.content_fr);
-        setExcerptEn(res?.excerpt_en);
-        setExcerptFr(res?.excerpt_fr);
-        setSlugEn(res?.slug_en);
-        setSlugFr(res?.slug_fr);
-
-        // NEW
-        setIsFeature(res?.is_feature || false);
-        setViewCount(res?.view_count || 0);
-    };
-
-    useEffect(() => {
         if (id) {
-            handleGetBlog(id);
+            await updateBlog({
+                id,
+                data: {
+                    titleEn: blog?.title_en || "",
+                    titleFr: blog?.title_fr || "",
+
+                    heroImage: blog?.hero_image_url || null,
+
+                    contentEn: blog?.content_en || "",
+                    contentFr: blog?.content_fr || "",
+
+                    excerptEn: blog?.excerpt_en || "",
+                    excerptFr: blog?.excerpt_fr || "",
+
+                    slugEn: blog?.slug_en || "",
+                    slugFr: blog?.slug_en || "",
+
+                    isFeature: false,
+                    viewCount: blog?.view_count || 0,
+                },
+            });
+        } else {
+            await createBlog(blog);
         }
-    }, [id]);
+
+        navigate("/admin/blog");
+    };
 
     return (
         <div className="w-full mx-auto py-10 px-5 bg-[radial-gradient(circle,_#0e3637_0%,_#0d0d11ab_70%)] text-white">
@@ -93,8 +79,8 @@ const CreateBlog = () => {
 
             {/* TITLE */}
             <input
-                value={title}
-                onChange={(e) => setTitle(e.target?.value)}
+                value={blog?.titleEn}
+                onChange={(e) => setBlog((prev) => ({ ...prev, titleEn: e?.target?.value }))}
                 placeholder="Blog title..."
                 className="
                     w-full
@@ -109,8 +95,8 @@ const CreateBlog = () => {
             />
 
             <input
-                value={titleFr}
-                onChange={(e) => setTitleFr(e.target?.value)}
+                value={blog?.titleFr}
+                onChange={(e) => setBlog((prev) => ({ ...prev, titleFr: e?.target?.value }))}
                 placeholder="Blog title... (FR)"
                 className="
                     w-full
@@ -127,8 +113,8 @@ const CreateBlog = () => {
             {/* SLUG */}
             <div className="grid grid-cols-2 gap-4 mb-8">
                 <input
-                    value={slugEn}
-                    onChange={(e) => setSlugEn(e.target.value)}
+                    value={blog?.slugEn}
+                    onChange={(e) => setBlog((prev) => ({ ...prev, slugEn: e?.target?.value }))}
                     placeholder="slug-en"
                     className="
                         w-full
@@ -141,8 +127,8 @@ const CreateBlog = () => {
                 />
 
                 <input
-                    value={slugFr}
-                    onChange={(e) => setSlugFr(e.target.value)}
+                    value={blog?.slugFr}
+                    onChange={(e) => setBlog((prev) => ({ ...prev, slugFr: e?.target?.value }))}
                     placeholder="slug-fr"
                     className="
                         w-full
@@ -159,7 +145,7 @@ const CreateBlog = () => {
             <div className="flex items-center gap-5 mb-8">
                 <button
                     type="button"
-                    onClick={() => setIsFeature(!isFeature)}
+                    onChange={(e) => setBlog((prev) => ({ ...prev, isFeature: !blog?.isFeature }))}
                     className={`
                         px-5
                         py-3
@@ -168,20 +154,15 @@ const CreateBlog = () => {
                         transition
                         text-[16px]
                         font-semibold
-                        ${
-                            isFeature
-                                ? "bg-[#c39562] border-[#c39562]"
-                                : "bg-transparent border-white"
-                        }
-                    `}
-                >
-                    {isFeature ? "Featured" : "Not Feature"}
+                        ${blog?.isFeature ? "bg-[#c39562] border-[#c39562]" : "bg-transparent border-white"}
+                    `}>
+                    {blog?.isFeature ? "Featured" : "Not Feature"}
                 </button>
 
                 <input
                     type="number"
-                    value={viewCount}
-                    onChange={(e) => setViewCount(e.target.value)}
+                    value={blog?.viewCount}
+                    onChange={(e) => setBlog((prev) => ({ ...prev, viewCount: e?.target?.value }))}
                     placeholder="View count"
                     className="
                         w-[180px]
@@ -196,30 +177,16 @@ const CreateBlog = () => {
 
             {/* EXCERPT EN */}
             <input
-                value={excerptEn}
-                onChange={(e) => setExcerptEn(e.target.value)}
+                value={blog?.excerptEn}
+                onChange={(e) => setBlog((prev) => ({ ...prev, excerptEn: e?.target?.value }))}
                 placeholder="Excerpt (EN)..."
                 className="w-full border rounded-2xl p-4 text-[1.25rem] font-semibold mb-5 outline-none"
             />
 
             <textarea
-                value={excerptFr}
-                onChange={(e) => setExcerptFr(e.target.value)}
+                value={blog?.excerptFr}
+                onChange={(e) => setBlog((prev) => ({ ...prev, excerptFr: e?.target?.value }))}
                 placeholder="Excerpt (FR)..."
-                className="w-full border rounded-2xl p-4 h-28 text-[1rem] mb-8 outline-none"
-            />
-
-            <input
-                value={metaTitleFr}
-                onChange={(e) => setMetaTitleFr(e.target.value)}
-                placeholder="Meta titre (FR)..."
-                className="w-full border rounded-2xl p-4 text-[1.25rem] font-semibold mb-5 outline-none"
-            />
-
-            <textarea
-                value={metaDescriptionFr}
-                onChange={(e) => setMetaDescriptionFr(e.target.value)}
-                placeholder="Meta description (FR)..."
                 className="w-full border rounded-2xl p-4 h-28 text-[1rem] mb-8 outline-none"
             />
 
@@ -240,17 +207,16 @@ const CreateBlog = () => {
                         justify-center
                         cursor-pointer
                         overflow-hidden
-                    "
-                >
+                    ">
                     {heroLoading && (
                         <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-10">
                             <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin" />
                         </div>
                     )}
 
-                    {heroImage ? (
+                    {blog?.heroImage ? (
                         <img
-                            src={heroImage}
+                            src={blog?.heroImage}
                             alt=""
                             className="
                                 w-full
@@ -259,9 +225,7 @@ const CreateBlog = () => {
                             "
                         />
                     ) : (
-                        <div className="text-gray-500">
-                            Upload hero image
-                        </div>
+                        <div className="text-gray-500">Upload hero image</div>
                     )}
 
                     <input type="file" hidden onChange={handleHeroUpload} />
@@ -269,13 +233,27 @@ const CreateBlog = () => {
             </div>
 
             {/* CONTENT */}
-            <BlogEditor content={content} setContent={setContent} />
+            <BlogEditor
+                content={blog?.content}
+                setContent={(html) =>
+                    setBlog((prev) => ({
+                        ...prev,
+                        contentEn: html,
+                    }))
+                }
+            />
 
-            <div className="mt-[3rem] mb-[0.5rem] text-[2.5rem] font-bold">
-                France Content
-            </div>
+            <div className="mt-[3rem] mb-[0.5rem] text-[2.5rem] font-bold">France Content</div>
 
-            <BlogEditor content={contentFr} setContent={setContentFr} />
+            <BlogEditor
+                content={blog?.contentFr}
+                setContent={(html) =>
+                    setBlog((prev) => ({
+                        ...prev,
+                        contentFr: html,
+                    }))
+                }
+            />
 
             {/* SUBMIT */}
             <button
@@ -288,8 +266,7 @@ const CreateBlog = () => {
                     rounded-xl
                     hover:scale-105
                     transition
-                "
-            >
+                ">
                 Publish Blog
             </button>
         </div>
