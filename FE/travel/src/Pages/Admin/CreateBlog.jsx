@@ -12,11 +12,19 @@ const CreateBlog = () => {
     const [heroImage, setHeroImage] = useState("");
     const [content, setContent] = useState("");
     const [contentFr, setContentFr] = useState("");
-    const [metaTitle, setMetaTitle] = useState("");
-    const [metaDescription, setMetaDescription] = useState("");
+    const [excerptEn, setExcerptEn] = useState("");
+    const [excerptFr, setExcerptFr] = useState("");
+
+    const [slugEn, setSlugEn] = useState("");
+    const [slugFr, setSlugFr] = useState("");
 
     const [metaTitleFr, setMetaTitleFr] = useState("");
     const [metaDescriptionFr, setMetaDescriptionFr] = useState("");
+
+    // NEW
+    const [isFeature, setIsFeature] = useState(false);
+    const [viewCount, setViewCount] = useState(0);
+
     const [heroLoading, setHeroLoading] = useState(false);
 
     const handleHeroUpload = async (e) => {
@@ -34,34 +42,43 @@ const CreateBlog = () => {
             title,
             hero_image_url: heroImage,
             content,
+            slug_en: slugEn,
+            slug_fr: slugFr,
+            is_feature: isFeature,
+            view_count: Number(viewCount),
         };
 
         console.log(payload);
-
-        // CALL API SAVE BLOG
 
         setTitle("");
         setTitleFr("");
         setHeroImage("");
         setContent("");
         setContentFr("");
-        setMetaTitle("");
-        setMetaDescription("");
-        setMetaTitleFr("");
-        setMetaDescriptionFr("");
+        setExcerptEn("");
+        setExcerptFr("");
+        setSlugEn("");
+        setSlugFr("");
+        setIsFeature(false);
+        setViewCount(0);
     };
 
     const handleGetBlog = async (id) => {
         const res = await getBlogById(id);
-        setTitle(res?.title);
-        setTitleFr(res?.titleFr);
-        setHeroImage(res?.heroImage);
-        setContent(res?.content);
-        setContentFr(res?.contentFr);
-        setMetaTitle(res?.metaTitle);
-        setMetaDescription(res?.metaDescription);
-        setMetaTitleFr(res?.metaTitleFr);
-        setMetaDescriptionFr(res?.metaDescriptionFr);
+
+        setTitle(res?.title_en);
+        setTitleFr(res?.title_fr);
+        setHeroImage(res?.hero_image_url);
+        setContent(res?.content_en);
+        setContentFr(res?.content_fr);
+        setExcerptEn(res?.excerpt_en);
+        setExcerptFr(res?.excerpt_fr);
+        setSlugEn(res?.slug_en);
+        setSlugFr(res?.slug_fr);
+
+        // NEW
+        setIsFeature(res?.is_feature || false);
+        setViewCount(res?.view_count || 0);
     };
 
     useEffect(() => {
@@ -107,18 +124,88 @@ const CreateBlog = () => {
                 "
             />
 
-            {/* META TITLE EN */}
+            {/* SLUG */}
+            <div className="grid grid-cols-2 gap-4 mb-8">
+                <input
+                    value={slugEn}
+                    onChange={(e) => setSlugEn(e.target.value)}
+                    placeholder="slug-en"
+                    className="
+                        w-full
+                        border
+                        rounded-xl
+                        p-3
+                        text-[16px]
+                        outline-none
+                    "
+                />
+
+                <input
+                    value={slugFr}
+                    onChange={(e) => setSlugFr(e.target.value)}
+                    placeholder="slug-fr"
+                    className="
+                        w-full
+                        border
+                        rounded-xl
+                        p-3
+                        text-[16px]
+                        outline-none
+                    "
+                />
+            </div>
+
+            {/* FEATURE + VIEW COUNT */}
+            <div className="flex items-center gap-5 mb-8">
+                <button
+                    type="button"
+                    onClick={() => setIsFeature(!isFeature)}
+                    className={`
+                        px-5
+                        py-3
+                        rounded-xl
+                        border
+                        transition
+                        text-[16px]
+                        font-semibold
+                        ${
+                            isFeature
+                                ? "bg-[#c39562] border-[#c39562]"
+                                : "bg-transparent border-white"
+                        }
+                    `}
+                >
+                    {isFeature ? "Featured" : "Not Feature"}
+                </button>
+
+                <input
+                    type="number"
+                    value={viewCount}
+                    onChange={(e) => setViewCount(e.target.value)}
+                    placeholder="View count"
+                    className="
+                        w-[180px]
+                        border
+                        rounded-xl
+                        p-3
+                        text-[16px]
+                        outline-none
+                    "
+                />
+            </div>
+
+            {/* EXCERPT EN */}
             <input
-                value={metaTitle}
-                onChange={(e) => setMetaTitle(e.target.value)}
-                placeholder="Meta title (EN)..."
+                value={excerptEn}
+                onChange={(e) => setExcerptEn(e.target.value)}
+                placeholder="Excerpt (EN)..."
                 className="w-full border rounded-2xl p-4 text-[1.25rem] font-semibold mb-5 outline-none"
             />
 
             <textarea
-                value={metaDescription}
-                onChange={(e) => setMetaDescription(e.target.value)}
-                placeholder="Meta description (EN)..."
+                value={excerptFr}
+                onChange={(e) => setExcerptFr(e.target.value)}
+                placeholder="Excerpt (FR)..."
                 className="w-full border rounded-2xl p-4 h-28 text-[1rem] mb-8 outline-none"
             />
 
@@ -153,12 +240,14 @@ const CreateBlog = () => {
                         justify-center
                         cursor-pointer
                         overflow-hidden
-                    ">
+                    "
+                >
                     {heroLoading && (
                         <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-10">
                             <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin" />
                         </div>
                     )}
+
                     {heroImage ? (
                         <img
                             src={heroImage}
@@ -170,7 +259,9 @@ const CreateBlog = () => {
                             "
                         />
                     ) : (
-                        <div className="text-gray-500">Upload hero image</div>
+                        <div className="text-gray-500">
+                            Upload hero image
+                        </div>
                     )}
 
                     <input type="file" hidden onChange={handleHeroUpload} />
@@ -180,7 +271,10 @@ const CreateBlog = () => {
             {/* CONTENT */}
             <BlogEditor content={content} setContent={setContent} />
 
-            <div className="mt-[3rem] mb-[0.5rem] text-[2.5rem] font-bold">France Content</div>
+            <div className="mt-[3rem] mb-[0.5rem] text-[2.5rem] font-bold">
+                France Content
+            </div>
+
             <BlogEditor content={contentFr} setContent={setContentFr} />
 
             {/* SUBMIT */}
@@ -194,7 +288,8 @@ const CreateBlog = () => {
                     rounded-xl
                     hover:scale-105
                     transition
-                ">
+                "
+            >
                 Publish Blog
             </button>
         </div>

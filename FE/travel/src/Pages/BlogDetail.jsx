@@ -7,11 +7,13 @@ import { imgCardSample } from "../assets/images";
 import { useTranslation } from "react-i18next";
 import ContactModal from "../Components/ContactModal";
 import { CgMail } from "react-icons/cg";
+import {useAuth} from "../contexts/AuthContext";
 
 const BlogDetail = () => {
     const { id } = useParams();
     const { t } = useTranslation();
 
+    const {lang} = useAuth();
     const [openContactModal, setOpenContactModal] = useState(false);
 
     const [blog, setBlog] = useState({
@@ -22,7 +24,7 @@ const BlogDetail = () => {
 
         view_count: 12000,
 
-        content: `
+        content_en: `
             <h1>Vietnam Adventure</h1>
 
             <p>
@@ -35,6 +37,21 @@ const BlogDetail = () => {
 
             <p>
                 The landscape is breathtaking and unforgettable.
+            </p>
+        `,
+        content_fr: `
+            <h1>Hành trình Việt Nam</h1>
+
+            <p>
+                Việt Nam là một trong những quốc gia đẹp nhất ở châu Á.
+            </p>
+
+            <img src="https://images.unsplash.com/photo-1528127269322-539801943592" />
+
+            <h2>Vịnh Hạ Long</h2>
+
+            <p>
+                Phong cảnh ở đây thật sự tuyệt vời và khó quên.
             </p>
         `,
     });
@@ -154,7 +171,7 @@ const BlogDetail = () => {
                 prose-p:text-gray-700
             "
                     dangerouslySetInnerHTML={{
-                        __html: DOMPurify.sanitize(blog?.content),
+                        __html: DOMPurify.sanitize(lang === "en" ? blog?.content_en : blog?.content_fr),
                     }}
                 />
 

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Dialog, DialogTitle, DialogContent, Avatar, TextField, Box, IconButton } from "@mui/material";
 
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import {createContacts} from "../api/Contact"
 
 const ContactModal = ({ t, open, onClose, content = "" }) => {
     const [contactPlan, setContactPlan] = useState({
@@ -11,7 +12,10 @@ const ContactModal = ({ t, open, onClose, content = "" }) => {
         content: content,
     });
 
-    const handleCreateRequest = () => {};
+    const handleCreateRequest = async() => {
+        await createContacts(contactPlan);
+        onClose();
+    };
 
     return (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
@@ -81,7 +85,7 @@ const ContactModal = ({ t, open, onClose, content = "" }) => {
 
                 {/* Submit button */}
                 <div
-                    onClick={onClose}
+                    onClick={handleCreateRequest}
                     className="mt-4 w-full bg-blue-600 text-white text-center py-2 rounded cursor-pointer">
                     {t("send")}
                 </div>
@@ -90,7 +94,7 @@ const ContactModal = ({ t, open, onClose, content = "" }) => {
                 <p className="mb-2 mt-4 text-sm text-gray-500 text-center">
                     Our information & quotes are free. Don’t hesitate to ask us!
                 </p>
-            </DialogContent>
+            </DialogContent>    
         </Dialog>
     );
 };

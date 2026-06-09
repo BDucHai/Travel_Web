@@ -5,9 +5,11 @@ import AboutUs from "../Pages/AboutUs";
 import CreateBlog from "../Pages/Admin/CreateBlog";
 import Login from "../Pages/Admin/Login";
 import BlogManage from "../Pages/Admin/BlogManage";
+import Contact from "../Pages/Admin/Contact";
 import ReviewAdminPage from "../Pages/Admin/ReviewAdminPage";
 import SearchTour from "../Pages/SearchTour";
 import TourDetail from "../Pages/TourDetail";
+import ReviewPage from "../Pages/ReviewPage";
 
 const publicRoutes = [{ path: "/", component: Home }];
 
@@ -17,6 +19,7 @@ const routesNavSticky = [
     { path: "/about", component: AboutUs },
     { path: "/tour/:query", component: SearchTour },
     { path: "/tour/detail/:id", component: TourDetail },
+    { path: "/review", component: ReviewPage },
 ];
 
 const routeAdmin = [
@@ -24,6 +27,7 @@ const routeAdmin = [
     { path: "/admin/update/blog/:id", component: CreateBlog },
     { path: "/admin/review", component: ReviewAdminPage },
     { path: "/admin/blog", component: BlogManage },
+    { path: "/admin/contact", component: Contact },
 ];
 
 const routeLogin = [{ path: "/admin/login", component: Login }];

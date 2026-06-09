@@ -8,11 +8,13 @@ export const createReview = async (data) => {
         await axiosClient.post("/reviews", data);
 
         toast.success(i18n.t("notify.create_success"));
-        mutate("/reviews");
+        // mutate("/reviews");
     } catch (error) {
         toast.error(i18n.t("notify.create_fail"));
     }
 };
+
+export const getReviews = async ([url, params]) => axiosClient.get(url, { params }).then((res) => res.data);
 
 export const deleteReview = async (id) => {
     try {
@@ -25,12 +27,6 @@ export const deleteReview = async (id) => {
     }
 };
 
-export const getReviews = async (params) => {
-    const response = await axiosClient.get("/reviews", {
-        params,
-    });
-    return response?.data;
-};
 
 export const getReviewById = async ({ id }) => {
     try {
@@ -47,7 +43,7 @@ export const updateReview = async ({ id, data }) => {
         const res = await axiosClient.post(`/reviews/${id}`, data);
 
         toast.success(i18n.t("notify.update_success"));
-
+        mutate("/reviews");
         return res?.data;
     } catch (err) {
         toast.error(i18n.t("notify.update_fail"));

@@ -4,7 +4,7 @@ import AcceptReviewTab from "../../Components/AdminComponent/AcceptReviewTab";
 import ManageReviewTab from "../../Components/AdminComponent/ManageReviewTab";
 import { getReviews } from "../../api/Review";
 
-export default function ReviewAdminPage() {
+const ReviewAdminPage = () => {
     const [tab, setTab] = useState(0);
     const [reviews, setReviews] = useState([]);
 
@@ -98,10 +98,12 @@ export default function ReviewAdminPage() {
             </Tabs>
 
             <div className="mt-6">
-                {tab === 0 && <AcceptReviewTab data={reviews.filter((r) => r.status === 0)} refresh={loadData} />}
+                {tab === 0 && <AcceptReviewTab data={reviews?.filter((r) => r.status === 0)} refresh={loadData} />}
 
-                {tab === 1 && <ManageReviewTab data={reviews.filter((r) => r.status === 1)} refresh={loadData} />}
+                {tab === 1 && <ManageReviewTab data={reviews?.filter((r) => r.status === 1)} refresh={loadData} />}
             </div>
         </div>
     );
 }
+
+export default ReviewAdminPage;
