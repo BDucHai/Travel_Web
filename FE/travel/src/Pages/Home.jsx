@@ -9,11 +9,14 @@ import CommentCard from "../Components/CommentCard";
 import { RiArrowLeftFill } from "react-icons/ri";
 import { RiArrowRightFill } from "react-icons/ri";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
     const { t } = useTranslation();
 
     const [touchStart, setTouchStart] = useState(0);
+
+    const navigate = useNavigate();
 
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -250,7 +253,9 @@ const Home = () => {
                     ))}
                 </motion.div>
                 <div className="flex-box-center mt-[1.5rem]">
-                    <div className="px-[3rem] py-[0.5rem] border-[2px] border-[#d38518] text-[#d38518] font-semibold uppercase cursor-pointer hover:bg-[#c39562] hover:text-white">
+                    <div
+                        className="px-[3rem] py-[0.5rem] border-[2px] border-[#d38518] text-[#d38518] font-semibold uppercase cursor-pointer hover:bg-[#c39562] hover:text-white"
+                        onClick={() => navigate("/tour")}>
                         {t("view_all_tour")}
                     </div>
                 </div>
@@ -358,7 +363,9 @@ const Home = () => {
                     </div>
                 </div>
                 <div className="flex-box-center mt-[1.5rem]">
-                    <div className="px-[3rem] py-[0.5rem] border-[2px] border-[#d38518] text-[#d38518] font-semibold uppercase cursor-pointer hover:bg-[#c39562] hover:text-white">
+                    <div
+                        className="px-[3rem] py-[0.5rem] border-[2px] border-[#d38518] text-[#d38518] font-semibold uppercase cursor-pointer hover:bg-[#c39562] hover:text-white"
+                        onClick={() => navigate("/review")}>
                         {t("review_see_all")}
                     </div>
                 </div>

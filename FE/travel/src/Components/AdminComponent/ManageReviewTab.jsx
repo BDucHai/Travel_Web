@@ -2,8 +2,9 @@ import { ImageList, ImageListItem } from "@mui/material";
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import ImagePreviewDialog from "../ImagePreviewDialog";
+import { deleteReview } from "../../api/Review";
 
-export default function ManageReviewTab({ data, refresh }) {
+export default function ManageReviewTab({ data, mutate }) {
     const [preview, setPreview] = useState({
         open: false,
         src: null,
@@ -25,10 +26,9 @@ export default function ManageReviewTab({ data, refresh }) {
         });
     }, [data, filterDate]);
 
-    const deleteReview = async (id) => {
-          // await 
-
-        refresh();
+    const delReviews = async (id) => {
+        await deleteReview(id);
+        mutate(["/contacts", { status: 1 }]);
     };
 
     return (
@@ -102,7 +102,7 @@ export default function ManageReviewTab({ data, refresh }) {
 
                             <div className="mt-3 flex justify-end">
                                 <button
-                                    onClick={() => deleteReview(item?.id)}
+                                    onClick={() => delReviews(item?.id)}
                                     className="px-4 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 cursor-pointer">
                                     Delete
                                 </button>

@@ -2,16 +2,34 @@ import { useState } from "react";
 import { ImageList, ImageListItem } from "@mui/material";
 import { motion } from "framer-motion";
 import ImagePreviewDialog from "../ImagePreviewDialog";
+import { deleteReview, updateStatusReviews } from "../../api/Review";
 
-export default function AcceptReviewTab({ data, refresh }) {
+export default function AcceptReviewTab({ data, mutate }) {
     const [preview, setPreview] = useState({
         open: false,
         src: null,
     });
 
     const updateStatus = async (id, status) => {
-        console.log(id, status);
-        refresh();
+        const res = await updateStatusReviews(id, status);
+
+        mutate(
+            ["/contacts", { status: 0 }],
+            (currentData) => {
+                if (!currentData) return currentData;
+
+                return {
+                    ...currentData,
+                    data: currentData.data.map((item) => (item.id === id ? res : item)),
+                };
+            },
+            false,
+        );
+    };
+
+    const delReviews = async (id) => {
+        await deleteReview(id);
+        mutate(["/contacts", { status: 0 }]);
     };
 
     const openPreview = (src) => {
@@ -68,7 +86,7 @@ export default function AcceptReviewTab({ data, refresh }) {
                                 </button>
 
                                 <button
-                                    onClick={() => updateStatus(item?.id, -1)}
+                                    onClick={() => delReviews(item?.id)}
                                     className="px-4 py-1 bg-red-500 text-white rounded-lg cursor-pointer">
                                     Reject
                                 </button>

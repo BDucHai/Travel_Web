@@ -150,7 +150,9 @@
                "title": "Share your experience with us",
                "content": "We would love to hear about your trip! Please share your thoughts and feedback with us.",
                "submit": "Submit Review",
-               "customer_review": "Customer Reviews"
+               "customer_review": "Customer Reviews",
+               "review_queue": "Review Queue",
+               "manage_accepted": "Manage Accepted"
           }
           
 

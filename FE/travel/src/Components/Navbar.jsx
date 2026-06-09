@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { LuTableOfContents } from "react-icons/lu";
 import { IoCaretDownOutline } from "react-icons/io5";
 import { imgBanner, imgGlobal, imgLang } from "../assets/images";
+import ContactModal from "./ContactModal";
 
 const Navbar = ({ home }) => {
     const { t, i18n } = useTranslation();
@@ -15,6 +16,8 @@ const Navbar = ({ home }) => {
         open: false,
         pop: 0,
     });
+
+    const [openContactModal, setOpenContactModal] = useState(false);
 
     const [openNavMobile, setOpenNavMobile] = useState(false);
     const [navChild, setNavChild] = useState([]);
@@ -345,7 +348,8 @@ const Navbar = ({ home }) => {
                                     hover:bg-[#ef8d21]
                                     hover:text-white
                                     hover:shadow-lg hover:shadow-[#ef8d2140]
-                                    hover:scale-[1.03]">
+                                    hover:scale-[1.03]"
+                            onClick={() => setOpenContactModal(true)}>
                             {t("contact_us")}
                         </div>
                     </div>
@@ -551,6 +555,9 @@ const Navbar = ({ home }) => {
                         </motion.div>
                     )}
                 </AnimatePresence>
+
+                {/* Modal */}
+                <ContactModal t={t} open={openContactModal} onClose={() => setOpenContactModal(false)} />
             </div>
         </>
     );
