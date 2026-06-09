@@ -126,7 +126,10 @@
                "create_blog": "Create Blog",
                "manage_review": "Manage Review",
                "tour":"Manage Tour",
-               "create_tour": "Create Tour"
+               "create_tour": "Create Tour",
+               "contact": "Contact Request",
+               "logout": "Log out",
+               "manageUser": "Manage User"
           },
 
           "notify":{

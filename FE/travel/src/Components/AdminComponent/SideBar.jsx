@@ -12,6 +12,10 @@ import { LiaBlogSolid } from "react-icons/lia";
 import { MdOutlineTour } from "react-icons/md";
 import { BiSolidCommentEdit } from "react-icons/bi";
 import { GiCampingTent } from "react-icons/gi";
+import { FaPhoneVolume } from "react-icons/fa6";
+import { FaHouseChimneyUser } from "react-icons/fa6";
+import { MdLogout } from "react-icons/md";
+import { clearSession } from "../../utils/session";
 
 const SideBar = ({ openSideBar, setOpenSideBar }) => {
     const { t } = useTranslation();
@@ -56,6 +60,24 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
             title: t("admin.manage_review"),
             icon: <BiSolidCommentEdit />,
             direct: "/admin/review",
+        },
+        {
+            id: 7,
+            title: t("admin.contact"),
+            icon: <FaPhoneVolume />,
+            direct: "/admin/contact",
+        },
+        {
+            id: 8,
+            title: t("admin.manageUser"),
+            icon: <FaHouseChimneyUser />,
+            direct: "/admin/manageUser",
+        },
+        {
+            id: 9,
+            title: t("admin.logout"),
+            icon: <MdLogout />,
+            direct: "/admin/login",
         },
     ];
 
@@ -148,7 +170,66 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
                 <div className="flex-1 flex flex-col gap-2 p-4">
                     {listMenu?.map((item) => {
                         const active = location.pathname === item.direct;
+                        if(item?.id === 9){
+                            return ( <motion.div
+                                whileHover={{ x: 5 }}
+                                whileTap={{ scale: 0.98 }}
+                                key={item.id}
+                                onClick={() => {
+                                    clearSession();
+                                    navigate(item.direct);
+                                }}
+                                className={`
+                                    group
+                                    flex
+                                    items-center
+                                    justify-start px-4
+                                    gap-4
+                                    py-4
+                                    rounded-xl
+                                    cursor-pointer
+                                    transition-all
+                                    duration-50
+                                    ${active ? "bg-[#1e293b] border border-[#334155]" : "hover:bg-[#1f2937]"}
+                                `}>
+                                {/* Icon */}
+                                <div
+                                    className={`
+                                        text-[1.2rem]
+                                        shrink-0
+                                        ${active ? "text-[#60a5fa]" : "text-white"}
+                                    `}>
+                                    {item.icon}
+                                </div>
 
+                                {/* Text */}
+                                <AnimatePresence>
+                                    {openSideBar && (
+                                        <motion.p
+                                            initial={{
+                                                opacity: 0,
+                                                x: -10,
+                                            }}
+                                            animate={{
+                                                opacity: 1,
+                                                x: 0,
+                                            }}
+                                            exit={{
+                                                opacity: 0,
+                                                x: -10,
+                                            }}
+                                            className={`
+                                                text-[0.95rem]
+                                                font-medium
+                                                whitespace-nowrap
+                                                ${active ? "text-[#60a5fa]" : "text-white"}
+                                            `}>
+                                            {item.title}
+                                        </motion.p>
+                                    )}
+                                </AnimatePresence>
+                            </motion.div>)
+                        }
                         return (
                             <motion.div
                                 whileHover={{ x: 5 }}

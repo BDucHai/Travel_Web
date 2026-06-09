@@ -7,6 +7,7 @@ import Login from "../Pages/Admin/Login";
 import BlogManage from "../Pages/Admin/BlogManage";
 import Contact from "../Pages/Admin/Contact";
 import ReviewAdminPage from "../Pages/Admin/ReviewAdminPage";
+import UserManagePage from "../Pages/Admin/UserManagePage";
 import SearchTour from "../Pages/SearchTour";
 import TourDetail from "../Pages/TourDetail";
 import ReviewPage from "../Pages/ReviewPage";
@@ -23,11 +24,12 @@ const routesNavSticky = [
 ];
 
 const routeAdmin = [
-    { path: "/admin/create/blog", component: CreateBlog },
-    { path: "/admin/update/blog/:id", component: CreateBlog },
-    { path: "/admin/review", component: ReviewAdminPage },
-    { path: "/admin/blog", component: BlogManage },
-    { path: "/admin/contact", component: Contact },
+    { path: "/admin/create/blog", component: CreateBlog, roles: ["user", "admin"] },
+    { path: "/admin/update/blog/:id", component: CreateBlog, roles: ["user", "admin"] },
+    { path: "/admin/review", component: ReviewAdminPage, roles: ["user", "admin"] },
+    { path: "/admin/blog", component: BlogManage, roles: ["user", "admin"] },
+    { path: "/admin/contact", component: Contact, roles: ["user", "admin"] },
+    { path: "/admin/manageUser", component: UserManagePage, roles: ["admin"] },
 ];
 
 const routeLogin = [{ path: "/admin/login", component: Login }];

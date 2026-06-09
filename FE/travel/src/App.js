@@ -41,6 +41,20 @@ function App() {
                         return <Route key={index} path={route.path} element={<Page />} />;
                     })}
                 </Route>
+
+                  {/* <Route element={<AdminLayout />}>
+                    {routeAdmin.map((route, index) => {
+                        const Page = route.component;
+                        return <Route key={index} path={route.path} element={
+                              <ProtectedRoute
+                                component={Page}
+                                roles={route.roles}
+                            />
+                        } />;
+                    })}
+                </Route> */}
+
+                <Route path="/403" element={<h1>Access Denied</h1>} />
             </Routes>
         </div>
     );
