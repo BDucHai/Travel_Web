@@ -11,6 +11,8 @@ import UserManagePage from "../Pages/Admin/UserManagePage";
 import SearchTour from "../Pages/SearchTour";
 import TourDetail from "../Pages/TourDetail";
 import ReviewPage from "../Pages/ReviewPage";
+import TourManage from "../Pages/Admin/TourManage";
+import CreateTour from "../Pages/Admin/CreateTour";
 
 const publicRoutes = [{ path: "/", component: Home }];
 
@@ -30,6 +32,9 @@ const routeAdmin = [
     { path: "/admin/blog", component: BlogManage, roles: ["user", "admin"] },
     { path: "/admin/contact", component: Contact, roles: ["user", "admin"] },
     { path: "/admin/manageUser", component: UserManagePage, roles: ["admin"] },
+    { path: "/admin/tourManage", component: TourManage, roles: ["user", "admin"] },
+    { path: "/admin/modifyTour", component: CreateTour, roles: ["user", "admin"] },
+    { path: "/admin/modifyTour/:id", component: CreateTour, roles: ["user", "admin"] },
 ];
 
 const routeLogin = [{ path: "/admin/login", component: Login }];
