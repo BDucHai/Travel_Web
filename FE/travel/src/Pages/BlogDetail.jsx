@@ -9,7 +9,7 @@ import ContactModal from "../Components/ContactModal";
 import { CgMail } from "react-icons/cg";
 import { useAuth } from "../contexts/AuthContext";
 import useSWR from "swr";
-import { countBlog } from "../api/Blog";
+import { countBlog, getBlogById } from "../api/Blog";
 import { getTours } from "../api/Tour";
 
 const BlogDetail = () => {
@@ -19,7 +19,7 @@ const BlogDetail = () => {
     const { lang } = useAuth();
     const [openContactModal, setOpenContactModal] = useState(false);
 
-    // const { data: blog, mutate } = useSWR(id ? { id } : null, getBlogById);
+    const { data: blogs, mutate } = useSWR(id ? { id } : null, getBlogById);
 
     const blog = {
         title: "10 Days In Vietnam",

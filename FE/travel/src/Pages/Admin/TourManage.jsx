@@ -1,52 +1,28 @@
 import React, { useState } from "react";
-import { DataGrid } from "@mui/x-data-grid";
-import { motion } from "framer-motion";
-import { deleteBlog, getBlog } from "../../api/Blog";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import useSWR from "swr";
+import { deleteTours, getTours } from "../../api/Tour";
+import { DataGrid } from "@mui/x-data-grid";
+import { motion } from "framer-motion";
 
-const BlogManage = () => {
+const TourManage = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [params, setParams] = useState({
-        search: "",
-        dateFilter: "",
+        name: "",
         page: 1,
         limit: 20,
     });
 
-    const { data, mutate, isLoading } = useSWR(["/blogs", params], ([url, params]) => getBlog([url, params]), {
-        keepPreviousData: true,
-    });
+    const { data: tours, isLoading, mutate } = useSWR(["/tours", params], ([_, params]) => getTours(params));
 
-    // const { data, mutate } = useSWR(["/blogs/search", filters], ([_, body]) => searchBlog(body));
+    const toursFake = [];
 
-    const blogFake = [
-        {
-            id: 1,
-            title: "How to build React Admin Panel",
-            date: "2026-06-01",
-            author: "Admin",
-            views: 1200,
-        },
-        {
-            id: 2,
-            title: "Tailwind + MUI best practice",
-            date: "2026-06-05",
-            author: "John",
-            views: 980,
-        },
-        {
-            id: 3,
-            title: "Framer Motion UI tricks",
-            date: "2026-06-06",
-            author: "Jane",
-            views: 1450,
-        },
-    ];
-    const blog = data?.data || blogFake;
+    const dataTour = tours?.data || toursFake;
 
-    const handleDeleteBlog = async (id) => {
-        await deleteBlog(id);
+    const handleDeleteTour = async (id) => {
+        await deleteTours(id);
         mutate();
     };
 
@@ -55,10 +31,8 @@ const BlogManage = () => {
             ...prev,
             page: 1,
         }));
-
         mutate();
     };
-
     const columns = [
         {
             field: "title",
@@ -112,7 +86,7 @@ const BlogManage = () => {
                         </button>
 
                         <button
-                            onClick={() => handleDeleteBlog(params.row?.id)}
+                            onClick={() => handleDeleteTour(params.row?.id)}
                             className="
                         px-3 py-1
                         rounded-md
@@ -161,7 +135,7 @@ const BlogManage = () => {
                         cursor-pointer  
                     "
                     onClick={() => navigate("/admin/create/blog")}>
-                    + Add Blog
+                    + Add Tour
                 </motion.button>
             </div>
 
@@ -169,23 +143,12 @@ const BlogManage = () => {
             <div className="flex flex-wrap gap-3 mb-6">
                 <input
                     type="text"
-                    placeholder="Search by title..."
+                    placeholder="Search by name..."
                     value={params.search}
                     onChange={(e) =>
                         setParams((prev) => ({
                             ...prev,
-                            search: e.target.value,
-                        }))
-                    }
-                />
-
-                <input
-                    type="date"
-                    value={params.dateFilter}
-                    onChange={(e) =>
-                        setParams((prev) => ({
-                            ...prev,
-                            dateFilter: e.target.value,
+                            name: e.target.value,
                         }))
                     }
                 />
@@ -206,11 +169,11 @@ const BlogManage = () => {
                     p-3
                 ">
                 <DataGrid
-                    rows={blog}
+                    rows={dataTour}
                     columns={columns}
                     paginationMode="server"
                     loading={isLoading}
-                    rowCount={data?.pagination?.total || 0}
+                    rowCount={tours?.pagination?.total || 0}
                     pageSizeOptions={[20, 50, 100]}
                     paginationModel={{
                         page: params?.page - 1,
@@ -289,4 +252,4 @@ const BlogManage = () => {
     );
 };
 
-export default BlogManage;
+export default TourManage;
