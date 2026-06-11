@@ -16,11 +16,12 @@ import { FaPhoneVolume } from "react-icons/fa6";
 import { FaHouseChimneyUser } from "react-icons/fa6";
 import { MdLogout } from "react-icons/md";
 import { clearSession } from "../../utils/session";
-import { useAuth } from "../../contexts/AuthContext"
+import { useAuth } from "../../contexts/AuthContext";
+import { ImLocation } from "react-icons/im";
 
 const SideBar = ({ openSideBar, setOpenSideBar }) => {
     const { t } = useTranslation();
-    const {user} = useAuth(); 
+    const { user } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -77,6 +78,13 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
         },
         {
             id: 9,
+            title: "Destination",
+            icon: <ImLocation />,
+            direct: "/admin/destinations",
+        },
+
+        {
+            id: 10,
             title: t("admin.logout"),
             icon: <MdLogout />,
             direct: "/admin/login",
@@ -138,9 +146,8 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
                                     my-[0.5rem]
                                     cursor-pointer
                                 "
-                                onClick={() => navigate(`/admin/profile/${user?.id}`)}
-                                >
-                                    <Avatar alt="Remy Sharp" src={user?.avatar_url || ""} />
+                                onClick={() => navigate(`/admin/profile/${user?.id}`)}>
+                                <Avatar alt="Remy Sharp" src={user?.avatar_url || ""} />
                             </motion.h1>
                         )}
                     </AnimatePresence>
@@ -174,16 +181,18 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
                 <div className="flex-1 flex flex-col gap-2 p-4">
                     {listMenu?.map((item) => {
                         const active = location.pathname === item.direct;
-                        if(item?.id === 9){
-                            return ( <motion.div
-                                whileHover={{ x: 5 }}
-                                whileTap={{ scale: 0.98 }}
-                                key={item.id}
-                                onClick={() => {
-                                    clearSession();
-                                    navigate(item.direct);
-                                }}
-                                className={`
+                        if (item?.id === 10) {
+                            return (
+                                <motion.div
+                                    whileHover={{ x: 5 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    key={item.id}
+                                    onClick={() => {
+                                        clearSession();
+                                        localStorage.removeItem("token");
+                                        navigate(item?.direct);
+                                    }}
+                                    className={`
                                     group
                                     flex
                                     items-center
@@ -196,43 +205,44 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
                                     duration-50
                                     ${active ? "bg-[#1e293b] border border-[#334155]" : "hover:bg-[#1f2937]"}
                                 `}>
-                                {/* Icon */}
-                                <div
-                                    className={`
+                                    {/* Icon */}
+                                    <div
+                                        className={`
                                         text-[1.2rem]
                                         shrink-0
                                         ${active ? "text-[#60a5fa]" : "text-white"}
                                     `}>
-                                    {item?.icon}
-                                </div>
+                                        {item?.icon}
+                                    </div>
 
-                                {/* Text */}
-                                <AnimatePresence>
-                                    {openSideBar && (
-                                        <motion.p
-                                            initial={{
-                                                opacity: 0,
-                                                x: -10,
-                                            }}
-                                            animate={{
-                                                opacity: 1,
-                                                x: 0,
-                                            }}
-                                            exit={{
-                                                opacity: 0,
-                                                x: -10,
-                                            }}
-                                            className={`
+                                    {/* Text */}
+                                    <AnimatePresence>
+                                        {openSideBar && (
+                                            <motion.p
+                                                initial={{
+                                                    opacity: 0,
+                                                    x: -10,
+                                                }}
+                                                animate={{
+                                                    opacity: 1,
+                                                    x: 0,
+                                                }}
+                                                exit={{
+                                                    opacity: 0,
+                                                    x: -10,
+                                                }}
+                                                className={`
                                                 text-[0.95rem]
                                                 font-medium
                                                 whitespace-nowrap
                                                 ${active ? "text-[#60a5fa]" : "text-white"}
                                             `}>
-                                            {item?.title}
-                                        </motion.p>
-                                    )}
-                                </AnimatePresence>
-                            </motion.div>)
+                                                {item?.title}
+                                            </motion.p>
+                                        )}
+                                    </AnimatePresence>
+                                </motion.div>
+                            );
                         }
                         return (
                             <motion.div

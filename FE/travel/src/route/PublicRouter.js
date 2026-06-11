@@ -14,6 +14,8 @@ import ReviewPage from "../Pages/ReviewPage";
 import TourManage from "../Pages/Admin/TourManage";
 import CreateTour from "../Pages/Admin/CreateTour";
 import ProfilePage from "../Pages/Admin/ProfilePage";
+import DestinationList from "../Pages/Admin/DestinationList";
+import CreateDestination from "../Pages/Admin/CreateDestination";
 
 const publicRoutes = [{ path: "/", component: Home }];
 
@@ -37,7 +39,12 @@ const routeAdmin = [
     { path: "/admin/create/tour", component: CreateTour, roles: ["user", "admin"] },
     { path: "/admin/create/tour/:id", component: CreateTour, roles: ["user", "admin"] },
     { path: "/admin/profile/:id", component: ProfilePage, roles: ["user", "admin"] },
+    { path: "/admin/destinations", component: DestinationList, roles: ["user", "admin"] },
+    { path: "/admin/destinations/create/:id?", component: CreateDestination, roles: ["user", "admin"] },
 ];
 
-const routeLogin = [{ path: "/admin/login", component: Login }];
+const routeLogin = [
+    { path: "/admin/login", component: Login },
+    { path: "/admin", component: Login },
+];
 export { publicRoutes, routesNavSticky, routeAdmin, routeLogin };

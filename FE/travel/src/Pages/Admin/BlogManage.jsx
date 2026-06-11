@@ -43,7 +43,7 @@ const BlogManage = () => {
             views: 1450,
         },
     ];
-    const blog = data?.data || blogFake;
+    const blog = data || blogFake;
 
     const handleDeleteBlog = async (id) => {
         await deleteBlog(id);

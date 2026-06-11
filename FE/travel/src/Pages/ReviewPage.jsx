@@ -73,7 +73,7 @@ export default function ReviewPage() {
         [],
     );
 
-    const reviews = data?.data || reviewFake;
+    const reviews = data || reviewFake;
 
     const handleChange = (e) => {
         setForm({
@@ -108,21 +108,22 @@ export default function ReviewPage() {
 
     const handleSubmit = async () => {
         try {
-            await createReview(form);
+            const res = await createReview(form);
+            if (res?.status === 200) {
+                setForm({
+                    name: "",
+                    email: "",
+                    country: "",
+                    rating: 5,
+                    content: "",
+                    avatar_url: "",
+                    list_image: [],
+                });
 
-            setForm({
-                name: "",
-                email: "",
-                country: "",
-                rating: 5,
-                content: "",
-                avatar_url: "",
-                list_image: [],
-            });
+                setOpenModal(false);
 
-            setOpenModal(false);
-
-            mutate();
+                mutate();
+            }
         } catch (error) {
             console.log(error);
         }

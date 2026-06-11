@@ -5,16 +5,17 @@ import i18n from "../../i18n";
 
 export const createReview = async (data) => {
     try {
-        await axiosClient.post("/reviews", data);
+        const res = await axiosClient.post("/reviews", data);
 
         toast.success(i18n.t("notify.create_success"));
-        // mutate("/reviews");
+        return res?.data;
     } catch (error) {
         toast.error(i18n.t("notify.create_fail"));
+        throw error;
     }
 };
 
-export const getReviews = async (url, params) => axiosClient.get(url, { params }).then((res) => res.data);
+export const getReviews = async (url, params) => axiosClient.get(url, { params }).then((res) => res?.data);
 
 export const deleteReview = async (id) => {
     try {
@@ -48,7 +49,7 @@ export const updateReview = async ({ id, data }) => {
         toast.error(i18n.t("notify.update_fail"));
     }
 };
- 
+
 export const updateStatusReviews = async (id, status) => {
     try {
         const res = await axiosClient.post(`/reviews/${id}`, { status });

@@ -4,11 +4,13 @@ import i18n from "../../i18n";
 
 export const createBlog = async (data) => {
     try {
-        await axiosClient.post("/blogs", data);
+        const res = await axiosClient.post("/blogs", data);
 
         toast.success(i18n.t("notify.create_success"));
+        return res?.data
     } catch (error) {
         toast.error(i18n.t("notify.create_fail"));
+        throw error;
     }
 };
 

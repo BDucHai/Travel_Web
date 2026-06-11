@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Dialog, DialogTitle, DialogContent, Avatar, TextField, Box, IconButton } from "@mui/material";
 
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import {createContacts} from "../api/Contact"
+import { createContacts } from "../api/Contact";
 
 const ContactModal = ({ t, open, onClose, content = "" }) => {
     const [contactPlan, setContactPlan] = useState({
@@ -12,9 +12,11 @@ const ContactModal = ({ t, open, onClose, content = "" }) => {
         content: content,
     });
 
-    const handleCreateRequest = async() => {
-        await createContacts(contactPlan);
-        onClose();
+    const handleCreateRequest = async () => {
+        const res = await createContacts(contactPlan);
+        if (res?.status === 200) {
+            onClose();
+        }
     };
 
     return (
@@ -94,7 +96,7 @@ const ContactModal = ({ t, open, onClose, content = "" }) => {
                 <p className="mb-2 mt-4 text-sm text-gray-500 text-center">
                     Our information & quotes are free. Don’t hesitate to ask us!
                 </p>
-            </DialogContent>    
+            </DialogContent>
         </Dialog>
     );
 };

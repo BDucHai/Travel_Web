@@ -45,7 +45,7 @@ const CreateBlog = () => {
 
     const handleSubmit = async () => {
         if (id) {
-            await updateBlog({
+            const res = await updateBlog({
                 id,
                 data: {
                     titleEn: blog?.title_en || "",
@@ -66,11 +66,15 @@ const CreateBlog = () => {
                     viewCount: blog?.view_count || 0,
                 },
             });
+            if (res?.status === 200) {
+                navigate("/admin/blog");
+            }
         } else {
-            await createBlog(blog);
+            const res = await createBlog(blog);
+            if (res?.status === 200) {
+                navigate("/admin/blog");
+            }
         }
-
-        navigate("/admin/blog");
     };
 
     return (

@@ -10,7 +10,7 @@ const TourDetail = () => {
     const { id } = useParams();
     const { t } = useTranslation();
 
-    const {data: tourDetail, mutate} = useSWR(id? ["tours", {id}]: null, ([_, params]) => getToursById(params));
+    const {data: tourDetail} = useSWR(id? ["tours", {id}]: null, ([_, params]) => getToursById(params));
 
     const tourFake = {
         title: "okla",

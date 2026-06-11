@@ -4,11 +4,15 @@ import i18n from "../../i18n";
 
 export const createTours = async (data) => {
     try {
-        await axiosClient.post("/tours", data);
+        const res = await axiosClient.post("/tours", data);
 
         toast.success(i18n.t("notify.create_success"));
+
+        return res?.data;
     } catch (error) {
         toast.error(i18n.t("notify.create_fail"));
+
+        throw error;
     }
 };
 
@@ -51,11 +55,11 @@ export const updateTours = async ({ id, data }) => {
     }
 };
 
-export const updateStatusTour = async ({id, status}) =>{
-    try{
-        await axiosClient.post(`/tours/status/${id}`, {id, status});
+export const updateStatusTour = async ({ id, status }) => {
+    try {
+        await axiosClient.post(`/tours/status/${id}`, { id, status });
         toast.success(i18n.t("notify.update_success"));
     } catch (err) {
         toast.error(i18n.t("notify.update_fail"));
     }
-}
+};

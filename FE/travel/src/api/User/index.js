@@ -2,7 +2,7 @@ import axiosClient from "../axios";
 import { toast } from "react-toastify";
 import i18n from "../../i18n";
 
-export const Login = async({email, password}) =>{
+export const LoginUser = async({email, password}) =>{
     const response = await axiosClient.post("/login", {email, password});
     return response?.data;
 }

@@ -25,6 +25,13 @@ axiosClient.interceptors.response.use(
     (error) => {
         return Promise.reject(error);
     },
+    (config) => {
+        if (config.data instanceof FormData) {
+            delete config.headers["Content-Type"];
+        }
+
+        return config;
+    },
 );
 
 export default axiosClient;
