@@ -22,7 +22,7 @@ export const deleteBlog = async (id) => {
     }
 };
 
-export const getBlog = async ([url, params]) => axiosClient.get(url, { params }).then((res) => res.data);
+export const getBlog = async (url, params) => axiosClient.get(url, { params }).then((res) => res.data);
 
 export const countBlog = async ({ id }) => axiosClient.get(`/blogs/count/${id}`);
 

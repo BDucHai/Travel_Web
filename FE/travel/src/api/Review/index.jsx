@@ -14,7 +14,7 @@ export const createReview = async (data) => {
     }
 };
 
-export const getReviews = async ([url, params]) => axiosClient.get(url, { params }).then((res) => res.data);
+export const getReviews = async (url, params) => axiosClient.get(url, { params }).then((res) => res.data);
 
 export const deleteReview = async (id) => {
     try {

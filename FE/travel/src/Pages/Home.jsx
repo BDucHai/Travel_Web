@@ -10,6 +10,9 @@ import { RiArrowLeftFill } from "react-icons/ri";
 import { RiArrowRightFill } from "react-icons/ri";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useNavigate } from "react-router-dom";
+import useSWR from "swr";
+import { getComment } from "../api/Comment";
+import { getTours } from "../api/Tour";
 
 const Home = () => {
     const { t } = useTranslation();
@@ -20,7 +23,8 @@ const Home = () => {
 
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    const [tour, setTour] = useState([
+    const {data: tours} = useSWR(["/tours", {page: 1, limit: 4}], ([_, params]) => getTours(params));
+    const tourFake = [
         {
             id: 1,
             img: imgCardSample.cardSample,
@@ -57,7 +61,8 @@ const Home = () => {
             slug: "Best Seller",
             published_at: "May 20, 2026",
         },
-    ]);
+    ];
+    const tour = tours?.data || tourFake;
 
     const styleTourShow = [
         {
@@ -127,6 +132,7 @@ const Home = () => {
         },
     ];
 
+    const {data: commentData} = useSWR(["/testimonials", {page:1, limit: 9}], ([url, params]) => getComment(url, params))
     const commentTest = [
         {
             id: 1,
@@ -220,16 +226,19 @@ const Home = () => {
         },
     ];
 
+    const comments = commentData?.data || commentTest
+
+
     const isLargeScreen = useMediaQuery("(min-width:1024px)");
 
     const chunkSize = isLargeScreen ? 3 : 2;
 
     const slides = [];
-    for (let i = 0; i < commentTest.length; i += chunkSize) {
-        slides.push(commentTest.slice(i, i + chunkSize));
+    for (let i = 0; i < comments.length; i += chunkSize) {
+        slides.push(comments.slice(i, i + chunkSize));
     }
 
-    const totalSlides = Math.ceil(commentTest.length / chunkSize);
+    const totalSlides = Math.ceil(comments.length / chunkSize);
 
     useEffect(() => {}, []);
     return (

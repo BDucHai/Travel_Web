@@ -14,7 +14,7 @@ const BlogManage = () => {
         limit: 20,
     });
 
-    const { data, mutate, isLoading } = useSWR(["/blogs", params], ([url, params]) => getBlog([url, params]), {
+    const { data, mutate, isLoading } = useSWR(["/blogs", params], ([url, params]) => getBlog(url, params), {
         keepPreviousData: true,
     });
 

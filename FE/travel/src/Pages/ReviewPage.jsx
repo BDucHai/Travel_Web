@@ -12,7 +12,7 @@ export default function ReviewPage() {
 
     const [page, setPage] = useState(1);
 
-    const { data, mutate } = useSWR(["/reviews", { page, limit: 20 }], ([url, params]) => getReviews([url, params]));
+    const { data, mutate } = useSWR(["/reviews", { page, limit: 20 }], ([url, params]) => getReviews(url, params));
 
     const [openModal, setOpenModal] = useState(false);
 
