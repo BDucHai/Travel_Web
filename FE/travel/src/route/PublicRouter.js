@@ -13,6 +13,7 @@ import TourDetail from "../Pages/TourDetail";
 import ReviewPage from "../Pages/ReviewPage";
 import TourManage from "../Pages/Admin/TourManage";
 import CreateTour from "../Pages/Admin/CreateTour";
+import ProfilePage from "../Pages/Admin/ProfilePage";
 
 const publicRoutes = [{ path: "/", component: Home }];
 
@@ -35,6 +36,7 @@ const routeAdmin = [
     { path: "/admin/tour", component: TourManage, roles: ["user", "admin"] },
     { path: "/admin/create/tour", component: CreateTour, roles: ["user", "admin"] },
     { path: "/admin/create/tour/:id", component: CreateTour, roles: ["user", "admin"] },
+    { path: "/admin/profile/:id", component: ProfilePage, roles: ["user", "admin"] },
 ];
 
 const routeLogin = [{ path: "/admin/login", component: Login }];

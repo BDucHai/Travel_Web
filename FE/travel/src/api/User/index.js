@@ -8,11 +8,17 @@ export const Login = async({email, password}) =>{
 }
 
 export const getUserByEmail = async (email) => {
-    const response = await axiosClient.get("/tours", {
+    const response = await axiosClient.get("/users", {
         email,
     });
     return response?.data;
 };
+
+export const getUserById = async ({id}) => {
+    const response = await axiosClient.get(`/users/${id}`);
+    return response?.data;
+};
+
 
 export const createUser = async (data) =>{
     try{
@@ -50,3 +56,23 @@ export const lockUnlockUser = async ({id, status}) =>{
         toast.error(i18n.t("notify.update_fail"));
     }
 } 
+
+export const updateUser = async (data) =>{
+     try {
+        await axiosClient.post("/users/update", data);
+
+        toast.success(i18n.t("notify.create_success"));
+    } catch (error) {
+        toast.error(i18n.t("notify.create_fail"));
+    }
+}
+
+export const userChangeAvatar = async (data) =>{
+     try {
+        await axiosClient.post("/users/update/avatars", data);
+
+        toast.success(i18n.t("notify.create_success"));
+    } catch (error) {
+        toast.error(i18n.t("notify.create_fail"));
+    }
+}

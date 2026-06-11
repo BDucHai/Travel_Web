@@ -19,9 +19,12 @@ const BlogDetail = () => {
     const { lang } = useAuth();
     const [openContactModal, setOpenContactModal] = useState(false);
 
-    const { data: blogs, mutate } = useSWR(id ? { id } : null, getBlogById);
+    const { data: blogDetail } = useSWR(
+        id ? ["/blogs/detail", { id }] : null,
+        ([_, params]) => getBlogById(params)
+        );
 
-    const blog = {
+    const blogFake = {
         title: "10 Days In Vietnam",
         hero_image_url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
 
@@ -60,7 +63,7 @@ const BlogDetail = () => {
             </p>
         `,
     };
-
+    const blog = blogDetail?.data || blogFake;
     const { data: tours } = useSWR(["/tours", { page: 1, limit: 3, slugs: blog?.slug }], ([_, params]) =>
         getTours(params),
     );

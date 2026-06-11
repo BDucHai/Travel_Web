@@ -1,5 +1,5 @@
 import React from "react";
-import { Drawer, useMediaQuery } from "@mui/material";
+import { Avatar, Drawer, useMediaQuery } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
@@ -16,9 +16,11 @@ import { FaPhoneVolume } from "react-icons/fa6";
 import { FaHouseChimneyUser } from "react-icons/fa6";
 import { MdLogout } from "react-icons/md";
 import { clearSession } from "../../utils/session";
+import { useAuth } from "../../contexts/AuthContext"
 
 const SideBar = ({ openSideBar, setOpenSideBar }) => {
     const { t } = useTranslation();
+    const {user} = useAuth(); 
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -132,11 +134,13 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
                                 }}
                                 transition={{ duration: 0.2 }}
                                 className="
-                                    text-[1.3rem]
-                                    font-semibold
                                     whitespace-nowrap
-                                ">
-                                {t("admin.menu")}
+                                    my-[0.5rem]
+                                    cursor-pointer
+                                "
+                                onClick={() => navigate(`/admin/profile/${user?.id}`)}
+                                >
+                                    <Avatar alt="Remy Sharp" src={user?.avatar_url || ""} />
                             </motion.h1>
                         )}
                     </AnimatePresence>

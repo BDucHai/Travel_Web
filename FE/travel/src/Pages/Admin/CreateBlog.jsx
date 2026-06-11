@@ -10,7 +10,7 @@ const CreateBlog = () => {
 
     const navigate = useNavigate();
 
-    const { data } = useSWR(id ? ["/blogs/detail", { id }] : null, ([_, params]) => getBlogById(params));
+    const { data } = useSWR(id ? ["/blogs/detail", { id }] : null, ([_, id]) => getBlogById(id));
 
     const [blog, setBlog] = useState({
         titleEn: data?.title_en || "",

@@ -158,7 +158,9 @@
           "avatar_img": "Avatar Image",
           "upload_avatar": "Upload Avatar",
           "upload_multi_img": "Upload Multiple Image",
-          "travel_img": "Travel Image"
+          "travel_img": "Travel Image",
+          "overview": "Overview",
+          "highlight": "Highlights"
           
 
 }

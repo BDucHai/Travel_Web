@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import ContactModal from "../Components/ContactModal";
 import { getToursById } from "../api/Tour";
-import { duration } from "@mui/material";
+import useSWR from "swr";
 
 const TourDetail = () => {
     const { id } = useParams();
     const { t } = useTranslation();
 
-    const [tour, setTour] = useState({
+    const {data: tourDetail, mutate} = useSWR(id? ["tours", {id}]: null, ([_, params]) => getToursById(params));
+
+    const tourFake = {
         title: "okla",
         slug: "VietnamTour",
         shortDescription: "abc",
@@ -19,18 +21,19 @@ const TourDetail = () => {
         priceFrom: "200USD",
         featuredImageUrl: "",
         isFeature: "",
-    });
-
-    const [contactModal, setContactModal] = useState(false);
-
-    const handleGetTour = async () => {
-        const res = await getToursById(id);
-        setTour(res);
+        highlight: [
+                                "Hanoi Old Quarter walking tour",
+                                "Ha Long Bay overnight cruise",
+                                "Hue Imperial City exploration",
+                                "Hoi An lantern town experience",
+                                "Cu Chi tunnels discovery",
+                                "Mekong Delta boat trip",
+                            ]
     };
 
-    useEffect(() => {
-        //    handleGetTour();
-    }, []);
+        const tour = tourDetail?.data || tourFake;
+    const [contactModal, setContactModal] = useState(false);
+
     return (
         <div className="min-h-screen bg-[#fcf5ef] text-gray-800">
             {/* HERO */}
@@ -61,23 +64,16 @@ const TourDetail = () => {
                 <div className="lg:col-span-8 space-y-16">
                     {/* OVERVIEW */}
                     <section>
-                        <h2 className="text-2xl font-bold mb-4">Overview</h2>
+                        <h2 className="text-2xl font-bold mb-4">{t("overview")}</h2>
                         <p className="text-gray-600 leading-relaxed">{tour?.overview}</p>
                     </section>
 
                     {/* HIGHLIGHTS */}
                     <section>
-                        <h2 className="text-2xl font-bold mb-4">Highlights</h2>
+                        <h2 className="text-2xl font-bold mb-4">{t("highlight")}</h2>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {[
-                                "Hanoi Old Quarter walking tour",
-                                "Ha Long Bay overnight cruise",
-                                "Hue Imperial City exploration",
-                                "Hoi An lantern town experience",
-                                "Cu Chi tunnels discovery",
-                                "Mekong Delta boat trip",
-                            ].map((item, i) => (
+                            {tour?.highlight?.map((item, i) => (
                                 <motion.div
                                     key={i}
                                     whileHover={{ scale: 1.02 }}
@@ -119,7 +115,7 @@ const TourDetail = () => {
                                     desc: "Explore lantern streets, Japanese bridge and riverside cafés.",
                                     img: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
                                 },
-                            ].map((item, i) => (
+                            ]?.map((item, i) => (
                                 <motion.div
                                     key={i}
                                     initial={{ opacity: 0, x: -20 }}

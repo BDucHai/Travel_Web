@@ -5,7 +5,7 @@ import { getToursById } from '../../api/Tour';
 
 const CreateTour = () => {
   const {id} = useParams();
-  const {data, mutate} = useSWR(id? ["", {id}]: null, ([_, params]) => getToursById(params));
+  const {data, mutate} = useSWR(id? ["/tours", id]: null, ([_, id]) => getToursById(id));
 
   const [tour, setTour] = useState({
     code: data?.code

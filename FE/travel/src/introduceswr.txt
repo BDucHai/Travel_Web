@@ -17,3 +17,8 @@ const data = {
 
 //get 1 
 const { data, mutate } = useSWR(id ? ["/blogs/detail", { id }] : null, ([_, params]) => getBlogById(params));
+
+export const getBlogById = async ({ id }) => {
+  const res = await axiosClient.get(`/blogs/detail/${id}`);
+  return res.data;
+};
