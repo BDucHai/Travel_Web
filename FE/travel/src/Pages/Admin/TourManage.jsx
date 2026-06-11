@@ -5,21 +5,79 @@ import useSWR from "swr";
 import { deleteTours, getTours } from "../../api/Tour";
 import { DataGrid } from "@mui/x-data-grid";
 import { motion } from "framer-motion";
+import Tooltip from "@mui/material/Tooltip";
+import { CiUnlock, CiLock } from "react-icons/ci";
 
 const TourManage = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const [params, setParams] = useState({
-        name: "",
+    const [query, setQuery] = useState({
+        title: "",
         page: 1,
         limit: 20,
     });
 
-    const { data: tours, isLoading, mutate } = useSWR(["/tours", params], ([_, params]) => getTours(params));
+    const { data: tours, isLoading, mutate } = useSWR(["/tours", query], ([_, params]) => getTours(params));
 
-    const toursFake = [];
+    const toursFake = [
+  {
+    id: 1,
+    code: "TOUR001",
+    title_en: "Discover Paris",
+    title_fr: "Découvrir Paris",
+    duration_days: 5,
+    tour_styles: [
+      { name: "City" },
+      { name: "Culture" },
+    ],
+    isActive: true,
+    created_by: "Admin",
+    created_at: "2026-06-01",
+  },
+  {
+    id: 2,
+    code: "TOUR002",
+    title_en: "Safari Adventure",
+    title_fr: "Aventure Safari",
+    duration_days: 7,
+    tour_styles: [
+      { name: "Wildlife" },
+      { name: "Adventure" },
+    ],
+    isActive: false,
+    created_by: "Editor",
+    created_at: "2026-06-05",
+  },
+  {
+    id: 3,
+    code: "TOUR003",
+    title_en: "Beach Relaxation",
+    title_fr: "Détente à la plage",
+    duration_days: 3,
+    tour_styles: [
+      { name: "Beach" },
+      { name: "Luxury" },
+    ],
+    isActive: true,
+    created_by: "Admin",
+    created_at: "2026-06-07",
+  },
+  {
+    id: 4,
+    code: "TOUR004",
+    title_en: "Mountain Hiking",
+    title_fr: "Randonnée en montagne",
+    duration_days: 4,
+    tour_styles: [
+      { name: "Nature" },
+      { name: "Adventure" },
+    ],
+    isActive: true,
+    created_by: "Moderator",
+    created_at: "2026-06-09",
+  },
+];
 
-    const dataTour = tours?.data || toursFake;
 
     const handleDeleteTour = async (id) => {
         await deleteTours(id);
@@ -34,33 +92,65 @@ const TourManage = () => {
         mutate();
     };
     const columns = [
-        {
-            field: "title",
-            headerName: "Title",
-            flex: 2,
-            minWidth: 250,
-            renderCell: (params) => <div className="text-white font-medium">{params?.value}</div>,
+          {
+            field: "code",
+            headerName: "Code Tour",
+            flex: 1,
+            minWidth: 120,
+            renderCell: (params) => <div className="text-white overflow-hidden text-ellipsis">{params?.value}</div>,
         },
         {
-            field: "author",
+            field: "title_en",
+            headerName: "Title",
+            flex: 1.5,
+            minWidth: 200,
+            renderCell: (params) => <Tooltip title={params?.value}><div className="text-white overflow-hidden text-ellipsis">{params?.value}</div> </Tooltip>,
+        },
+                {
+            field: "title_fr",
+            headerName: "Title",
+            flex: 1.5,
+            minWidth: 200,
+            renderCell: (params) => <Tooltip title={params?.value}><div className="text-white overflow-hidden text-ellipsis">{params?.value}</div> </Tooltip>,
+        },
+        {
+            field: "duration_days",
+            headerName: "Duration Days",
+            flex: 1,
+            minWidth: 120,
+            renderCell: (params) => <div className="text-white overflow-hidden text-ellipsis">{params?.value}</div>,
+        },
+          {
+            field: "tour_styles",
+            headerName: "Duration Days",
+            flex: 1,
+            minWidth: 120,
+            renderCell: (params) => {
+                const styles = params?.value || [];
+                const styleList = styles?.map((s) => s?.name).join(", ");
+                return <Tooltip title={params?.value}><div className="text-white overflow-hidden text-ellipsis">{params?.value}</div> </Tooltip>;
+            },
+        },
+        {
+            field: "isActive",
             headerName: "Author",
             flex: 1,
             minWidth: 120,
-            renderCell: (params) => <div className="text-gray-300">{params?.value}</div>,
+            renderCell: (params) => <div className="text-white">{params?.value}</div>,
         },
         {
-            field: "date",
+            field: "created_by",
             headerName: "Published Date",
             flex: 1,
             minWidth: 150,
-            renderCell: (params) => <div className="text-gray-300">{params?.value}</div>,
+            renderCell: (params) => <div className="text-white">{params?.value}</div>,
         },
         {
-            field: "views",
+            field: "created_at",
             headerName: "Views",
             flex: 1,
             minWidth: 100,
-            renderCell: (params) => <div className="text-blue-400 font-semibold">{params?.value}</div>,
+            renderCell: (params) => <div className="text-white">{params?.value}</div>,
         },
         {
             field: "actions",
@@ -71,6 +161,20 @@ const TourManage = () => {
             renderCell: (params) => {
                 return (
                     <div className="flex items-center justify-center w-full h-full gap-2">
+                         <button
+                            onClick={() => navigate(`/admin/update/blog/${params?.row?.id}`)}
+                            className="
+                        px-3 py-1
+                        rounded-md
+                        bg-blue-600
+                        hover:bg-blue-500
+                        text-white
+                        text-sm
+                        cursor-pointer
+                    ">
+                            {params?.row?.isActive? <CiLock />: <CiUnlock />}
+                        </button>
+
                         <button
                             onClick={() => navigate(`/admin/update/blog/${params?.row?.id}`)}
                             className="
@@ -169,7 +273,7 @@ const TourManage = () => {
                     p-3
                 ">
                 <DataGrid
-                    rows={dataTour}
+                    rows={tours?.data || toursFake}
                     columns={columns}
                     paginationMode="server"
                     loading={isLoading}
