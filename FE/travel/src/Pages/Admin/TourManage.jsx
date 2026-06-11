@@ -1,23 +1,23 @@
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import useSWR from "swr";
-import { deleteTours, getTours } from "../../api/Tour";
+import { deleteTours, getTours, updateStatusTour } from "../../api/Tour";
 import { DataGrid } from "@mui/x-data-grid";
 import { motion } from "framer-motion";
 import Tooltip from "@mui/material/Tooltip";
-import { CiUnlock, CiLock } from "react-icons/ci";
+import { CiUnlock, CiLock, CiEdit } from "react-icons/ci";
+import { MdDelete } from "react-icons/md";
+import { Checkbox } from "@mui/material";
 
 const TourManage = () => {
-    const { t } = useTranslation();
     const navigate = useNavigate();
-    const [query, setQuery] = useState({
+    const [param, setParam] = useState({
         title: "",
         page: 1,
         limit: 20,
     });
 
-    const { data: tours, isLoading, mutate } = useSWR(["/tours", query], ([_, params]) => getTours(params));
+    const { data: tours, isLoading, mutate } = useSWR(["/tours", param], ([_, params]) => getTours(params));
 
     const toursFake = [
   {
@@ -30,7 +30,7 @@ const TourManage = () => {
       { name: "City" },
       { name: "Culture" },
     ],
-    isActive: true,
+    isActive: 1,
     created_by: "Admin",
     created_at: "2026-06-01",
   },
@@ -44,7 +44,7 @@ const TourManage = () => {
       { name: "Wildlife" },
       { name: "Adventure" },
     ],
-    isActive: false,
+    isActive: 0,
     created_by: "Editor",
     created_at: "2026-06-05",
   },
@@ -58,7 +58,7 @@ const TourManage = () => {
       { name: "Beach" },
       { name: "Luxury" },
     ],
-    isActive: true,
+    isActive: 1,
     created_by: "Admin",
     created_at: "2026-06-07",
   },
@@ -72,7 +72,7 @@ const TourManage = () => {
       { name: "Nature" },
       { name: "Adventure" },
     ],
-    isActive: true,
+    isActive: 1,
     created_by: "Moderator",
     created_at: "2026-06-09",
   },
@@ -84,8 +84,13 @@ const TourManage = () => {
         mutate();
     };
 
+    const handleChangeActive = async ({id,status}) =>{
+        await updateStatusTour({ id, status });
+        mutate(); 
+    }
+
     const handleSearch = () => {
-        setParams((prev) => ({
+        setParam((prev) => ({
             ...prev,
             page: 1,
         }));
@@ -101,14 +106,14 @@ const TourManage = () => {
         },
         {
             field: "title_en",
-            headerName: "Title",
+            headerName: "Title En",
             flex: 1.5,
             minWidth: 200,
             renderCell: (params) => <Tooltip title={params?.value}><div className="text-white overflow-hidden text-ellipsis">{params?.value}</div> </Tooltip>,
         },
                 {
             field: "title_fr",
-            headerName: "Title",
+            headerName: "Title Fr",
             flex: 1.5,
             minWidth: 200,
             renderCell: (params) => <Tooltip title={params?.value}><div className="text-white overflow-hidden text-ellipsis">{params?.value}</div> </Tooltip>,
@@ -122,21 +127,21 @@ const TourManage = () => {
         },
           {
             field: "tour_styles",
-            headerName: "Duration Days",
+            headerName: "Style",
             flex: 1,
             minWidth: 120,
             renderCell: (params) => {
                 const styles = params?.value || [];
                 const styleList = styles?.map((s) => s?.name).join(", ");
-                return <Tooltip title={params?.value}><div className="text-white overflow-hidden text-ellipsis">{params?.value}</div> </Tooltip>;
+                return <Tooltip title={styleList}><div className="text-white overflow-hidden text-ellipsis">{styleList}</div> </Tooltip>;
             },
         },
         {
             field: "isActive",
-            headerName: "Author",
+            headerName: "isActive",
             flex: 1,
             minWidth: 120,
-            renderCell: (params) => <div className="text-white">{params?.value}</div>,
+            renderCell: (params) => <div className="flex items-center justify-center"><Checkbox checked={params?.value} disabled /></div>,
         },
         {
             field: "created_by",
@@ -161,8 +166,22 @@ const TourManage = () => {
             renderCell: (params) => {
                 return (
                     <div className="flex items-center justify-center w-full h-full gap-2">
-                         <button
-                            onClick={() => navigate(`/admin/update/blog/${params?.row?.id}`)}
+                         <div
+                            onClick={() => handleChangeActive({id: params?.row?.id, status: params?.row?.isActive? 0: 1})}
+                            className="
+                        px-3 py-1
+                         rounded-md
+                        bg-transparent
+                        hover:bg-blue-500
+                        text-white
+                        text-sm
+                        cursor-pointer
+                    ">
+                            {params?.row?.isActive? <CiLock className="w-[1rem] h-[1rem]"/>: <CiUnlock className="w-[1rem] h-[1rem]"/>}
+                        </div>
+
+                        <div
+                            onClick={() => navigate(`/admin/create/tour/${params?.row?.id}`)}
                             className="
                         px-3 py-1
                         rounded-md
@@ -172,24 +191,10 @@ const TourManage = () => {
                         text-sm
                         cursor-pointer
                     ">
-                            {params?.row?.isActive? <CiLock />: <CiUnlock />}
-                        </button>
+                            <CiEdit className="w-[1rem] h-[1rem]"/>
+                        </div>
 
-                        <button
-                            onClick={() => navigate(`/admin/update/blog/${params?.row?.id}`)}
-                            className="
-                        px-3 py-1
-                        rounded-md
-                        bg-blue-600
-                        hover:bg-blue-500
-                        text-white
-                        text-sm
-                        cursor-pointer
-                    ">
-                            Edit
-                        </button>
-
-                        <button
+                        <div
                             onClick={() => handleDeleteTour(params.row?.id)}
                             className="
                         px-3 py-1
@@ -200,8 +205,8 @@ const TourManage = () => {
                         text-sm
                         cursor-pointer
                     ">
-                            Delete
-                        </button>
+                            <MdDelete className="w-[1rem] h-[1rem]"/>
+                        </div>
                     </div>
                 );
             },
@@ -248,9 +253,9 @@ const TourManage = () => {
                 <input
                     type="text"
                     placeholder="Search by name..."
-                    value={params.search}
+                    value={param.search}
                     onChange={(e) =>
-                        setParams((prev) => ({
+                        setParam((prev) => ({
                             ...prev,
                             name: e.target.value,
                         }))
@@ -275,16 +280,17 @@ const TourManage = () => {
                 <DataGrid
                     rows={tours?.data || toursFake}
                     columns={columns}
+                    pinnedColumns={{ right: ["actions"] }}
                     paginationMode="server"
                     loading={isLoading}
                     rowCount={tours?.pagination?.total || 0}
                     pageSizeOptions={[20, 50, 100]}
                     paginationModel={{
-                        page: params?.page - 1,
-                        pageSize: params?.limit,
+                        page: param?.page - 1,
+                        pageSize: param?.limit,
                     }}
                     onPaginationModelChange={(model) => {
-                        setParams((prev) => ({
+                        setParam((prev) => ({
                             ...prev,
                             page: model.page + 1,
                             limit: model.pageSize,

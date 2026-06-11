@@ -32,9 +32,9 @@ const routeAdmin = [
     { path: "/admin/blog", component: BlogManage, roles: ["user", "admin"] },
     { path: "/admin/contact", component: Contact, roles: ["user", "admin"] },
     { path: "/admin/manageUser", component: UserManagePage, roles: ["admin"] },
-    { path: "/admin/tourManage", component: TourManage, roles: ["user", "admin"] },
-    { path: "/admin/modifyTour", component: CreateTour, roles: ["user", "admin"] },
-    { path: "/admin/modifyTour/:id", component: CreateTour, roles: ["user", "admin"] },
+    { path: "/admin/tour", component: TourManage, roles: ["user", "admin"] },
+    { path: "/admin/create/tour", component: CreateTour, roles: ["user", "admin"] },
+    { path: "/admin/create/tour/:id", component: CreateTour, roles: ["user", "admin"] },
 ];
 
 const routeLogin = [{ path: "/admin/login", component: Login }];

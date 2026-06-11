@@ -199,7 +199,7 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
                                         shrink-0
                                         ${active ? "text-[#60a5fa]" : "text-white"}
                                     `}>
-                                    {item.icon}
+                                    {item?.icon}
                                 </div>
 
                                 {/* Text */}
@@ -224,7 +224,7 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
                                                 whitespace-nowrap
                                                 ${active ? "text-[#60a5fa]" : "text-white"}
                                             `}>
-                                            {item.title}
+                                            {item?.title}
                                         </motion.p>
                                     )}
                                 </AnimatePresence>
@@ -234,7 +234,7 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
                             <motion.div
                                 whileHover={{ x: 5 }}
                                 whileTap={{ scale: 0.98 }}
-                                key={item.id}
+                                key={item?.id}
                                 onClick={() => navigate(item.direct)}
                                 className={`
                                     group
@@ -256,7 +256,7 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
                                         shrink-0
                                         ${active ? "text-[#60a5fa]" : "text-white"}
                                     `}>
-                                    {item.icon}
+                                    {item?.icon}
                                 </div>
 
                                 {/* Text */}
@@ -281,7 +281,7 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
                                                 whitespace-nowrap
                                                 ${active ? "text-[#60a5fa]" : "text-white"}
                                             `}>
-                                            {item.title}
+                                            {item?.title}
                                         </motion.p>
                                     )}
                                 </AnimatePresence>

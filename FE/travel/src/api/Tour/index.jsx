@@ -1,6 +1,5 @@
 import axiosClient from "../axios";
 import { toast } from "react-toastify";
-import { mutate } from "swr";
 import i18n from "../../i18n";
 
 export const createTours = async (data) => {
@@ -8,7 +7,6 @@ export const createTours = async (data) => {
         await axiosClient.post("/tours", data);
 
         toast.success(i18n.t("notify.create_success"));
-        mutate("/tours");
     } catch (error) {
         toast.error(i18n.t("notify.create_fail"));
     }
@@ -16,11 +14,9 @@ export const createTours = async (data) => {
 
 export const deleteTours = async (id) => {
     try {
-        // await axiosClient.delete(`/tours/${id}`);
+        await axiosClient.delete(`/tours/${id}`);
 
         toast.success(i18n.t("notify.delete_success"));
-
-        mutate("/tours");
     } catch (error) {
         toast.error(i18n.t("notify.delete_fail"));
     }
@@ -54,3 +50,12 @@ export const updateTours = async ({ id, data }) => {
         toast.error(i18n.t("notify.update_fail"));
     }
 };
+
+export const updateStatusTour = async ({id, status}) =>{
+    try{
+        await axiosClient.post(`/tours/status/${id}`, {id, status});
+        toast.success(i18n.t("notify.update_success"));
+    } catch (err) {
+        toast.error(i18n.t("notify.update_fail"));
+    }
+}

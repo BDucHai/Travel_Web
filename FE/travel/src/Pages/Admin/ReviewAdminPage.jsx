@@ -110,7 +110,7 @@ const ReviewAdminPage = () => {
 
                 <div className="flex justify-center mt-6">
                     <Pagination
-                        page={params.page}
+                        page={params?.page}
                         count={reviews?.pagination?.totalPages || 1}
                         onChange={(_, page) =>
                             setParams((prev) => ({
