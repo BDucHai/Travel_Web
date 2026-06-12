@@ -96,20 +96,33 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
             variant="permanent"
             anchor="left"
             open={openSideBar}
-            sx={{
+             sx={{
                 width: openSideBar ? (isMobile ? "80%" : 280) : 90,
-
                 flexShrink: 0,
-
                 "& .MuiDrawer-paper": {
-                    width: openSideBar ? (isMobile ? "80%" : 280) : 90,
+                width: openSideBar ? (isMobile ? "80%" : 280) : 90,
+                transition: "all 0.3s ease",
+                background: "#111827",
+                color: "white",
+                borderRight: "1px solid #1f2937",
+                overflowX: "hidden",
+                boxSizing: "border-box",
 
-                    transition: "all 0.3s ease",
-                    background: "#111827",
-                    color: "white",
-                    borderRight: "1px solid #1f2937",
-                    overflowX: "hidden",
-                    boxSizing: "border-box",
+                /* Scrollbar custom */
+                "&::-webkit-scrollbar": {
+                    width: "6px", // nhỏ gọn
+                    height: "6px",
+                },
+                "&::-webkit-scrollbar-track": {
+                    background: "#111827", // đồng màu nền
+                },
+                "&::-webkit-scrollbar-thumb": {
+                    backgroundColor: "#1f2937", // màu xám đậm
+                    borderRadius: "10px",
+                },
+                "&::-webkit-scrollbar-thumb:hover": {
+                    backgroundColor: "#374151", // hover sáng hơn chút
+                },
                 },
             }}>
             <div className="relative w-full h-full flex flex-col">

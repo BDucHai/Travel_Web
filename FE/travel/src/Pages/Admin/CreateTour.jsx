@@ -8,11 +8,15 @@ import { TextField, Button, Switch, FormControlLabel, Autocomplete } from "@mui/
 import { getDestinations } from "../../api/Destinations";
 import { getStyles } from "../../api/Style";
 import { getTourCollections } from "../../api/TourCollection";
+import { durationsDays } from "../../constant";
 
 const CreateTour = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { data, mutate } = useSWR(id ? ["/tours", id] : null, ([_, id]) => getToursById(id));
+    const { data: tourDetail } = useSWR(
+        id ? ["/tours", id] : null,
+        ([_, id]) => getToursById(id)
+    );
 
     const [styleSearch, setStyleSearch] = useState("");
     const [collectionSearch, setCollectionSearch] = useState("");
@@ -94,6 +98,8 @@ const CreateTour = () => {
             destination: null,
             dayOrder: 1,
             displayOrder: 1,
+            description_en: "",
+            description_fr: ""
         },
     ]);
 
@@ -218,32 +224,32 @@ const handleSubmit = async () => {
     };
 
     useEffect(() => {
-        if (!data) return;
+        if (!tourDetail) return;
 
         setTour((prev) => ({
             ...prev,
 
-            code: data?.code || "",
+            code: tourDetail?.code || "",
 
-            duration_days: data?.duration_days || "",
+            duration_days: tourDetail?.duration_days || "",
 
-            price_from: data?.price_from || "",
+            price_from: tourDetail?.price_from || "",
 
-            group_size: data?.group_size || "",
+            group_size: tourDetail?.group_size || "",
 
-            title_en: data?.title_en || "",
+            title_en: tourDetail?.title_en || "",
 
-            title_fr: data?.title_fr || "",
+            title_fr: tourDetail?.title_fr || "",
 
-            slug_en: data?.slug_en || "",
+            slug_en: tourDetail?.slug_en || "",
 
-            slug_fr: data?.slug_fr || "",
+            slug_fr: tourDetail?.slug_fr || "",
 
-            overview_en: data?.overview_en || "",
+            overview_en: tourDetail?.overview_en || "",
 
-            overview_fr: data?.overview_fr || "",
+            overview_fr: tourDetail?.overview_fr || "",
         }));
-    }, [data]);
+    }, [tourDetail]);
 
     return (
         <div className="min-h-screen bg-[#020617] text-white p-8">
@@ -265,15 +271,39 @@ const handleSubmit = async () => {
                     <h2 className="text-xl font-semibold mb-6">Basic Information</h2>
 
                     <div className="grid grid-cols-2 gap-5">
-                        <TextField label="Tour Code" value={tour?.code} onChange={handleChange("code")} fullWidth />
+                        <TextField label="Tour Code" value={tour?.code} onChange={handleChange("code")} fullWidth  sx={{
+    "& .MuiInputBase-root": {
+      backgroundColor: "white",   // nền trắng
+      color: "black",             // chữ đen
+    },
+    "& .MuiInputLabel-root": {
+      color: "#666",              // label xám nhạt
+    },
+  }}/>
 
-                        <TextField
-                            label="Duration (Days)"
-                            type="number"
+                        <Autocomplete
+                            disablePortal
+                            options={durationsDays}
                             value={tour?.duration_days}
-                            onChange={handleChange("duration_days")}
+                             sx={{
+    "& .MuiInputBase-root": {
+      backgroundColor: "white",  
+      color: "black",            
+    },
+    "& .MuiInputLabel-root": {
+      color: "#666",              
+    },
+  }}
+                            onChange={(_, value) =>
+                                setTour((prev) => ({
+                                    ...prev,
+                                    duration_days: value,
+                                }))
+                             }
+                             getOptionLabel={(option) => option.value}
                             fullWidth
-                        />
+                            renderInput={(params) => <TextField {...params} label="Days" />}
+                            />
 
                         <TextField
                             label="Price From"
@@ -281,6 +311,15 @@ const handleSubmit = async () => {
                             value={tour?.price_from}
                             onChange={handleChange("price_from")}
                             fullWidth
+                            sx={{
+    "& .MuiInputBase-root": {
+      backgroundColor: "white",  
+      color: "black",            
+    },
+    "& .MuiInputLabel-root": {
+      color: "#666",              
+    },
+  }}
                         />
 
                         {/* <TextField
@@ -295,6 +334,15 @@ const handleSubmit = async () => {
                             value={tour?.title_en}
                             onChange={handleChange("title_en")}
                             fullWidth
+                            sx={{
+    "& .MuiInputBase-root": {
+      backgroundColor: "white",  
+      color: "black",            
+    },
+    "& .MuiInputLabel-root": {
+      color: "#666",              
+    },
+  }}
                         />
 
                         <TextField
@@ -302,21 +350,55 @@ const handleSubmit = async () => {
                             value={tour?.title_fr}
                             onChange={handleChange("title_fr")}
                             fullWidth
+                            sx={{
+    "& .MuiInputBase-root": {
+      backgroundColor: "white",  
+      color: "black",            
+    },
+    "& .MuiInputLabel-root": {
+      color: "#666",              
+    },
+  }}
                         />
 
-                        <TextField label="Slug EN" value={tour?.slug_en} onChange={handleChange("slug_en")} fullWidth />
+                        <TextField label="Slug EN" value={tour?.slug_en} onChange={handleChange("slug_en")} fullWidth sx={{
+    "& .MuiInputBase-root": {
+      backgroundColor: "white",  
+      color: "black",            
+    },
+    "& .MuiInputLabel-root": {
+      color: "#666",              
+    },
+  }}/>
 
-                        <TextField label="Slug FR" value={tour?.slug_fr} onChange={handleChange("slug_fr")} fullWidth />
+                        <TextField label="Slug FR" value={tour?.slug_fr} onChange={handleChange("slug_fr")} fullWidth sx={{
+    "& .MuiInputBase-root": {
+      backgroundColor: "white",  
+      color: "black",            
+    },
+    "& .MuiInputLabel-root": {
+      color: "#666",              
+    },
+  }}/>
                     </div>
                 </div>
 
                 {/* Relatiónhip card */}
-                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 mt-[3rem]">
                     <h2 className="text-xl font-semibold mb-6">Relationships</h2>
 
                     <div className="space-y-5">
                         <Autocomplete
                             multiple
+                             sx={{
+    "& .MuiInputBase-root": {
+      backgroundColor: "white",   // nền trắng
+      color: "black",             // chữ đen
+    },
+    "& .MuiInputLabel-root": {
+      color: "#666",              // label xám nhạt
+    },
+  }}
                             options={styles}
                             filterOptions={(x) => x}
                             value={tour?.styles}
@@ -327,12 +409,21 @@ const handleSubmit = async () => {
                                     styles: value,
                                 }))
                             }
-                            getOptionLabel={(option) => option.name}
+                            getOptionLabel={(option) => option?.name}
                             renderInput={(params) => <TextField {...params} label="Tour Styles" />}
                         />
 
                         <Autocomplete
                             multiple
+                             sx={{
+    "& .MuiInputBase-root": {
+      backgroundColor: "white",   // nền trắng
+      color: "black",             // chữ đen
+    },
+    "& .MuiInputLabel-root": {
+      color: "#666",              // label xám nhạt
+    },
+  }}
                             options={collections}
                             filterOptions={(x) => x}
                             value={tour?.collections}
@@ -343,14 +434,14 @@ const handleSubmit = async () => {
                                     collections: value,
                                 }))
                             }
-                            getOptionLabel={(option) => option.name}
+                            getOptionLabel={(option) => option?.name}
                             renderInput={(params) => <TextField {...params} label="Collections" />}
                         />
                     </div>
                 </div>
 
                 {/* TIme line  */}
-                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 mt-[3rem]">
                     <div className="flex justify-between mb-6">
                         <h2 className="text-xl font-semibold">Tour Destinations</h2>
 
@@ -360,7 +451,7 @@ const handleSubmit = async () => {
                     </div>
 
                     <div className="space-y-4">
-                        {destinationDays.map((item, index) => (
+                        {destinationDays?.map((item, index) => (
                             <div
                                 key={index}
                                 className="
@@ -371,15 +462,32 @@ const handleSubmit = async () => {
                     ">
                                 <div className="flex gap-4">
                                     <div className="w-32">
-                                        <TextField label="Day" value={item.dayOrder} fullWidth />
+                                        <TextField label="Day" value={item.dayOrder} fullWidth  sx={{
+                                            "& .MuiInputBase-root": {
+                                            backgroundColor: "white",   // nền trắng
+                                            color: "black",             // chữ đen
+                                            },
+                                            "& .MuiInputLabel-root": {
+                                            color: "#666",              // label xám nhạt
+                                            },
+                                        }}/>
                                     </div>
 
                                     <div className="flex-1">
                                         <Autocomplete
+                                         sx={{
+                                                    "& .MuiInputBase-root": {
+                                                    backgroundColor: "white",   // nền trắng
+                                                    color: "black",             // chữ đen
+                                                    },
+                                                    "& .MuiInputLabel-root": {
+                                                    color: "#666",              // label xám nhạt
+                                                    },
+                                                }}
                                             options={destinations}
                                             filterOptions={(x) => x}
                                             onInputChange={(_, value) => setDestinationSearch(value)}
-                                            value={item.destination}
+                                            value={item?.destination}
                                             onChange={(_, value) => {
                                                 const clone = [...destinationDays];
 
@@ -392,19 +500,56 @@ const handleSubmit = async () => {
                                         />
                                     </div>
 
+
+
                                     <Button color="error" onClick={() => removeDay(index)}>
                                         Remove
                                     </Button>
                                 </div>
+
+                                <TextField
+                                    label="Description Destination Fr"
+                                    value={item.description_en || ""}
+                                    onChange={(e) => {
+                                    const clone = [...destinationDays];
+                                    clone[index].description_en = e.target.value;
+                                    setDestinationDays(clone);
+                                    }}
+                                    fullWidth
+                                    multiline
+                                    maxRows={2}
+                                    sx={{
+                                    "& .MuiInputBase-root": { backgroundColor: "white", color: "black" },
+                                    "& .MuiInputLabel-root": { color: "#666" },
+                                    marginY: '0.8rem'
+                                    }}
+                                />
+
+                                  <TextField
+                                    label="Description Destination Fr"
+                                    value={item.description_fr || ""}
+                                    onChange={(e) => {
+                                    const clone = [...destinationDays];
+                                    clone[index].description_fr = e.target.value;
+                                    setDestinationDays(clone);
+                                    }}
+                                    fullWidth
+                                    multiline
+                                    maxRows={2}
+                                    sx={{
+                                    "& .MuiInputBase-root": { backgroundColor: "white", color: "black" },
+                                    "& .MuiInputLabel-root": { color: "#666" },
+                                    }}
+                                />
                             </div>
                         ))}
                     </div>
                 </div>
 
                 {/* Image  Hero*/}
-                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 mt-[3rem]">
                     <h2 className="text-xl font-semibold mb-4">Featured Image</h2>
-                    <input type="file" accept="image/*" onChange={handleFeaturedImage} />
+                    <input type="file" accept="image/*" onChange={handleFeaturedImage} className="cursor-pointer hover:bg-[#ccc]"/>
                     {tour?.featuredImage && (
                         <img
                             src={URL.createObjectURL(tour?.featuredImage)}
@@ -415,11 +560,11 @@ const handleSubmit = async () => {
                 </div>
 
                 {/* Galary IMG */}
-                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 mt-[3rem]">
                     <h2 className="text-xl font-semibold mb-4">Tour Gallery</h2>
-                    <input type="file" multiple accept="image/*" onChange={handleGalleryImages} />
+                    <input type="file" multiple accept="image/*" onChange={handleGalleryImages} className="cursor-pointer"/>
                     <div className="grid grid-cols-4 gap-4 mt-6">
-                        {tour.galleryImages.map((image, index) => (
+                        {tour?.galleryImages?.map((image, index) => (
                             <img
                                 key={index}
                                 src={URL.createObjectURL(image)}
@@ -431,8 +576,17 @@ const handleSubmit = async () => {
                 </div>
 
                 {/* Text Section */}
-                <div className="grid grid-cols-2 gap-5">
+                <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 grid grid-cols-2 gap-5 mt-[3rem]">
                     <TextField
+                        sx={{
+                            "& .MuiInputBase-root": {
+                            backgroundColor: "white",   // nền trắng
+                            color: "black",             // chữ đen
+                            },
+                            "& .MuiInputLabel-root": {
+                            color: "#666",              // label xám nhạt
+                            },
+                        }}
                         label="Overview EN"
                         value={tour?.overview_en}
                         onChange={handleChange("overview_en")}
@@ -442,6 +596,15 @@ const handleSubmit = async () => {
                     />
                     <TextField
                         label="Overview FR"
+                                                sx={{
+                            "& .MuiInputBase-root": {
+                            backgroundColor: "white",   // nền trắng
+                            color: "black",             // chữ đen
+                            },
+                            "& .MuiInputLabel-root": {
+                            color: "#666",              // label xám nhạt
+                            },
+                        }}
                         value={tour?.overview_fr}
                         onChange={handleChange("overview_fr")}
                         multiline
@@ -450,6 +613,15 @@ const handleSubmit = async () => {
                     />
                     <TextField
                         label="Short Description EN"
+                                                sx={{
+                            "& .MuiInputBase-root": {
+                            backgroundColor: "white",   // nền trắng
+                            color: "black",             // chữ đen
+                            },
+                            "& .MuiInputLabel-root": {
+                            color: "#666",              // label xám nhạt
+                            },
+                        }}
                         value={tour?.description_en}
                         onChange={handleChange("description_en")}
                         multiline
@@ -458,6 +630,15 @@ const handleSubmit = async () => {
                     />
                     <TextField
                         label="Short Description FR"
+                                                sx={{
+                            "& .MuiInputBase-root": {
+                            backgroundColor: "white",   // nền trắng
+                            color: "black",             // chữ đen
+                            },
+                            "& .MuiInputLabel-root": {
+                            color: "#666",              // label xám nhạt
+                            },
+                        }}
                         value={tour?.description_fr}
                         onChange={handleChange("description_fr")}
                         multiline
@@ -466,6 +647,15 @@ const handleSubmit = async () => {
                     />
                     <TextField
                         label="Itinerary EN"
+                                                sx={{
+                            "& .MuiInputBase-root": {
+                            backgroundColor: "white",   // nền trắng
+                            color: "black",             // chữ đen
+                            },
+                            "& .MuiInputLabel-root": {
+                            color: "#666",              // label xám nhạt
+                            },
+                        }}
                         value={tour?.itinerary_en}
                         onChange={handleChange("itinerary_en")}
                         multiline
@@ -474,6 +664,15 @@ const handleSubmit = async () => {
                     />
                     <TextField
                         label="Itinerary FR"
+                                                sx={{
+                            "& .MuiInputBase-root": {
+                            backgroundColor: "white",   // nền trắng
+                            color: "black",             // chữ đen
+                            },
+                            "& .MuiInputLabel-root": {
+                            color: "#666",              // label xám nhạt
+                            },
+                        }}
                         value={tour?.itinerary_fr}
                         onChange={handleChange("itinerary_fr")}
                         multiline
@@ -482,6 +681,15 @@ const handleSubmit = async () => {
                     />
                     <TextField
                         label="Inclusion EN"
+                                                sx={{
+                            "& .MuiInputBase-root": {
+                            backgroundColor: "white",   // nền trắng
+                            color: "black",             // chữ đen
+                            },
+                            "& .MuiInputLabel-root": {
+                            color: "#666",              // label xám nhạt
+                            },
+                        }}
                         value={tour?.inclusion_en}
                         onChange={handleChange("inclusion_en")}
                         multiline
@@ -490,6 +698,15 @@ const handleSubmit = async () => {
                     />
                     <TextField
                         label="Inclusion FR"
+                                                sx={{
+                            "& .MuiInputBase-root": {
+                            backgroundColor: "white",   // nền trắng
+                            color: "black",             // chữ đen
+                            },
+                            "& .MuiInputLabel-root": {
+                            color: "#666",              // label xám nhạt
+                            },
+                        }}
                         value={tour?.inclusion_fr}
                         onChange={handleChange("inclusion_fr")}
                         multiline
@@ -498,6 +715,15 @@ const handleSubmit = async () => {
                     />
                     <TextField
                         label="Exclusion EN"
+                                                sx={{
+                            "& .MuiInputBase-root": {
+                            backgroundColor: "white",   // nền trắng
+                            color: "black",             // chữ đen
+                            },
+                            "& .MuiInputLabel-root": {
+                            color: "#666",              // label xám nhạt
+                            },
+                        }}
                         value={tour?.exclusion_en}
                         onChange={handleChange("exclusion_en")}
                         multiline
@@ -506,6 +732,15 @@ const handleSubmit = async () => {
                     />
                     <TextField
                         label="Exclusion FR"
+                                                sx={{
+                            "& .MuiInputBase-root": {
+                            backgroundColor: "white",   // nền trắng
+                            color: "black",             // chữ đen
+                            },
+                            "& .MuiInputLabel-root": {
+                            color: "#666",              // label xám nhạt
+                            },
+                        }}
                         value={tour?.exclusion_f}
                         onChange={handleChange("exclusion_fr")}
                         multiline
@@ -515,7 +750,7 @@ const handleSubmit = async () => {
                 </div>
 
                 {/* Toggle  */}
-                <div className="flex gap-8">
+                <div className="flex gap-8 mt-[3rem] bg-slate-900 border border-slate-800 rounded-3xl p-6">
                     <FormControlLabel
                         control={
                             <Switch
@@ -545,6 +780,12 @@ const handleSubmit = async () => {
                         }
                         label="Active"
                     />
+                </div>
+
+                <div className="flex items-center justify-end mt-[1rem]">
+                    <Button variant="contained" onClick={handleSubmit}>
+                        Save Tour
+                    </Button>
                 </div>
             </div>
         </div>

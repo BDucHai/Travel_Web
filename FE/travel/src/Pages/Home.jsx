@@ -11,8 +11,8 @@ import { RiArrowRightFill } from "react-icons/ri";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useNavigate } from "react-router-dom";
 import useSWR from "swr";
-import { getComment } from "../api/Comment";
 import { getTours } from "../api/Tour";
+import { getReviews } from "../api/Review";
 
 const Home = () => {
     const { t } = useTranslation();
@@ -132,7 +132,7 @@ const Home = () => {
         },
     ];
 
-    const {data: commentData} = useSWR(["/testimonials", {page:1, limit: 9}], ([url, params]) => getComment(url, params))
+    const {data: commentData} = useSWR(["/testimonials", {page:1, limit: 9}], ([url, params]) => getReviews(url, params))
     const commentTest = [
         {
             id: 1,
@@ -240,7 +240,6 @@ const Home = () => {
 
     const totalSlides = Math.ceil(comments.length / chunkSize);
 
-    useEffect(() => {}, []);
     return (
         <>
             <Banner />

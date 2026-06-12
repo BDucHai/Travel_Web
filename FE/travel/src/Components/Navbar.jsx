@@ -7,6 +7,7 @@ import { LuTableOfContents } from "react-icons/lu";
 import { IoCaretDownOutline } from "react-icons/io5";
 import { imgBanner, imgGlobal, imgLang } from "../assets/images";
 import ContactModal from "./ContactModal";
+import { durationsDays } from "../constant";
 
 const Navbar = ({ home }) => {
     const { t, i18n } = useTranslation();
@@ -24,29 +25,6 @@ const Navbar = ({ home }) => {
 
     const [navChildVNTour, setNavChildVNTour] = useState([]);
     const [navChildTravelInfor, setNavChildTravelInfor] = useState([]);
-
-    const tourDuration = [
-        {
-            slug: "7days_vn_tour",
-            title: t("navbar.7days_vn_tour"),
-        },
-        {
-            slug: "10days_vn_tour",
-            title: t("navbar.10days_vn_tour"),
-        },
-        {
-            slug: "12days_vn_tour",
-            title: t("navbar.12days_vn_tour"),
-        },
-        {
-            slug: "2w_vn_tour",
-            title: t("navbar.2w_vn_tour"),
-        },
-        {
-            slug: "3w_vn_tour",
-            title: t("navbar.3w_vn_tour"),
-        },
-    ];
 
     const tourStyle = [
         {
@@ -202,11 +180,11 @@ const Navbar = ({ home }) => {
                                     transform transition-all text-[0.85rem] cursor-default normal-case">
                                         <div className="grid grid-cols-3 gap-x-[10px] gap-y-[6px] p-[0.8rem] bg-[#f8fcf3] overflow-clip">
                                             <div className="">
-                                                {tourDuration?.map((tour) => (
+                                                {durationsDays?.map((tour) => (
                                                     <div
                                                         className="w-[90%] px-[0.4rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
-                                                        onClick={() => navigate(`/tour/${tour?.slug}`)}>
-                                                        {tour?.title}
+                                                        onClick={() => navigate(`/tour/${tour?.value}`)}>
+                                                        {t(tour?.title)}
                                                     </div>
                                                 ))}
 

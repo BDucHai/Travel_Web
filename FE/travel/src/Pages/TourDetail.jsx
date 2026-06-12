@@ -10,26 +10,70 @@ const TourDetail = () => {
     const { id } = useParams();
     const { t } = useTranslation();
 
-    const {data: tourDetail} = useSWR(id? ["tours", {id}]: null, ([_, params]) => getToursById(params));
 
-    const tourFake = {
-        title: "okla",
-        slug: "VietnamTour",
-        shortDescription: "abc",
-        overview: "Mot con sadasdascasvtbvfdvs",
-        duration_days: "10days 9 nights",
-        priceFrom: "200USD",
-        featuredImageUrl: "",
-        isFeature: "",
-        highlight: [
-                                "Hanoi Old Quarter walking tour",
-                                "Ha Long Bay overnight cruise",
-                                "Hue Imperial City exploration",
-                                "Hoi An lantern town experience",
-                                "Cu Chi tunnels discovery",
-                                "Mekong Delta boat trip",
-                            ]
-    };
+    const { data: tourDetail } = useSWR(
+        id ? ["/tours", id] : null,
+        ([_, id]) => getToursById(id)
+    );
+
+    const tourFake = [
+  {
+    code: "VN001",
+    duration_days: "7 Days / 6 Nights",
+    price_from: 499,
+    title_en: "Discover Hanoi & Halong Bay",
+    title_fr: "Découvrir Hanoi et la baie d'Halong",
+    slug_en: "Best Seller",
+    slug_fr: "Meilleure Vente",
+    short_description_en: "A week-long journey through Hanoi and Halong Bay.",
+    short_description_fr: "Un voyage d'une semaine à travers Hanoi et la baie d'Halong.",
+    overview_en: "Explore the vibrant capital of Vietnam and cruise the stunning Halong Bay.",
+    overview_fr: "Explorez la capitale vibrante du Vietnam et faites une croisière dans la magnifique baie d'Halong.",
+    itinerary_en: "Day 1: Arrival in Hanoi ... Day 7: Departure",
+    itinerary_fr: "Jour 1: Arrivée à Hanoi ... Jour 7: Départ",
+    inclusion_en: "Hotel, breakfast, guided tours, cruise tickets.",
+    inclusion_fr: "Hôtel, petit-déjeuner, visites guidées, billets de croisière.",
+    exclusion_en: "Flights, personal expenses, travel insurance.",
+    exclusion_fr: "Vols, dépenses personnelles, assurance voyage.",
+    is_featured: true,
+    is_active: true,
+    featuredImage: "https://picsum.photos/seed/hanoi/600/400",
+    galleryImages: [
+      "https://picsum.photos/seed/halong1/600/400",
+      "https://picsum.photos/seed/halong2/600/400",
+    ],
+    styles: [{ id: 1, name: "Adventure" }, { id: 2, name: "Culture" }],
+    collections: [{ id: 1, name: "Vietnam Highlights" }],
+  },
+  {
+    code: "VN002",
+    duration_days: "10 Days / 9 Nights",
+    price_from: 899,
+    title_en: "Essential Vietnam from North to South",
+    title_fr: "Vietnam essentiel du nord au sud",
+    slug_en: "Popular",
+    slug_fr: "Populaire",
+    short_description_en: "Travel from Hanoi to Ho Chi Minh City with memorable experiences.",
+    short_description_fr: "Voyagez de Hanoi à Ho Chi Minh Ville avec des expériences mémorables.",
+    overview_en: "Visit Hanoi, Hue, Hoi An, and Ho Chi Minh City.",
+    overview_fr: "Visitez Hanoi, Hue, Hoi An et Ho Chi Minh Ville.",
+    itinerary_en: "Day 1: Hanoi ... Day 10: Ho Chi Minh City departure",
+    itinerary_fr: "Jour 1: Hanoi ... Jour 10: Départ de Ho Chi Minh Ville",
+    inclusion_en: "Hotels, domestic flights, guided tours.",
+    inclusion_fr: "Hôtels, vols domestiques, visites guidées.",
+    exclusion_en: "International flights, visa fees.",
+    exclusion_fr: "Vols internationaux, frais de visa.",
+    is_featured: false,
+    is_active: true,
+    featuredImage: "https://picsum.photos/seed/vietnam/600/400",
+    galleryImages: [
+      "https://picsum.photos/seed/hue/600/400",
+      "https://picsum.photos/seed/hoian/600/400",
+    ],
+    styles: [{ id: 3, name: "Family" }],
+    collections: [{ id: 2, name: "Classic Tours" }],
+  },
+];
 
         const tour = tourDetail?.data || tourFake;
     const [contactModal, setContactModal] = useState(false);
