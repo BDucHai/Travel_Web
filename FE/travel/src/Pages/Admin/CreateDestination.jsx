@@ -14,9 +14,7 @@ export default function CreateDestination() {
     const navigate = useNavigate();
     const [destination, setDestination] = useState({
         country_id: "",
-
-        region: "NORTH",
-
+        region: {id: 1, value: "northen"},
         name_en: "",
         name_fr: "",
 
@@ -72,7 +70,7 @@ export default function CreateDestination() {
         setDestination({
             country_id: data?.country_id || "",
 
-            region: data?.region || "NORTH",
+            region: data?.region || "northen",
 
             name_en: data?.name_en || "",
             name_fr: data?.name_fr || "",
@@ -128,6 +126,19 @@ export default function CreateDestination() {
                         label="Name EN"
                         value={destination?.name_en}
                         onChange={(e) => handleChange("name_en", e.target.value)}
+                        sx={{
+                            "& .MuiInputBase-root": {
+                            backgroundColor: "#fff",  
+                            color: "#000",          
+                            borderRadius: "8px",
+                            },
+                            "& .MuiInputLabel-root": {
+                            color: "#ccc",            
+                            },
+                            "& .MuiOutlinedInput-notchedOutline": {
+                            borderColor: "#444",     
+                            },
+                        }}
                     />
                 </Grid>
 
@@ -137,6 +148,19 @@ export default function CreateDestination() {
                         label="Name FR"
                         value={destination?.name_fr}
                         onChange={(e) => handleChange("name_fr", e.target.value)}
+                         sx={{
+                            "& .MuiInputBase-root": {
+                            backgroundColor: "#fff",  
+                            color: "#000",          
+                            borderRadius: "8px",
+                            },
+                            "& .MuiInputLabel-root": {
+                            color: "#ccc",            
+                            },
+                            "& .MuiOutlinedInput-notchedOutline": {
+                            borderColor: "#444",     
+                            },
+                        }}
                     />
                 </Grid>
 
@@ -146,6 +170,19 @@ export default function CreateDestination() {
                         label="Slug EN"
                         value={destination?.slug_en}
                         onChange={(e) => handleChange("slug_en", e.target.value)}
+                         sx={{
+                            "& .MuiInputBase-root": {
+                            backgroundColor: "#fff",  
+                            color: "#000",          
+                            borderRadius: "8px",
+                            },
+                            "& .MuiInputLabel-root": {
+                            color: "#ccc",            
+                            },
+                            "& .MuiOutlinedInput-notchedOutline": {
+                            borderColor: "#444",     
+                            },
+                        }}
                     />
                 </Grid>
 
@@ -155,6 +192,19 @@ export default function CreateDestination() {
                         label="Slug FR"
                         value={destination?.slug_fr}
                         onChange={(e) => handleChange("slug_fr", e.target.value)}
+                         sx={{
+                            "& .MuiInputBase-root": {
+                            backgroundColor: "#fff",  
+                            color: "#000",          
+                            borderRadius: "8px",
+                            },
+                            "& .MuiInputLabel-root": {
+                            color: "#ccc",            
+                            },
+                            "& .MuiOutlinedInput-notchedOutline": {
+                            borderColor: "#444",     
+                            },
+                        }}
                     />
                 </Grid>
 
@@ -164,12 +214,25 @@ export default function CreateDestination() {
                         fullWidth
                         label="Region"
                         value={destination?.region}
-                        onChange={(e) => handleChange("region", e.target.value)}>
-                        <MenuItem value="NORTH">NORTH</MenuItem>
+                        onChange={(e) => handleChange("region", e.target.value)}  
+                        sx={{
+                            "& .MuiInputBase-root": {
+                            backgroundColor: "#fff",  
+                            color: "#000",          
+                            borderRadius: "8px",
+                            },
+                            "& .MuiInputLabel-root": {
+                            color: "#ccc",            
+                            },
+                            "& .MuiOutlinedInput-notchedOutline": {
+                            borderColor: "#444",     
+                            },
+                        }}>
+                        <MenuItem value={id= 1, value= "northen"}>Northen</MenuItem>
 
-                        <MenuItem value="CENTRAL">CENTRAL</MenuItem>
+                        <MenuItem value={id= 2, value= "central"}>Central</MenuItem>
 
-                        <MenuItem value="SOUTH">SOUTH</MenuItem>
+                        <MenuItem vvalue={id= 3, value= "south"}>South</MenuItem>
                     </TextField>
                 </Grid>
 
@@ -181,6 +244,19 @@ export default function CreateDestination() {
                         label="Short Description EN"
                         value={destination?.short_description_en}
                         onChange={(e) => handleChange("short_description_en", e.target.value)}
+                         sx={{
+                            "& .MuiInputBase-root": {
+                            backgroundColor: "#fff",  
+                            color: "#000",          
+                            borderRadius: "8px",
+                            },
+                            "& .MuiInputLabel-root": {
+                            color: "#ccc",            
+                            },
+                            "& .MuiOutlinedInput-notchedOutline": {
+                            borderColor: "#444",     
+                            },
+                        }}
                     />
                 </Grid>
 
@@ -192,6 +268,19 @@ export default function CreateDestination() {
                         label="Short Description FR"
                         value={destination?.short_description_fr}
                         onChange={(e) => handleChange("short_description_fr", e.target.value)}
+                         sx={{
+                            "& .MuiInputBase-root": {
+                            backgroundColor: "#fff",  
+                            color: "#000",          
+                            borderRadius: "8px",
+                            },
+                            "& .MuiInputLabel-root": {
+                            color: "#ccc",            
+                            },
+                            "& .MuiOutlinedInput-notchedOutline": {
+                            borderColor: "#444",     
+                            },
+                        }}
                     />
                 </Grid>
 
@@ -203,6 +292,19 @@ export default function CreateDestination() {
                         label="Content EN"
                         value={destination?.content_en}
                         onChange={(e) => handleChange("content_en", e.target.value)}
+                         sx={{
+                            "& .MuiInputBase-root": {
+                            backgroundColor: "#fff",  
+                            color: "#000",          
+                            borderRadius: "8px",
+                            },
+                            "& .MuiInputLabel-root": {
+                            color: "#ccc",            
+                            },
+                            "& .MuiOutlinedInput-notchedOutline": {
+                            borderColor: "#444",     
+                            },
+                        }}
                     />
                 </Grid>
 
@@ -214,6 +316,19 @@ export default function CreateDestination() {
                         label="Content FR"
                         value={destination?.content_fr}
                         onChange={(e) => handleChange("content_fr", e.target.value)}
+                         sx={{
+                            "& .MuiInputBase-root": {
+                            backgroundColor: "#fff",  
+                            color: "#000",          
+                            borderRadius: "8px",
+                            },
+                            "& .MuiInputLabel-root": {
+                            color: "#ccc",            
+                            },
+                            "& .MuiOutlinedInput-notchedOutline": {
+                            borderColor: "#444",     
+                            },
+                        }}
                     />
                 </Grid>
 
@@ -223,6 +338,19 @@ export default function CreateDestination() {
                         label="Thumbnail URL"
                         value={destination?.thumbnail_url}
                         onChange={(e) => handleChange("thumbnail_url", e.target.value)}
+                         sx={{
+                            "& .MuiInputBase-root": {
+                            backgroundColor: "#fff",  
+                            color: "#000",          
+                            borderRadius: "8px",
+                            },
+                            "& .MuiInputLabel-root": {
+                            color: "#ccc",            
+                            },
+                            "& .MuiOutlinedInput-notchedOutline": {
+                            borderColor: "#444",     
+                            },
+                        }}
                     />
                 </Grid>
 
@@ -232,6 +360,19 @@ export default function CreateDestination() {
                         label="Hero Image URL"
                         value={destination?.hero_image_url}
                         onChange={(e) => handleChange("hero_image_url", e.target.value)}
+                         sx={{
+                            "& .MuiInputBase-root": {
+                            backgroundColor: "#fff",  
+                            color: "#000",          
+                            borderRadius: "8px",
+                            },
+                            "& .MuiInputLabel-root": {
+                            color: "#ccc",            
+                            },
+                            "& .MuiOutlinedInput-notchedOutline": {
+                            borderColor: "#444",     
+                            },
+                        }}
                     />
                 </Grid>
 
@@ -242,6 +383,19 @@ export default function CreateDestination() {
                         label="Latitude"
                         value={destination?.latitude}
                         onChange={(e) => handleChange("latitude", e.target.value)}
+                         sx={{
+                            "& .MuiInputBase-root": {
+                            backgroundColor: "#fff",  
+                            color: "#000",          
+                            borderRadius: "8px",
+                            },
+                            "& .MuiInputLabel-root": {
+                            color: "#ccc",            
+                            },
+                            "& .MuiOutlinedInput-notchedOutline": {
+                            borderColor: "#444",     
+                            },
+                        }}
                     />
                 </Grid>
 
@@ -252,6 +406,19 @@ export default function CreateDestination() {
                         label="Longitude"
                         value={destination?.longitude}
                         onChange={(e) => handleChange("longitude", e.target.value)}
+                         sx={{
+                            "& .MuiInputBase-root": {
+                            backgroundColor: "#fff",  
+                            color: "#000",          
+                            borderRadius: "8px",
+                            },
+                            "& .MuiInputLabel-root": {
+                            color: "#ccc",            
+                            },
+                            "& .MuiOutlinedInput-notchedOutline": {
+                            borderColor: "#444",     
+                            },
+                        }}
                     />
                 </Grid>
 

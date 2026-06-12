@@ -26,3 +26,21 @@ export const durationsDays = [
         title: "3w_vn_tour"
     },
 ]
+
+export const sideLocation = [
+    {
+        id: 1,
+        value: "northen",
+        title: "northen_vn",
+    },
+        {
+        id: 2,
+        value: "central",
+        title: "central_vn"
+    },
+        {
+        id: 3,
+        value: "south",
+        title: "south_vn"
+    }
+]
