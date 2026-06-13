@@ -9,13 +9,23 @@ import { FaEye } from "react-icons/fa";
 import BlogSmallCard from "../Components/BlogSmallCard";
 import { useNavigate } from "react-router-dom";
 import useSWR from "swr";
-import { getBlog } from "../api/Blog";
+import { getBlog, getMostReadBlog } from "../api/Blog";
 import LoadingScreen from "../Components/LoadingScreen";
 
+// api return
+// {
+//     "data": [...],
+//     "pagination": {
+//         "page": 1,
+//         "totalPages": 5
+//     }
+// }
 const Blog = () => {
     const { t } = useTranslation();
 
     const navigate = useNavigate();
+
+    const [openContactModal, setOpenContactModal] = useState(false);
 
     const [params, setParams] = useState({
         search: "",
@@ -23,11 +33,123 @@ const Blog = () => {
         limit: 8,
     });
 
-    // const { data: listBlogs, isLoading, mutate } = useSWR(["/tours", params], getBlog);
+    const [listBlog, setListBlog] = useState([
+        {
+            id: 1,
+            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
+            guide: "VIETNAM CULTURE",
+            title: "Vietnamese Culture: Custom & Traditions",
+            meta: "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
+            date: "05-30-2026",
+            views: "6200",
+        },
+        {
+            id: 2,
+            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
+            guide: "VIETNAM CULTURE",
+            title: "Vietnamese Culture: Custom & Traditions",
+            meta: "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
+            date: "05-30-2026",
+            views: "6200",
+        },
+        {
+            id: 3,
+            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
+            guide: "VIETNAM CULTURE",
+            title: "Vietnamese Culture: Custom & Traditions",
+            meta: "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
+            date: "05-30-2026",
+            views: "6200",
+        },
+        {
+            id: 4,
+            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
+            guide: "VIETNAM CULTURE",
+            title: "Vietnamese Culture: Custom & Traditions",
+            meta: "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
+            date: "05-30-2026",
+            views: "6200",
+        },
+        {
+            id: 5,
+            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
+            guide: "VIETNAM CULTURE",
+            title: "Vietnamese Culture: Custom & Traditions",
+            meta: "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
+            date: "05-30-2026",
+            views: "6200",
+        },
+        {
+            id: 6,
+            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
+            guide: "VIETNAM CULTURE",
+            title: "Vietnamese Culture: Custom & Traditions",
+            meta: "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
+            date: "05-30-2026",
+            views: "6200",
+        },
+        {
+            id: 7,
+            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
+            guide: "VIETNAM CULTURE",
+            title: "Vietnamese Culture: Custom & Traditions",
+            meta: "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
+            date: "05-30-2026",
+            views: "6200",
+        },
+        {
+            id: 8,
+            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
+            guide: "VIETNAM CULTURE",
+            title: "Vietnamese Culture: Custom & Traditions",
+            meta: "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
+            date: "05-30-2026",
+            views: "6200",
+        },
+    ]);
 
-    const [openContactModal, setOpenContactModal] = useState(false);
+    const [loadingMore, setLoadingMore] = useState(false);
 
-    const [top4MostRead, setTop4MostRead] = useState([
+    const { data: listBlogs } = useSWR(["/blogs", params], ([_, params]) => getBlog(params));
+
+    const hasMore = (listBlogs?.pagination?.page || 1) < (listBlogs?.pagination?.totalPages || 1);
+
+    useEffect(() => {
+        if (!listBlogs?.data) return;
+
+        if (params.page === 1) {
+            setListBlog(listBlogs.data);
+        } else {
+            setListBlog((prev) => [...prev, ...listBlogs.data]);
+        }
+
+        setLoadingMore(false);
+    }, [listBlogs, params.page]);
+
+    const handleLoadMore = () => {
+        if (loadingMore || !hasMore) return;
+
+        setLoadingMore(true);
+
+        setParams((prev) => ({
+            ...prev,
+            page: prev.page + 1,
+        }));
+    };
+
+    const { data: mostReadBlogs } = useSWR(
+        [
+            "/blogs-most-read",
+            {
+                page: 1,
+                limit: 4,
+                sort: "views",
+            },
+        ],
+        ([_, params]) => getMostReadBlog(params),
+    );
+
+    const top4MostRead = [
         {
             id: 1,
             image: "https://thf.bing.com/th/id/OIP.luCvHavLy5_ZcsAcss9K4wHaFj?cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3",
@@ -68,92 +190,7 @@ const Blog = () => {
             date: "05-30-2026",
             views: "6200",
         },
-    ]);
-
-    const [listBlog, setListBlog] = useState([
-        {
-            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
-            guide: "VIETNAM CULTURE",
-            title: "Vietnamese Culture: Custom & Traditions",
-            meta: "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
-            date: "05-30-2026",
-            views: "6200",
-        },
-        {
-            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
-            guide: "VIETNAM CULTURE",
-            title: "Vietnamese Culture: Custom & Traditions",
-            meta: "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
-            date: "05-30-2026",
-            views: "6200",
-        },
-        {
-            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
-            guide: "VIETNAM CULTURE",
-            title: "Vietnamese Culture: Custom & Traditions",
-            meta: "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
-            date: "05-30-2026",
-            views: "6200",
-        },
-        {
-            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
-            guide: "VIETNAM CULTURE",
-            title: "Vietnamese Culture: Custom & Traditions",
-            meta: "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
-            date: "05-30-2026",
-            views: "6200",
-        },
-        {
-            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
-            guide: "VIETNAM CULTURE",
-            title: "Vietnamese Culture: Custom & Traditions",
-            meta: "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
-            date: "05-30-2026",
-            views: "6200",
-        },
-        {
-            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
-            guide: "VIETNAM CULTURE",
-            title: "Vietnamese Culture: Custom & Traditions",
-            meta: "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
-            date: "05-30-2026",
-            views: "6200",
-        },
-        {
-            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
-            guide: "VIETNAM CULTURE",
-            title: "Vietnamese Culture: Custom & Traditions",
-            meta: "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
-            date: "05-30-2026",
-            views: "6200",
-        },
-        {
-            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
-            guide: "VIETNAM CULTURE",
-            title: "Vietnamese Culture: Custom & Traditions",
-            meta: "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
-            date: "05-30-2026",
-            views: "6200",
-        },
-    ]);
-
-    const [loadingMore, setLoadingMore] = useState(false);
-
-    const handleLoadMore = async () => {
-        // const nextParams = {
-        //     ...params,
-        //     page: params.page + 1,
-        // };
-        // const newData = await getBlog(nextParams);
-        // mutate(
-        //     {
-        //         ...listBlogs,
-        //         items: [...(listBlogs?.items || []), ...newData.items],
-        //     },
-        //     false,
-        // );
-        // setParams(nextParams);
-    };
+    ];
 
     return (
         <>
@@ -194,29 +231,35 @@ const Blog = () => {
                                 <div
                                     className="hidden lg:flex lg:col-span-2 flex-col lg:flex-row border-1 border-[#ccc] lg:border-0 cursor-pointer"
                                     onClick={() => {
-                                        navigate("/blog/detail");
+                                        navigate(`/blog/detail/${(top4MostRead || mostReadBlogs)?.[0]?.id}`);
                                     }}>
                                     <img
-                                        src={top4MostRead?.[0]?.image}
-                                        alt={top4MostRead?.[0]?.id}
+                                        src={(top4MostRead || mostReadBlogs)?.[0]?.image}
+                                        alt={(top4MostRead || mostReadBlogs)?.[0]?.id}
                                         className="w-full lg:w-1/2 object-cover"
                                     />
                                     <div className="flex flex-col justify-between p-4 w-full lg:w-1/2">
                                         <div>
-                                            <p className="text-sm text-gray-500">{top4MostRead?.[0]?.guide}</p>
-                                            <div className="text-xl font-bold">{top4MostRead?.[0]?.meta_title}</div>
+                                            <p className="text-sm text-gray-500">
+                                                {(top4MostRead || mostReadBlogs)?.[0]?.guide}
+                                            </p>
+                                            <div className="text-xl font-bold">
+                                                {(top4MostRead || mostReadBlogs)?.[0]?.meta_title}
+                                            </div>
                                             <p className="hidden lg:block text-[#363a37]">
-                                                {top4MostRead?.[0]?.meta_description}
+                                                {(top4MostRead || mostReadBlogs)?.[0]?.meta_description}
                                             </p>
                                         </div>
                                         <div className="flex items-center text-sm text-dark mt-4">
                                             <span className="flex items-center mr-[0.8rem]">
                                                 {" "}
-                                                <CiCalendar className="mr-[0.2rem]" /> {top4MostRead?.[0]?.date}
+                                                <CiCalendar className="mr-[0.2rem]" />{" "}
+                                                {(top4MostRead || mostReadBlogs)?.[0]?.date}
                                             </span>
                                             <span className="flex items-center">
                                                 {" "}
-                                                <FaEye className="mr-[0.2rem]" /> {top4MostRead?.[0]?.views} {t("view")}
+                                                <FaEye className="mr-[0.2rem]" />{" "}
+                                                {(top4MostRead || mostReadBlogs)?.[0]?.views} {t("view")}
                                             </span>
                                         </div>
                                     </div>
@@ -224,12 +267,12 @@ const Blog = () => {
 
                                 {/* PC layout cho 3 bài nhỏ */}
                                 <div className="hidden lg:grid lg:grid-rows-3 gap-4 lg:col-span-1">
-                                    {top4MostRead.slice(1).map((post) => (
+                                    {(top4MostRead || mostReadBlogs).slice(1).map((post) => (
                                         <div
                                             key={post?.id}
                                             className="flex flex-col lg:flex-row border-1 border-[#ccc] lg:border-0 cursor-pointer"
                                             onClick={() => {
-                                                navigate("/blog/detail");
+                                                navigate(`/blog/detail/${post?.id}`);
                                             }}>
                                             <img
                                                 src={post?.image}
@@ -255,12 +298,12 @@ const Blog = () => {
                                 </div>
 
                                 {/* Mobile & md layout: tất cả 4 bài */}
-                                {top4MostRead.map((post, idx) => (
+                                {(top4MostRead || mostReadBlogs).map((post, idx) => (
                                     <div
                                         key={post?.id}
                                         className="flex flex-col md:flex-row lg:hidden border-1 border-[#ccc] lg:border-0"
                                         onClick={() => {
-                                            navigate("/blog/detail");
+                                            navigate(`/blog/detail/${post?.id}`);
                                         }}>
                                         <img
                                             src={post?.image}
@@ -296,12 +339,12 @@ const Blog = () => {
                         </div>
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-8">
                             {listBlog?.map((blog) => (
-                                <BlogSmallCard blog={blog} />
+                                <BlogSmallCard key={blog?.id} blog={blog} />
                             ))}
                         </div>
                         <div className="flex-box-center mt-[2.5rem]">
                             <button
-                                disabled={loadingMore}
+                                disabled={loadingMore || !hasMore}
                                 className={`min-w-[180px] h-[48px] flex items-center justify-center gap-2 border-[2px] border-[#d38518] font-semibold uppercase transition-all duration-300 cursor-pointer
                                 ${
                                     loadingMore

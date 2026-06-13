@@ -8,6 +8,8 @@ import { IoCaretDownOutline } from "react-icons/io5";
 import { imgBanner, imgGlobal, imgLang } from "../assets/images";
 import ContactModal from "./ContactModal";
 import { durationsDays } from "../constant";
+import useSWR from "swr";
+import { getStyles } from "../api/Style";
 
 const Navbar = ({ home }) => {
     const { t, i18n } = useTranslation();
@@ -26,6 +28,7 @@ const Navbar = ({ home }) => {
     const [navChildVNTour, setNavChildVNTour] = useState([]);
     const [navChildTravelInfor, setNavChildTravelInfor] = useState([]);
 
+    const { data: tourStyles } = useSWR(["/styles", { page: 1, limit: 9 }], ([_, params]) => getStyles(params));
     const tourStyle = [
         {
             slug: "cultural_tour",
@@ -183,7 +186,11 @@ const Navbar = ({ home }) => {
                                                 {durationsDays?.map((tour) => (
                                                     <div
                                                         className="w-[90%] px-[0.4rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
-                                                        onClick={() => navigate(`/tour/${tour?.value}`)}>
+                                                        onClick={() =>
+                                                            navigate(
+                                                                `/tour/search?duration=${tour?.value}&title=${tour?.title}`,
+                                                            )
+                                                        }>
                                                         {t(tour?.title)}
                                                     </div>
                                                 ))}
@@ -202,24 +209,42 @@ const Navbar = ({ home }) => {
                                                 />
                                             </div>
                                             <div className="">
-                                                <div className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 text-[#ef8d21] text-[1rem] uppercase font-semibold rounded-[6px]">
+                                                <div
+                                                    className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 text-[#ef8d21] text-[1rem] uppercase font-semibold rounded-[6px] cursor-pointer"
+                                                    onClick={() =>
+                                                        navigate(`/tour/search?style=all&title=navbar.all_style_tour`)
+                                                    }>
                                                     {t("navbar.all_style_tour")}
                                                 </div>
                                                 {tourStyle.map((style) => (
                                                     <div
                                                         className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
-                                                        onClick={() => navigate(`/tour/${style?.slug}`)}>
+                                                        onClick={() =>
+                                                            navigate(
+                                                                `/tour/search?style=${style?.slug}&title=${style?.title}`,
+                                                            )
+                                                        }>
                                                         {style?.title}
                                                     </div>
                                                 ))}
                                             </div>
 
                                             <div className="">
-                                                <div className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 text-[#ef8d21] text-[1rem] uppercase font-semibold rounded-[6px]">
+                                                <div
+                                                    className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 text-[#ef8d21] text-[1rem] uppercase font-semibold rounded-[6px] cursor-pointer"
+                                                    onClick={() =>
+                                                        navigate(
+                                                            `/tour/search?combineTour=all&title=navbar.combine_tour`,
+                                                        )
+                                                    }>
                                                     {t("navbar.combine_tour")}
                                                 </div>
                                                 {combineTour.map((cb) => (
-                                                    <div className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer">
+                                                    <div
+                                                        className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
+                                                        onClick={() =>
+                                                            navigate(`/tour/search?combineTour=cb&title=${cb}`)
+                                                        }>
                                                         {cb}
                                                     </div>
                                                 ))}
@@ -248,20 +273,30 @@ const Navbar = ({ home }) => {
                                     transform transition-all text-[0.85rem] cursor-default normal-case">
                                         <div className="grid grid-cols-3 p-[0.8rem] bg-[#f8fcf3] overflow-clip">
                                             <div className="">
-                                                <div className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 text-[#ef8d21] text-[1rem] uppercase font-semibold rounded-[6px]">
+                                                <div
+                                                    className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 text-[#ef8d21] text-[1rem] uppercase font-semibold rounded-[6px] cursor-pointer"
+                                                    onClick={() =>
+                                                        navigate(`/tour/search?side=1&title=navbar.northen_vn`)
+                                                    }>
                                                     {t("navbar.northen_vn")}
                                                 </div>
                                                 {travelInformation.nothern.location.map((no) => (
                                                     <div
                                                         className="w-[90%] px-[1rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
-                                                        onClick={() => navigate(`/tour/${no}`)}>
+                                                        onClick={() =>
+                                                            navigate(`/tour/search?location=${no}&title=${no}`)
+                                                        }>
                                                         {no}
                                                     </div>
                                                 ))}
                                             </div>
 
                                             <div className="">
-                                                <div className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 text-[#ef8d21] text-[1rem] uppercase font-semibold rounded-[6px]">
+                                                <div
+                                                    className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 text-[#ef8d21] text-[1rem] uppercase font-semibold rounded-[6px] cursor-pointer"
+                                                    onClick={() =>
+                                                        navigate(`/tour/search?side=2&title=navbar.central_vn`)
+                                                    }>
                                                     {t("navbar.central_vn")}
                                                 </div>
                                                 <img
@@ -272,18 +307,30 @@ const Navbar = ({ home }) => {
                                                     loading="lazy"
                                                 />
                                                 {travelInformation.central.location.map((cen) => (
-                                                    <div className="w-[90%] px-[1rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer">
+                                                    <div
+                                                        className="w-[90%] px-[1rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
+                                                        onClick={() =>
+                                                            navigate(`/tour/search?location=${cen}&title=${cen}`)
+                                                        }>
                                                         {cen}
                                                     </div>
                                                 ))}
                                             </div>
 
                                             <div className="">
-                                                <div className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 text-[#ef8d21] text-[1rem] uppercase font-semibold rounded-[6px]">
+                                                <div
+                                                    className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 text-[#ef8d21] text-[1rem] uppercase font-semibold rounded-[6px] cursor-pointer"
+                                                    onClick={() =>
+                                                        navigate(`/tour/search?side=3&title=navbar.south_vn`)
+                                                    }>
                                                     {t("navbar.south_vn")}
                                                 </div>
                                                 {travelInformation.south.location.map((s) => (
-                                                    <div className="w-[90%] px-[1rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer">
+                                                    <div
+                                                        className="w-[90%] px-[1rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
+                                                        onClick={() =>
+                                                            navigate(`/tour/search?location=${s}&title=${s}`)
+                                                        }>
                                                         {s}
                                                     </div>
                                                 ))}
@@ -386,9 +433,15 @@ const Navbar = ({ home }) => {
 
                                         {/* Child Duration  */}
                                         {navChildVNTour.includes(1) &&
-                                            tourDuration.map((dura) => (
-                                                <div className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}>
-                                                    {dura}
+                                            durationsDays.map((dura) => (
+                                                <div
+                                                    className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}
+                                                    onClick={() =>
+                                                        navigate(
+                                                            `/tour/search?duration=${dura?.value}&title=${dura?.title}`,
+                                                        )
+                                                    }>
+                                                    {t(dura?.title)}
                                                 </div>
                                             ))}
 
@@ -406,7 +459,11 @@ const Navbar = ({ home }) => {
                                         </div>
                                         {navChildVNTour.includes(2) &&
                                             tourStyle.map((style) => (
-                                                <div className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}>
+                                                <div
+                                                    className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}
+                                                    onClick={() =>
+                                                        navigate(`/tour/search?style=${style}&title=${style}`)
+                                                    }>
                                                     {style}
                                                 </div>
                                             ))}
@@ -423,9 +480,13 @@ const Navbar = ({ home }) => {
                                             </div>
                                         </div>
                                         {navChildVNTour.includes(3) &&
-                                            combineTour.map((style) => (
-                                                <div className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}>
-                                                    {style}
+                                            combineTour.map((cb) => (
+                                                <div
+                                                    className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}
+                                                    onClick={() =>
+                                                        navigate(`/tour/search?combineTour=${cb}&title=${cb}`)
+                                                    }>
+                                                    {cb}
                                                 </div>
                                             ))}
                                     </div>
@@ -462,7 +523,9 @@ const Navbar = ({ home }) => {
                                         </div>
                                         {navChildTravelInfor.includes(1) &&
                                             travelInformation.nothern.location.map((no) => (
-                                                <div className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}>
+                                                <div
+                                                    className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}
+                                                    onClick={() => navigate(`/tour/search?location=${no}&title=${no}`)}>
                                                     {no}
                                                 </div>
                                             ))}
@@ -482,7 +545,11 @@ const Navbar = ({ home }) => {
                                         </div>
                                         {navChildTravelInfor.includes(2) &&
                                             travelInformation.central.location.map((cen) => (
-                                                <div className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}>
+                                                <div
+                                                    className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}
+                                                    onClick={() =>
+                                                        navigate(`/tour/search?location=${cen}&title=${cen}`)
+                                                    }>
                                                     {cen}
                                                 </div>
                                             ))}
@@ -500,7 +567,11 @@ const Navbar = ({ home }) => {
                                         </div>
                                         {navChildTravelInfor.includes(3) &&
                                             travelInformation.south.location.map((sou) => (
-                                                <div className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}>
+                                                <div
+                                                    className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}
+                                                    onClick={() =>
+                                                        navigate(`/tour/search?location=${sou}&title=${sou}`)
+                                                    }>
                                                     {sou}
                                                 </div>
                                             ))}

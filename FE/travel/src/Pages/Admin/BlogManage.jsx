@@ -177,6 +177,7 @@ const BlogManage = () => {
                             search: e.target.value,
                         }))
                     }
+                    className="py-[0.5rem] px-[1rem] rounded-md border-[1px] border-[#fff]"
                 />
 
                 <input
@@ -188,9 +189,14 @@ const BlogManage = () => {
                             dateFilter: e.target.value,
                         }))
                     }
+                    className="py-[0.5rem] px-[1rem] rounded-md border-[1px] border-[#fff] mx-[2rem] text-white  [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:cursor-pointer"
                 />
 
-                <button onClick={handleSearch}>Search</button>
+                <button
+                    onClick={handleSearch}
+                    className="py-[0.5rem] px-[1rem] rounded-md border-[1px] border-[#fff] cursor-pointer hover:bg-[#fff] hover:text-[#000]">
+                    Search
+                </button>
             </div>
 
             {/* TABLE WRAPPER */}

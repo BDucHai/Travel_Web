@@ -3,18 +3,19 @@ import { useEffect, useState } from "react";
 import { createDestinations, getDestinationById, updateDestination } from "../../api/Destinations";
 import { useNavigate, useParams } from "react-router-dom";
 import useSWR from "swr";
+import { darkTextField } from "../../constant";
 
 export default function CreateDestination() {
     const { id } = useParams();
 
     const isEdit = !!id;
 
-    const { data, isLoading } = useSWR(id ? ["/destinations", id] : null, ([_, id]) => getDestinationById(id));
+    const { data } = useSWR(id ? ["/destinations", id] : null, ([_, id]) => getDestinationById(id));
 
     const navigate = useNavigate();
     const [destination, setDestination] = useState({
         country_id: "",
-        region: {id: 1, value: "northen"},
+        region: 1,
         name_en: "",
         name_fr: "",
 
@@ -70,7 +71,7 @@ export default function CreateDestination() {
         setDestination({
             country_id: data?.country_id || "",
 
-            region: data?.region || "northen",
+            region: data?.region || 1,
 
             name_en: data?.name_en || "",
             name_fr: data?.name_fr || "",
@@ -106,350 +107,314 @@ export default function CreateDestination() {
     }, [data]);
 
     return (
-        <Box
-            component="form"
-            onSubmit={handleSubmit}
-            sx={{
-                bgcolor: "#121212",
-                minHeight: "100vh",
-                color: "#fff",
-                p: 4,
-            }}>
-            <Typography variant="h5" mb={3}>
-                {isEdit ? "Edit Destination" : "Create Destination"}
-            </Typography>
+        <Box component="form" onSubmit={handleSubmit} className="min-h-screen bg-[#081416] text-white p-6">
+            <div className="max-w-7xl mx-auto">
+                <Typography
+                    variant="h4"
+                    sx={{
+                        fontWeight: 700,
+                        mb: 3,
+                    }}>
+                    {isEdit ? "Edit Destination" : "Create Destination"}
+                </Typography>
 
-            <Grid container spacing={3}>
-                <Grid item xs={12} md={6}>
-                    <TextField
-                        fullWidth
-                        label="Name EN"
-                        value={destination?.name_en}
-                        onChange={(e) => handleChange("name_en", e.target.value)}
-                        sx={{
-                            "& .MuiInputBase-root": {
-                            backgroundColor: "#fff",  
-                            color: "#000",          
-                            borderRadius: "8px",
-                            },
-                            "& .MuiInputLabel-root": {
-                            color: "#ccc",            
-                            },
-                            "& .MuiOutlinedInput-notchedOutline": {
-                            borderColor: "#444",     
-                            },
-                        }}
-                    />
-                </Grid>
+                <div
+                    className="
+                rounded-3xl
+                border border-white/10
+                bg-white/[0.03]
+                backdrop-blur-sm
+                p-8
+                shadow-2xl
+            ">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <TextField
+                            fullWidth
+                            label="Name EN"
+                            value={destination.name_en}
+                            onChange={(e) => handleChange("name_en", e.target.value)}
+                            sx={darkTextField}
+                        />
 
-                <Grid item xs={12} md={6}>
-                    <TextField
-                        fullWidth
-                        label="Name FR"
-                        value={destination?.name_fr}
-                        onChange={(e) => handleChange("name_fr", e.target.value)}
-                         sx={{
-                            "& .MuiInputBase-root": {
-                            backgroundColor: "#fff",  
-                            color: "#000",          
-                            borderRadius: "8px",
-                            },
-                            "& .MuiInputLabel-root": {
-                            color: "#ccc",            
-                            },
-                            "& .MuiOutlinedInput-notchedOutline": {
-                            borderColor: "#444",     
-                            },
-                        }}
-                    />
-                </Grid>
+                        <TextField
+                            fullWidth
+                            label="Name FR"
+                            value={destination.name_fr}
+                            onChange={(e) => handleChange("name_fr", e.target.value)}
+                            sx={darkTextField}
+                        />
 
-                <Grid item xs={12} md={6}>
-                    <TextField
-                        fullWidth
-                        label="Slug EN"
-                        value={destination?.slug_en}
-                        onChange={(e) => handleChange("slug_en", e.target.value)}
-                         sx={{
-                            "& .MuiInputBase-root": {
-                            backgroundColor: "#fff",  
-                            color: "#000",          
-                            borderRadius: "8px",
-                            },
-                            "& .MuiInputLabel-root": {
-                            color: "#ccc",            
-                            },
-                            "& .MuiOutlinedInput-notchedOutline": {
-                            borderColor: "#444",     
-                            },
-                        }}
-                    />
-                </Grid>
+                        <TextField
+                            fullWidth
+                            label="Slug EN"
+                            value={destination.slug_en}
+                            onChange={(e) => handleChange("slug_en", e.target.value)}
+                            sx={darkTextField}
+                        />
 
-                <Grid item xs={12} md={6}>
-                    <TextField
-                        fullWidth
-                        label="Slug FR"
-                        value={destination?.slug_fr}
-                        onChange={(e) => handleChange("slug_fr", e.target.value)}
-                         sx={{
-                            "& .MuiInputBase-root": {
-                            backgroundColor: "#fff",  
-                            color: "#000",          
-                            borderRadius: "8px",
-                            },
-                            "& .MuiInputLabel-root": {
-                            color: "#ccc",            
-                            },
-                            "& .MuiOutlinedInput-notchedOutline": {
-                            borderColor: "#444",     
-                            },
-                        }}
-                    />
-                </Grid>
+                        <TextField
+                            fullWidth
+                            label="Slug FR"
+                            value={destination.slug_fr}
+                            onChange={(e) => handleChange("slug_fr", e.target.value)}
+                            sx={darkTextField}
+                        />
 
-                <Grid item xs={12}>
-                    <TextField
-                        select
-                        fullWidth
-                        label="Region"
-                        value={destination?.region}
-                        onChange={(e) => handleChange("region", e.target.value)}  
-                        sx={{
-                            "& .MuiInputBase-root": {
-                            backgroundColor: "#fff",  
-                            color: "#000",          
-                            borderRadius: "8px",
-                            },
-                            "& .MuiInputLabel-root": {
-                            color: "#ccc",            
-                            },
-                            "& .MuiOutlinedInput-notchedOutline": {
-                            borderColor: "#444",     
-                            },
-                        }}>
-                        <MenuItem value={id= 1, value= "northen"}>Northen</MenuItem>
+                        <TextField
+                            select
+                            fullWidth
+                            label="Region"
+                            value={destination.region}
+                            onChange={(e) => handleChange("region", e.target.value)}
+                            sx={darkTextField}>
+                            <MenuItem value={1}>Northern</MenuItem>
+                            <MenuItem value={2}>Central</MenuItem>
+                            <MenuItem value={3}>Southern</MenuItem>
+                        </TextField>
 
-                        <MenuItem value={id= 2, value= "central"}>Central</MenuItem>
+                        <TextField
+                            fullWidth
+                            label="Display Order"
+                            type="number"
+                            value={destination.display_order}
+                            onChange={(e) => handleChange("display_order", e.target.value)}
+                            sx={darkTextField}
+                        />
 
-                        <MenuItem vvalue={id= 3, value= "south"}>South</MenuItem>
-                    </TextField>
-                </Grid>
-
-                <Grid item xs={12}>
-                    <TextField
-                        multiline
-                        rows={4}
-                        fullWidth
-                        label="Short Description EN"
-                        value={destination?.short_description_en}
-                        onChange={(e) => handleChange("short_description_en", e.target.value)}
-                         sx={{
-                            "& .MuiInputBase-root": {
-                            backgroundColor: "#fff",  
-                            color: "#000",          
-                            borderRadius: "8px",
-                            },
-                            "& .MuiInputLabel-root": {
-                            color: "#ccc",            
-                            },
-                            "& .MuiOutlinedInput-notchedOutline": {
-                            borderColor: "#444",     
-                            },
-                        }}
-                    />
-                </Grid>
-
-                <Grid item xs={12}>
-                    <TextField
-                        multiline
-                        rows={4}
-                        fullWidth
-                        label="Short Description FR"
-                        value={destination?.short_description_fr}
-                        onChange={(e) => handleChange("short_description_fr", e.target.value)}
-                         sx={{
-                            "& .MuiInputBase-root": {
-                            backgroundColor: "#fff",  
-                            color: "#000",          
-                            borderRadius: "8px",
-                            },
-                            "& .MuiInputLabel-root": {
-                            color: "#ccc",            
-                            },
-                            "& .MuiOutlinedInput-notchedOutline": {
-                            borderColor: "#444",     
-                            },
-                        }}
-                    />
-                </Grid>
-
-                <Grid item xs={12}>
-                    <TextField
-                        multiline
-                        rows={8}
-                        fullWidth
-                        label="Content EN"
-                        value={destination?.content_en}
-                        onChange={(e) => handleChange("content_en", e.target.value)}
-                         sx={{
-                            "& .MuiInputBase-root": {
-                            backgroundColor: "#fff",  
-                            color: "#000",          
-                            borderRadius: "8px",
-                            },
-                            "& .MuiInputLabel-root": {
-                            color: "#ccc",            
-                            },
-                            "& .MuiOutlinedInput-notchedOutline": {
-                            borderColor: "#444",     
-                            },
-                        }}
-                    />
-                </Grid>
-
-                <Grid item xs={12}>
-                    <TextField
-                        multiline
-                        rows={8}
-                        fullWidth
-                        label="Content FR"
-                        value={destination?.content_fr}
-                        onChange={(e) => handleChange("content_fr", e.target.value)}
-                         sx={{
-                            "& .MuiInputBase-root": {
-                            backgroundColor: "#fff",  
-                            color: "#000",          
-                            borderRadius: "8px",
-                            },
-                            "& .MuiInputLabel-root": {
-                            color: "#ccc",            
-                            },
-                            "& .MuiOutlinedInput-notchedOutline": {
-                            borderColor: "#444",     
-                            },
-                        }}
-                    />
-                </Grid>
-
-                <Grid item xs={6}>
-                    <TextField
-                        fullWidth
-                        label="Thumbnail URL"
-                        value={destination?.thumbnail_url}
-                        onChange={(e) => handleChange("thumbnail_url", e.target.value)}
-                         sx={{
-                            "& .MuiInputBase-root": {
-                            backgroundColor: "#fff",  
-                            color: "#000",          
-                            borderRadius: "8px",
-                            },
-                            "& .MuiInputLabel-root": {
-                            color: "#ccc",            
-                            },
-                            "& .MuiOutlinedInput-notchedOutline": {
-                            borderColor: "#444",     
-                            },
-                        }}
-                    />
-                </Grid>
-
-                <Grid item xs={6}>
-                    <TextField
-                        fullWidth
-                        label="Hero Image URL"
-                        value={destination?.hero_image_url}
-                        onChange={(e) => handleChange("hero_image_url", e.target.value)}
-                         sx={{
-                            "& .MuiInputBase-root": {
-                            backgroundColor: "#fff",  
-                            color: "#000",          
-                            borderRadius: "8px",
-                            },
-                            "& .MuiInputLabel-root": {
-                            color: "#ccc",            
-                            },
-                            "& .MuiOutlinedInput-notchedOutline": {
-                            borderColor: "#444",     
-                            },
-                        }}
-                    />
-                </Grid>
-
-                <Grid item xs={6}>
-                    <TextField
-                        fullWidth
-                        type="number"
-                        label="Latitude"
-                        value={destination?.latitude}
-                        onChange={(e) => handleChange("latitude", e.target.value)}
-                         sx={{
-                            "& .MuiInputBase-root": {
-                            backgroundColor: "#fff",  
-                            color: "#000",          
-                            borderRadius: "8px",
-                            },
-                            "& .MuiInputLabel-root": {
-                            color: "#ccc",            
-                            },
-                            "& .MuiOutlinedInput-notchedOutline": {
-                            borderColor: "#444",     
-                            },
-                        }}
-                    />
-                </Grid>
-
-                <Grid item xs={6}>
-                    <TextField
-                        fullWidth
-                        type="number"
-                        label="Longitude"
-                        value={destination?.longitude}
-                        onChange={(e) => handleChange("longitude", e.target.value)}
-                         sx={{
-                            "& .MuiInputBase-root": {
-                            backgroundColor: "#fff",  
-                            color: "#000",          
-                            borderRadius: "8px",
-                            },
-                            "& .MuiInputLabel-root": {
-                            color: "#ccc",            
-                            },
-                            "& .MuiOutlinedInput-notchedOutline": {
-                            borderColor: "#444",     
-                            },
-                        }}
-                    />
-                </Grid>
-
-                <Grid item xs={12}>
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                checked={destination?.is_featured}
-                                onChange={(e) => handleChange("is_featured", e.target.checked)}
+                        <div className="md:col-span-2">
+                            <TextField
+                                multiline
+                                rows={4}
+                                fullWidth
+                                label="Short Description EN"
+                                value={destination.short_description_en}
+                                onChange={(e) => handleChange("short_description_en", e.target.value)}
+                                sx={darkTextField}
                             />
-                        }
-                        label="Featured"
-                    />
+                        </div>
 
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                checked={destination?.is_active}
-                                onChange={(e) => handleChange("is_active", e.target.checked)}
+                        <div className="md:col-span-2">
+                            <TextField
+                                multiline
+                                rows={4}
+                                fullWidth
+                                label="Short Description FR"
+                                value={destination.short_description_fr}
+                                onChange={(e) => handleChange("short_description_fr", e.target.value)}
+                                sx={darkTextField}
                             />
-                        }
-                        label="Active"
-                    />
-                </Grid>
+                        </div>
 
-                <Grid item xs={12}>
-                    <Button type="submit" variant="contained" size="large">
-                        {isEdit ? "Update Destination" : "Create Destination"}
-                    </Button>
-                </Grid>
-            </Grid>
+                        <div className="md:col-span-2">
+                            <TextField
+                                multiline
+                                rows={8}
+                                fullWidth
+                                label="Content EN"
+                                value={destination.content_en}
+                                onChange={(e) => handleChange("content_en", e.target.value)}
+                                sx={darkTextField}
+                            />
+                        </div>
+
+                        <div className="md:col-span-2">
+                            <TextField
+                                multiline
+                                rows={8}
+                                fullWidth
+                                label="Content FR"
+                                value={destination.content_fr}
+                                onChange={(e) => handleChange("content_fr", e.target.value)}
+                                sx={darkTextField}
+                            />
+                        </div>
+
+                        <div className="md:col-span-2">
+                            <TextField
+                                multiline
+                                rows={3}
+                                fullWidth
+                                label="Best Time To Visit EN"
+                                value={destination.best_time_to_visit_en}
+                                onChange={(e) => handleChange("best_time_to_visit_en", e.target.value)}
+                                sx={darkTextField}
+                            />
+                        </div>
+
+                        <div className="md:col-span-2">
+                            <TextField
+                                multiline
+                                rows={3}
+                                fullWidth
+                                label="Best Time To Visit FR"
+                                value={destination.best_time_to_visit_fr}
+                                onChange={(e) => handleChange("best_time_to_visit_fr", e.target.value)}
+                                sx={darkTextField}
+                            />
+                        </div>
+
+                        <TextField
+                            fullWidth
+                            label="Thumbnail URL"
+                            value={destination.thumbnail_url}
+                            onChange={(e) => handleChange("thumbnail_url", e.target.value)}
+                            sx={darkTextField}
+                        />
+
+                        <TextField
+                            fullWidth
+                            label="Hero Image URL"
+                            value={destination.hero_image_url}
+                            onChange={(e) => handleChange("hero_image_url", e.target.value)}
+                            sx={darkTextField}
+                        />
+
+                        <TextField
+                            fullWidth
+                            type="number"
+                            label="Latitude"
+                            value={destination.latitude}
+                            onChange={(e) => handleChange("latitude", e.target.value)}
+                            sx={darkTextField}
+                        />
+
+                        <TextField
+                            fullWidth
+                            type="number"
+                            label="Longitude"
+                            value={destination.longitude}
+                            onChange={(e) => handleChange("longitude", e.target.value)}
+                            sx={darkTextField}
+                        />
+                    </div>
+
+                    {(destination.thumbnail_url || destination.hero_image_url) && (
+                        <div className="grid md:grid-cols-2 gap-6 mt-8">
+                            {destination.thumbnail_url && (
+                                <div>
+                                    <p className="text-sm text-gray-400 mb-2">Thumbnail Preview</p>
+
+                                    <img
+                                        src={destination.thumbnail_url}
+                                        alt="thumbnail"
+                                        className="
+                                    w-full
+                                    h-56
+                                    object-cover
+                                    rounded-2xl
+                                    border
+                                    border-white/10
+                                "
+                                    />
+                                </div>
+                            )}
+
+                            {destination.hero_image_url && (
+                                <div>
+                                    <p className="text-sm text-gray-400 mb-2">Hero Preview</p>
+
+                                    <img
+                                        src={destination.hero_image_url}
+                                        alt="hero"
+                                        className="
+                                    w-full
+                                    h-56
+                                    object-cover
+                                    rounded-2xl
+                                    border
+                                    border-white/10
+                                "
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    <div className="flex flex-wrap gap-8 mt-8">
+                        <FormControlLabel
+                            sx={{
+                                color: "#fff",
+                            }}
+                            control={
+                                <Switch
+                                    checked={destination.is_featured}
+                                    onChange={(e) => handleChange("is_featured", e.target.checked)}
+                                    sx={{
+                                        "& .MuiSwitch-switchBase.Mui-checked": {
+                                            color: "#c39562",
+                                        },
+
+                                        "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+                                            backgroundColor: "#c39562",
+                                        },
+                                    }}
+                                />
+                            }
+                            label="Featured Destination"
+                        />
+
+                        <FormControlLabel
+                            sx={{
+                                color: "#fff",
+                            }}
+                            control={
+                                <Switch
+                                    checked={destination.is_active}
+                                    onChange={(e) => handleChange("is_active", e.target.checked)}
+                                    sx={{
+                                        "& .MuiSwitch-switchBase.Mui-checked": {
+                                            color: "#c39562",
+                                        },
+
+                                        "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+                                            backgroundColor: "#c39562",
+                                        },
+                                    }}
+                                />
+                            }
+                            label="Active"
+                        />
+                    </div>
+
+                    <div className="flex justify-end gap-4 mt-10">
+                        <Button
+                            variant="outlined"
+                            onClick={() => navigate("/admin/destinations")}
+                            sx={{
+                                borderColor: "rgba(255,255,255,0.2)",
+                                color: "#fff",
+                                px: 4,
+                                py: 1.5,
+                                borderRadius: "14px",
+
+                                "&:hover": {
+                                    borderColor: "#c39562",
+                                },
+                            }}>
+                            Cancel
+                        </Button>
+
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            sx={{
+                                backgroundColor: "#c39562",
+                                px: 4,
+                                py: 1.5,
+                                borderRadius: "14px",
+                                textTransform: "none",
+                                fontSize: "15px",
+                                fontWeight: 700,
+
+                                "&:hover": {
+                                    backgroundColor: "#b28653",
+                                },
+                            }}>
+                            {isEdit ? "Update Destination" : "Create Destination"}
+                        </Button>
+                    </div>
+                </div>
+            </div>
         </Box>
     );
 }

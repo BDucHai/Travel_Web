@@ -21,9 +21,9 @@ const publicRoutes = [{ path: "/", component: Home }];
 
 const routesNavSticky = [
     { path: "/blog", component: Blog },
-    { path: "/blog/:id", component: BlogDetail },
+    { path: "/blog/detail/:id", component: BlogDetail },
     { path: "/about", component: AboutUs },
-    { path: "/tour/:query?", component: SearchTour },
+    { path: "/tour/search", component: SearchTour },
     { path: "/tour/detail/:id", component: TourDetail },
     { path: "/review", component: ReviewPage },
 ];

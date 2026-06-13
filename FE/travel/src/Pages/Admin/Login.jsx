@@ -27,11 +27,11 @@ export default function Login() {
         //   token: "xxxxx"
         // }
 
-        setUser(res?.data?.user);
+        setUser(res?.user);
 
-        setSession(res?.data?.user);
+        setSession(res?.user);
 
-        localStorage.setItem("token", res?.data?.token);
+        localStorage.setItem("token", res?.token);
         setLoading(false);
     };
 

@@ -19,10 +19,7 @@ const BlogDetail = () => {
     const { lang } = useAuth();
     const [openContactModal, setOpenContactModal] = useState(false);
 
-    const { data: blogDetail } = useSWR(
-        id ? ["/blogs/detail", { id }] : null,
-        ([_, params]) => getBlogById(params)
-        );
+    const { data: blogDetail } = useSWR(id ? ["/blogs/detail", { id }] : null, ([_, params]) => getBlogById(params));
 
     const blogFake = {
         title: "10 Days In Vietnam",
@@ -63,7 +60,8 @@ const BlogDetail = () => {
             </p>
         `,
     };
-    const blog = blogDetail?.data || blogFake;
+    const blog = blogDetail || blogFake;
+
     const { data: tours } = useSWR(["/tours", { page: 1, limit: 3, slugs: blog?.slug }], ([_, params]) =>
         getTours(params),
     );
@@ -110,7 +108,7 @@ const BlogDetail = () => {
     };
 
     useEffect(() => {
-        countBlog();
+        countBlog({ id });
     }, [id]);
 
     return (
@@ -285,7 +283,7 @@ const BlogDetail = () => {
                     <h2 className="text-2xl font-serif mb-8">RELATED TOURS</h2>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {tour?.map((item) => (
+                        {(tour || tours)?.map((item) => (
                             <CardHome tour={item} />
                         ))}
                     </div>

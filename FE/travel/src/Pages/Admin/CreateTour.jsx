@@ -8,15 +8,12 @@ import { TextField, Button, Switch, FormControlLabel, Autocomplete } from "@mui/
 import { getDestinations } from "../../api/Destinations";
 import { getStyles } from "../../api/Style";
 import { getTourCollections } from "../../api/TourCollection";
-import { durationsDays } from "../../constant";
+import { darkTextField, durationsDays } from "../../constant";
 
 const CreateTour = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { data: tourDetail } = useSWR(
-        id ? ["/tours", id] : null,
-        ([_, id]) => getToursById(id)
-    );
+    const { data: tourDetail } = useSWR(id ? ["/tours", id] : null, ([_, id]) => getToursById(id));
 
     const [styleSearch, setStyleSearch] = useState("");
     const [collectionSearch, setCollectionSearch] = useState("");
@@ -99,7 +96,7 @@ const CreateTour = () => {
             dayOrder: 1,
             displayOrder: 1,
             description_en: "",
-            description_fr: ""
+            description_fr: "",
         },
     ]);
 
@@ -146,75 +143,74 @@ const CreateTour = () => {
         }));
     };
 
-const handleSubmit = async () => {
-    try {
-        const payload = {
-            code: tour.code,
-            duration_days: Number(tour.duration_days),
-            price_from: Number(tour.price_from),
-            group_size: tour.group_size,
+    const handleSubmit = async () => {
+        try {
+            const payload = {
+                code: tour.code,
+                duration_days: Number(tour.duration_days),
+                price_from: Number(tour.price_from),
+                group_size: tour.group_size,
 
-            title_en: tour.title_en,
-            title_fr: tour.title_fr,
+                title_en: tour.title_en,
+                title_fr: tour.title_fr,
 
-            slug_en: tour.slug_en,
-            slug_fr: tour.slug_fr,
+                slug_en: tour.slug_en,
+                slug_fr: tour.slug_fr,
 
-            short_description_en: tour.short_description_en,
+                short_description_en: tour.short_description_en,
 
-            short_description_fr: tour.short_description_fr,
+                short_description_fr: tour.short_description_fr,
 
-            overview_en: tour.overview_en,
-            overview_fr: tour.overview_fr,
+                overview_en: tour.overview_en,
+                overview_fr: tour.overview_fr,
 
-            itinerary_en: tour.itinerary_en,
-            itinerary_fr: tour.itinerary_fr,
+                itinerary_en: tour.itinerary_en,
+                itinerary_fr: tour.itinerary_fr,
 
-            inclusion_en: tour.inclusion_en,
-            inclusion_fr: tour.inclusion_fr,
+                inclusion_en: tour.inclusion_en,
+                inclusion_fr: tour.inclusion_fr,
 
-            exclusion_en: tour.exclusion_en,
-            exclusion_fr: tour.exclusion_fr,
+                exclusion_en: tour.exclusion_en,
+                exclusion_fr: tour.exclusion_fr,
 
-            is_featured: tour.is_featured,
-            is_active: tour.is_active,
+                is_featured: tour.is_featured,
+                is_active: tour.is_active,
 
-            style_ids: tour.styles.map((item) => item.id),
+                style_ids: tour.styles.map((item) => item.id),
 
-            collection_ids: tour.collections.map((item) => item.id),
+                collection_ids: tour.collections.map((item) => item.id),
 
-            tour_destinations: destinationDays
-                .filter((item) => item.destination)
-                .map((item) => ({
-                    destination_id: item.destination.id,
+                tour_destinations: destinationDays
+                    .filter((item) => item.destination)
+                    .map((item) => ({
+                        destination_id: item.destination.id,
 
-                    day_order: item.dayOrder,
+                        day_order: item.dayOrder,
 
-                    display_order: item.displayOrder,
-                })),
-        };
+                        display_order: item.displayOrder,
+                    })),
+            };
 
-        const formData = new FormData();
+            const formData = new FormData();
 
-        formData.append("data", JSON.stringify(payload));
+            formData.append("data", JSON.stringify(payload));
 
-        if (tour.featuredImage) {
-            formData.append("featured_image", tour.featuredImage);
+            if (tour.featuredImage) {
+                formData.append("featured_image", tour.featuredImage);
+            }
+
+            tour.galleryImages.forEach((image) => {
+                formData.append("gallery_images", image);
+            });
+
+            const res = await createTours(formData);
+            if (res?.status === 200) {
+                navigate("/admin/tours");
+            }
+        } catch (error) {
+            console.error(error);
         }
-
-        tour.galleryImages.forEach((image) => {
-            formData.append("gallery_images", image);
-        });
-
-        const res = await createTours(formData);
-        if(res?.status === 200){
-
-          navigate("/admin/tours");
-        }
-    } catch (error) {
-        console.error(error);
-    }
-};
+    };
 
     const handleChange = (field) => (e) => {
         setTour((prev) => ({
@@ -235,8 +231,6 @@ const handleSubmit = async () => {
 
             price_from: tourDetail?.price_from || "",
 
-            group_size: tourDetail?.group_size || "",
-
             title_en: tourDetail?.title_en || "",
 
             title_fr: tourDetail?.title_fr || "",
@@ -248,7 +242,30 @@ const handleSubmit = async () => {
             overview_en: tourDetail?.overview_en || "",
 
             overview_fr: tourDetail?.overview_fr || "",
+
+            itinerary_en: tourDetail?.itinerary_en || "",
+            itinerary_fr: tourDetail?.itinerary_fr || "",
+
+            inclusion_en: tourDetail?.inclusion_en || "",
+            inclusion_fr: tourDetail?.inclusion_fr || "",
+
+            exclusion_en: tourDetail?.exclusion_en || "",
+            exclusion_fr: tourDetail?.exclusion_fr || "",
+
+            is_featured: tourDetail?.is_featured === 1 ? true : false,
+
+            is_active: tourDetail?.is_active === 1 ? true : false,
+
+            featuredImage: tourDetail?.featuredImage,
+
+            galleryImages: tourDetail?.galleryImages || [],
+
+            styles: tourDetail?.styles || [],
+
+            collections: tourDetail?.collections || [],
         }));
+
+        setDestinationDays(tourDetail?.destinationDays);
     }, [tourDetail]);
 
     return (
@@ -271,39 +288,29 @@ const handleSubmit = async () => {
                     <h2 className="text-xl font-semibold mb-6">Basic Information</h2>
 
                     <div className="grid grid-cols-2 gap-5">
-                        <TextField label="Tour Code" value={tour?.code} onChange={handleChange("code")} fullWidth  sx={{
-    "& .MuiInputBase-root": {
-      backgroundColor: "white",   // nền trắng
-      color: "black",             // chữ đen
-    },
-    "& .MuiInputLabel-root": {
-      color: "#666",              // label xám nhạt
-    },
-  }}/>
+                        <TextField
+                            label="Tour Code"
+                            value={tour?.code}
+                            onChange={handleChange("code")}
+                            fullWidth
+                            sx={darkTextField}
+                        />
 
                         <Autocomplete
                             disablePortal
                             options={durationsDays}
                             value={tour?.duration_days}
-                             sx={{
-    "& .MuiInputBase-root": {
-      backgroundColor: "white",  
-      color: "black",            
-    },
-    "& .MuiInputLabel-root": {
-      color: "#666",              
-    },
-  }}
+                            sx={darkTextField}
                             onChange={(_, value) =>
                                 setTour((prev) => ({
                                     ...prev,
                                     duration_days: value,
                                 }))
-                             }
-                             getOptionLabel={(option) => option.value}
+                            }
+                            getOptionLabel={(option) => option.value}
                             fullWidth
                             renderInput={(params) => <TextField {...params} label="Days" />}
-                            />
+                        />
 
                         <TextField
                             label="Price From"
@@ -311,15 +318,7 @@ const handleSubmit = async () => {
                             value={tour?.price_from}
                             onChange={handleChange("price_from")}
                             fullWidth
-                            sx={{
-    "& .MuiInputBase-root": {
-      backgroundColor: "white",  
-      color: "black",            
-    },
-    "& .MuiInputLabel-root": {
-      color: "#666",              
-    },
-  }}
+                            sx={darkTextField}
                         />
 
                         {/* <TextField
@@ -334,15 +333,7 @@ const handleSubmit = async () => {
                             value={tour?.title_en}
                             onChange={handleChange("title_en")}
                             fullWidth
-                            sx={{
-    "& .MuiInputBase-root": {
-      backgroundColor: "white",  
-      color: "black",            
-    },
-    "& .MuiInputLabel-root": {
-      color: "#666",              
-    },
-  }}
+                            sx={darkTextField}
                         />
 
                         <TextField
@@ -350,36 +341,24 @@ const handleSubmit = async () => {
                             value={tour?.title_fr}
                             onChange={handleChange("title_fr")}
                             fullWidth
-                            sx={{
-    "& .MuiInputBase-root": {
-      backgroundColor: "white",  
-      color: "black",            
-    },
-    "& .MuiInputLabel-root": {
-      color: "#666",              
-    },
-  }}
+                            sx={darkTextField}
                         />
 
-                        <TextField label="Slug EN" value={tour?.slug_en} onChange={handleChange("slug_en")} fullWidth sx={{
-    "& .MuiInputBase-root": {
-      backgroundColor: "white",  
-      color: "black",            
-    },
-    "& .MuiInputLabel-root": {
-      color: "#666",              
-    },
-  }}/>
+                        <TextField
+                            label="Slug EN"
+                            value={tour?.slug_en}
+                            onChange={handleChange("slug_en")}
+                            fullWidth
+                            sx={darkTextField}
+                        />
 
-                        <TextField label="Slug FR" value={tour?.slug_fr} onChange={handleChange("slug_fr")} fullWidth sx={{
-    "& .MuiInputBase-root": {
-      backgroundColor: "white",  
-      color: "black",            
-    },
-    "& .MuiInputLabel-root": {
-      color: "#666",              
-    },
-  }}/>
+                        <TextField
+                            label="Slug FR"
+                            value={tour?.slug_fr}
+                            onChange={handleChange("slug_fr")}
+                            fullWidth
+                            sx={darkTextField}
+                        />
                     </div>
                 </div>
 
@@ -390,15 +369,7 @@ const handleSubmit = async () => {
                     <div className="space-y-5">
                         <Autocomplete
                             multiple
-                             sx={{
-    "& .MuiInputBase-root": {
-      backgroundColor: "white",   // nền trắng
-      color: "black",             // chữ đen
-    },
-    "& .MuiInputLabel-root": {
-      color: "#666",              // label xám nhạt
-    },
-  }}
+                            sx={darkTextField}
                             options={styles}
                             filterOptions={(x) => x}
                             value={tour?.styles}
@@ -415,15 +386,7 @@ const handleSubmit = async () => {
 
                         <Autocomplete
                             multiple
-                             sx={{
-    "& .MuiInputBase-root": {
-      backgroundColor: "white",   // nền trắng
-      color: "black",             // chữ đen
-    },
-    "& .MuiInputLabel-root": {
-      color: "#666",              // label xám nhạt
-    },
-  }}
+                            sx={darkTextField}
                             options={collections}
                             filterOptions={(x) => x}
                             value={tour?.collections}
@@ -462,28 +425,12 @@ const handleSubmit = async () => {
                     ">
                                 <div className="flex gap-4">
                                     <div className="w-32">
-                                        <TextField label="Day" value={item.dayOrder} fullWidth  sx={{
-                                            "& .MuiInputBase-root": {
-                                            backgroundColor: "white",   // nền trắng
-                                            color: "black",             // chữ đen
-                                            },
-                                            "& .MuiInputLabel-root": {
-                                            color: "#666",              // label xám nhạt
-                                            },
-                                        }}/>
+                                        <TextField label="Day" value={item.dayOrder} fullWidth sx={darkTextField} />
                                     </div>
 
                                     <div className="flex-1">
                                         <Autocomplete
-                                         sx={{
-                                                    "& .MuiInputBase-root": {
-                                                    backgroundColor: "white",   // nền trắng
-                                                    color: "black",             // chữ đen
-                                                    },
-                                                    "& .MuiInputLabel-root": {
-                                                    color: "#666",              // label xám nhạt
-                                                    },
-                                                }}
+                                            sx={darkTextField}
                                             options={destinations}
                                             filterOptions={(x) => x}
                                             onInputChange={(_, value) => setDestinationSearch(value)}
@@ -500,46 +447,37 @@ const handleSubmit = async () => {
                                         />
                                     </div>
 
-
-
                                     <Button color="error" onClick={() => removeDay(index)}>
                                         Remove
                                     </Button>
                                 </div>
-
+                                <div className="my-[1rem]"></div>
                                 <TextField
                                     label="Description Destination Fr"
                                     value={item.description_en || ""}
                                     onChange={(e) => {
-                                    const clone = [...destinationDays];
-                                    clone[index].description_en = e.target.value;
-                                    setDestinationDays(clone);
+                                        const clone = [...destinationDays];
+                                        clone[index].description_en = e.target.value;
+                                        setDestinationDays(clone);
                                     }}
                                     fullWidth
                                     multiline
                                     maxRows={2}
-                                    sx={{
-                                    "& .MuiInputBase-root": { backgroundColor: "white", color: "black" },
-                                    "& .MuiInputLabel-root": { color: "#666" },
-                                    marginY: '0.8rem'
-                                    }}
+                                    sx={darkTextField}
                                 />
-
-                                  <TextField
+                                <div className="my-[1rem]"></div>
+                                <TextField
                                     label="Description Destination Fr"
                                     value={item.description_fr || ""}
                                     onChange={(e) => {
-                                    const clone = [...destinationDays];
-                                    clone[index].description_fr = e.target.value;
-                                    setDestinationDays(clone);
+                                        const clone = [...destinationDays];
+                                        clone[index].description_fr = e.target.value;
+                                        setDestinationDays(clone);
                                     }}
                                     fullWidth
                                     multiline
                                     maxRows={2}
-                                    sx={{
-                                    "& .MuiInputBase-root": { backgroundColor: "white", color: "black" },
-                                    "& .MuiInputLabel-root": { color: "#666" },
-                                    }}
+                                    sx={darkTextField}
                                 />
                             </div>
                         ))}
@@ -549,7 +487,7 @@ const handleSubmit = async () => {
                 {/* Image  Hero*/}
                 <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 mt-[3rem]">
                     <h2 className="text-xl font-semibold mb-4">Featured Image</h2>
-                    <input type="file" accept="image/*" onChange={handleFeaturedImage} className="cursor-pointer hover:bg-[#ccc]"/>
+                    <input type="file" accept="image/*" onChange={handleFeaturedImage} className="cursor-pointer" />
                     {tour?.featuredImage && (
                         <img
                             src={URL.createObjectURL(tour?.featuredImage)}
@@ -562,7 +500,13 @@ const handleSubmit = async () => {
                 {/* Galary IMG */}
                 <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 mt-[3rem]">
                     <h2 className="text-xl font-semibold mb-4">Tour Gallery</h2>
-                    <input type="file" multiple accept="image/*" onChange={handleGalleryImages} className="cursor-pointer"/>
+                    <input
+                        type="file"
+                        multiple
+                        accept="image/*"
+                        onChange={handleGalleryImages}
+                        className="cursor-pointer"
+                    />
                     <div className="grid grid-cols-4 gap-4 mt-6">
                         {tour?.galleryImages?.map((image, index) => (
                             <img
@@ -578,15 +522,7 @@ const handleSubmit = async () => {
                 {/* Text Section */}
                 <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 grid grid-cols-2 gap-5 mt-[3rem]">
                     <TextField
-                        sx={{
-                            "& .MuiInputBase-root": {
-                            backgroundColor: "white",   // nền trắng
-                            color: "black",             // chữ đen
-                            },
-                            "& .MuiInputLabel-root": {
-                            color: "#666",              // label xám nhạt
-                            },
-                        }}
+                        sx={darkTextField}
                         label="Overview EN"
                         value={tour?.overview_en}
                         onChange={handleChange("overview_en")}
@@ -596,15 +532,7 @@ const handleSubmit = async () => {
                     />
                     <TextField
                         label="Overview FR"
-                                                sx={{
-                            "& .MuiInputBase-root": {
-                            backgroundColor: "white",   // nền trắng
-                            color: "black",             // chữ đen
-                            },
-                            "& .MuiInputLabel-root": {
-                            color: "#666",              // label xám nhạt
-                            },
-                        }}
+                        sx={darkTextField}
                         value={tour?.overview_fr}
                         onChange={handleChange("overview_fr")}
                         multiline
@@ -613,15 +541,7 @@ const handleSubmit = async () => {
                     />
                     <TextField
                         label="Short Description EN"
-                                                sx={{
-                            "& .MuiInputBase-root": {
-                            backgroundColor: "white",   // nền trắng
-                            color: "black",             // chữ đen
-                            },
-                            "& .MuiInputLabel-root": {
-                            color: "#666",              // label xám nhạt
-                            },
-                        }}
+                        sx={darkTextField}
                         value={tour?.description_en}
                         onChange={handleChange("description_en")}
                         multiline
@@ -630,15 +550,7 @@ const handleSubmit = async () => {
                     />
                     <TextField
                         label="Short Description FR"
-                                                sx={{
-                            "& .MuiInputBase-root": {
-                            backgroundColor: "white",   // nền trắng
-                            color: "black",             // chữ đen
-                            },
-                            "& .MuiInputLabel-root": {
-                            color: "#666",              // label xám nhạt
-                            },
-                        }}
+                        sx={darkTextField}
                         value={tour?.description_fr}
                         onChange={handleChange("description_fr")}
                         multiline
@@ -647,15 +559,7 @@ const handleSubmit = async () => {
                     />
                     <TextField
                         label="Itinerary EN"
-                                                sx={{
-                            "& .MuiInputBase-root": {
-                            backgroundColor: "white",   // nền trắng
-                            color: "black",             // chữ đen
-                            },
-                            "& .MuiInputLabel-root": {
-                            color: "#666",              // label xám nhạt
-                            },
-                        }}
+                        sx={darkTextField}
                         value={tour?.itinerary_en}
                         onChange={handleChange("itinerary_en")}
                         multiline
@@ -664,15 +568,7 @@ const handleSubmit = async () => {
                     />
                     <TextField
                         label="Itinerary FR"
-                                                sx={{
-                            "& .MuiInputBase-root": {
-                            backgroundColor: "white",   // nền trắng
-                            color: "black",             // chữ đen
-                            },
-                            "& .MuiInputLabel-root": {
-                            color: "#666",              // label xám nhạt
-                            },
-                        }}
+                        sx={darkTextField}
                         value={tour?.itinerary_fr}
                         onChange={handleChange("itinerary_fr")}
                         multiline
@@ -681,15 +577,7 @@ const handleSubmit = async () => {
                     />
                     <TextField
                         label="Inclusion EN"
-                                                sx={{
-                            "& .MuiInputBase-root": {
-                            backgroundColor: "white",   // nền trắng
-                            color: "black",             // chữ đen
-                            },
-                            "& .MuiInputLabel-root": {
-                            color: "#666",              // label xám nhạt
-                            },
-                        }}
+                        sx={darkTextField}
                         value={tour?.inclusion_en}
                         onChange={handleChange("inclusion_en")}
                         multiline
@@ -698,15 +586,7 @@ const handleSubmit = async () => {
                     />
                     <TextField
                         label="Inclusion FR"
-                                                sx={{
-                            "& .MuiInputBase-root": {
-                            backgroundColor: "white",   // nền trắng
-                            color: "black",             // chữ đen
-                            },
-                            "& .MuiInputLabel-root": {
-                            color: "#666",              // label xám nhạt
-                            },
-                        }}
+                        sx={darkTextField}
                         value={tour?.inclusion_fr}
                         onChange={handleChange("inclusion_fr")}
                         multiline
@@ -715,15 +595,7 @@ const handleSubmit = async () => {
                     />
                     <TextField
                         label="Exclusion EN"
-                                                sx={{
-                            "& .MuiInputBase-root": {
-                            backgroundColor: "white",   // nền trắng
-                            color: "black",             // chữ đen
-                            },
-                            "& .MuiInputLabel-root": {
-                            color: "#666",              // label xám nhạt
-                            },
-                        }}
+                        sx={darkTextField}
                         value={tour?.exclusion_en}
                         onChange={handleChange("exclusion_en")}
                         multiline
@@ -732,15 +604,7 @@ const handleSubmit = async () => {
                     />
                     <TextField
                         label="Exclusion FR"
-                                                sx={{
-                            "& .MuiInputBase-root": {
-                            backgroundColor: "white",   // nền trắng
-                            color: "black",             // chữ đen
-                            },
-                            "& .MuiInputLabel-root": {
-                            color: "#666",              // label xám nhạt
-                            },
-                        }}
+                        sx={darkTextField}
                         value={tour?.exclusion_f}
                         onChange={handleChange("exclusion_fr")}
                         multiline
@@ -761,6 +625,30 @@ const handleSubmit = async () => {
                                         is_featured: e.target.checked,
                                     }))
                                 }
+                                sx={{
+                                    "& .MuiSwitch-track": {
+                                        backgroundColor: "rgba(255,255,255,0.12)",
+                                        opacity: 1,
+                                    },
+
+                                    "& .MuiSwitch-thumb": {
+                                        backgroundColor: "#fff",
+                                        border: "1px solid rgba(255,255,255,0.15)",
+                                    },
+
+                                    "& .MuiSwitch-switchBase.Mui-checked": {
+                                        color: "#c39562",
+                                    },
+
+                                    "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+                                        backgroundColor: "#c39562",
+                                        opacity: 1,
+                                    },
+
+                                    "& .MuiSwitch-switchBase.Mui-checked .MuiSwitch-thumb": {
+                                        backgroundColor: "#fff",
+                                    },
+                                }}
                             />
                         }
                         label="Featured"
@@ -776,6 +664,30 @@ const handleSubmit = async () => {
                                         is_active: e.target.checked,
                                     }))
                                 }
+                                sx={{
+                                    "& .MuiSwitch-track": {
+                                        backgroundColor: "rgba(255,255,255,0.12)",
+                                        opacity: 1,
+                                    },
+
+                                    "& .MuiSwitch-thumb": {
+                                        backgroundColor: "#fff",
+                                        border: "1px solid rgba(255,255,255,0.15)",
+                                    },
+
+                                    "& .MuiSwitch-switchBase.Mui-checked": {
+                                        color: "#c39562",
+                                    },
+
+                                    "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+                                        backgroundColor: "#c39562",
+                                        opacity: 1,
+                                    },
+
+                                    "& .MuiSwitch-switchBase.Mui-checked .MuiSwitch-thumb": {
+                                        backgroundColor: "#fff",
+                                    },
+                                }}
                             />
                         }
                         label="Active"

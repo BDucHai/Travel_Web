@@ -78,49 +78,58 @@ const CreateBlog = () => {
     };
 
     return (
-        <div className="w-full mx-auto py-10 px-5 bg-[radial-gradient(circle,_#0e3637_0%,_#0d0d11ab_70%)] text-white">
+        <div className="w-full mx-auto py-10 px-5 bg-[#081416] text-white p-6">
             <h1 className="text-5xl font-bold mb-10">Create Blog</h1>
 
             {/* TITLE */}
-            <input
-                value={blog?.titleEn}
-                onChange={(e) => setBlog((prev) => ({ ...prev, titleEn: e?.target?.value }))}
-                placeholder="Blog title..."
+            <div
                 className="
-                    w-full
-                    border
-                    rounded-2xl
-                    p-5
-                    text-4xl
-                    font-bold
-                    mb-8
-                    outline-none
-                "
-            />
-
-            <input
-                value={blog?.titleFr}
-                onChange={(e) => setBlog((prev) => ({ ...prev, titleFr: e?.target?.value }))}
-                placeholder="Blog title... (FR)"
-                className="
-                    w-full
-                    border
-                    rounded-2xl
-                    p-5
-                    text-4xl
-                    font-bold
-                    mb-8
-                    outline-none
-                "
-            />
-
-            {/* SLUG */}
-            <div className="grid grid-cols-2 gap-4 mb-8">
+                rounded-3xl
+                border border-white/10
+                bg-white/[0.03]
+                backdrop-blur-sm
+                p-8
+                shadow-2xl
+            ">
                 <input
-                    value={blog?.slugEn}
-                    onChange={(e) => setBlog((prev) => ({ ...prev, slugEn: e?.target?.value }))}
-                    placeholder="slug-en"
+                    value={blog?.titleEn}
+                    onChange={(e) => setBlog((prev) => ({ ...prev, titleEn: e?.target?.value }))}
+                    placeholder="Blog title..."
                     className="
+                    w-full
+                    border
+                    rounded-xl
+                    p-3
+                    text-[1rem]
+                    font-bold
+                    mb-8
+                    outline-none
+                "
+                />
+
+                <input
+                    value={blog?.titleFr}
+                    onChange={(e) => setBlog((prev) => ({ ...prev, titleFr: e?.target?.value }))}
+                    placeholder="Blog title... (FR)"
+                    className="
+                    w-full
+                    border
+                        rounded-xl
+                    p-3
+                    text-[1rem]
+                    font-bold
+                    mb-8
+                    outline-none
+                "
+                />
+
+                {/* SLUG */}
+                <div className="grid grid-cols-2 gap-4 mb-8">
+                    <input
+                        value={blog?.slugEn}
+                        onChange={(e) => setBlog((prev) => ({ ...prev, slugEn: e?.target?.value }))}
+                        placeholder="slug-en"
+                        className="
                         w-full
                         border
                         rounded-xl
@@ -128,13 +137,13 @@ const CreateBlog = () => {
                         text-[16px]
                         outline-none
                     "
-                />
+                    />
 
-                <input
-                    value={blog?.slugFr}
-                    onChange={(e) => setBlog((prev) => ({ ...prev, slugFr: e?.target?.value }))}
-                    placeholder="slug-fr"
-                    className="
+                    <input
+                        value={blog?.slugFr}
+                        onChange={(e) => setBlog((prev) => ({ ...prev, slugFr: e?.target?.value }))}
+                        placeholder="slug-fr"
+                        className="
                         w-full
                         border
                         rounded-xl
@@ -142,64 +151,77 @@ const CreateBlog = () => {
                         text-[16px]
                         outline-none
                     "
-                />
-            </div>
+                    />
+                </div>
 
-            {/* FEATURE + VIEW COUNT */}
-            <div className="flex items-center gap-5 mb-8">
-                <button
-                    type="button"
-                    onChange={(e) => setBlog((prev) => ({ ...prev, isFeature: !blog?.isFeature }))}
-                    className={`
+                {/* FEATURE + VIEW COUNT */}
+                <div className="flex items-center gap-5 mb-8">
+                    <button
+                        type="button"
+                        onClick={() =>
+                            setBlog((prev) => ({
+                                ...prev,
+                                isFeature: !prev.isFeature,
+                            }))
+                        }
+                        className={`
                         px-5
                         py-3
                         rounded-xl
                         border
-                        transition
-                        text-[16px]
                         font-semibold
-                        ${blog?.isFeature ? "bg-[#c39562] border-[#c39562]" : "bg-transparent border-white"}
+                        text-[16px]
+                        cursor-pointer
+                        transition-all
+                        duration-300
+                        hover:scale-105
+                        ${
+                            blog?.isFeature
+                                ? "bg-[#c39562] border-[#c39562] text-white shadow-lg"
+                                : "bg-white border-gray-300 text-gray-700 hover:bg-gray-100"
+                        }
                     `}>
-                    {blog?.isFeature ? "Featured" : "Not Feature"}
-                </button>
+                        {blog?.isFeature ? "⭐ Featured" : "Feature Post"}
+                    </button>
 
-                <input
-                    type="number"
-                    value={blog?.viewCount}
-                    onChange={(e) => setBlog((prev) => ({ ...prev, viewCount: e?.target?.value }))}
-                    placeholder="View count"
-                    className="
-                        w-[180px]
+                    <input
+                        type="number"
+                        value={blog?.viewCount}
+                        onChange={(e) => setBlog((prev) => ({ ...prev, viewCount: e?.target?.value }))}
+                        placeholder="View count"
+                        className="
+                        w-[100px]
+                        lg:w-[40%]
                         border
                         rounded-xl
                         p-3
                         text-[16px]
                         outline-none
                     "
+                    />
+                </div>
+
+                {/* EXCERPT EN */}
+                <input
+                    value={blog?.excerptEn}
+                    onChange={(e) => setBlog((prev) => ({ ...prev, excerptEn: e?.target?.value }))}
+                    placeholder="Excerpt (EN)..."
+                    className="w-full border rounded-2xl p-4 text-[1.25rem] font-semibold mb-5 outline-none"
                 />
-            </div>
 
-            {/* EXCERPT EN */}
-            <input
-                value={blog?.excerptEn}
-                onChange={(e) => setBlog((prev) => ({ ...prev, excerptEn: e?.target?.value }))}
-                placeholder="Excerpt (EN)..."
-                className="w-full border rounded-2xl p-4 text-[1.25rem] font-semibold mb-5 outline-none"
-            />
+                <textarea
+                    value={blog?.excerptFr}
+                    onChange={(e) => setBlog((prev) => ({ ...prev, excerptFr: e?.target?.value }))}
+                    placeholder="Excerpt (FR)..."
+                    className="w-full border rounded-2xl p-4 h-28 text-[1rem] mb-8 outline-none"
+                />
 
-            <textarea
-                value={blog?.excerptFr}
-                onChange={(e) => setBlog((prev) => ({ ...prev, excerptFr: e?.target?.value }))}
-                placeholder="Excerpt (FR)..."
-                className="w-full border rounded-2xl p-4 h-28 text-[1rem] mb-8 outline-none"
-            />
+                {/* HERO IMAGE */}
+                <div className="mb-10">
+                    <div className="font-semibold mb-3">Hero Banner Image</div>
 
-            {/* HERO IMAGE */}
-            <div className="mb-10">
-                <div className="font-semibold mb-3">Hero Banner Image</div>
-
-                <label
-                    className="
+                    <label
+                        className="
                         w-auto
                         min-h-[200px]
                         h-auto
@@ -212,57 +234,57 @@ const CreateBlog = () => {
                         cursor-pointer
                         overflow-hidden
                     ">
-                    {heroLoading && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-10">
-                            <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin" />
-                        </div>
-                    )}
+                        {heroLoading && (
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-10">
+                                <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin" />
+                            </div>
+                        )}
 
-                    {blog?.heroImage ? (
-                        <img
-                            src={blog?.heroImage}
-                            alt=""
-                            className="
+                        {blog?.heroImage ? (
+                            <img
+                                src={blog?.heroImage}
+                                alt=""
+                                className="
                                 w-full
                                 h-full
                                 object-cover
                             "
-                        />
-                    ) : (
-                        <div className="text-gray-500">Upload hero image</div>
-                    )}
+                            />
+                        ) : (
+                            <div className="text-gray-500">Upload hero image</div>
+                        )}
 
-                    <input type="file" hidden onChange={handleHeroUpload} />
-                </label>
-            </div>
+                        <input type="file" hidden onChange={handleHeroUpload} />
+                    </label>
+                </div>
 
-            {/* CONTENT */}
-            <BlogEditor
-                content={blog?.content}
-                setContent={(html) =>
-                    setBlog((prev) => ({
-                        ...prev,
-                        contentEn: html,
-                    }))
-                }
-            />
+                {/* CONTENT */}
+                <BlogEditor
+                    content={blog?.content}
+                    setContent={(html) =>
+                        setBlog((prev) => ({
+                            ...prev,
+                            contentEn: html,
+                        }))
+                    }
+                />
 
-            <div className="mt-[3rem] mb-[0.5rem] text-[2.5rem] font-bold">France Content</div>
+                <div className="mt-[3rem] mb-[0.5rem] text-[2.5rem] font-bold">France Content</div>
 
-            <BlogEditor
-                content={blog?.contentFr}
-                setContent={(html) =>
-                    setBlog((prev) => ({
-                        ...prev,
-                        contentFr: html,
-                    }))
-                }
-            />
+                <BlogEditor
+                    content={blog?.contentFr}
+                    setContent={(html) =>
+                        setBlog((prev) => ({
+                            ...prev,
+                            contentFr: html,
+                        }))
+                    }
+                />
 
-            {/* SUBMIT */}
-            <button
-                onClick={handleSubmit}
-                className="
+                {/* SUBMIT */}
+                <button
+                    onClick={handleSubmit}
+                    className="
                     mt-8
                     px-8 py-4
                     bg-[#c39562]
@@ -271,8 +293,9 @@ const CreateBlog = () => {
                     hover:scale-105
                     transition
                 ">
-                Publish Blog
-            </button>
+                    Publish Blog
+                </button>
+            </div>
         </div>
     );
 };

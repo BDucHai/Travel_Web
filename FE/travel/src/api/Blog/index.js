@@ -7,7 +7,7 @@ export const createBlog = async (data) => {
         const res = await axiosClient.post("/blogs", data);
 
         toast.success(i18n.t("notify.create_success"));
-        return res?.data
+        return res?.data;
     } catch (error) {
         toast.error(i18n.t("notify.create_fail"));
         throw error;
@@ -24,7 +24,9 @@ export const deleteBlog = async (id) => {
     }
 };
 
-export const getBlog = async (url, params) => axiosClient.get(url, { params }).then((res) => res.data);
+export const getBlog = async (params) => axiosClient.get("/blogs", { params }).then((res) => res?.data);
+
+export const getMostReadBlog = async (params) => axiosClient.get("/blogs", { params }).then((res) => res?.data);
 
 export const countBlog = async ({ id }) => axiosClient.get(`/blogs/count/${id}`);
 

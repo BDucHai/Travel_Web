@@ -1,10 +1,13 @@
 // PostCard.jsx
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { imgReason } from "../assets/images";
+import ContactModal from "../Components/ContactModal";
 
 const AboutUs = () => {
     const { t } = useTranslation();
+
+    const [openContactModal, setOpenContactModal] = useState(false);
 
     const ourPhilosophy = [
         {
@@ -243,11 +246,16 @@ const AboutUs = () => {
                     </h2>
 
                     {/* Nút CTA */}
-                    <button className="bg-[#12acb3] hover:bg-[#e98f21] hover:scale-[105%] transition-all duration-150 text-white font-semibold py-3 px-8 rounded-md shadow-md transition duration-300 cursor-pointer">
+                    <button
+                        className="bg-[#12acb3] hover:bg-[#e98f21] hover:scale-[105%] transition-all duration-150 text-white font-semibold py-3 px-8 rounded-md shadow-md transition duration-300 cursor-pointer"
+                        onClick={() => setOpenContactModal(true)}>
                         {t("aboutUs.plan_my_trip")}
                     </button>
                 </div>
             </div>
+
+            {/* Modal */}
+            <ContactModal t={t} open={openContactModal} onClose={() => setOpenContactModal(false)} />
         </>
     );
 };

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Tabs, Tab, Box, Button } from "@mui/material";
+import { Tabs, Tab, Box, Button, Pagination } from "@mui/material";
 import { motion } from "framer-motion";
 import useSWR from "swr";
 import { getContacts, deleteContacts, updateStatusContact } from "../../api/Contact";
 
-const contacts = [
+const contactsFake = [
     {
         id: 1,
         full_name: "Nguyen Van A",
@@ -43,6 +43,16 @@ const contacts = [
     },
 ];
 
+//Json tra {
+//     "data": [...],
+//     "pagination": {
+//         "page": 1,
+//         "limit": 10,
+//         "total": 52,
+//         "totalPages": 6
+//     }
+// }
+
 export default function Contact() {
     const statusTabs = [
         { label: "New", value: 0 },
@@ -51,46 +61,40 @@ export default function Contact() {
         { label: "Reject", value: 3 },
     ];
 
-    const [tab, setTab] = useState(0);
+    const [params, setParams] = useState({
+        tab: 0,
+        page: 1,
+        limit: 10,
+    });
 
-    const { data, mutate } = useSWR(["/contacts", { status: statusTabs[tab].value }], ([url, params]) =>
-        getContacts(url, params),
-    );
+    const { data: contacts, mutate } = useSWR(["/contacts", params], ([url, params]) => getContacts(url, params));
 
-    const handleChange = (_, newValue) => setTab(newValue);
+    const handleChange = (_, newValue) => setParams((prev) => ({ ...prev, tab: newValue }));
 
     const updateStatus = async (id, newStatus) => {
         const res = await updateStatusContact(id, newStatus);
-
-        mutate(
-            ["/contacts", { status: statusTabs[tab].value }],
-            (currentData) => {
-                if (!currentData) return currentData;
-
-                return {
-                    ...currentData,
-                    data: currentData.data.map((item) => (item.id === id ? res : item)),
-                };
-            },
-            false,
-        );
+        if (res?.status === 200) {
+            mutate();
+        }
     };
 
     const deleteContact = async (id) => {
-        await deleteContacts(id);
-        mutate(["/contacts", { status: statusTabs[tab].value }]);
+        const res = await deleteContacts(id);
+        if (res?.status === 200) {
+            mutate();
+        }
     };
 
     return (
         <Box className="bg-[radial-gradient(circle,_#0e3637_0%,_#0d0d11ab_70%)] text-white min-h-screen p-6">
-            <Tabs value={tab} onChange={handleChange} textColor="inherit" indicatorColor="secondary">
+            <Tabs value={params?.tab} onChange={handleChange} textColor="inherit" indicatorColor="secondary">
                 {statusTabs.map((s, idx) => (
                     <Tab key={s.value} label={s.label} />
                 ))}
             </Tabs>
 
             <div className="mt-6 space-y-4">
-                {contacts?.map((c) => (
+                {(contacts || contactsFake)?.map((c) => (
                     <motion.div
                         key={c?.id}
                         initial={{ opacity: 0, y: 20 }}
@@ -152,6 +156,19 @@ export default function Contact() {
                         </div>
                     </motion.div>
                 ))}
+                <div className="flex justify-center mt-6">
+                    <Pagination
+                        page={params?.page}
+                        count={(contacts || contactsFake)?.pagination?.totalPages || 1}
+                        color="primary"
+                        onChange={(_, value) =>
+                            setParams((prev) => ({
+                                ...prev,
+                                page: value,
+                            }))
+                        }
+                    />
+                </div>
             </div>
         </Box>
     );

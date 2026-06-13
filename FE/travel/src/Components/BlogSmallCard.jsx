@@ -15,7 +15,7 @@ const BlogSmallCard = ({ blog }) => {
             transition={{ duration: 0.15, ease: "easeOut" }}
             className="bg-white shadow-md rounded-md overflow-hidden border border-gray-200 cursor-pointer hover:bg-[#55646821]"
             onClick={() => {
-                navigate("/blog/detail");
+                navigate(`/blog/detail/${blog?.id}`);
             }}>
             <img src={blog?.image} alt={blog?.title} className="w-full h-[10rem] lg:h-[12rem] object-cover" />
 

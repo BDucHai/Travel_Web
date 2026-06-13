@@ -1,6 +1,5 @@
 import axiosClient from "../axios";
 import { toast } from "react-toastify";
-import { mutate } from "swr";
 import i18n from "../../i18n";
 
 export const createContacts = async (data) => {
@@ -17,11 +16,10 @@ export const createContacts = async (data) => {
 
 export const deleteContacts = async (id) => {
     try {
-        // await axiosClient.delete(`/contacts/${id}`);
+        const res =await axiosClient.delete(`/contacts/${id}`);
 
         toast.success(i18n.t("notify.delete_success"));
-
-        mutate("/contacts");
+        return res?.data
     } catch (error) {
         toast.error(i18n.t("notify.delete_fail"));
     }
