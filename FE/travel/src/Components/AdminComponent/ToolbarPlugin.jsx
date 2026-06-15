@@ -50,9 +50,9 @@ const ToolbarPlugin = () => {
 
                 editor.update(() => {
                     const imageNode = $createImageNode({
-                        id: imageUrl?.id,
+                        id: imageUrl?.asset_id,
                         src: imageUrl?.url,
-                        alt: file.name,
+                        alt: file.original_filename ,
                     });
 
                     $insertNodes([imageNode]);

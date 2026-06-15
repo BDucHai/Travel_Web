@@ -15,22 +15,23 @@ const BlogSmallCard = ({ blog }) => {
             transition={{ duration: 0.15, ease: "easeOut" }}
             className="bg-white shadow-md rounded-md overflow-hidden border border-gray-200 cursor-pointer hover:bg-[#55646821]"
             onClick={() => {
-                navigate(`/blog/detail/${blog?.id}`);
+                navigate(`/blog/detail/${blog?.slug}`);
             }}>
-            <img src={blog?.image} alt={blog?.title} className="w-full h-[10rem] lg:h-[12rem] object-cover" />
+            <img src={blog?.heroImageUrl} alt={blog?.slug} className="w-full h-[10rem] lg:h-[12rem] object-cover" />
 
             {/* Nội dung */}
             <div className="px-4 pt-4 pb-2 flex flex-col justify-between">
                 {/* Guide */}
-                <p className="text-xs text-[#f27000]">{blog?.guide}</p>
+                {/* <p className="text-xs text-[#f27000]">{blog?.guide}</p> */}
                 <h3 className="text-lg font-semibold">{blog?.title}</h3>
             </div>
             <div className="flex items-center text-[0.7rem] text-dark mt-2 p-4">
                 <span className="flex items-center mr-[0.8rem]">
-                    <CiCalendar className="mr-[0.2rem]" /> {blog?.date}
+                    <CiCalendar className="mr-[0.2rem]" />
+                    {new Date(blog?.publishedAt).toLocaleDateString("vi-VN")}
                 </span>
                 <span className="flex items-center">
-                    <FaEye className="mr-[0.2rem]" /> {blog?.views} {t("view")}
+                    <FaEye className="mr-[0.2rem]" /> {blog?.viewCount} {t("view")}
                 </span>
             </div>
         </motion.div>

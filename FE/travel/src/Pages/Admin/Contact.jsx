@@ -55,96 +55,69 @@ const contactsFake = [
 
 export default function Contact() {
     const statusTabs = [
-        { label: "New", value: 0 },
-        { label: "Processing", value: 1 },
-        { label: "Done", value: 2 },
-        { label: "Reject", value: 3 },
+        { label: "NEW", value: 0 },
+        { label: "DONE", value: 2 },
     ];
 
     const [params, setParams] = useState({
-        tab: 0,
+        status: "NEW",
         page: 0,
         limit: 10,
     });
 
-    const { data: contacts, mutate } = useSWR(["/contacts", params], ([url, params]) => getContacts(url, params));
+    const { data: contacts, mutate } = useSWR(["/admin/contact-messages", params], ([url, params]) =>
+        getContacts(url, params),
+    );
 
-    const handleChange = (_, newValue) => setParams((prev) => ({ ...prev, tab: newValue }));
+    const handleChange = (_, newValue) => setParams((prev) => ({ ...prev, status: newValue }));
 
-    const updateStatus = async (id, newStatus) => {
-        const res = await updateStatusContact(id, newStatus);
-        if (res?.status === 200) {
-            mutate();
-        }
+    const updateStatus = async (id) => {
+        await updateStatusContact(id);
+        await mutate();
     };
 
     const deleteContact = async (id) => {
-        const res = await deleteContacts(id);
-        if (res?.status === 200) {
-            mutate();
-        }
+        await deleteContacts(id);
+        await mutate();
     };
 
     return (
         <Box className="bg-[radial-gradient(circle,_#0e3637_0%,_#0d0d11ab_70%)] text-white min-h-screen p-6">
             <Tabs value={params?.tab} onChange={handleChange} textColor="inherit" indicatorColor="secondary">
                 {statusTabs.map((s, idx) => (
-                    <Tab key={s.value} label={s.label} />
+                    <Tab key={s.value} label={s.label} value={s.label} />
                 ))}
             </Tabs>
 
             <div className="mt-6 space-y-4">
-                {(contacts || contactsFake)?.map((c) => (
+                {(contacts?.data || contactsFake)?.map((c) => (
                     <motion.div
                         key={c?.id}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="bg-gray-800 rounded-lg p-4 shadow-md">
-                        <h3 className="text-lg font-semibold">{c?.full_name}</h3>
+                        <h3 className="text-lg font-semibold">{c?.fullName}</h3>
                         <p className="text-sm text-gray-400">
-                            {c?.email} | {c?.phone_number}
+                            {c?.email} | {c?.phoneNumber}
                         </p>
                         <p className="mt-2">{c?.message}</p>
-                        <p className="text-xs text-gray-500 mt-2">Request Date: {c?.created_at}</p>
+                        <p className="text-xs text-gray-500 mt-2">
+                            Request Date: {new Date(c?.createdAt).toLocaleDateString("vi-VN")}
+                        </p>
 
                         <div className="mt-4 flex gap-2">
-                            {c?.status === 0 && (
+                            {c?.status === "NEW" && (
                                 <>
                                     <Button
                                         variant="contained"
                                         color="success"
                                         size="small"
-                                        onClick={() => updateStatus(c?.id, 1)}>
+                                        onClick={() => updateStatus(c?.id)}>
                                         Accept
                                     </Button>
-                                    <Button
-                                        variant="contained"
-                                        color="error"
-                                        size="small"
-                                        onClick={() => updateStatus(c?.id, 3)}>
-                                        Reject
-                                    </Button>
                                 </>
                             )}
-                            {c?.status === 1 && (
-                                <>
-                                    <Button
-                                        variant="contained"
-                                        color="success"
-                                        size="small"
-                                        onClick={() => updateStatus(c?.id, 2)}>
-                                        Done
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        color="error"
-                                        size="small"
-                                        onClick={() => updateStatus(c?.id, 3)}>
-                                        Reject
-                                    </Button>
-                                </>
-                            )}
-                            {(c?.status === 2 || c?.status === 3) && (
+                            {c?.status === "DONE" && (
                                 <Button
                                     variant="outlined"
                                     color="error"

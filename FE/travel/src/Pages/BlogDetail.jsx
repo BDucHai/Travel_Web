@@ -1,100 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FaWhatsapp } from "react-icons/fa";
 import DOMPurify from "dompurify";
-import CardHome from "../Components/CardHome";
-import { imgCardSample } from "../assets/images";
 import { useTranslation } from "react-i18next";
 import ContactModal from "../Components/ContactModal";
 import { CgMail } from "react-icons/cg";
 import { useAuth } from "../contexts/AuthContext";
 import useSWR from "swr";
-import { countBlog, getBlogById } from "../api/Blog";
-import { getTours } from "../api/Tour";
+import { getBlogById } from "../api/Blog";
+import RelatedTours from "../Components/RelatedTours";
 
 const BlogDetail = () => {
-    const { id } = useParams();
+    const { slug } = useParams();
     const { t } = useTranslation();
-
     const { lang } = useAuth();
     const [openContactModal, setOpenContactModal] = useState(false);
 
-    const { data: blogDetail } = useSWR(id ? ["/blogs/detail", { id }] : null, ([_, params]) => getBlogById(params));
+    const navigate = useNavigate();
 
-    const blogFake = {
-        title: "10 Days In Vietnam",
-        hero_image_url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
-
-        created_at: "02-06-2026",
-
-        view_count: 12000,
-
-        content_en: `
-            <h1>Vietnam Adventure</h1>
-
-            <p>
-                Vietnam is one of the most beautiful countries in Asia.
-            </p>
-
-            <img src="https://images.unsplash.com/photo-1528127269322-539801943592" />
-
-            <h2>Ha Long Bay</h2>
-
-            <p>
-                The landscape is breathtaking and unforgettable.
-            </p>
-        `,
-        content_fr: `
-            <h1>Hành trình Việt Nam</h1>
-
-            <p>
-                Việt Nam là một trong những quốc gia đẹp nhất ở châu Á.
-            </p>
-
-            <img src="https://images.unsplash.com/photo-1528127269322-539801943592" />
-
-            <h2>Vịnh Hạ Long</h2>
-
-            <p>
-                Phong cảnh ở đây thật sự tuyệt vời và khó quên.
-            </p>
-        `,
-    };
-    const blog = blogDetail || blogFake;
-
-    const { data: tours } = useSWR(["/tours", { page: 1, limit: 3, slugs: blog?.slug }], ([_, params]) =>
-        getTours(params),
+    const { data: blog } = useSWR(slug ? ["/blogs/detail", { slug, lang }] : null, ([_, params]) =>
+        getBlogById(params),
     );
-
-    const tour = [
-        {
-            id: 1,
-            img: imgCardSample.cardSample,
-            meta_title: "Essential VietNam",
-            meta_description: "Discoer the hightlight vietnam from hanoi to HCM City with memorable expoeriences",
-            duration_days: "10 Days / 9 Nights",
-            slug: "Best Seller",
-            published_at: "May 20, 2026",
-        },
-        {
-            id: 2,
-            img: imgCardSample.cardSample,
-            meta_title: "Essential VietNam",
-            meta_description: "Discoer the hightlight vietnam from hanoi to HCM City with memorable expoeriences",
-            duration_days: "10 Days / 9 Nights",
-            slug: "Best Seller",
-            published_at: "May 20, 2026",
-        },
-        {
-            id: 3,
-            img: imgCardSample.cardSample,
-            meta_title: "Essential VietNam",
-            meta_description: "Discoer the hightlight vietnam from hanoi to HCM City with memorable expoeriences",
-            duration_days: "10 Days / 9 Nights",
-            slug: "Popular",
-            published_at: "May 20, 2026",
-        },
-    ];
 
     const [request, setRequest] = useState({
         name: "",
@@ -107,16 +33,12 @@ const BlogDetail = () => {
         setRequest({ ...request, [e?.target?.name]: e?.target?.value });
     };
 
-    useEffect(() => {
-        countBlog({ id });
-    }, [id]);
-
     return (
         <div className="bg-white">
             {/* HERO */}
             <div className="relative h-[650px] overflow-hidden">
                 <img
-                    src={blog?.hero_image_url}
+                    src={blog?.heroImageUrl}
                     alt=""
                     className="
                         w-full
@@ -135,7 +57,7 @@ const BlogDetail = () => {
                         text-white
                         max-w-[800px]
                     ">
-                    <div className="uppercase tracking-[5px] mb-5">Travel Tips</div>
+                    {/* <div className="uppercase tracking-[5px] mb-5">Travel Tips</div> */}
 
                     <h1
                         className="
@@ -148,9 +70,9 @@ const BlogDetail = () => {
                     </h1>
 
                     <div className="flex gap-5 mt-6 text-white/80">
-                        <div>{blog?.created_at}</div>
+                        <div> {new Date(blog?.publishedAt).toLocaleDateString("vi-VN")}</div>
 
-                        <div>{blog?.view_count} views</div>
+                        <div>{blog?.viewCount} views</div>
                     </div>
                 </div>
             </div>
@@ -180,17 +102,15 @@ const BlogDetail = () => {
                 prose-p:text-gray-700
             "
                     dangerouslySetInnerHTML={{
-                        __html: DOMPurify.sanitize(lang === "en" ? blog?.content_en : blog?.content_fr),
+                        __html: DOMPurify.sanitize(blog?.content),
                     }}
                 />
 
                 {/* CONTACT FORM */}
                 <div className="border-t border-gray-200 mt-20 pt-16">
-                    <h2 className="text-3xl font-serif mb-2">Need help planning your trip?</h2>
+                    <h2 className="text-3xl font-serif mb-2">{t("need_help_plan")}</h2>
 
-                    <p className="text-gray-500 mb-8">
-                        Our travel specialists are here to help you build your perfect Indochina journey.
-                    </p>
+                    <p className="text-gray-500 mb-8">{t("travel_help")}</p>
 
                     <form className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <input
@@ -282,11 +202,7 @@ const BlogDetail = () => {
                 <div className="border-t border-gray-200 mt-20 pt-16">
                     <h2 className="text-2xl font-serif mb-8">RELATED TOURS</h2>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {(tour || tours)?.map((item) => (
-                            <CardHome tour={item} />
-                        ))}
-                    </div>
+                    <RelatedTours tours={blog?.relatedTours} />
 
                     <div className="flex justify-center mt-10">
                         <button
@@ -301,14 +217,15 @@ const BlogDetail = () => {
                         hover:text-white
                         transition-all
                         cursor-pointer
-                    ">
+                    "
+                            onClick={() => navigate("/tours")}>
                             {t("view_all_tour")}
                         </button>
                     </div>
                 </div>
 
                 {/* YOU MAY ALSO LIKE */}
-                <div className="border-t border-gray-200 mt-20 pt-16">
+                {/* <div className="border-t border-gray-200 mt-20 pt-16">
                     <h2 className="text-2xl font-serif mb-8">YOU MAY ALSO LIKE</h2>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -361,11 +278,12 @@ const BlogDetail = () => {
                                 hover:text-white
                                 transition-all
                                 cursor-pointer
-                            ">
+                            "
+                            onClick={() => navigate("/tours")}>
                             {t("read_more")}
                         </button>
                     </div>
-                </div>
+                </div> */}
             </div>
             {/* Floatting icon */}
             <div className="hidden lg:block fixed bottom-4 right-4 flex flex-col gap-3 z-50">

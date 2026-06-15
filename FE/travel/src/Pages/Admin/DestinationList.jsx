@@ -30,19 +30,14 @@ export default function DestinationList() {
 
     const columns = [
         {
-            field: "thumbnail_url",
+            field: "thumbnailUrl",
             headerName: "Image",
             width: 100,
             renderCell: (params) => <img src={params.value} alt="" className="w-16 h-12 object-cover rounded" />,
         },
         {
-            field: "name_en",
+            field: "name",
             headerName: "Name EN",
-            flex: 1,
-        },
-        {
-            field: "name_fr",
-            headerName: "Name FR",
             flex: 1,
         },
         {
@@ -51,14 +46,7 @@ export default function DestinationList() {
             width: 120,
         },
         {
-            field: "is_featured",
-            headerName: "Featured",
-            width: 120,
-            renderCell: (params) =>
-                params.value ? <Chip label="Yes" color="success" size="small" /> : <Chip label="No" size="small" />,
-        },
-        {
-            field: "is_active",
+            field: "isActive",
             headerName: "Active",
             width: 120,
             renderCell: (params) =>
@@ -81,7 +69,7 @@ export default function DestinationList() {
             renderCell: (params) => (
                 <>
                     <IconButton component={Link} to={`/admin/destinations/create/${params.row.id}`}>
-                        <MdEdit />
+                        <MdEdit className="text-white" />
                     </IconButton>
 
                     <IconButton color="error" onClick={() => handleDelete(params.row.id)}>
@@ -117,13 +105,13 @@ export default function DestinationList() {
                 rowCount={data?.pagination?.total || 0}
                 pageSizeOptions={[20, 50, 100]}
                 paginationModel={{
-                    page: params?.page - 1,
+                    page: params?.page,
                     pageSize: params?.limit,
                 }}
                 onPaginationModelChange={(model) => {
                     setParams((prev) => ({
                         ...prev,
-                        page: model.page + 1,
+                        page: model.page,
                         limit: model.pageSize,
                     }));
                 }}

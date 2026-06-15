@@ -1,17 +1,15 @@
 import axiosClient from "../axios";
 import { toast } from "react-toastify";
-import { mutate } from "swr";
 import i18n from "../../i18n";
 
 export const createReview = async (data) => {
     try {
-        const res = await axiosClient.post("/reviews", data);
+        const res = await axiosClient.post("/testimonials", data);
 
         toast.success(i18n.t("notify.create_success"));
         return res?.data;
     } catch (error) {
         toast.error(i18n.t("notify.create_fail"));
-        throw error;
     }
 };
 
@@ -19,10 +17,8 @@ export const getReviews = async (url, params) => axiosClient.get(url, { params }
 
 export const deleteReview = async (id) => {
     try {
-        await axiosClient.delete(`/reviews/${id}`);
+        await axiosClient.delete(`/testimonials/${id}`);
         toast.success(i18n.t("notify.delete_success"));
-
-        mutate("/reviews");
     } catch (error) {
         toast.error(i18n.t("notify.delete_fail"));
     }
@@ -30,7 +26,7 @@ export const deleteReview = async (id) => {
 
 export const getReviewById = async ({ id }) => {
     try {
-        const res = await axiosClient.get(`/reviews/${id}`);
+        const res = await axiosClient.get(`/testimonials/${id}`);
 
         return res?.data;
     } catch (err) {
@@ -40,10 +36,9 @@ export const getReviewById = async ({ id }) => {
 
 export const updateReview = async ({ id, data }) => {
     try {
-        const res = await axiosClient.post(`/reviews/${id}`, data);
+        const res = await axiosClient.post(`/testimonials/${id}`, data);
 
         toast.success(i18n.t("notify.update_success"));
-        mutate("/reviews");
         return res?.data;
     } catch (err) {
         toast.error(i18n.t("notify.update_fail"));
@@ -52,7 +47,7 @@ export const updateReview = async ({ id, data }) => {
 
 export const updateStatusReviews = async (id, status) => {
     try {
-        const res = await axiosClient.post(`/reviews/${id}`, { status });
+        const res = await axiosClient.post(`/testimonials/${id}`, { status });
         toast.success(i18n.t("notify.update_success"));
         return res?.data;
     } catch (err) {

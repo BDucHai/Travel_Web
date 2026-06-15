@@ -16,7 +16,6 @@ const TourDetail = () => {
         getToursById(url, params),
     );
 
-
     const [contactModal, setContactModal] = useState(false);
 
     return (
@@ -77,32 +76,7 @@ const TourDetail = () => {
                         <h2 className="text-2xl font-bold mb-6">{t("itinerary")}</h2>
 
                         <div className="space-y-8">
-                            {[
-                                {
-                                    day: "Day 1",
-                                    title: "Arrival in Hanoi",
-                                    desc: "Airport pickup, check-in hotel, free time in Old Quarter.",
-                                    img: "https://images.unsplash.com/photo-1528127269322-539801943592",
-                                },
-                                {
-                                    day: "Day 2",
-                                    title: "Hanoi City Tour",
-                                    desc: "Visit Temple of Literature, Ho Chi Minh Mausoleum, street food tour.",
-                                    img: "https://images.unsplash.com/photo-1509030450996-9a8a7c9f4f2c",
-                                },
-                                {
-                                    day: "Day 3",
-                                    title: "Ha Long Bay Cruise",
-                                    desc: "Overnight cruise through limestone karsts and emerald waters.",
-                                    img: "https://images.unsplash.com/photo-1528127269322-539801943592",
-                                },
-                                {
-                                    day: "Day 4",
-                                    title: "Hoi An Ancient Town",
-                                    desc: "Explore lantern streets, Japanese bridge and riverside cafés.",
-                                    img: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
-                                },
-                            ]?.map((item, i) => (
+                            {tourDetail?.itineraryDays?.map((item, i) => (
                                 <motion.div
                                     key={i}
                                     initial={{ opacity: 0, x: -20 }}
@@ -117,7 +91,7 @@ const TourDetail = () => {
                                     {/* IMAGE */}
                                     <div className="md:w-1/3 h-48 md:h-auto overflow-hidden">
                                         <img
-                                            src={item?.img}
+                                            src={item?.imageUrl}
                                             alt={item?.title}
                                             className="w-full h-full object-cover hover:scale-110 transition duration-500"
                                         />
@@ -130,10 +104,10 @@ const TourDetail = () => {
 
                                         <div className="pl-4">
                                             <h3 className="font-semibold text-lg text-[#e38c2b]">
-                                                {item?.day} — {item?.title}
+                                                {item?.dayNumber} — {item?.title}
                                             </h3>
 
-                                            <p className="text-gray-600 mt-2 leading-relaxed">{item?.desc}</p>
+                                            <p className="text-gray-600 mt-2 leading-relaxed">{item?.description}</p>
                                         </div>
                                     </div>
                                 </motion.div>

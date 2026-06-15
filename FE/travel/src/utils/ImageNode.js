@@ -33,6 +33,17 @@ export class ImageNode extends DecoratorNode {
         };
     }
 
+    exportDOM() {
+        const img = document.createElement("img");
+
+        img.setAttribute("src", this.__src);
+        img.setAttribute("alt", this.__alt);
+
+        return {
+            element: img,
+        };
+    }
+
     createDOM() {
         return document.createElement("span");
     }

@@ -18,7 +18,6 @@ export const createDestinations = async (data) => {
         return res?.data;
     } catch (error) {
         toast.error(i18n.t("notify.create_fail"));
-        throw error;
     }
 };
 

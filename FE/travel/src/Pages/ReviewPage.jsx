@@ -241,12 +241,24 @@ export default function ReviewPage() {
 
                 <DialogContent>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                        <TextField label="Name" name="name" value={form?.name} onChange={handleChange} fullWidth />
-
-                        <TextField label="Email" name="email" value={form?.email} onChange={handleChange} fullWidth />
+                        <TextField
+                            label={t("your_name")}
+                            name="name"
+                            value={form?.name}
+                            onChange={handleChange}
+                            fullWidth
+                        />
 
                         <TextField
-                            label="Country"
+                            label={t("your_email")}
+                            name="email"
+                            value={form?.email}
+                            onChange={handleChange}
+                            fullWidth
+                        />
+
+                        <TextField
+                            label={t("country")}
                             name="country"
                             value={form?.country}
                             onChange={handleChange}
@@ -255,7 +267,7 @@ export default function ReviewPage() {
 
                         <div className="flex items-center">
                             <Rating
-                                name="rating"
+                                label={t("rating")}
                                 value={form?.rating}
                                 onChange={(_, newValue) =>
                                     setForm({
@@ -268,7 +280,7 @@ export default function ReviewPage() {
 
                         {/* CONTENT */}
                         <TextField
-                            label="Content"
+                            label={t("content")}
                             name="content"
                             value={form?.content}
                             onChange={handleChange}

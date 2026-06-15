@@ -84,6 +84,9 @@
           "what_app": "WhatsApp (Phone number)",
           "your_phone": "Your phone",
           "your_name": "Your name",
+            "country": "Country",
+          "rating": "Rating",
+            "content": "Content",
 
           "detail": "Detail",
           
@@ -169,7 +172,8 @@
           "upload_multi_img": "Upload Multiple Image",
           "travel_img": "Travel Image",
           "overview": "Overview",
-          "highlight": "Highlights"
-          
+          "highlight": "Highlights",
+          "need_help_plan": "Need help planning your trip?",
+          "travel_help": "Our travel specialists are here to help you build your perfect Indochina journey."
 
 }

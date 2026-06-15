@@ -10,103 +10,23 @@ import BlogSmallCard from "../Components/BlogSmallCard";
 import { useNavigate } from "react-router-dom";
 import useSWR from "swr";
 import { getBlog, getMostReadBlog } from "../api/Blog";
-import LoadingScreen from "../Components/LoadingScreen";
+// import LoadingScreen from "../Components/LoadingScreen";
+import { useAuth } from "../contexts/AuthContext";
 
-// api return
-// {
-//     "data": [...],
-//     "pagination": {
-//         "page": 1,
-//         "totalPages": 5
-//     }
-// }
 const Blog = () => {
     const { t } = useTranslation();
-
+    const { lang } = useAuth;
     const navigate = useNavigate();
 
     const [openContactModal, setOpenContactModal] = useState(false);
 
     const [params, setParams] = useState({
-        search: "",
         page: 0,
         limit: 8,
+        lang,
     });
 
-    const [listBlog, setListBlog] = useState([
-        {
-            id: 1,
-            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
-            guide: "VIETNAM CULTURE",
-            title: "Vietnamese Culture: Custom & Traditions",
-            meta: "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
-            date: "05-30-2026",
-            views: "6200",
-        },
-        {
-            id: 2,
-            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
-            guide: "VIETNAM CULTURE",
-            title: "Vietnamese Culture: Custom & Traditions",
-            meta: "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
-            date: "05-30-2026",
-            views: "6200",
-        },
-        {
-            id: 3,
-            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
-            guide: "VIETNAM CULTURE",
-            title: "Vietnamese Culture: Custom & Traditions",
-            meta: "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
-            date: "05-30-2026",
-            views: "6200",
-        },
-        {
-            id: 4,
-            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
-            guide: "VIETNAM CULTURE",
-            title: "Vietnamese Culture: Custom & Traditions",
-            meta: "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
-            date: "05-30-2026",
-            views: "6200",
-        },
-        {
-            id: 5,
-            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
-            guide: "VIETNAM CULTURE",
-            title: "Vietnamese Culture: Custom & Traditions",
-            meta: "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
-            date: "05-30-2026",
-            views: "6200",
-        },
-        {
-            id: 6,
-            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
-            guide: "VIETNAM CULTURE",
-            title: "Vietnamese Culture: Custom & Traditions",
-            meta: "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
-            date: "05-30-2026",
-            views: "6200",
-        },
-        {
-            id: 7,
-            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
-            guide: "VIETNAM CULTURE",
-            title: "Vietnamese Culture: Custom & Traditions",
-            meta: "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
-            date: "05-30-2026",
-            views: "6200",
-        },
-        {
-            id: 8,
-            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
-            guide: "VIETNAM CULTURE",
-            title: "Vietnamese Culture: Custom & Traditions",
-            meta: "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
-            date: "05-30-2026",
-            views: "6200",
-        },
-    ]);
+    const [listBlog, setListBlog] = useState([]);
 
     const [loadingMore, setLoadingMore] = useState(false);
 
@@ -117,14 +37,14 @@ const Blog = () => {
     useEffect(() => {
         if (!listBlogs?.data) return;
 
-        if (params.page === 1) {
-            setListBlog(listBlogs.data);
+        if (params.page === 0) {
+            setListBlog(listBlogs?.data);
         } else {
-            setListBlog((prev) => [...prev, ...listBlogs.data]);
+            setListBlog((prev) => [...prev, ...listBlogs?.data]);
         }
 
         setLoadingMore(false);
-    }, [listBlogs, params.page]);
+    }, [listBlogs, params?.page]);
 
     const handleLoadMore = () => {
         if (loadingMore || !hasMore) return;
@@ -141,56 +61,11 @@ const Blog = () => {
         [
             "/blogs-most-read",
             {
-                page: 0,
-                limit: 4,
-                sort: "views",
+                lang,
             },
         ],
         ([_, params]) => getMostReadBlog(params),
     );
-
-    const top4MostRead = [
-        {
-            id: 1,
-            image: "https://thf.bing.com/th/id/OIP.luCvHavLy5_ZcsAcss9K4wHaFj?cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3",
-            guide: "VIETNAM GUIDE",
-            meta_title: "10 Must-Visit Places in Vietnam for First Time Travelers",
-            meta_description:
-                "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
-            date: "05-15-2026",
-            views: "12500",
-        },
-        {
-            id: 2,
-            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
-            guide: "CAMBODIA GUIDE",
-            meta_title: "Angkor Wat: The Complete Traveler's Guide",
-            meta_description:
-                "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
-            date: "05-20-2026",
-            views: "14300",
-        },
-        {
-            id: 3,
-            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
-            guide: "CAMBODIA GUIDE",
-            meta_title: "Angkor Wat: The Complete Traveler's Guide",
-            meta_description:
-                "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
-            date: "05-20-2026",
-            views: "7600",
-        },
-        {
-            id: 4,
-            image: "https://cdn.pixabay.com/photo/2020/03/21/16/02/sunset-4954402_1280.jpg",
-            guide: "VIETNAM CULTURE",
-            meta_title: "Vietnamese Culture: Custom & Traditions",
-            meta_description:
-                "From the bustling streets of Hanoi to the serence landscapes of Ninh Binh, discover the best places to experience the true beauty of Vietnam",
-            date: "05-30-2026",
-            views: "6200",
-        },
-    ];
 
     return (
         <>
@@ -231,35 +106,31 @@ const Blog = () => {
                                 <div
                                     className="hidden lg:flex lg:col-span-2 flex-col lg:flex-row border-1 border-[#ccc] lg:border-0 cursor-pointer"
                                     onClick={() => {
-                                        navigate(`/blog/detail/${(top4MostRead || mostReadBlogs)?.[0]?.id}`);
+                                        navigate(`/blog/detail/${mostReadBlogs?.[0]?.slug}`);
                                     }}>
                                     <img
-                                        src={(top4MostRead || mostReadBlogs)?.[0]?.image}
-                                        alt={(top4MostRead || mostReadBlogs)?.[0]?.id}
+                                        src={mostReadBlogs?.[0]?.heroImageUrl}
+                                        alt={mostReadBlogs?.[0]?.id}
                                         className="w-full lg:w-1/2 object-cover"
                                     />
                                     <div className="flex flex-col justify-between p-4 w-full lg:w-1/2">
                                         <div>
-                                            <p className="text-sm text-gray-500">
-                                                {(top4MostRead || mostReadBlogs)?.[0]?.guide}
-                                            </p>
-                                            <div className="text-xl font-bold">
-                                                {(top4MostRead || mostReadBlogs)?.[0]?.meta_title}
-                                            </div>
+                                            {/* <p className="text-sm text-gray-500">{mostReadBlogs?.[0]?.guide}</p> */}
+                                            <div className="text-xl font-bold">{mostReadBlogs?.[0]?.title}</div>
                                             <p className="hidden lg:block text-[#363a37]">
-                                                {(top4MostRead || mostReadBlogs)?.[0]?.meta_description}
+                                                {mostReadBlogs?.[0]?.excerpt}
                                             </p>
                                         </div>
                                         <div className="flex items-center text-sm text-dark mt-4">
                                             <span className="flex items-center mr-[0.8rem]">
                                                 {" "}
-                                                <CiCalendar className="mr-[0.2rem]" />{" "}
-                                                {(top4MostRead || mostReadBlogs)?.[0]?.date}
+                                                <CiCalendar className="mr-[0.2rem]" /> new
+                                                {new Date(mostReadBlogs?.[0]?.publishedAt).toLocaleDateString("vi-VN")}
                                             </span>
                                             <span className="flex items-center">
                                                 {" "}
-                                                <FaEye className="mr-[0.2rem]" />{" "}
-                                                {(top4MostRead || mostReadBlogs)?.[0]?.views} {t("view")}
+                                                <FaEye className="mr-[0.2rem]" /> {mostReadBlogs?.[0]?.viewCount}
+                                                {t("view")}
                                             </span>
                                         </div>
                                     </div>
@@ -267,12 +138,12 @@ const Blog = () => {
 
                                 {/* PC layout cho 3 bài nhỏ */}
                                 <div className="hidden lg:grid lg:grid-rows-3 gap-4 lg:col-span-1">
-                                    {(top4MostRead || mostReadBlogs).slice(1).map((post) => (
+                                    {mostReadBlogs?.slice(1).map((post) => (
                                         <div
                                             key={post?.id}
                                             className="flex flex-col lg:flex-row border-1 border-[#ccc] lg:border-0 cursor-pointer"
                                             onClick={() => {
-                                                navigate(`/blog/detail/${post?.id}`);
+                                                navigate(`/blog/detail/${post?.slug}`);
                                             }}>
                                             <img
                                                 src={post?.image}
@@ -281,15 +152,16 @@ const Blog = () => {
                                             />
                                             <div className="flex flex-col justify-between p-2 w-full lg:w-2/3">
                                                 <div>
-                                                    <p className="text-xs text-gray-500">{post?.guide}</p>
-                                                    <h3 className="text-lg font-semibold">{post?.meta_title}</h3>
+                                                    {/* <p className="text-xs text-gray-500">{post?.guide}</p> */}
+                                                    <h3 className="text-lg font-semibold">{post?.title}</h3>
                                                 </div>
                                                 <div className="flex items-center text-xs text-dark mt-2">
                                                     <span className="flex items-center mr-[0.8rem]">
-                                                        <CiCalendar className="mr-[0.2rem]" /> {post?.date}
+                                                        <CiCalendar className="mr-[0.2rem]" />{" "}
+                                                        {new Date(post?.publishedAt).toLocaleDateString("vi-VN")}
                                                     </span>
                                                     <span className="flex items-center">
-                                                        <FaEye className="mr-[0.2rem]" /> {post?.views} {t("view")}
+                                                        <FaEye className="mr-[0.2rem]" /> {post?.viewCount} {t("view")}
                                                     </span>
                                                 </div>
                                             </div>
@@ -298,29 +170,30 @@ const Blog = () => {
                                 </div>
 
                                 {/* Mobile & md layout: tất cả 4 bài */}
-                                {(top4MostRead || mostReadBlogs).map((post, idx) => (
+                                {mostReadBlogs?.data?.map((post, idx) => (
                                     <div
                                         key={post?.id}
                                         className="flex flex-col md:flex-row lg:hidden border-1 border-[#ccc] lg:border-0"
                                         onClick={() => {
-                                            navigate(`/blog/detail/${post?.id}`);
+                                            navigate(`/blog/detail/${post?.slug}`);
                                         }}>
                                         <img
-                                            src={post?.image}
-                                            alt={post?.meta_title}
+                                            src={post?.heroImageUrl}
+                                            alt={post?.slug}
                                             className="w-full md:w-1/3 object-cover"
                                         />
                                         <div className="flex flex-col justify-between p-2 w-full md:w-2/3">
                                             <div>
-                                                <p className="text-xs text-gray-500">{post?.guide}</p>
-                                                <h3 className="text-lg font-semibold">{post?.meta_title}</h3>
+                                                {/* <p className="text-xs text-gray-500">{post?.guide}</p> */}
+                                                <h3 className="text-lg font-semibold">{post?.title}</h3>
                                             </div>
                                             <div className="flex items-center text-xs text-dark mt-2">
                                                 <span className="flex items-center mr-[0.8rem]">
-                                                    <CiCalendar className="mr-[0.2rem]" /> {post?.date}
+                                                    <CiCalendar className="mr-[0.2rem]" />{" "}
+                                                    {new Date(post?.publishedAt).toLocaleDateString("vi-VN")}
                                                 </span>
                                                 <span className="flex items-center">
-                                                    <FaEye className="mr-[0.2rem]" /> {post?.views} {t("view")}
+                                                    <FaEye className="mr-[0.2rem]" /> {post?.viewCount} {t("view")}
                                                 </span>
                                             </div>
                                         </div>

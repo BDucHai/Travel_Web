@@ -1,88 +1,73 @@
 import React, { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { motion } from "framer-motion";
-import { deleteBlog, getBlog } from "../../api/Blog";
+import { deleteBlog, getBlogAdmin } from "../../api/Blog";
 import { useNavigate } from "react-router-dom";
 import useSWR from "swr";
 
 const BlogManage = () => {
     const navigate = useNavigate();
     const [params, setParams] = useState({
-        search: "",
-        dateFilter: "",
+        // search: "",
+        // dateFilter: "",
         page: 0,
         limit: 20,
     });
 
-    const { data, mutate, isLoading } = useSWR(["/blogs", params], ([url, params]) => getBlog(url, params), {
+    const { data, mutate, isLoading } = useSWR(["/blogs", params], ([_, params]) => getBlogAdmin(params), {
         keepPreviousData: true,
     });
 
     // const { data, mutate } = useSWR(["/blogs/search", filters], ([_, body]) => searchBlog(body));
-
-    const blogFake = [
-        {
-            id: 1,
-            title: "How to build React Admin Panel",
-            date: "2026-06-01",
-            author: "Admin",
-            views: 1200,
-        },
-        {
-            id: 2,
-            title: "Tailwind + MUI best practice",
-            date: "2026-06-05",
-            author: "John",
-            views: 980,
-        },
-        {
-            id: 3,
-            title: "Framer Motion UI tricks",
-            date: "2026-06-06",
-            author: "Jane",
-            views: 1450,
-        },
-    ];
-    const blog = data || blogFake;
+    const blog = data?.data;
 
     const handleDeleteBlog = async (id) => {
         await deleteBlog(id);
-        mutate();
+        await mutate();
     };
 
-    const handleSearch = () => {
+    const handleSearch = async () => {
         setParams((prev) => ({
             ...prev,
             page: 0,
         }));
 
-        mutate();
+        await mutate();
     };
 
     const columns = [
         {
-            field: "title",
-            headerName: "Title",
+            field: "titleEn",
+            headerName: "Title En",
             flex: 2,
             minWidth: 250,
             renderCell: (params) => <div className="text-white font-medium">{params?.value}</div>,
         },
         {
-            field: "author",
+            field: "titleFr",
+            headerName: "Title Fr",
+            flex: 2,
+            minWidth: 250,
+            renderCell: (params) => <div className="text-white font-medium">{params?.value}</div>,
+        },
+        {
+            field: "authorName",
             headerName: "Author",
             flex: 1,
             minWidth: 120,
             renderCell: (params) => <div className="text-gray-300">{params?.value}</div>,
         },
         {
-            field: "date",
+            field: "createdAt",
             headerName: "Published Date",
             flex: 1,
             minWidth: 150,
-            renderCell: (params) => <div className="text-gray-300">{params?.value}</div>,
+            renderCell: (params) => (
+                <div className="text-gray-300">{new Date(params?.value)?.toLocaleDateString("vi-VN")}</div>
+            ),
         },
         {
-            field: "views",
+            field: "viewCount",
             headerName: "Views",
             flex: 1,
             minWidth: 100,
@@ -98,7 +83,7 @@ const BlogManage = () => {
                 return (
                     <div className="flex items-center justify-center w-full h-full gap-2">
                         <button
-                            onClick={() => navigate(`/admin/update/blog/${params?.row?.id}`)}
+                            onClick={() => navigate(`/admin/create/blog/${params?.row?.id}`)}
                             className="
                         px-3 py-1
                         rounded-md
@@ -219,13 +204,13 @@ const BlogManage = () => {
                     rowCount={data?.pagination?.total || 0}
                     pageSizeOptions={[20, 50, 100]}
                     paginationModel={{
-                        page: params?.page - 1,
+                        page: params?.page,
                         pageSize: params?.limit,
                     }}
                     onPaginationModelChange={(model) => {
                         setParams((prev) => ({
                             ...prev,
-                            page: model.page + 1,
+                            page: model.page,
                             limit: model.pageSize,
                         }));
                     }}

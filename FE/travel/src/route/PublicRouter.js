@@ -22,7 +22,7 @@ const publicRoutes = [{ path: "/", component: Home }];
 
 const routesNavSticky = [
     { path: "/blog", component: Blog },
-    { path: "/blog/detail/:id", component: BlogDetail },
+    { path: "/blog/detail/:slug", component: BlogDetail },
     { path: "/about", component: AboutUs },
     { path: "/tours", component: SearchTour },
     { path: "/tours/detail/:id", component: TourDetail },
@@ -32,7 +32,7 @@ const routesNavSticky = [
 
 const routeAdmin = [
     { path: "/admin/create/blog", component: CreateBlog, roles: ["user", "admin"] },
-    { path: "/admin/update/blog/:id", component: CreateBlog, roles: ["user", "admin"] },
+    { path: "/admin/create/blog/:id", component: CreateBlog, roles: ["user", "admin"] },
     { path: "/admin/review", component: ReviewAdminPage, roles: ["user", "admin"] },
     { path: "/admin/blog", component: BlogManage, roles: ["user", "admin"] },
     { path: "/admin/contact", component: Contact, roles: ["user", "admin"] },

@@ -10,16 +10,15 @@ export const createContacts = async (data) => {
         return res?.data;
     } catch (error) {
         toast.error(i18n.t("notify.create_fail"));
-        throw error;
     }
 };
 
 export const deleteContacts = async (id) => {
     try {
-        const res =await axiosClient.delete(`/contacts/${id}`);
+        const res = await axiosClient.delete(`/admin/contact-messages/${id}`);
 
         toast.success(i18n.t("notify.delete_success"));
-        return res?.data
+        return res?.data;
     } catch (error) {
         toast.error(i18n.t("notify.delete_fail"));
     }
@@ -39,7 +38,7 @@ export const updateContacts = async ({ id, data }) => {
 
 export const updateStatusContact = async (id, status) => {
     try {
-        const res = await axiosClient.post(`/contacts/${id}`, { status });
+        const res = await axiosClient.patch(`/admin/contact-messages/${id}/status`);
         toast.success(i18n.t("notify.update_success"));
         return res?.data;
     } catch (err) {

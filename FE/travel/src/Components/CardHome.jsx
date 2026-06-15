@@ -1,11 +1,15 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { FaLongArrowAltRight } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const CardHome = ({ tour }) => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
     return (
-        <div className="relative flex flex-col w-full h-[22rem] lg:h-[28rem] border-[1px] border-[#3b97897d] rounded-[0.2rem] bg-white overflow-hidden">
+        <div
+            className="relative flex flex-col w-full h-[22rem] lg:h-[28rem] border-[1px] border-[#3b97897d] rounded-[0.2rem] bg-white overflow-hidden"
+            onClick={() => navigate(`/tours/detail/${tour?.slug}`)}>
             <div className="h-[45%] overflow-hidden">
                 <img
                     src={tour?.featuredImageUrl}

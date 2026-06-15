@@ -1,35 +1,29 @@
 import { useState } from "react";
-import { ImageList, ImageListItem } from "@mui/material";
+import { Backdrop, CircularProgress, ImageList, ImageListItem } from "@mui/material";
 import { motion } from "framer-motion";
 import ImagePreviewDialog from "../ImagePreviewDialog";
 import { deleteReview, updateStatusReviews } from "../../api/Review";
 
 export default function AcceptReviewTab({ data, mutate }) {
+    const [loading, setLoading] = useState(false);
     const [preview, setPreview] = useState({
         open: false,
         src: null,
     });
 
     const updateStatus = async (id, status) => {
-        const res = await updateStatusReviews(id, status);
+        setLoading(true);
+        await updateStatusReviews(id, status);
 
-        mutate(
-            ["/contacts", { status: 0 }],
-            (currentData) => {
-                if (!currentData) return currentData;
-
-                return {
-                    ...currentData,
-                    data: currentData.data.map((item) => (item.id === id ? res : item)),
-                };
-            },
-            false,
-        );
+        await mutate();
+        setLoading(false);
     };
 
     const delReviews = async (id) => {
+        setLoading(true);
         await deleteReview(id);
-        mutate(["/contacts", { status: 0 }]);
+        await mutate();
+        setLoading(false);
     };
 
     const openPreview = (src) => {
@@ -102,6 +96,15 @@ export default function AcceptReviewTab({ data, mutate }) {
                     />
                 </motion.div>
             ))}
+            <Backdrop
+                open={loading}
+                sx={{
+                    color: "#fff",
+                    zIndex: (theme) => theme.zIndex.drawer + 9999,
+                    backgroundColor: "rgba(0,0,0,0.35)",
+                }}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </div>
     );
 }

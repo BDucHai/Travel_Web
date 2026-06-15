@@ -1,10 +1,11 @@
-import { ImageList, ImageListItem } from "@mui/material";
+import { Backdrop, CircularProgress, ImageList, ImageListItem } from "@mui/material";
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import ImagePreviewDialog from "../ImagePreviewDialog";
 import { deleteReview } from "../../api/Review";
 
 export default function ManageReviewTab({ data, mutate }) {
+    const [loading, setLoading] = useState(false);
     const [preview, setPreview] = useState({
         open: false,
         src: null,
@@ -27,8 +28,10 @@ export default function ManageReviewTab({ data, mutate }) {
     }, [data, filterDate]);
 
     const delReviews = async (id) => {
+        setLoading(true);
         await deleteReview(id);
-        mutate(["/contacts", { status: 1 }]);
+        await mutate();
+        setLoading(false);
     };
 
     return (
@@ -118,6 +121,15 @@ export default function ManageReviewTab({ data, mutate }) {
                     />
                 </motion.div>
             ))}
+            <Backdrop
+                open={loading}
+                sx={{
+                    color: "#fff",
+                    zIndex: (theme) => theme.zIndex.drawer + 9999,
+                    backgroundColor: "rgba(0,0,0,0.35)",
+                }}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </div>
     );
 }

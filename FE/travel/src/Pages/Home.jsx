@@ -32,36 +32,42 @@ const Home = () => {
             style: "CULTURAL",
             image: styleImg.cultural,
             description: "Discover Vietnam's heritage, traditions and local life.",
+            slug: "cultural-tours",
         },
         {
             id: 2,
             style: "FAMILY",
             image: styleImg.familyStyle,
             description: "Fun and comfortable trips for all generations.",
+            slug: "family-holidays",
         },
         {
             id: 3,
             style: "NATURE",
             image: styleImg.natureStyle,
             description: "Explore mountains, waterfalls and natural wonders.",
+            slug: "nature-adventure",
         },
         {
             id: 4,
             style: "HONEYMOON",
             image: styleImg.honeymoonStyle,
             description: "Romantic escapes designed for couples.",
+            slug: "honeymoon-tours",
         },
         {
             id: 5,
             style: "FOOD",
             image: styleImg.foodStyle,
             description: "Taste authentic Vietnamese cuisine.",
+            slug: "food-culinary-tours",
         },
         {
             id: 6,
-            style: "ADVENTURE",
+            style: "LUXURY",
             image: styleImg.adventureStyle,
             description: "Exciting journeys and unforgettable experiences.",
+            slug: "luxury-travel",
         },
     ];
 
@@ -107,11 +113,11 @@ const Home = () => {
     const chunkSize = isLargeScreen ? 3 : 2;
 
     const slides = [];
-    for (let i = 0; i < commentData.length; i += chunkSize) {
+    for (let i = 0; i < commentData?.length; i += chunkSize) {
         slides.push(commentData?.slice(i, i + chunkSize));
     }
 
-    const totalSlides = Math.ceil(commentData.length / chunkSize);
+    const totalSlides = Math.ceil(commentData?.length / chunkSize);
 
     return (
         <>

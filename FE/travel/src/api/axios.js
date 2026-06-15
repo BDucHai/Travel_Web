@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-    baseURL: "http://192.168.1.223:8080/api",
+    baseURL: "http://192.168.100.2:8080/api",
     headers: {
         "Content-Type": "application/json",
     },
@@ -9,10 +9,14 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem("token");
+        const accessToken = localStorage.getItem("accessToken");
 
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
+        if (accessToken) {
+            config.headers.Authorization = `Bearer ${accessToken}`;
+        }
+
+        if (config.data instanceof FormData) {
+            delete config.headers["Content-Type"];
         }
 
         return config;

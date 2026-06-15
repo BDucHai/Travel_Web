@@ -1,27 +1,27 @@
 export const durationsDays = [
     {
         id: 1,
-        value: "7 days",
+        value: 7,
         title: "navbar.7days_vn_tour",
     },
     {
         id: 1,
-        value: "10 days",
+        value: 10,
         title: "navbar.10days_vn_tour",
     },
     {
         id: 1,
-        value: "12 days",
+        value: 12,
         title: "navbar.12days_vn_tour",
     },
     {
         id: 1,
-        value: "2 weeks",
+        value: 14,
         title: "navbar.2w_vn_tour",
     },
     {
         id: 1,
-        value: "3 weeks",
+        value: 21,
         title: "navbar.3w_vn_tour",
     },
 ];
@@ -43,7 +43,6 @@ export const sideLocation = [
         title: "south_vn",
     },
 ];
-
 
 export const darkTextField = {
     "& .MuiOutlinedInput-root": {
@@ -72,6 +71,17 @@ export const darkTextField = {
     "& .MuiInputLabel-root.Mui-focused": {
         color: "#c39562",
     },
+    "& .MuiInputBase-input": {
+        color: "#fff",
+    },
+
+    "& .MuiChip-label": {
+        color: "#fff",
+    },
+    "& .MuiChip-root": {
+        backgroundColor: "#334155",
+    },
+
 
     "& .MuiOutlinedInput-input": {
         color: "#fff",

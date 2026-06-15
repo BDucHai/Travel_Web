@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useSWR from "swr";
-import { createTours, getToursById } from "../../api/Tour";
+import { createTours, getToursAdminById, updateTours } from "../../api/Tour";
 import { useDebounce } from "use-debounce";
 
-import { TextField, Button, Switch, FormControlLabel, Autocomplete } from "@mui/material";
+import { TextField, Button, Switch, FormControlLabel, Autocomplete, Backdrop, CircularProgress } from "@mui/material";
 import { getDestinations } from "../../api/Destinations";
 import { getStyles } from "../../api/Style";
 import { getTourCollections } from "../../api/TourCollection";
@@ -13,48 +13,34 @@ import { darkTextField, durationsDays } from "../../constant";
 const CreateTour = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { data: tourDetail } = useSWR(id ? ["/tours", id] : null, ([_, id]) => getToursById(id));
+    const { data: tourDetail, isLoading } = useSWR(id ? ["/tours", id] : null, ([_, id]) => getToursAdminById(id));
+    const [loading, setLoading] = useState(false);
+    // const [styleSearch, setStyleSearch] = useState("");
+    // const [collectionSearch, setCollectionSearch] = useState("");
+    // const [destinationSearch, setDestinationSearch] = useState("");
 
-    const [styleSearch, setStyleSearch] = useState("");
-    const [collectionSearch, setCollectionSearch] = useState("");
-    const [destinationSearch, setDestinationSearch] = useState("");
+    // const [debouncedStyleSearch] = useDebounce(styleSearch, 1000);
 
-    const [debouncedStyleSearch] = useDebounce(styleSearch, 1000);
+    // const [debouncedCollectionSearch] = useDebounce(collectionSearch, 1000);
 
-    const [debouncedCollectionSearch] = useDebounce(collectionSearch, 1000);
+    // const [debouncedDestinationSearch] = useDebounce(destinationSearch, 1000);
 
-    const [debouncedDestinationSearch] = useDebounce(destinationSearch, 1000);
+    const { data: styles = [] } = useSWR(["/tour-styles", { lang: "en" }], ([_, params]) => getStyles(params));
 
-    const { data: styles = [] } = useSWR(["/tour-styles", debouncedStyleSearch], ([_, search]) =>
-        getStyles({
-            search,
-            page: 0,
-            limit: 20,
-        }),
+    const { data: collections = [] } = useSWR(["/tour-collections", { lang: "en" }], ([_, params]) =>
+        getTourCollections(params),
     );
 
-    const { data: collections = [] } = useSWR(["/tour-collections", debouncedCollectionSearch], ([_, search]) =>
-        getTourCollections({
-            search,
-            page: 0,
-            limit: 20,
-        }),
-    );
-
-    const { data: destinations = [] } = useSWR(["/destinations", debouncedDestinationSearch], ([_, search]) =>
-        getDestinations({
-            search,
-            page: 0,
-            limit: 20,
-        }),
+    const { data: destinations = [] } = useSWR(["/destinations", { lang: "en" }], ([_, params]) =>
+        getDestinations(params),
     );
 
     const [tour, setTour] = useState({
-        code: "",
-
         duration_days: "",
 
         price_from: "",
+
+        group_size: "",
 
         title_en: "",
         title_fr: "",
@@ -68,9 +54,6 @@ const CreateTour = () => {
         overview_en: "",
         overview_fr: "",
 
-        itinerary_en: "",
-        itinerary_fr: "",
-
         inclusion_en: "",
         inclusion_fr: "",
 
@@ -83,20 +66,23 @@ const CreateTour = () => {
 
         featuredImage: null,
 
-        galleryImages: [],
-
         styles: [],
 
         collections: [],
+
+        destinations: [],
     });
 
     const [destinationDays, setDestinationDays] = useState([
         {
-            destination: null,
-            dayOrder: 1,
-            displayOrder: 1,
-            description_en: "",
-            description_fr: "",
+            dayNumber: 1,
+            titleEn: "",
+            titleFr: "",
+            descriptionEn: "",
+            descriptionFr: "",
+            imageUrl: null,
+            displayOrder: null,
+            imageIndex: null,
         },
     ]);
 
@@ -104,9 +90,15 @@ const CreateTour = () => {
         setDestinationDays((prev) => [
             ...prev,
             {
-                destination: null,
-                dayOrder: prev.length + 1,
+                dayNumber: prev.length + 1,
+                titleEn: "",
+                titleFr: "",
+                descriptionEn: "",
+                descriptionFr: "",
+                imageUrl: null,
+                preview: null,
                 displayOrder: prev.length + 1,
+                imageIndex: null,
             },
         ]);
     };
@@ -117,7 +109,7 @@ const CreateTour = () => {
                 .filter((_, i) => i !== index)
                 .map((item, idx) => ({
                     ...item,
-                    dayOrder: idx + 1,
+                    dayNumber: idx + 1,
                     displayOrder: idx + 1,
                 })),
         );
@@ -134,88 +126,221 @@ const CreateTour = () => {
         }));
     };
 
-    const handleGalleryImages = (e) => {
-        const files = Array.from(e.target.files || []);
+    const handleUpdate = async () => {
+        setLoading(true);
 
-        setTour((prev) => ({
-            ...prev,
-            galleryImages: [...prev.galleryImages, ...files],
-        }));
-    };
-
-    const handleSubmit = async () => {
         try {
+            let itineraryImageIndex = 0;
+
+            const itineraryDaysPayload = destinationDays.map((day, index) => {
+                const hasNewFile = day?.imageUrl instanceof File;
+
+                return {
+                    id: day?.id,
+
+                    dayNumber: day?.dayNumber || index + 1,
+
+                    titleEn: day?.titleEn || "",
+                    titleFr: day?.titleFr || "",
+
+                    descriptionEn: day?.descriptionEn || "",
+                    descriptionFr: day?.descriptionFr || "",
+
+                    displayOrder: day?.displayOrder || index + 1,
+
+                    imageIndex: hasNewFile ? itineraryImageIndex++ : null,
+
+                    // giữ ảnh cũ nếu chưa chọn ảnh mới
+                    imageUrl: typeof day?.imageUrl === "string" ? day.imageUrl : null,
+                };
+            });
+
             const payload = {
-                code: tour.code,
-                duration_days: Number(tour.duration_days),
-                price_from: Number(tour.price_from),
-                group_size: tour.group_size,
+                id: tourDetail?.id,
 
-                title_en: tour.title_en,
-                title_fr: tour.title_fr,
+                code: tour?.code,
 
-                slug_en: tour.slug_en,
-                slug_fr: tour.slug_fr,
+                durationDays: Number(tour?.duration_days),
+                priceFrom: Number(tour?.price_from),
+                groupSize: tour?.group_size,
 
-                short_description_en: tour.short_description_en,
+                titleEn: tour?.title_en,
+                titleFr: tour?.title_fr,
 
-                short_description_fr: tour.short_description_fr,
+                slugEn: tour?.slug_en,
+                slugFr: tour?.slug_fr,
 
-                overview_en: tour.overview_en,
-                overview_fr: tour.overview_fr,
+                shortDescriptionEn: tour?.short_description_en,
+                shortDescriptionFr: tour?.short_description_fr,
 
-                itinerary_en: tour.itinerary_en,
-                itinerary_fr: tour.itinerary_fr,
+                overviewEn: tour?.overview_en,
+                overviewFr: tour?.overview_fr,
 
-                inclusion_en: tour.inclusion_en,
-                inclusion_fr: tour.inclusion_fr,
+                itineraryEn: "",
+                itineraryFr: "",
 
-                exclusion_en: tour.exclusion_en,
-                exclusion_fr: tour.exclusion_fr,
+                inclusionEn: tour?.inclusion_en,
+                inclusionFr: tour?.inclusion_fr,
 
-                is_featured: tour.is_featured,
-                is_active: tour.is_active,
+                exclusionEn: tour?.exclusion_en,
+                exclusionFr: tour?.exclusion_fr,
 
-                style_ids: tour.styles.map((item) => item.id),
+                isFeatured: Boolean(tour?.is_featured),
+                isActive: Boolean(tour?.is_active),
 
-                collection_ids: tour.collections.map((item) => item.id),
+                status: "PUBLISHED",
 
-                tour_destinations: destinationDays
-                    .filter((item) => item.destination)
-                    .map((item) => ({
-                        destination_id: item.destination.id,
+                styleIds: tour?.styles?.map((x) => x.id) || [],
+                collectionIds: tour?.collections?.map((x) => x.id) || [],
 
-                        day_order: item.dayOrder,
-
-                        display_order: item.displayOrder,
-                    })),
+                itineraryDays: itineraryDaysPayload,
             };
 
             const formData = new FormData();
 
             formData.append("data", JSON.stringify(payload));
 
-            if (tour.featuredImage) {
-                formData.append("featured_image", tour.featuredImage);
+            // chỉ upload nếu user chọn ảnh mới
+            if (tour?.featuredImage instanceof File) {
+                formData.append("featuredImage", tour.featuredImage);
             }
 
-            tour.galleryImages.forEach((image) => {
-                formData.append("gallery_images", image);
+            // gallery mới
+            if (Array.isArray(tour?.galleryImages)) {
+                tour.galleryImages.forEach((image) => {
+                    if (image instanceof File) {
+                        formData.append("images", image);
+                    }
+                });
+            }
+
+            // itinerary ảnh mới
+            destinationDays.forEach((day) => {
+                if (day?.imageUrl instanceof File) {
+                    formData.append("itineraryImages", day.imageUrl);
+                }
             });
 
-            const res = await createTours(formData);
+            const res = await updateTours(id, formData);
+
             if (res?.status === 200) {
                 navigate("/admin/tours");
             }
         } catch (error) {
             console.error(error);
+        } finally {
+            setLoading(false);
         }
     };
 
+    const handleSubmit = async () => {
+        setLoading(true);
+
+        try {
+            let itineraryImageIndex = 0;
+
+            const itineraryDaysPayload = destinationDays.map((day, index) => {
+                const hasFile = day?.imageUrl instanceof File;
+                const currentImageIndex = hasFile ? itineraryImageIndex++ : null;
+
+                return {
+                    dayNumber: day?.dayNumber || index + 1,
+                    titleEn: day?.titleEn || "",
+                    titleFr: day?.titleFr || "",
+                    descriptionEn: day?.descriptionEn || "",
+                    descriptionFr: day?.descriptionFr || "",
+                    displayOrder: day?.displayOrder || index + 1,
+                    imageIndex: currentImageIndex,
+                    imageUrl: typeof day?.imageUrl === "string" ? day.imageUrl : null,
+                };
+            });
+
+            const payload = {
+                code: tour?.code || `VN-${Date.now()}`,
+
+                durationDays: Number(tour?.duration_days),
+                priceFrom: Number(tour?.price_from),
+                groupSize: tour?.group_size,
+
+                titleEn: tour?.title_en,
+                titleFr: tour?.title_fr,
+
+                slugEn: tour?.slug_en,
+                slugFr: tour?.slug_fr,
+
+                shortDescriptionEn: tour?.short_description_en,
+                shortDescriptionFr: tour?.short_description_fr,
+
+                overviewEn: tour?.overview_en,
+                overviewFr: tour?.overview_fr,
+
+                itineraryEn: "",
+                itineraryFr: "",
+
+                inclusionEn: tour?.inclusion_en,
+                inclusionFr: tour?.inclusion_fr,
+
+                exclusionEn: tour?.exclusion_en,
+                exclusionFr: tour?.exclusion_fr,
+
+                isFeatured: Boolean(tour?.is_featured),
+                isActive: Boolean(tour?.is_active),
+
+                status: "PUBLISHED",
+
+                styleIds: tour?.styles?.map((item) => item?.id) || [],
+                collectionIds: tour?.collections?.map((item) => item?.id) || [],
+
+                itineraryDays: itineraryDaysPayload,
+            };
+
+            const formData = new FormData();
+
+            formData.append("data", JSON.stringify(payload));
+
+            if (tour?.featuredImage instanceof File) {
+                formData.append("featuredImage", tour.featuredImage);
+            }
+
+            if (Array.isArray(tour?.galleryImages)) {
+                tour.galleryImages.forEach((image) => {
+                    if (image instanceof File) {
+                        formData.append("images", image);
+                    }
+                });
+            }
+
+            destinationDays.forEach((day) => {
+                if (day?.imageUrl instanceof File) {
+                    formData.append("itineraryImages", day.imageUrl);
+                }
+            });
+
+            const res = await createTours(formData);
+
+            if (res?.status === 200 || res?.status === 201) {
+                navigate("/admin/tours");
+            }
+        } catch (error) {
+            console.error("Create tour failed:", error);
+            console.error("Response data:", error?.response?.data);
+        } finally {
+            setLoading(false);
+        }
+    };
     const handleChange = (field) => (e) => {
         setTour((prev) => ({
             ...prev,
             [field]: e.target.value,
+        }));
+    };
+
+    const handleGalleryImages = (e) => {
+        const files = Array.from(e.target.files || []);
+
+        setTour((prev) => ({
+            ...prev,
+            galleryImages: [...(Array.isArray(prev?.galleryImages) ? prev.galleryImages : []), ...files],
         }));
     };
 
@@ -225,47 +350,47 @@ const CreateTour = () => {
         setTour((prev) => ({
             ...prev,
 
-            code: tourDetail?.code || "",
+            duration_days: tourDetail?.durationDays || 7,
 
-            duration_days: tourDetail?.duration_days || "",
+            price_from: tourDetail?.priceFrom || "",
 
-            price_from: tourDetail?.price_from || "",
+            group_size: tourDetail?.groupSize || "",
 
-            title_en: tourDetail?.title_en || "",
+            title_en: tourDetail?.titleEn || "",
 
-            title_fr: tourDetail?.title_fr || "",
+            title_fr: tourDetail?.titleFr || "",
 
-            slug_en: tourDetail?.slug_en || "",
+            slug_en: tourDetail?.slugEn || "",
 
-            slug_fr: tourDetail?.slug_fr || "",
+            slug_fr: tourDetail?.slugFr || "",
 
-            overview_en: tourDetail?.overview_en || "",
+            overview_en: tourDetail?.overviewEn || "",
 
-            overview_fr: tourDetail?.overview_fr || "",
+            overview_fr: tourDetail?.overviewFr || "",
 
-            itinerary_en: tourDetail?.itinerary_en || "",
-            itinerary_fr: tourDetail?.itinerary_fr || "",
+            short_description_en: tourDetail?.shortDescriptionEn || "",
+            short_description_fr: tourDetail?.shortDescriptionFr || "",
 
-            inclusion_en: tourDetail?.inclusion_en || "",
-            inclusion_fr: tourDetail?.inclusion_fr || "",
+            inclusion_en: tourDetail?.inclusionEn || "",
+            inclusion_fr: tourDetail?.inclusionFr || "",
 
-            exclusion_en: tourDetail?.exclusion_en || "",
-            exclusion_fr: tourDetail?.exclusion_fr || "",
+            exclusion_en: tourDetail?.exclusionEn || "",
+            exclusion_fr: tourDetail?.exclusionFr || "",
 
-            is_featured: tourDetail?.is_featured === 1 ? true : false,
+            is_featured: tourDetail?.isFeatured,
 
-            is_active: tourDetail?.is_active === 1 ? true : false,
+            is_active: tourDetail?.isActive,
 
-            featuredImage: tourDetail?.featuredImage,
+            featuredImage: tourDetail?.featuredImageUrl,
 
-            galleryImages: tourDetail?.galleryImages || [],
+            styles: tourDetail?.styleIds?.map((id) => ({ id })) || [],
 
-            styles: tourDetail?.styles || [],
+            collections: tourDetail?.collectionIds?.map((id) => ({ id })) || [],
 
-            collections: tourDetail?.collections || [],
+            destinations: tourDetail?.destinationIds?.map((id) => ({ id })) || [],
         }));
 
-        setDestinationDays(tourDetail?.destinationDays);
+        setDestinationDays(tourDetail?.itineraryDays);
     }, [tourDetail]);
 
     return (
@@ -278,7 +403,7 @@ const CreateTour = () => {
                         <p className="text-slate-400 mt-1">Create new travel experience</p>
                     </div>
 
-                    <Button variant="contained" onClick={handleSubmit}>
+                    <Button variant="contained" onClick={id ? handleUpdate() : handleSubmit}>
                         Save Tour
                     </Button>
                 </div>
@@ -288,27 +413,25 @@ const CreateTour = () => {
                     <h2 className="text-xl font-semibold mb-6">Basic Information</h2>
 
                     <div className="grid grid-cols-2 gap-5">
-                        <TextField
+                        {/* <TextField
                             label="Tour Code"
                             value={tour?.code}
                             onChange={handleChange("code")}
                             fullWidth
                             sx={darkTextField}
-                        />
+                        /> */}
 
                         <Autocomplete
-                            disablePortal
                             options={durationsDays}
-                            value={tour?.duration_days}
-                            sx={darkTextField}
+                            value={durationsDays.find((item) => item.value === tour?.duration_days) || null}
                             onChange={(_, value) =>
                                 setTour((prev) => ({
                                     ...prev,
-                                    duration_days: value,
+                                    duration_days: value?.value || null,
                                 }))
                             }
-                            getOptionLabel={(option) => option.value}
-                            fullWidth
+                            sx={darkTextField}
+                            getOptionLabel={(option) => String(option?.value || "")}
                             renderInput={(params) => <TextField {...params} label="Days" />}
                         />
 
@@ -321,12 +444,13 @@ const CreateTour = () => {
                             sx={darkTextField}
                         />
 
-                        {/* <TextField
+                        <TextField
                             label="Group Size"
-                            value={tour.group_size}
+                            value={tour?.group_size}
                             onChange={handleChange("group_size")}
                             fullWidth
-                        /> */}
+                            sx={darkTextField}
+                        />
 
                         <TextField
                             label="Title EN"
@@ -371,16 +495,15 @@ const CreateTour = () => {
                             multiple
                             sx={darkTextField}
                             options={styles}
-                            filterOptions={(x) => x}
-                            value={tour?.styles}
-                            onInputChange={(_, value) => setStyleSearch(value)}
+                            value={styles?.filter((style) => tour?.styles?.some((s) => s.id === style.id))}
+                            // onInputChange={(_, value) => setStyleSearch(value)}
                             onChange={(_, value) =>
                                 setTour((prev) => ({
                                     ...prev,
                                     styles: value,
                                 }))
                             }
-                            getOptionLabel={(option) => option?.name}
+                            getOptionLabel={(option) => option?.name || ""}
                             renderInput={(params) => <TextField {...params} label="Tour Styles" />}
                         />
 
@@ -388,17 +511,32 @@ const CreateTour = () => {
                             multiple
                             sx={darkTextField}
                             options={collections}
-                            filterOptions={(x) => x}
-                            value={tour?.collections}
-                            onInputChange={(_, value) => setCollectionSearch(value)}
+                            value={collections?.filter((style) => tour?.collections?.some((s) => s.id === style.id))}
+                            // onInputChange={(_, value) => setCollectionSearch(value)}
                             onChange={(_, value) =>
                                 setTour((prev) => ({
                                     ...prev,
                                     collections: value,
                                 }))
                             }
-                            getOptionLabel={(option) => option?.name}
+                            getOptionLabel={(option) => option?.name || ""}
                             renderInput={(params) => <TextField {...params} label="Collections" />}
+                        />
+
+                        <Autocomplete
+                            sx={darkTextField}
+                            multiple
+                            options={destinations}
+                            // onInputChange={(_, value) => setDestinationSearch(value)}
+                            value={destinations?.filter((style) => tour?.destinations?.some((s) => s.id === style.id))}
+                            onChange={(_, value) => {
+                                setTour((prev) => ({
+                                    ...prev,
+                                    destinations: value,
+                                }));
+                            }}
+                            getOptionLabel={(option) => option?.name || ""}
+                            renderInput={(params) => <TextField {...params} label="Destination" />}
                         />
                     </div>
                 </div>
@@ -425,26 +563,52 @@ const CreateTour = () => {
                     ">
                                 <div className="flex gap-4">
                                     <div className="w-32">
-                                        <TextField label="Day" value={item.dayOrder} fullWidth sx={darkTextField} />
+                                        <TextField label="Day" value={item?.dayNumber} fullWidth sx={darkTextField} />
                                     </div>
 
                                     <div className="flex-1">
-                                        <Autocomplete
-                                            sx={darkTextField}
-                                            options={destinations}
-                                            filterOptions={(x) => x}
-                                            onInputChange={(_, value) => setDestinationSearch(value)}
-                                            value={item?.destination}
-                                            onChange={(_, value) => {
-                                                const clone = [...destinationDays];
-
-                                                clone[index].destination = value;
-
-                                                setDestinationDays(clone);
+                                        <TextField
+                                            label="Title En"
+                                            value={item?.titleEn || ""}
+                                            onChange={(e) => {
+                                                setDestinationDays((prev) =>
+                                                    prev.map((item, i) =>
+                                                        i === index
+                                                            ? {
+                                                                  ...item,
+                                                                  titleEn: e.target.value,
+                                                              }
+                                                            : item,
+                                                    ),
+                                                );
                                             }}
-                                            getOptionLabel={(option) => option.name_en}
-                                            renderInput={(params) => <TextField {...params} label="Destination" />}
+                                            fullWidth
+                                            multiline
+                                            maxRows={2}
+                                            sx={darkTextField}
                                         />
+                                        <div className="flex-1 mt-[0.5rem]">
+                                            <TextField
+                                                label="Title Fr"
+                                                value={item?.titleFr || ""}
+                                                onChange={(e) => {
+                                                    setDestinationDays((prev) =>
+                                                        prev.map((item, i) =>
+                                                            i === index
+                                                                ? {
+                                                                      ...item,
+                                                                      titleFr: e.target.value,
+                                                                  }
+                                                                : item,
+                                                        ),
+                                                    );
+                                                }}
+                                                fullWidth
+                                                multiline
+                                                maxRows={2}
+                                                sx={darkTextField}
+                                            />
+                                        </div>
                                     </div>
 
                                     <Button color="error" onClick={() => removeDay(index)}>
@@ -453,12 +617,19 @@ const CreateTour = () => {
                                 </div>
                                 <div className="my-[1rem]"></div>
                                 <TextField
-                                    label="Description Destination Fr"
-                                    value={item.description_en || ""}
+                                    label="Description Destination En"
+                                    value={item?.descriptionEn || ""}
                                     onChange={(e) => {
-                                        const clone = [...destinationDays];
-                                        clone[index].description_en = e.target.value;
-                                        setDestinationDays(clone);
+                                        setDestinationDays((prev) =>
+                                            prev.map((item, i) =>
+                                                i === index
+                                                    ? {
+                                                          ...item,
+                                                          descriptionEn: e.target.value,
+                                                      }
+                                                    : item,
+                                            ),
+                                        );
                                     }}
                                     fullWidth
                                     multiline
@@ -468,17 +639,53 @@ const CreateTour = () => {
                                 <div className="my-[1rem]"></div>
                                 <TextField
                                     label="Description Destination Fr"
-                                    value={item.description_fr || ""}
+                                    value={item?.descriptionFr || ""}
                                     onChange={(e) => {
-                                        const clone = [...destinationDays];
-                                        clone[index].description_fr = e.target.value;
-                                        setDestinationDays(clone);
+                                        setDestinationDays((prev) =>
+                                            prev.map((item, i) =>
+                                                i === index
+                                                    ? {
+                                                          ...item,
+                                                          descriptionFr: e.target.value,
+                                                      }
+                                                    : item,
+                                            ),
+                                        );
                                     }}
                                     fullWidth
                                     multiline
                                     maxRows={2}
                                     sx={darkTextField}
                                 />
+
+                                <div className="mt-4">
+                                    <Button variant="outlined" component="label">
+                                        Upload Image
+                                        <input
+                                            hidden
+                                            accept="image/*"
+                                            type="file"
+                                            onChange={(e) => {
+                                                const file = e.target.files?.[0];
+
+                                                if (!file) return;
+
+                                                const clone = [...destinationDays];
+
+                                                clone[index].imageUrl = file;
+                                                clone[index].preview = URL.createObjectURL(file);
+
+                                                setDestinationDays(clone);
+                                            }}
+                                        />
+                                    </Button>
+
+                                    <img
+                                        src={item.preview || item.imageUrl}
+                                        alt=""
+                                        className="w-48 h-32 object-cover rounded-xl border border-slate-700"
+                                    />
+                                </div>
                             </div>
                         ))}
                     </div>
@@ -490,7 +697,11 @@ const CreateTour = () => {
                     <input type="file" accept="image/*" onChange={handleFeaturedImage} className="cursor-pointer" />
                     {tour?.featuredImage && (
                         <img
-                            src={URL.createObjectURL(tour?.featuredImage)}
+                            src={
+                                typeof tour?.featuredImage === "string"
+                                    ? tour?.featuredImage
+                                    : URL.createObjectURL(tour?.featuredImage)
+                            }
                             alt=""
                             className="mt-4 h-[300px] w-full object-cover rounded-2xl"
                         />
@@ -539,38 +750,21 @@ const CreateTour = () => {
                         minRows={3}
                         fullWidth
                     />
+
                     <TextField
                         label="Short Description EN"
                         sx={darkTextField}
-                        value={tour?.description_en}
-                        onChange={handleChange("description_en")}
+                        value={tour?.short_description_en}
+                        onChange={handleChange("short_description_en")}
                         multiline
                         minRows={3}
                         fullWidth
                     />
                     <TextField
-                        label="Short Description FR"
+                        label="Short description FR"
                         sx={darkTextField}
-                        value={tour?.description_fr}
-                        onChange={handleChange("description_fr")}
-                        multiline
-                        minRows={3}
-                        fullWidth
-                    />
-                    <TextField
-                        label="Itinerary EN"
-                        sx={darkTextField}
-                        value={tour?.itinerary_en}
-                        onChange={handleChange("itinerary_en")}
-                        multiline
-                        minRows={3}
-                        fullWidth
-                    />
-                    <TextField
-                        label="Itinerary FR"
-                        sx={darkTextField}
-                        value={tour?.itinerary_fr}
-                        onChange={handleChange("itinerary_fr")}
+                        value={tour?.short_description_fr}
+                        onChange={handleChange("short_description_fr")}
                         multiline
                         minRows={3}
                         fullWidth
@@ -605,7 +799,7 @@ const CreateTour = () => {
                     <TextField
                         label="Exclusion FR"
                         sx={darkTextField}
-                        value={tour?.exclusion_f}
+                        value={tour?.exclusion_fr}
                         onChange={handleChange("exclusion_fr")}
                         multiline
                         minRows={3}
@@ -695,11 +889,20 @@ const CreateTour = () => {
                 </div>
 
                 <div className="flex items-center justify-end mt-[1rem]">
-                    <Button variant="contained" onClick={handleSubmit}>
+                    <Button variant="contained" onClick={id ? handleUpdate() : handleSubmit}>
                         Save Tour
                     </Button>
                 </div>
             </div>
+            <Backdrop
+                open={loading || isLoading}
+                sx={{
+                    color: "#fff",
+                    zIndex: (theme) => theme.zIndex.drawer + 9999,
+                    backgroundColor: "rgba(0,0,0,0.35)",
+                }}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </div>
     );
 };

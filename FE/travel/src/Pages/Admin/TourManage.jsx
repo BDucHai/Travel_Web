@@ -1,139 +1,91 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useSWR from "swr";
-import { deleteTours, getTours, updateStatusTour } from "../../api/Tour";
+import { deleteTours, getToursAdmin, updateTours } from "../../api/Tour";
 import { DataGrid } from "@mui/x-data-grid";
 import { motion } from "framer-motion";
 import Tooltip from "@mui/material/Tooltip";
 import { CiUnlock, CiLock, CiEdit } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
 import { Checkbox } from "@mui/material";
+import LoadingScreen from "../../Components/LoadingScreen";
 
 const TourManage = () => {
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const [param, setParam] = useState({
-        title: "",
         page: 0,
         limit: 20,
     });
 
-    const { data: tours, isLoading, mutate } = useSWR(["/tours", param], ([_, params]) => getTours(params));
-
-    const toursFake = [
-  {
-    id: 1,
-    code: "TOUR001",
-    title_en: "Discover Paris",
-    title_fr: "Découvrir Paris",
-    duration_days: 5,
-    tour_styles: [
-      { name: "City" },
-      { name: "Culture" },
-    ],
-    isActive: 1,
-    created_by: "Admin",
-    created_at: "2026-06-01",
-  },
-  {
-    id: 2,
-    code: "TOUR002",
-    title_en: "Safari Adventure",
-    title_fr: "Aventure Safari",
-    duration_days: 7,
-    tour_styles: [
-      { name: "Wildlife" },
-      { name: "Adventure" },
-    ],
-    isActive: 0,
-    created_by: "Editor",
-    created_at: "2026-06-05",
-  },
-  {
-    id: 3,
-    code: "TOUR003",
-    title_en: "Beach Relaxation",
-    title_fr: "Détente à la plage",
-    duration_days: 3,
-    tour_styles: [
-      { name: "Beach" },
-      { name: "Luxury" },
-    ],
-    isActive: 1,
-    created_by: "Admin",
-    created_at: "2026-06-07",
-  },
-  {
-    id: 4,
-    code: "TOUR004",
-    title_en: "Mountain Hiking",
-    title_fr: "Randonnée en montagne",
-    duration_days: 4,
-    tour_styles: [
-      { name: "Nature" },
-      { name: "Adventure" },
-    ],
-    isActive: 1,
-    created_by: "Moderator",
-    created_at: "2026-06-09",
-  },
-];
-
+    const { data: tours, isLoading, mutate } = useSWR(["/tours", param], ([_, params]) => getToursAdmin(params));
 
     const handleDeleteTour = async (id) => {
+        setLoading(true);
         await deleteTours(id);
-        mutate();
+        await mutate();
+        setLoading(false);
     };
 
-    const handleChangeActive = async ({id,status}) =>{
-        await updateStatusTour({ id, status });
-        mutate(); 
-    }
+    const handleChangeActive = async ({ id, data, status }) => {
+        setLoading(true);
+        await updateTours({ id, data: { ...data, isActive: status } });
+        await mutate();
+        setLoading(false);
+    };
 
-    const handleSearch = () => {
+    const handleSearch = async () => {
+        setLoading(true);
         setParam((prev) => ({
             ...prev,
             page: 0,
         }));
-        mutate();
+        await mutate();
+        setLoading(false);
     };
     const columns = [
-          {
-            field: "code",
-            headerName: "Code Tour",
-            flex: 1,
-            minWidth: 120,
-            renderCell: (params) => <div className="text-white overflow-hidden text-ellipsis">{params?.value}</div>,
-        },
         {
-            field: "title_en",
+            field: "titleEn",
             headerName: "Title En",
             flex: 1.5,
             minWidth: 200,
-            renderCell: (params) => <Tooltip title={params?.value}><div className="text-white overflow-hidden text-ellipsis">{params?.value}</div> </Tooltip>,
+            renderCell: (params) => (
+                <Tooltip title={params?.value}>
+                    <div className="text-white overflow-hidden text-ellipsis">{params?.value}</div>{" "}
+                </Tooltip>
+            ),
         },
-                {
-            field: "title_fr",
+        {
+            field: "titleFr",
             headerName: "Title Fr",
             flex: 1.5,
             minWidth: 200,
-            renderCell: (params) => <Tooltip title={params?.value}><div className="text-white overflow-hidden text-ellipsis">{params?.value}</div> </Tooltip>,
+            renderCell: (params) => (
+                <Tooltip title={params?.value}>
+                    <div className="text-white overflow-hidden text-ellipsis">{params?.value}</div>{" "}
+                </Tooltip>
+            ),
         },
         {
-            field: "duration_days",
+            field: "durationDays",
             headerName: "Duration Days",
             flex: 1,
             minWidth: 120,
             renderCell: (params) => <div className="text-white overflow-hidden text-ellipsis">{params?.value}</div>,
         },
-          {
-            field: "tour_styles",
+        {
+            field: "styleNamesEn",
             headerName: "Style",
             flex: 1,
             minWidth: 120,
             renderCell: (params) => {
                 const styles = params?.value || [];
-                const styleList = styles?.map((s) => s?.name).join(", ");
-                return <Tooltip title={styleList}><div className="text-white overflow-hidden text-ellipsis">{styleList}</div> </Tooltip>;
+                const styleList = styles?.join(", ");
+                return (
+                    <Tooltip title={styleList}>
+                        <div className="text-white overflow-hidden text-ellipsis">{styleList}</div>
+                    </Tooltip>
+                );
             },
         },
         {
@@ -141,20 +93,19 @@ const TourManage = () => {
             headerName: "isActive",
             flex: 1,
             minWidth: 120,
-            renderCell: (params) => <div className="flex items-center justify-center"><Checkbox checked={params?.value} disabled /></div>,
+            renderCell: (params) => {
+                return (
+                    <div className="flex items-center justify-center">
+                        <Checkbox checked={params?.value} disabled />
+                    </div>
+                );
+            },
         },
         {
-            field: "created_by",
+            field: "createdAt",
             headerName: "Published Date",
             flex: 1,
             minWidth: 150,
-            renderCell: (params) => <div className="text-white">{params?.value}</div>,
-        },
-        {
-            field: "created_at",
-            headerName: "Views",
-            flex: 1,
-            minWidth: 100,
             renderCell: (params) => <div className="text-white">{params?.value}</div>,
         },
         {
@@ -166,9 +117,16 @@ const TourManage = () => {
             renderCell: (params) => {
                 return (
                     <div className="flex items-center justify-center w-full h-full gap-2">
-                         <div
-                            onClick={() => handleChangeActive({id: params?.row?.id, status: params?.row?.isActive? 0: 1})}
-                            className="
+                        <Tooltip title="UnActive Tour">
+                            <div
+                                onClick={() =>
+                                    handleChangeActive({
+                                        id: params?.row?.id,
+                                        data: params?.row,
+                                        status: params?.row?.isActive ? false : true,
+                                    })
+                                }
+                                className="
                         px-3 py-1
                          rounded-md
                         bg-transparent
@@ -177,8 +135,13 @@ const TourManage = () => {
                         text-sm
                         cursor-pointer
                     ">
-                            {params?.row?.isActive? <CiLock className="w-[1rem] h-[1rem]"/>: <CiUnlock className="w-[1rem] h-[1rem]"/>}
-                        </div>
+                                {params?.row?.isActive ? (
+                                    <CiLock className="w-[1rem] h-[1rem]" />
+                                ) : (
+                                    <CiUnlock className="w-[1rem] h-[1rem]" />
+                                )}
+                            </div>
+                        </Tooltip>
 
                         <div
                             onClick={() => navigate(`/admin/create/tour/${params?.row?.id}`)}
@@ -191,7 +154,7 @@ const TourManage = () => {
                         text-sm
                         cursor-pointer
                     ">
-                            <CiEdit className="w-[1rem] h-[1rem]"/>
+                            <CiEdit className="w-[1rem] h-[1rem]" />
                         </div>
 
                         <div
@@ -205,7 +168,7 @@ const TourManage = () => {
                         text-sm
                         cursor-pointer
                     ">
-                            <MdDelete className="w-[1rem] h-[1rem]"/>
+                            <MdDelete className="w-[1rem] h-[1rem]" />
                         </div>
                     </div>
                 );
@@ -221,10 +184,30 @@ const TourManage = () => {
                 text-white
                 bg-[radial-gradient(circle,_#0e3637_0%,_#0d0d11ab_70%)]
             ">
+            {loading && (
+                <div
+                    className="
+            absolute inset-0 z-50
+            bg-black/40
+            backdrop-blur-[2px]
+            flex items-center justify-center
+        ">
+                    <div
+                        className="
+                w-10 h-10
+                border-4
+                border-white/20
+                border-t-cyan-400
+                rounded-full
+                animate-spin
+            "
+                    />
+                </div>
+            )}
             {/* HEADER */}
             <div className="flex items-center justify-between mb-6">
                 <div>
-                    <h1 className="text-2xl font-semibold">Blog Management</h1>
+                    <h1 className="text-2xl font-semibold">Tour Management</h1>
                     <p className="text-gray-400 text-sm">Manage your articles with style ✨</p>
                 </div>
 
@@ -278,21 +261,21 @@ const TourManage = () => {
                     p-3
                 ">
                 <DataGrid
-                    rows={tours?.data || toursFake}
+                    rows={tours?.data}
                     columns={columns}
                     pinnedColumns={{ right: ["actions"] }}
                     paginationMode="server"
                     loading={isLoading}
-                    rowCount={tours?.pagination?.total || 0}
+                    rowCount={tours?.totalPages || 0}
                     pageSizeOptions={[20, 50, 100]}
                     paginationModel={{
-                        page: param?.page - 1,
-                        pageSize: param?.limit,
+                        page: param.page,
+                        pageSize: param.limit,
                     }}
                     onPaginationModelChange={(model) => {
                         setParam((prev) => ({
                             ...prev,
-                            page: model.page + 1,
+                            page: model.page,
                             limit: model.pageSize,
                         }));
                     }}

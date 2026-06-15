@@ -4,15 +4,13 @@ import i18n from "../../i18n";
 
 export const createTours = async (data) => {
     try {
-        const res = await axiosClient.post("/tours", data);
+        const res = await axiosClient.post("/admin/tours/with-images?lang=en", data);
 
         toast.success(i18n.t("notify.create_success"));
 
         return res?.data;
     } catch (error) {
         toast.error(i18n.t("notify.create_fail"));
-
-        throw error;
     }
 };
 
@@ -35,7 +33,9 @@ export const getTours = async (params) => {
 
 export const getToursById = async (url, params) => {
     try {
-        const res = await axiosClient.get(url, params);
+        const res = await axiosClient.get(url, {
+            params,
+        });
 
         return res?.data;
     } catch (err) {
@@ -45,7 +45,7 @@ export const getToursById = async (url, params) => {
 
 export const updateTours = async ({ id, data }) => {
     try {
-        const res = await axiosClient.post(`/tours/${id}`, data);
+        const res = await axiosClient.put(`/admin/tours/${id}`, data);
 
         toast.success(i18n.t("notify.update_success"));
 
@@ -55,9 +55,21 @@ export const updateTours = async ({ id, data }) => {
     }
 };
 
+export const getToursAdmin = async (params) => {
+    const response = await axiosClient.get("/admin/tours", {
+        params,
+    });
+    return response?.data;
+};
+
+export const getToursAdminById = async (id) => {
+    const response = await axiosClient.get(`/admin/tours/${id}`);
+    return response?.data;
+};
+
 export const updateStatusTour = async ({ id, status }) => {
     try {
-        await axiosClient.post(`/tours/status/${id}`, { id, status });
+        await axiosClient.post(`/admin/tours/${id}`, { id, status });
         toast.success(i18n.t("notify.update_success"));
     } catch (err) {
         toast.error(i18n.t("notify.update_fail"));

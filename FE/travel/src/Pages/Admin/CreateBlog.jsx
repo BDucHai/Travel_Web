@@ -2,30 +2,34 @@ import { useEffect, useState } from "react";
 import { uploadImage } from "../../utils/uploadImage";
 import BlogEditor from "../../Components/AdminComponent/BlogEditor";
 import { useNavigate, useParams } from "react-router-dom";
-import { createBlog, getBlogById, updateBlog } from "../../api/Blog";
+import { createBlog, getBlogAdminById, updateBlog } from "../../api/Blog";
 import useSWR from "swr";
+import { useAuth } from "../../contexts/AuthContext";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 const CreateBlog = () => {
+    const [loading, setLoading] = useState(false);
     const { id } = useParams();
 
+    const { user } = useAuth();
     const navigate = useNavigate();
 
-    const { data } = useSWR(id ? ["/blogs/detail", { id }] : null, ([_, id]) => getBlogById(id));
+    const { data } = useSWR(id ? ["/blogs/detail", { id: id }] : null, ([_, id]) => getBlogAdminById(id));
 
     const [blog, setBlog] = useState({
-        titleEn: data?.title_en || "",
-        titleFr: data?.title_fr || "",
+        titleEn: data?.titleEn || "",
+        titleFr: data?.titleFr || "",
 
-        heroImage: data?.hero_image_url || null,
+        heroImage: data?.heroImageUrl || null,
 
-        contentEn: data?.content_en || "",
-        contentFr: data?.content_fr || "",
+        contentEn: data?.contentEn || "",
+        contentFr: data?.contentFr || "",
 
-        excerptEn: data?.excerpt_en || "",
-        excerptFr: data?.excerpt_fr || "",
+        excerptEn: data?.excerptEn || "",
+        excerptFr: data?.excerptFr || "",
 
-        slugEn: data?.slug_en || "",
-        slugFr: data?.slug_en || "",
+        slugEn: data?.slugEn || "",
+        slugFr: data?.slugFr || "",
 
         isFeature: false,
         viewCount: data?.view_count || 0,
@@ -36,7 +40,7 @@ const CreateBlog = () => {
         setHeroLoading(true);
 
         const data = await uploadImage(file);
-
+        console.log(data);
         setBlog((prev) => ({ ...prev, heroImage: data?.url }));
         setHeroLoading(false);
     };
@@ -44,37 +48,60 @@ const CreateBlog = () => {
     const [heroLoading, setHeroLoading] = useState(false);
 
     const handleSubmit = async () => {
+        setLoading(true);
         if (id) {
             const res = await updateBlog({
                 id,
                 data: {
-                    titleEn: blog?.title_en || "",
-                    titleFr: blog?.title_fr || "",
+                    authorName: user?.username || "",
+                    titleEn: blog?.titleEn || "",
+                    titleFr: blog?.titleFr || "",
 
-                    heroImage: blog?.hero_image_url || null,
+                    heroImageUrl: blog?.heroImage || null,
 
-                    contentEn: blog?.content_en || "",
-                    contentFr: blog?.content_fr || "",
+                    contentEn: blog?.contentEn || "",
+                    contentFr: blog?.contentFr || "",
 
-                    excerptEn: blog?.excerpt_en || "",
-                    excerptFr: blog?.excerpt_fr || "",
+                    excerptEn: blog?.excerptEn || "",
+                    excerptFr: blog?.excerptFr || "",
 
-                    slugEn: blog?.slug_en || "",
-                    slugFr: blog?.slug_en || "",
+                    slugEn: blog?.slugEn || "",
+                    slugFr: blog?.slugFr || "",
 
-                    isFeature: false,
-                    viewCount: blog?.view_count || 0,
+                    isFeature: blog?.isFeature,
+                    viewCount: blog?.viewCount || 0,
+                    status: "PUBLISHED",
                 },
             });
             if (res?.status === 200) {
                 navigate("/admin/blog");
             }
         } else {
-            const res = await createBlog(blog);
+            const res = await createBlog({
+                authorName: user?.username || "",
+                titleEn: blog?.titleEn || "",
+                titleFr: blog?.titleFr || "",
+
+                heroImageUrl: blog?.heroImage || null,
+
+                contentEn: blog?.contentEn || "",
+                contentFr: blog?.contentFr || "",
+
+                excerptEn: blog?.excerptEn || "",
+                excerptFr: blog?.excerptFr || "",
+
+                slugEn: blog?.slugEn || "",
+                slugFr: blog?.slugFr || "",
+
+                isFeature: blog?.isFeature,
+                viewCount: blog?.viewCount || 0,
+                status: "PUBLISHED",
+            });
             if (res?.status === 200) {
                 navigate("/admin/blog");
             }
         }
+        setLoading(false);
     };
 
     return (
@@ -296,6 +323,15 @@ const CreateBlog = () => {
                     Publish Blog
                 </button>
             </div>
+            <Backdrop
+                open={loading}
+                sx={{
+                    color: "#fff",
+                    zIndex: (theme) => theme.zIndex.drawer + 9999,
+                    backgroundColor: "rgba(0,0,0,0.35)",
+                }}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </div>
     );
 };

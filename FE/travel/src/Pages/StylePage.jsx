@@ -1,48 +1,13 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { styleImg } from "../assets/images";
+import { useAuth } from "../contexts/AuthContext";
+import useSWR from "swr";
+import { getStyles } from "../api/Style";
 
 export default function StylesPage() {
     const navigate = useNavigate();
-
-    const styles = [
-        {
-            id: 1,
-            style: "CULTURAL",
-            image: styleImg.cultural,
-            description: "Discover Vietnam's heritage, traditions and local life.",
-        },
-        {
-            id: 2,
-            style: "FAMILY",
-            image: styleImg.familyStyle,
-            description: "Fun and comfortable trips for all generations.",
-        },
-        {
-            id: 3,
-            style: "NATURE",
-            image: styleImg.natureStyle,
-            description: "Explore mountains, waterfalls and natural wonders.",
-        },
-        {
-            id: 4,
-            style: "HONEYMOON",
-            image: styleImg.honeymoonStyle,
-            description: "Romantic escapes designed for couples.",
-        },
-        {
-            id: 5,
-            style: "FOOD",
-            image: styleImg.foodStyle,
-            description: "Taste authentic Vietnamese cuisine.",
-        },
-        {
-            id: 6,
-            style: "ADVENTURE",
-            image: styleImg.adventureStyle,
-            description: "Exciting journeys and unforgettable experiences.",
-        },
-    ];
+    const { lang } = useAuth();
+    const { data: styles } = useSWR(["/styles", { lang }], ([_, params]) => getStyles(params));
 
     return (
         <div className="min-h-screen bg-[#fafafa]">
@@ -75,7 +40,7 @@ export default function StylesPage() {
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {styles?.map((item, index) => (
                         <motion.div
-                            key={item.id}
+                            key={item?.id}
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{
@@ -83,19 +48,19 @@ export default function StylesPage() {
                                 delay: index * 0.05,
                             }}
                             viewport={{ once: true }}
-                            onClick={() => navigate(`/tours?style=${item?.style}`)}
+                            onClick={() => navigate(`/tours?styleSlug=${item?.slug}`)}
                             className="group cursor-pointer overflow-hidden rounded-3xl bg-white shadow-md hover:shadow-2xl transition-all duration-500">
                             <div className="relative h-[280px] overflow-hidden">
                                 <img
-                                    src={item?.image}
-                                    alt={item?.style}
+                                    src={item?.iconUrl}
+                                    alt={item?.id}
                                     className="w-full h-full object-cover transition duration-700 group-hover:scale-110"
                                 />
 
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
                                 <div className="absolute bottom-0 left-0 p-5 text-white">
-                                    <h3 className="text-xl font-bold tracking-wide">{item?.style}</h3>
+                                    <h3 className="text-xl font-bold tracking-wide">{item?.name}</h3>
 
                                     <p className="mt-2 text-sm text-gray-200">{item?.description}</p>
                                 </div>
