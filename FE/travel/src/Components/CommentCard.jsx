@@ -29,10 +29,12 @@ const CommentCard = ({ comment }) => {
                         onClick={() => setOpen(true)}>
                         {t("read_more")}
                     </div>
-                    <div className="py-[0.1rem] lg:py-[0.5rem]">{comment?.date}</div>
+                    <div className="py-[0.1rem] lg:py-[0.5rem]">
+                        {new Date(comment?.createdAt).toLocaleDateString("vi-VN")}
+                    </div>
                     <Rating name="read-only" value={comment?.rating} readOnly sx={{ marginTop: "1rem" }} />
                     <div className="flex items-center py-[0.1rem] lg:py-[0.5rem] mt-[0.3rem]">
-                        <Avatar>{comment?.name?.split("")[0]}</Avatar>
+                        <Avatar src={comment?.avatarUrl} alt="" />
                         <div className="ml-[1rem]">
                             <div className="font-semibold">{comment?.name}</div>
                             <div>{comment?.country}</div>
@@ -54,7 +56,7 @@ const CommentCard = ({ comment }) => {
                 <DialogTitle>
                     <div className="flex justify-between">
                         <div className="flex items-center">
-                            <Avatar>{comment?.name?.split("")[0]}</Avatar>
+                            <Avatar src={comment?.avatarUrl} alt="" />
                             <div className="ml-3">
                                 <div className="font-semibold">{comment?.name}</div>
                                 <div className="text-sm text-gray-600">{comment?.country}</div>
@@ -69,10 +71,14 @@ const CommentCard = ({ comment }) => {
                     </div>
                 </DialogTitle>
                 <DialogContent dividers>
-                    <div className="text-sm text-gray-500 mb-2">{comment?.date}</div>
+                    <div className="text-sm text-gray-500 mb-2">
+                        {new Date(comment?.createdAt).toLocaleDateString("vi-VN")}
+                    </div>
                     <Rating name="read-only" value={comment?.rating} readOnly />
                     <div className="mt-3 mb-3 whitespace-pre-line">{comment?.content}</div>
-                    {comment?.img && <img src={comment?.img} alt="comment" className="w-auto h-auto rounded-md mt-2" />}
+                    {comment?.imageUrls && (
+                        <img src={comment?.imageUrls?.[0]} alt="comment" className="w-auto h-auto rounded-md mt-2" />
+                    )}
                 </DialogContent>
             </Dialog>
         </>

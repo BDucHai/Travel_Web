@@ -31,6 +31,12 @@ import date from "./date.svg";
 import headphone from "./headphone.svg";
 import security from "./headphone.svg";
 import people from "./people.svg";
+import adventureStyle from "./adventureStyle.jpg";
+import cultural from "./cultural.webp";
+import familyStyle from "./familyStyle.webp";
+import foodStyle from "./foodStyle.jpg";
+import honeymoonStyle from "./honeymoonStyle.jpg";
+import natureStyle from "./natureStyle.jpg";
 
 export const imgBanner = {
     cungvulam,
@@ -80,3 +86,13 @@ export const imgGlobal = {
     logo,
     bannerBlog,
 };
+
+
+export const styleImg = {
+    adventureStyle,
+    cultural,
+    familyStyle,
+    foodStyle,
+    honeymoonStyle,
+    natureStyle
+}

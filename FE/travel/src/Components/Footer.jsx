@@ -4,15 +4,26 @@ import { useNavigate } from "react-router-dom";
 import { CiMail } from "react-icons/ci";
 import { CiPhone, CiLocationOn } from "react-icons/ci";
 import { useTranslation } from "react-i18next";
-import { TiSocialFacebook, TiSocialInstagram, TiSocialYoutube, TiSocialTwitter } from "react-icons/ti";
+import { TiSocialFacebook, TiSocialInstagram, TiSocialYoutube } from "react-icons/ti";
 import { IoIosSend } from "react-icons/io";
 import { imgGlobal } from "../assets/images";
 import { FaWhatsapp } from "react-icons/fa";
+import { createContacts } from "../api/Contact";
 
 const Footer = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const [sendMail, setSendMail] = useState(null);
+    const [sendMail, setSendMail] = useState("");
+
+    const handleCreateRequest = async () => {
+        const res = await createContacts({
+            email: sendMail,
+        });
+        if (res?.status === 200) {
+            setSendMail("");
+        }
+    };
+
     return (
         <>
             <div className="flex justify-between gap-3 py-[1.5rem] px-[1rem] lg:px-[3rem] bg-[#161515fa] text-white">
@@ -67,9 +78,15 @@ const Footer = () => {
                     <div className="text-[1rem] mb-[0.5rem] uppercase font-medium text-[#d38518]">
                         {t("navbar.vietnam_tour")}
                     </div>
-                    <div className="py-[0.5rem] text-[#e6ebeb]">{t("by_duration")}</div>
-                    <div className="py-[0.5rem] text-[#e6ebeb]">{t("by_style")}</div>
-                    <div className="py-[0.5rem] text-[#e6ebeb]">{t("navbar.combine_tour")}</div>
+                    <div className="py-[0.5rem] text-[#e6ebeb] cursor-pointer" onClick={() => navigate(`/tours`)}>
+                        {t("by_duration")}
+                    </div>
+                    <div className="py-[0.5rem] text-[#e6ebeb] cursor-pointer" onClick={() => navigate(`/tours`)}>
+                        {t("by_style")}
+                    </div>
+                    <div className="py-[0.5rem] text-[#e6ebeb] cursor-pointer" onClick={() => navigate(`/tours`)}>
+                        {t("navbar.combine_tour")}
+                    </div>
                 </div>
                 {/* END VietNamTour */}
 
@@ -78,9 +95,21 @@ const Footer = () => {
                     <div className="text-[1rem] mb-[0.5rem] uppercase font-medium text-[#d38518]">
                         {t("navbar.travel_infor")}
                     </div>
-                    <div className="py-[0.5rem] text-[#e6ebeb]">{t("navbar.northen_vn")}</div>
-                    <div className="py-[0.5rem] text-[#e6ebeb]">{t("navbar.central_vn")}</div>
-                    <div className="py-[0.5rem] text-[#e6ebeb]">{t("navbar.south_vn")}</div>
+                    <div
+                        className="py-[0.5rem] text-[#e6ebeb] cursor-pointer"
+                        onClick={() => navigate(`/tours?region=NORTH`)}>
+                        {t("navbar.northen_vn")}
+                    </div>
+                    <div
+                        className="py-[0.5rem] text-[#e6ebeb] cursor-pointer"
+                        onClick={() => navigate(`/tours?region=CENTRAL`)}>
+                        {t("navbar.central_vn")}
+                    </div>
+                    <div
+                        className="py-[0.5rem] text-[#e6ebeb] cursor-pointer"
+                        onClick={() => navigate(`/tours?region=SOUTH`)}>
+                        {t("navbar.south_vn")}
+                    </div>
                 </div>
                 {/* END Travel Information */}
 
@@ -137,7 +166,9 @@ const Footer = () => {
                                 onChange={(e) => setSendMail(e.target.value)}
                                 className="h-full py-[0.25rem] px-[0.5rem] border-[1px] border-[#d38518] rounded-[2px] w-[80%] focus:outline-none"
                             />
-                            <div className="w-[20%] h-full bg-[#d38518] flex-box-center text-white">
+                            <div
+                                className="w-[20%] h-full bg-[#d38518] flex-box-center text-white"
+                                onClick={() => handleCreateRequest()}>
                                 <IoIosSend />
                             </div>
                         </div>

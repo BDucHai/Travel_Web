@@ -13,7 +13,7 @@ const TourManage = () => {
     const navigate = useNavigate();
     const [param, setParam] = useState({
         title: "",
-        page: 1,
+        page: 0,
         limit: 20,
     });
 
@@ -92,7 +92,7 @@ const TourManage = () => {
     const handleSearch = () => {
         setParam((prev) => ({
             ...prev,
-            page: 1,
+            page: 0,
         }));
         mutate();
     };

@@ -24,7 +24,7 @@ export default function UserManagePage() {
     const [open, setOpen] = useState(false);
 
     const [params, setParams] = useState({
-        page: 1,
+        page: 0,
         limit: 20,
     });
 

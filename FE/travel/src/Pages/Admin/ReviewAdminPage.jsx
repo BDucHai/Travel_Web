@@ -69,7 +69,7 @@ const ReviewAdminPage = () => {
 
     const [params, setParams] = useState({
         status: 0,
-        page: 1,
+        page: 0,
         limit: 10,
     });
 
@@ -81,7 +81,7 @@ const ReviewAdminPage = () => {
         setParams((prev) => ({
             ...prev,
             status: statusTabs[value].value,
-            page: 1,
+            page: 0,
         }));
     };
 

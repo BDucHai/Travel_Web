@@ -29,7 +29,7 @@ const Blog = () => {
 
     const [params, setParams] = useState({
         search: "",
-        page: 1,
+        page: 0,
         limit: 8,
     });
 
@@ -141,7 +141,7 @@ const Blog = () => {
         [
             "/blogs-most-read",
             {
-                page: 1,
+                page: 0,
                 limit: 4,
                 sort: "views",
             },

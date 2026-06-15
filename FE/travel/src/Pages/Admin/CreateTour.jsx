@@ -28,7 +28,7 @@ const CreateTour = () => {
     const { data: styles = [] } = useSWR(["/tour-styles", debouncedStyleSearch], ([_, search]) =>
         getStyles({
             search,
-            page: 1,
+            page: 0,
             limit: 20,
         }),
     );
@@ -36,7 +36,7 @@ const CreateTour = () => {
     const { data: collections = [] } = useSWR(["/tour-collections", debouncedCollectionSearch], ([_, search]) =>
         getTourCollections({
             search,
-            page: 1,
+            page: 0,
             limit: 20,
         }),
     );
@@ -44,7 +44,7 @@ const CreateTour = () => {
     const { data: destinations = [] } = useSWR(["/destinations", debouncedDestinationSearch], ([_, search]) =>
         getDestinations({
             search,
-            page: 1,
+            page: 0,
             limit: 20,
         }),
     );

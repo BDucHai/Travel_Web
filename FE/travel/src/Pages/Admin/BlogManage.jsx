@@ -10,7 +10,7 @@ const BlogManage = () => {
     const [params, setParams] = useState({
         search: "",
         dateFilter: "",
-        page: 1,
+        page: 0,
         limit: 20,
     });
 
@@ -53,7 +53,7 @@ const BlogManage = () => {
     const handleSearch = () => {
         setParams((prev) => ({
             ...prev,
-            page: 1,
+            page: 0,
         }));
 
         mutate();

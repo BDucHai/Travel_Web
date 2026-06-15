@@ -3,6 +3,15 @@
           "fr": "French",
           "en": "English"
      },
+     "vietnam_tour": "Vietnam Tour",
+     "popular": "Popular",
+     "days": "Days",
+     "inclusion": "Inclusion",
+     "exclusion": "Exclusion",
+     "groupSize": "Group Size",
+     "durationDay": "Duration Day",
+     "destination": "Destinations",
+     "priceFrom": "Price From",
      "navbar": {
           "vietnam_tour": "vietnam tour",
           "7days_vn_tour": "7 Days Vietnam Tours",

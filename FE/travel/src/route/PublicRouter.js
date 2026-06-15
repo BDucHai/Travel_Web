@@ -16,6 +16,7 @@ import CreateTour from "../Pages/Admin/CreateTour";
 import ProfilePage from "../Pages/Admin/ProfilePage";
 import DestinationList from "../Pages/Admin/DestinationList";
 import CreateDestination from "../Pages/Admin/CreateDestination";
+import StylesPage from "../Pages/StylePage";
 
 const publicRoutes = [{ path: "/", component: Home }];
 
@@ -23,9 +24,10 @@ const routesNavSticky = [
     { path: "/blog", component: Blog },
     { path: "/blog/detail/:id", component: BlogDetail },
     { path: "/about", component: AboutUs },
-    { path: "/tour/search", component: SearchTour },
-    { path: "/tour/detail/:id", component: TourDetail },
+    { path: "/tours", component: SearchTour },
+    { path: "/tours/detail/:id", component: TourDetail },
     { path: "/review", component: ReviewPage },
+    { path: "/styles", component: StylesPage },
 ];
 
 const routeAdmin = [

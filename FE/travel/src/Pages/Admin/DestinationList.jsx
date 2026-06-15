@@ -8,7 +8,7 @@ import { MdEdit, MdDelete } from "react-icons/md";
 
 export default function DestinationList() {
     const [params, setParams] = useState({
-        page: 1,
+        page: 0,
         limit: 20,
     });
 

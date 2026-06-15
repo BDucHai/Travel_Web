@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Banner from "../Components/Banner";
 import CardHome from "../Components/CardHome";
 import { useTranslation } from "react-i18next";
-import { imgCardSample, imgReason } from "../assets/images";
+import { imgReason, styleImg } from "../assets/images";
 import { motion } from "framer-motion";
 import CardStyleHome from "../Components/CardStyleHome";
 import CommentCard from "../Components/CommentCard";
@@ -13,89 +13,55 @@ import { useNavigate } from "react-router-dom";
 import useSWR from "swr";
 import { getTours } from "../api/Tour";
 import { getReviews } from "../api/Review";
+import { useAuth } from "../contexts/AuthContext";
 
 const Home = () => {
     const { t } = useTranslation();
-
+    const { lang } = useAuth();
     const [touchStart, setTouchStart] = useState(0);
 
     const navigate = useNavigate();
 
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    const {data: tours} = useSWR(["/tours", {page: 1, limit: 4}], ([_, params]) => getTours(params));
-    const tourFake = [
-        {
-            id: 1,
-            img: imgCardSample.cardSample,
-            meta_title: "Essential VietNam",
-            meta_description: "Discoer the hightlight vietnam from hanoi to HCM City with memorable expoeriences",
-            duration_days: "10 Days / 9 Nights",
-            slug: "Best Seller",
-            published_at: "May 20, 2026",
-        },
-        {
-            id: 2,
-            img: imgCardSample.cardSample,
-            meta_title: "Essential VietNam",
-            meta_description: "Discoer the hightlight vietnam from hanoi to HCM City with memorable expoeriences",
-            duration_days: "10 Days / 9 Nights",
-            slug: "Best Seller",
-            published_at: "May 20, 2026",
-        },
-        {
-            id: 3,
-            img: imgCardSample.cardSample,
-            meta_title: "Essential VietNam",
-            meta_description: "Discoer the hightlight vietnam from hanoi to HCM City with memorable expoeriences",
-            duration_days: "10 Days / 9 Nights",
-            slug: "Popular",
-            published_at: "May 20, 2026",
-        },
-        {
-            id: 4,
-            img: imgCardSample.cardSample,
-            meta_title: "Essential VietNam",
-            meta_description: "Discoer the hightlight vietnam from hanoi to HCM City with memorable expoeriences",
-            duration_days: "10 Days / 9 Nights",
-            slug: "Best Seller",
-            published_at: "May 20, 2026",
-        },
-    ];
-    const tour = tours?.data || tourFake;
+    const { data: tours } = useSWR(["/tours", { page: 0, limit: 4, lang: lang }], ([_, params]) => getTours(params));
 
     const styleTourShow = [
         {
             id: 1,
             style: "CULTURAL",
-            icon_url:
-                "https://thumbs.dreamstime.com/z/travel-to-vietnam-set-traditional-vietnamese-cultural-symbols-landmarks-lifestyle-people-76776500.jpg",
+            image: styleImg.cultural,
+            description: "Discover Vietnam's heritage, traditions and local life.",
         },
         {
             id: 2,
             style: "FAMILY",
-            icon_url:
-                "https://kenh14cdn.com/thumb_w/660/203336854389633024/2022/8/19/photo-4-16608980245191078217063.jpg",
+            image: styleImg.familyStyle,
+            description: "Fun and comfortable trips for all generations.",
         },
         {
             id: 3,
             style: "NATURE",
-            icon_url: "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2020/03/thac-nuoc-cao-bang.jpg",
+            image: styleImg.natureStyle,
+            description: "Explore mountains, waterfalls and natural wonders.",
         },
         {
             id: 4,
             style: "HONEYMOON",
-            icon_url: "https://riversidepalace.vn/multidata/0-du-lich-trang-mat.jpg",
+            image: styleImg.honeymoonStyle,
+            description: "Romantic escapes designed for couples.",
         },
         {
             id: 5,
             style: "FOOD",
-            icon_url: "https://images.vietnamtourism.gov.vn/vn//images/2024/thang_1/pho_bo.jpg",
+            image: styleImg.foodStyle,
+            description: "Taste authentic Vietnamese cuisine.",
         },
         {
             id: 6,
-            style: "AND MORE",
-            icon_url: "https://dulichtoday.vn/wp-content/uploads/2017/04/dao-Phu-Quoc.jpg",
+            style: "ADVENTURE",
+            image: styleImg.adventureStyle,
+            description: "Exciting journeys and unforgettable experiences.",
         },
     ];
 
@@ -132,113 +98,20 @@ const Home = () => {
         },
     ];
 
-    const {data: commentData} = useSWR(["/testimonials", {page:1, limit: 9}], ([url, params]) => getReviews(url, params))
-    const commentTest = [
-        {
-            id: 1,
-            content:
-                "This place is truly a hidden gem for travelers. With its stunning natural scenery, peaceful atmosphere, and rich local culture, it offers an unforgettable experience. Whether you’re exploring the landscapes, enjoying the food, or simply relaxing, every moment here feels special. It’s the perfect destination for anyone looking to escape the busy city and reconnect with nature.",
-            rating: 5,
-            name: "Jessica M.",
-            country: "Australia",
-            date: "06/25/2026",
-            img: "https://thf.bing.com/th/id/OIP.zwFcHylMP8dnd3O64uj8HQHaE7?cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3",
-        },
-        {
-            id: 2,
-            content:
-                "A beautiful destination that leaves a lasting impression from the very first moment. Surrounded by breathtaking views and a calm, refreshing vibe, it’s an ideal place to unwind and explore. The friendly locals and unique cultural touch make the experience even more memorable. A perfect spot for a relaxing and inspiring getaway.",
-            rating: 5,
-            name: "Mark T.",
-            country: "United Kingdom",
-            date: "06/25/2026",
-            img: "https://thf.bing.com/th/id/OIP.zwFcHylMP8dnd3O64uj8HQHaE7?cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3",
-        },
-        {
-            id: 3,
-            content:
-                "This place is truly a hidden gem for travelers. With its stunning natural scenery, peaceful atmosphere, and rich local culture, it offers an unforgettable experience. Whether you’re exploring the landscapes, enjoying the food, or simply relaxing, every moment here feels special. It’s the perfect destination for anyone looking to escape the busy city and reconnect with nature.",
-            rating: 5,
-            name: "Sofia L.",
-            country: "France",
-            date: "06/25/2026",
-            img: "https://thf.bing.com/th/id/OIP.zwFcHylMP8dnd3O64uj8HQHaE7?cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3",
-        },
-        {
-            id: 7,
-            content:
-                "This place is truly a hidden gem for travelers. With its stunning natural scenery, peaceful atmosphere, and rich local culture, it offers an unforgettable experience. Whether you’re exploring the landscapes, enjoying the food, or simply relaxing, every moment here feels special. It’s the perfect destination for anyone looking to escape the busy city and reconnect with nature.",
-            rating: 5,
-            name: "Jessica M.",
-            country: "Australia",
-            date: "06/25/2026",
-            img: "https://thf.bing.com/th/id/OIP.zwFcHylMP8dnd3O64uj8HQHaE7?cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3",
-        },
-        {
-            id: 8,
-            content:
-                "A beautiful destination that leaves a lasting impression from the very first moment. Surrounded by breathtaking views and a calm, refreshing vibe, it’s an ideal place to unwind and explore. The friendly locals and unique cultural touch make the experience even more memorable. A perfect spot for a relaxing and inspiring getaway.",
-            rating: 5,
-            name: "Mark T.",
-            country: "United Kingdom",
-            date: "06/25/2026",
-            img: "https://thf.bing.com/th/id/OIP.zwFcHylMP8dnd3O64uj8HQHaE7?cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3",
-        },
-        {
-            id: 9,
-            content:
-                "This place is truly a hidden gem for travelers. With its stunning natural scenery, peaceful atmosphere, and rich local culture, it offers an unforgettable experience. Whether you’re exploring the landscapes, enjoying the food, or simply relaxing, every moment here feels special. It’s the perfect destination for anyone looking to escape the busy city and reconnect with nature.",
-            rating: 5,
-            name: "Sofia L.",
-            country: "France",
-            date: "06/25/2026",
-            img: "https://thf.bing.com/th/id/OIP.zwFcHylMP8dnd3O64uj8HQHaE7?cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3",
-        },
-        {
-            id: 4,
-            content:
-                "This place is truly a hidden gem for travelers. With its stunning natural scenery, peaceful atmosphere, and rich local culture, it offers an unforgettable experience. Whether you’re exploring the landscapes, enjoying the food, or simply relaxing, every moment here feels special. It’s the perfect destination for anyone looking to escape the busy city and reconnect with nature.",
-            rating: 5,
-            name: "Jessica M.",
-            country: "Australia",
-            date: "06/25/2026",
-            img: "https://thf.bing.com/th/id/OIP.zwFcHylMP8dnd3O64uj8HQHaE7?cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3",
-        },
-        {
-            id: 5,
-            content:
-                "A beautiful destination that leaves a lasting impression from the very first moment. Surrounded by breathtaking views and a calm, refreshing vibe, it’s an ideal place to unwind and explore. The friendly locals and unique cultural touch make the experience even more memorable. A perfect spot for a relaxing and inspiring getaway.",
-            rating: 5,
-            name: "Mark T.",
-            country: "United Kingdom",
-            date: "06/25/2026",
-            img: "https://thf.bing.com/th/id/OIP.zwFcHylMP8dnd3O64uj8HQHaE7?cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3",
-        },
-        {
-            id: 6,
-            content:
-                "This place is truly a hidden gem for travelers. With its stunning natural scenery, peaceful atmosphere, and rich local culture, it offers an unforgettable experience. Whether you’re exploring the landscapes, enjoying the food, or simply relaxing, every moment here feels special. It’s the perfect destination for anyone looking to escape the busy city and reconnect with nature.",
-            rating: 5,
-            name: "Sofia L.",
-            country: "France",
-            date: "06/25/2026",
-            img: "https://thf.bing.com/th/id/OIP.zwFcHylMP8dnd3O64uj8HQHaE7?cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3",
-        },
-    ];
-
-    const comments = commentData?.data || commentTest
-
+    const { data: commentData } = useSWR(["/testimonials", { page: 0, limit: 9 }], ([url, params]) =>
+        getReviews(url, params),
+    );
 
     const isLargeScreen = useMediaQuery("(min-width:1024px)");
 
     const chunkSize = isLargeScreen ? 3 : 2;
 
     const slides = [];
-    for (let i = 0; i < comments.length; i += chunkSize) {
-        slides.push(comments.slice(i, i + chunkSize));
+    for (let i = 0; i < commentData.length; i += chunkSize) {
+        slides.push(commentData?.slice(i, i + chunkSize));
     }
 
-    const totalSlides = Math.ceil(comments.length / chunkSize);
+    const totalSlides = Math.ceil(commentData.length / chunkSize);
 
     return (
         <>
@@ -256,7 +129,7 @@ const Home = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, ease: "easeOut" }}
                     viewport={{ once: true, amount: 0.1 }}>
-                    {tour.map((t) => (
+                    {tours?.data?.map((t) => (
                         <CardHome tour={t} />
                     ))}
                 </motion.div>
@@ -286,7 +159,9 @@ const Home = () => {
                     ))}
                 </motion.div>
                 <div className="flex-box-center mt-[1.5rem]">
-                    <div className="px-[3rem] py-[0.5rem] border-[2px] border-[#d38518] text-[#d38518] font-semibold uppercase cursor-pointer hover:bg-[#c39562] hover:text-white">
+                    <div
+                        className="px-[3rem] py-[0.5rem] border-[2px] border-[#d38518] text-[#d38518] font-semibold uppercase cursor-pointer hover:bg-[#c39562] hover:text-white"
+                        onClick={() => navigate("/styles")}>
                         {t("explore_style")}
                     </div>
                 </div>

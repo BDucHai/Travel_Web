@@ -33,9 +33,9 @@ export const getTours = async (params) => {
     return response?.data;
 };
 
-export const getToursById = async ({ id }) => {
+export const getToursById = async (url, params) => {
     try {
-        const res = await axiosClient.get(`/tours/${id}`);
+        const res = await axiosClient.get(url, params);
 
         return res?.data;
     } catch (err) {

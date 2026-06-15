@@ -63,7 +63,7 @@ export default function Contact() {
 
     const [params, setParams] = useState({
         tab: 0,
-        page: 1,
+        page: 0,
         limit: 10,
     });
 

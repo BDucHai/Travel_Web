@@ -7,14 +7,13 @@ import { LuTableOfContents } from "react-icons/lu";
 import { IoCaretDownOutline } from "react-icons/io5";
 import { imgBanner, imgGlobal, imgLang } from "../assets/images";
 import ContactModal from "./ContactModal";
-import { durationsDays } from "../constant";
 import useSWR from "swr";
-import { getStyles } from "../api/Style";
+import { getMegaMenu } from "../api/Home";
 
 const Navbar = ({ home }) => {
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
-    const { changeLang } = useAuth();
+    const { changeLang, lang } = useAuth();
     const [openDetail, setOpenDetail] = useState({
         open: false,
         pop: 0,
@@ -28,82 +27,11 @@ const Navbar = ({ home }) => {
     const [navChildVNTour, setNavChildVNTour] = useState([]);
     const [navChildTravelInfor, setNavChildTravelInfor] = useState([]);
 
-    const { data: tourStyles } = useSWR(["/styles", { page: 1, limit: 9 }], ([_, params]) => getStyles(params));
-    const tourStyle = [
-        {
-            slug: "cultural_tour",
-            title: t("navbar.cultural_tour"),
-        },
-        {
-            slug: "family_holiday",
-            title: t("navbar.family_holiday"),
-        },
-        {
-            slug: "nature_adventure",
-            title: t("navbar.nature_adventure"),
-        },
-        {
-            slug: "honeymoon_tour",
-            title: t("navbar.honeymoon_tour"),
-        },
-        {
-            slug: "bike_tour",
-            title: t("navbar.bike_tour"),
-        },
-        {
-            slug: "luxury_travel",
-            title: t("navbar.luxury_travel"),
-        },
-        {
-            slug: "off_beaten_track",
-            title: t("navbar.off_beaten_track"),
-        },
-        {
-            slug: "food_culinary_tour",
-            title: t("navbar.food_culinary_tour"),
-        },
-        {
-            slug: "wellness_relaxation",
-            title: t("navbar.wellness_relaxation"),
-        },
-    ];
-
-    const combineTour = [
-        "Vietnam & Cambodia",
-        "Vietnam & Laos",
-        "Vietnam & Thailand",
-        "Vietnam – Laos – Cambodia",
-        "Indochina Discovery",
-        "Southeast Asia Highlights",
-    ];
-
-    const travelInformation = {
-        nothern: {
-            location: [
-                "Hanoi",
-                "Sapa",
-                "Ninh Binh",
-                "Ha Long Bay",
-                "Mu Cang Chai",
-                "Mai Chau",
-                "Cao Bang",
-                "Ha Giang",
-                "Pu Luong",
-                "Cat Ba",
-            ],
-        },
-        central: {
-            location: ["Hue", "Da Nang", "Hoi An", "Phong Nha", "Quang Binh", "Nha Trang", "Da Lat"],
-        },
-        south: {
-            location: ["Ho Chi Minh City", "Ben Tre", "Can Tho", "Phu Quoc"],
-        },
-    };
-
+    const { data: megaMenu } = useSWR([`/layout/mega-menu`, { lang: lang }], ([_, params]) => getMegaMenu(params));
     return (
         <>
             <div
-                className={`${home ? "absolute bg-linear-to-b from-[#2d3435f2] to-[#3c4d5678] text-white" : "sticky top-0 bg-[#fff] text-[#000]"} top-0 left-0 z-[800] py-[0.5rem] md:px-[2rem] w-full text[1rem] xl:text-[1.3rem] font-roboto font-bold`}>
+                className={`${home ? "absolute bg-linear-to-b from-[#2d3435f2] to-[#3c4d5678] text-white" : "sticky top-0 bg-[#fff] text-[#000]"} top-0 left-0 z-[800] py-[0.5rem] md:px-[2rem] w-full text[1rem] ${lang === "en" ? "xl:text-[1.3rem]" : "text-[1rem]"}  font-roboto font-bold`}>
                 {/* I18 language */}
                 <div className="hidden lg:flex items-center justify-end">
                     <div
@@ -183,15 +111,11 @@ const Navbar = ({ home }) => {
                                     transform transition-all text-[0.85rem] cursor-default normal-case">
                                         <div className="grid grid-cols-3 gap-x-[10px] gap-y-[6px] p-[0.8rem] bg-[#f8fcf3] overflow-clip">
                                             <div className="">
-                                                {durationsDays?.map((tour) => (
+                                                {megaMenu?.vietnamTour?.duration?.map((dura) => (
                                                     <div
                                                         className="w-[90%] px-[0.4rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
-                                                        onClick={() =>
-                                                            navigate(
-                                                                `/tour/search?duration=${tour?.value}&title=${tour?.title}`,
-                                                            )
-                                                        }>
-                                                        {t(tour?.title)}
+                                                        onClick={() => navigate(dura?.url)}>
+                                                        {dura?.label + " " + t("vietnam_tour")}
                                                     </div>
                                                 ))}
 
@@ -216,15 +140,11 @@ const Navbar = ({ home }) => {
                                                     }>
                                                     {t("navbar.all_style_tour")}
                                                 </div>
-                                                {tourStyle.map((style) => (
+                                                {megaMenu?.vietnamTour?.styles?.map((style) => (
                                                     <div
                                                         className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
-                                                        onClick={() =>
-                                                            navigate(
-                                                                `/tour/search?style=${style?.slug}&title=${style?.title}`,
-                                                            )
-                                                        }>
-                                                        {style?.title}
+                                                        onClick={() => navigate(style?.url)}>
+                                                        {style?.label}
                                                     </div>
                                                 ))}
                                             </div>
@@ -232,20 +152,19 @@ const Navbar = ({ home }) => {
                                             <div className="">
                                                 <div
                                                     className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 text-[#ef8d21] text-[1rem] uppercase font-semibold rounded-[6px] cursor-pointer"
-                                                    onClick={() =>
-                                                        navigate(
-                                                            `/tour/search?combineTour=all&title=navbar.combine_tour`,
-                                                        )
-                                                    }>
+                                                    // onClick={() =>
+                                                    //     navigate(
+                                                    //         `/tour/search?combineTour=all&title=navbar.combine_tour`,
+                                                    //     )
+                                                    // }
+                                                >
                                                     {t("navbar.combine_tour")}
                                                 </div>
-                                                {combineTour.map((cb) => (
+                                                {megaMenu?.vietnamTour?.combined?.map((cb) => (
                                                     <div
                                                         className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
-                                                        onClick={() =>
-                                                            navigate(`/tour/search?combineTour=cb&title=${cb}`)
-                                                        }>
-                                                        {cb}
+                                                        onClick={() => navigate(cb?.url)}>
+                                                        {cb?.label}
                                                     </div>
                                                 ))}
                                             </div>
@@ -275,18 +194,14 @@ const Navbar = ({ home }) => {
                                             <div className="">
                                                 <div
                                                     className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 text-[#ef8d21] text-[1rem] uppercase font-semibold rounded-[6px] cursor-pointer"
-                                                    onClick={() =>
-                                                        navigate(`/tour/search?side=1&title=navbar.northen_vn`)
-                                                    }>
+                                                    onClick={() => navigate(`/tours?region=NORTH`)}>
                                                     {t("navbar.northen_vn")}
                                                 </div>
-                                                {travelInformation.nothern.location.map((no) => (
+                                                {megaMenu?.travelInformation?.north?.map((no) => (
                                                     <div
                                                         className="w-[90%] px-[1rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
-                                                        onClick={() =>
-                                                            navigate(`/tour/search?location=${no}&title=${no}`)
-                                                        }>
-                                                        {no}
+                                                        onClick={() => navigate(no?.url)}>
+                                                        {no?.label}
                                                     </div>
                                                 ))}
                                             </div>
@@ -294,9 +209,7 @@ const Navbar = ({ home }) => {
                                             <div className="">
                                                 <div
                                                     className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 text-[#ef8d21] text-[1rem] uppercase font-semibold rounded-[6px] cursor-pointer"
-                                                    onClick={() =>
-                                                        navigate(`/tour/search?side=2&title=navbar.central_vn`)
-                                                    }>
+                                                    onClick={() => navigate(`/tours?region=CENTRAL`)}>
                                                     {t("navbar.central_vn")}
                                                 </div>
                                                 <img
@@ -306,13 +219,11 @@ const Navbar = ({ home }) => {
                                                     alt={imgBanner.hue}
                                                     loading="lazy"
                                                 />
-                                                {travelInformation.central.location.map((cen) => (
+                                                {megaMenu?.travelInformation?.central?.map((cen) => (
                                                     <div
                                                         className="w-[90%] px-[1rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
-                                                        onClick={() =>
-                                                            navigate(`/tour/search?location=${cen}&title=${cen}`)
-                                                        }>
-                                                        {cen}
+                                                        onClick={() => navigate(cen?.url)}>
+                                                        {cen?.label}
                                                     </div>
                                                 ))}
                                             </div>
@@ -320,18 +231,14 @@ const Navbar = ({ home }) => {
                                             <div className="">
                                                 <div
                                                     className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 text-[#ef8d21] text-[1rem] uppercase font-semibold rounded-[6px] cursor-pointer"
-                                                    onClick={() =>
-                                                        navigate(`/tour/search?side=3&title=navbar.south_vn`)
-                                                    }>
+                                                    onClick={() => navigate(`/tours/region=SOUTH`)}>
                                                     {t("navbar.south_vn")}
                                                 </div>
-                                                {travelInformation.south.location.map((s) => (
+                                                {megaMenu?.travelInformation?.south?.map((s) => (
                                                     <div
                                                         className="w-[90%] px-[1rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
-                                                        onClick={() =>
-                                                            navigate(`/tour/search?location=${s}&title=${s}`)
-                                                        }>
-                                                        {s}
+                                                        onClick={() => navigate(s?.url)}>
+                                                        {s?.label}
                                                     </div>
                                                 ))}
                                                 <img
@@ -433,15 +340,11 @@ const Navbar = ({ home }) => {
 
                                         {/* Child Duration  */}
                                         {navChildVNTour.includes(1) &&
-                                            durationsDays.map((dura) => (
+                                            megaMenu?.vietnamTour?.duration?.map((dura) => (
                                                 <div
                                                     className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}
-                                                    onClick={() =>
-                                                        navigate(
-                                                            `/tour/search?duration=${dura?.value}&title=${dura?.title}`,
-                                                        )
-                                                    }>
-                                                    {t(dura?.title)}
+                                                    onClick={() => navigate(dura?.url)}>
+                                                    {dura?.label + " " + t("vietnam_tour")}
                                                 </div>
                                             ))}
 
@@ -458,13 +361,11 @@ const Navbar = ({ home }) => {
                                             </div>
                                         </div>
                                         {navChildVNTour.includes(2) &&
-                                            tourStyle.map((style) => (
+                                            megaMenu?.vietnamTour?.styles?.map((style) => (
                                                 <div
                                                     className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}
-                                                    onClick={() =>
-                                                        navigate(`/tour/search?style=${style}&title=${style}`)
-                                                    }>
-                                                    {style}
+                                                    onClick={() => navigate(style?.url)}>
+                                                    {style?.label}
                                                 </div>
                                             ))}
                                         <div
@@ -480,13 +381,11 @@ const Navbar = ({ home }) => {
                                             </div>
                                         </div>
                                         {navChildVNTour.includes(3) &&
-                                            combineTour.map((cb) => (
+                                            megaMenu?.vietnamTour?.combined?.map((cb) => (
                                                 <div
                                                     className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}
-                                                    onClick={() =>
-                                                        navigate(`/tour/search?combineTour=${cb}&title=${cb}`)
-                                                    }>
-                                                    {cb}
+                                                    onClick={() => navigate(cb?.url)}>
+                                                    {cb?.label}
                                                 </div>
                                             ))}
                                     </div>
@@ -522,11 +421,11 @@ const Navbar = ({ home }) => {
                                             </div>
                                         </div>
                                         {navChildTravelInfor.includes(1) &&
-                                            travelInformation.nothern.location.map((no) => (
+                                            megaMenu?.travelInformation?.north?.map((no) => (
                                                 <div
                                                     className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}
-                                                    onClick={() => navigate(`/tour/search?location=${no}&title=${no}`)}>
-                                                    {no}
+                                                    onClick={() => navigate(no?.url)}>
+                                                    {no?.label}
                                                 </div>
                                             ))}
 
@@ -544,13 +443,11 @@ const Navbar = ({ home }) => {
                                             </div>
                                         </div>
                                         {navChildTravelInfor.includes(2) &&
-                                            travelInformation.central.location.map((cen) => (
+                                            megaMenu?.travelInformation?.central?.map((cen) => (
                                                 <div
                                                     className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}
-                                                    onClick={() =>
-                                                        navigate(`/tour/search?location=${cen}&title=${cen}`)
-                                                    }>
-                                                    {cen}
+                                                    onClick={() => navigate(cen?.url)}>
+                                                    {cen?.label}
                                                 </div>
                                             ))}
                                         <div
@@ -566,13 +463,11 @@ const Navbar = ({ home }) => {
                                             </div>
                                         </div>
                                         {navChildTravelInfor.includes(3) &&
-                                            travelInformation.south.location.map((sou) => (
+                                            megaMenu?.travelInformation?.south?.map((sou) => (
                                                 <div
                                                     className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}
-                                                    onClick={() =>
-                                                        navigate(`/tour/search?location=${sou}&title=${sou}`)
-                                                    }>
-                                                    {sou}
+                                                    onClick={() => navigate(sou?.url)}>
+                                                    {sou?.label}
                                                 </div>
                                             ))}
                                     </div>

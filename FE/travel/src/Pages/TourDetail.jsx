@@ -5,71 +5,18 @@ import { useTranslation } from "react-i18next";
 import ContactModal from "../Components/ContactModal";
 import { getToursById } from "../api/Tour";
 import useSWR from "swr";
+import { useAuth } from "../contexts/AuthContext";
 
 const TourDetail = () => {
     const { id } = useParams();
+    const { lang } = useAuth();
     const { t } = useTranslation();
 
-    const { data: tourDetail } = useSWR(id ? ["/tours", id] : null, ([_, id]) => getToursById(id));
+    const { data: tourDetail } = useSWR(id ? [`/tours/${id}`, { lang }] : null, ([url, params]) =>
+        getToursById(url, params),
+    );
 
-    const tourFake = [
-        {
-            code: "VN001",
-            duration_days: "7 Days / 6 Nights",
-            price_from: 499,
-            title_en: "Discover Hanoi & Halong Bay",
-            title_fr: "Découvrir Hanoi et la baie d'Halong",
-            slug_en: "Best Seller",
-            slug_fr: "Meilleure Vente",
-            short_description_en: "A week-long journey through Hanoi and Halong Bay.",
-            short_description_fr: "Un voyage d'une semaine à travers Hanoi et la baie d'Halong.",
-            overview_en: "Explore the vibrant capital of Vietnam and cruise the stunning Halong Bay.",
-            overview_fr:
-                "Explorez la capitale vibrante du Vietnam et faites une croisière dans la magnifique baie d'Halong.",
-            itinerary_en: "Day 1: Arrival in Hanoi ... Day 7: Departure",
-            itinerary_fr: "Jour 1: Arrivée à Hanoi ... Jour 7: Départ",
-            inclusion_en: "Hotel, breakfast, guided tours, cruise tickets.",
-            inclusion_fr: "Hôtel, petit-déjeuner, visites guidées, billets de croisière.",
-            exclusion_en: "Flights, personal expenses, travel insurance.",
-            exclusion_fr: "Vols, dépenses personnelles, assurance voyage.",
-            is_featured: true,
-            is_active: true,
-            featuredImage: "https://picsum.photos/seed/hanoi/600/400",
-            galleryImages: ["https://picsum.photos/seed/halong1/600/400", "https://picsum.photos/seed/halong2/600/400"],
-            styles: [
-                { id: 1, name: "Adventure" },
-                { id: 2, name: "Culture" },
-            ],
-            collections: [{ id: 1, name: "Vietnam Highlights" }],
-        },
-        {
-            code: "VN002",
-            duration_days: "10 Days / 9 Nights",
-            price_from: 899,
-            title_en: "Essential Vietnam from North to South",
-            title_fr: "Vietnam essentiel du nord au sud",
-            slug_en: "Popular",
-            slug_fr: "Populaire",
-            short_description_en: "Travel from Hanoi to Ho Chi Minh City with memorable experiences.",
-            short_description_fr: "Voyagez de Hanoi à Ho Chi Minh Ville avec des expériences mémorables.",
-            overview_en: "Visit Hanoi, Hue, Hoi An, and Ho Chi Minh City.",
-            overview_fr: "Visitez Hanoi, Hue, Hoi An et Ho Chi Minh Ville.",
-            itinerary_en: "Day 1: Hanoi ... Day 10: Ho Chi Minh City departure",
-            itinerary_fr: "Jour 1: Hanoi ... Jour 10: Départ de Ho Chi Minh Ville",
-            inclusion_en: "Hotels, domestic flights, guided tours.",
-            inclusion_fr: "Hôtels, vols domestiques, visites guidées.",
-            exclusion_en: "International flights, visa fees.",
-            exclusion_fr: "Vols internationaux, frais de visa.",
-            is_featured: false,
-            is_active: true,
-            featuredImage: "https://picsum.photos/seed/vietnam/600/400",
-            galleryImages: ["https://picsum.photos/seed/hue/600/400", "https://picsum.photos/seed/hoian/600/400"],
-            styles: [{ id: 3, name: "Family" }],
-            collections: [{ id: 2, name: "Classic Tours" }],
-        },
-    ];
 
-    const tour = tourDetail || tourFake;
     const [contactModal, setContactModal] = useState(false);
 
     return (
@@ -78,7 +25,7 @@ const TourDetail = () => {
             <div className="relative h-[70vh] w-full overflow-hidden">
                 <img
                     src="https://images.unsplash.com/photo-1528127269322-539801943592"
-                    alt="tour"
+                    alt="tourDetail?.slug"
                     className="w-full h-full object-cover scale-105"
                 />
 
@@ -89,10 +36,10 @@ const TourDetail = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="text-4xl md:text-6xl font-bold">
-                        {tour?.title}
+                        {tourDetail?.title}
                     </motion.h1>
 
-                    <p className="mt-3 text-lg text-white/80">{tour?.shortDescription}</p>
+                    <p className="mt-3 text-lg text-white/80">{tourDetail?.shortDescription}</p>
                 </div>
             </div>
 
@@ -103,22 +50,24 @@ const TourDetail = () => {
                     {/* OVERVIEW */}
                     <section>
                         <h2 className="text-2xl font-bold mb-4">{t("overview")}</h2>
-                        <p className="text-gray-600 leading-relaxed">{tour?.overview}</p>
+                        <p className="text-gray-600 leading-relaxed">{tourDetail?.overview}</p>
                     </section>
 
-                    {/* HIGHLIGHTS */}
+                    {/* exclusion */}
                     <section>
-                        <h2 className="text-2xl font-bold mb-4">{t("highlight")}</h2>
+                        <h2 className="text-2xl font-bold mb-4">{t("exclusion")}</h2>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {tour?.highlight?.map((item, i) => (
-                                <motion.div
-                                    key={i}
-                                    whileHover={{ scale: 1.02 }}
-                                    className="p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition">
-                                    {item}
-                                </motion.div>
-                            ))}
+                            <p className="text-gray-600 leading-relaxed">{tourDetail?.exclusion}</p>
+                        </div>
+                    </section>
+
+                    {/* inclusion */}
+                    <section>
+                        <h2 className="text-2xl font-bold mb-4">{t("inclusion")}</h2>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <p className="text-gray-600 leading-relaxed">{tourDetail?.inclusion}</p>
                         </div>
                     </section>
 
@@ -197,11 +146,11 @@ const TourDetail = () => {
                         <h2 className="text-2xl font-bold mb-4">Gallery</h2>
 
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                            {[1, 2, 3, 4, 5, 6].map((i) => (
+                            {tourDetail?.imageUrls?.map((i) => (
                                 <img
                                     key={i}
                                     alt={i}
-                                    src={`https://source.unsplash.com/500x500/?vietnam,travel,${i}`}
+                                    src={i}
                                     className="rounded-xl object-cover h-40 w-full hover:scale-105 transition"
                                 />
                             ))}
@@ -213,18 +162,23 @@ const TourDetail = () => {
                 <div className="lg:col-span-4">
                     <div className="sticky top-10 bg-white rounded-2xl shadow-md p-6 space-y-6">
                         <div>
-                            <p className="text-gray-500 text-sm">Duration</p>
-                            <p className="font-semibold">10 Days / 9 Nights</p>
+                            <p className="text-gray-500 text-sm">{t("durationDay")}</p>
+                            <p className="font-semibold">{tourDetail?.durationDays + " " + t("days")}</p>
                         </div>
 
                         <div>
-                            <p className="text-gray-500 text-sm">Route</p>
-                            <p className="font-semibold">Hanoi → Ha Long → Hue → Hoi An → HCM</p>
+                            <p className="text-gray-500 text-sm">{t("destination")}</p>
+                            <p className="font-semibold">{tourDetail?.destinationNames?.join(" + ")}</p>
                         </div>
 
                         <div>
-                            <p className="text-gray-500 text-sm">Type</p>
-                            <p className="font-semibold">Private / Group Tour</p>
+                            <p className="text-gray-500 text-sm">{t("groupSize")}</p>
+                            <p className="font-semibold">{tourDetail?.groupSize}</p>
+                        </div>
+
+                        <div>
+                            <p className="text-gray-500 text-sm">{t("priceFrom")}</p>
+                            <p className="font-semibold">{tourDetail?.priceFrom}$</p>
                         </div>
 
                         <button
@@ -235,7 +189,12 @@ const TourDetail = () => {
                     </div>
                 </div>
             </div>
-            <ContactModal t={t} open={contactModal} onClose={() => setContactModal(false)} content={tour?.title} />
+            <ContactModal
+                t={t}
+                open={contactModal}
+                onClose={() => setContactModal(false)}
+                content={tourDetail?.title}
+            />
         </div>
     );
 };
