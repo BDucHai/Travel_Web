@@ -4,9 +4,9 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 
 import { $setBlocksType } from "@lexical/selection";
 
-import { $createHeadingNode } from "@lexical/rich-text";
+import { $createHeadingNode, $isHeadingNode } from "@lexical/rich-text";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { uploadImage } from "../../utils/uploadImage";
 
@@ -17,11 +17,54 @@ const ToolbarPlugin = () => {
 
     const [loading, setLoading] = useState(false);
 
+    const [blockType, setBlockType] = useState("paragraph");
+
+    const [formats, setFormats] = useState({
+        bold: false,
+        italic: false,
+        underline: false,
+    });
+
+    useEffect(() => {
+        return editor.registerUpdateListener(({ editorState }) => {
+            editorState.read(() => {
+                const selection = $getSelection();
+
+                if (!$isRangeSelection(selection)) return;
+
+                const anchorNode = selection.anchor.getNode();
+
+                const topLevelElement =
+                    anchorNode.getKey() === "root" ? anchorNode : anchorNode.getTopLevelElementOrThrow();
+
+                if ($isHeadingNode(topLevelElement)) {
+                    setBlockType(topLevelElement.getTag());
+                } else {
+                    setBlockType("paragraph");
+                }
+
+                setFormats({
+                    bold: selection.hasFormat("bold"),
+                    italic: selection.hasFormat("italic"),
+                    underline: selection.hasFormat("underline"),
+                });
+            });
+        });
+    }, [editor]);
+
     const formatHeading = (type) => {
         editor.update(() => {
             const selection = $getSelection();
 
-            if ($isRangeSelection(selection)) {
+            if (!$isRangeSelection(selection)) return;
+
+            const anchorNode = selection.anchor.getNode();
+
+            const topLevelElement = anchorNode.getTopLevelElementOrThrow();
+
+            if ($isHeadingNode(topLevelElement) && topLevelElement.getTag() === type) {
+                $setBlocksType(selection, () => $createParagraphNode());
+            } else {
                 $setBlocksType(selection, () => $createHeadingNode(type));
             }
         });
@@ -50,22 +93,24 @@ const ToolbarPlugin = () => {
 
                 editor.update(() => {
                     const imageNode = $createImageNode({
-                        id: imageUrl?.asset_id,
+                        id: imageUrl?.id,
                         src: imageUrl?.url,
-                        alt: file.original_filename ,
+                        alt: file.name,
                     });
 
                     $insertNodes([imageNode]);
                 });
             }
         } catch (error) {
-            console.log(error);
+            console.error(error);
         } finally {
             setLoading(false);
         }
 
         e.target.value = "";
     };
+
+    const activeClass = "bg-white text-[#000]";
 
     return (
         <div
@@ -80,31 +125,37 @@ const ToolbarPlugin = () => {
             ">
             <button
                 onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")}
-                className="px-3 py-1 border rounded-lg">
+                className={`px-3 py-1 border rounded-lg ${formats.bold ? activeClass : ""}`}>
                 Bold
             </button>
 
             <button
                 onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic")}
-                className="px-3 py-1 border rounded-lg">
+                className={`px-3 py-1 border rounded-lg ${formats.italic ? activeClass : ""}`}>
                 Italic
             </button>
 
             <button
                 onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline")}
-                className="px-3 py-1 border rounded-lg">
+                className={`px-3 py-1 border rounded-lg ${formats.underline ? activeClass : ""}`}>
                 Underline
             </button>
 
-            <button onClick={() => formatHeading("h1")} className="px-3 py-1 border rounded-lg">
+            <button
+                onClick={() => formatHeading("h1")}
+                className={`px-3 py-1 border rounded-lg ${blockType === "h1" ? activeClass : ""}`}>
                 H1
             </button>
 
-            <button onClick={() => formatHeading("h2")} className="px-3 py-1 border rounded-lg">
+            <button
+                onClick={() => formatHeading("h2")}
+                className={`px-3 py-1 border rounded-lg ${blockType === "h2" ? activeClass : ""}`}>
                 H2
             </button>
 
-            <button onClick={formatParagraph} className="px-3 py-1 border rounded-lg">
+            <button
+                onClick={formatParagraph}
+                className={`px-3 py-1 border rounded-lg ${blockType === "paragraph" ? activeClass : ""}`}>
                 P
             </button>
 

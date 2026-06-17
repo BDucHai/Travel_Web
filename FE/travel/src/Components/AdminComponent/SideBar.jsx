@@ -17,7 +17,7 @@ import { FaHouseChimneyUser } from "react-icons/fa6";
 import { MdLogout } from "react-icons/md";
 import { clearSession } from "../../utils/session";
 import { useAuth } from "../../contexts/AuthContext";
-import { ImLocation } from "react-icons/im";
+// import { ImLocation } from "react-icons/im";
 
 const SideBar = ({ openSideBar, setOpenSideBar }) => {
     const { t } = useTranslation();
@@ -76,12 +76,12 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
             icon: <FaHouseChimneyUser />,
             direct: "/admin/manageUser",
         },
-        {
-            id: 9,
-            title: "Destination",
-            icon: <ImLocation />,
-            direct: "/admin/destinations",
-        },
+        // {
+        //     id: 9,
+        //     title: "Destination",
+        //     icon: <ImLocation />,
+        //     direct: "/admin/destinations",
+        // },
 
         {
             id: 10,

@@ -12,6 +12,7 @@
      "durationDay": "Duration Day",
      "destination": "Destinations",
      "priceFrom": "Price From",
+     "gallery": "Gallery",
      "navbar": {
           "vietnam_tour": "vietnam tour",
           "7days_vn_tour": "7 Days Vietnam Tours",
@@ -46,7 +47,8 @@
           "top_pick_tour": "Top Pick Tours",
           "view_all_tour": "View All Tours",
           "tour_by_style": "Tours By Style",
-          "explore_style": "Explore all styles",
+          "slogan_Style": "Find the perfect travel experience that matches your interests and travel personality.",
+          "explore_style": "Explore All Styles",
           "reason_choose": "Why reves indochine",
           "our_client_say": "What our clients say",
 

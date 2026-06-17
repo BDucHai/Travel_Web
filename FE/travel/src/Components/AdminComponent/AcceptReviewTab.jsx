@@ -11,9 +11,9 @@ export default function AcceptReviewTab({ data, mutate }) {
         src: null,
     });
 
-    const updateStatus = async (id, status) => {
+    const updateStatus = async (id) => {
         setLoading(true);
-        await updateStatusReviews(id, status);
+        await updateStatusReviews(id);
 
         await mutate();
         setLoading(false);
@@ -74,7 +74,7 @@ export default function AcceptReviewTab({ data, mutate }) {
                             {/* ACTION */}
                             <div className="mt-3 flex justify-end gap-2">
                                 <button
-                                    onClick={() => updateStatus(item?.id, 1)}
+                                    onClick={() => updateStatus(item?.id)}
                                     className="px-4 py-1 bg-green-500 text-white rounded-lg cursor-pointer">
                                     Accept
                                 </button>

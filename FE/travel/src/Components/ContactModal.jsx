@@ -1,10 +1,21 @@
 import React, { useState } from "react";
-import { Dialog, DialogTitle, DialogContent, Avatar, TextField, Box, IconButton } from "@mui/material";
+import {
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    Avatar,
+    TextField,
+    Box,
+    IconButton,
+    Backdrop,
+    CircularProgress,
+} from "@mui/material";
 
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { createContacts } from "../api/Contact";
 
 const ContactModal = ({ t, open, onClose, content = "" }) => {
+    const [loading, setLoading] = useState(false);
     const [contactPlan, setContactPlan] = useState({
         name: "",
         email: "",
@@ -13,10 +24,12 @@ const ContactModal = ({ t, open, onClose, content = "" }) => {
     });
 
     const handleCreateRequest = async () => {
+        setLoading(true);
         const res = await createContacts(contactPlan);
         if (res?.status === 200) {
             onClose();
         }
+        setLoading(false);
     };
 
     return (
@@ -97,6 +110,15 @@ const ContactModal = ({ t, open, onClose, content = "" }) => {
                     Our information & quotes are free. Don’t hesitate to ask us!
                 </p>
             </DialogContent>
+            <Backdrop
+                open={loading}
+                sx={{
+                    color: "#fff",
+                    zIndex: (theme) => theme.zIndex.drawer + 9999,
+                    backgroundColor: "rgba(0,0,0,0.35)",
+                }}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </Dialog>
     );
 };

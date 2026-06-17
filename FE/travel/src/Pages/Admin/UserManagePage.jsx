@@ -19,6 +19,7 @@ import { MdDelete } from "react-icons/md";
 import { createUser, deleteUser, getUsers, lockUnlockUser } from "../../api/User";
 import useSWR from "swr";
 import Pagination from "@mui/material/Pagination";
+import { uploadImageBE } from "../../utils/uploadImage";
 
 export default function UserManagePage() {
     const [open, setOpen] = useState(false);
@@ -30,7 +31,7 @@ export default function UserManagePage() {
 
     const [form, setForm] = useState({
         full_name: "",
-        email: "",
+        username: "",
         password: "",
         avatar_url: "",
         is_active: true,
@@ -44,7 +45,7 @@ export default function UserManagePage() {
         {
             id: 1,
             full_name: "Nguyen Van A",
-            email: "a@example.com",
+            username: "a@example.com",
             avatar_url: "https://i.pravatar.cc/100?img=1",
             is_active: true,
             roles: "admin",
@@ -52,7 +53,7 @@ export default function UserManagePage() {
         {
             id: 2,
             full_name: "Tran Thi B",
-            email: "b@example.com",
+            username: "b@example.com",
             avatar_url: "https://i.pravatar.cc/100?img=2",
             is_active: false,
             roles: "user",
@@ -62,19 +63,44 @@ export default function UserManagePage() {
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
     const handleSubmit = async () => {
-        const newUser = await createUser(form);
+        const newUser = await createUser({
+            username: form?.username,
+            fullName: form?.fullName,
+            password: form?.password,
+            avatarUrl: form?.avatarUrl,
+            isActive: form?.isActive,
+            roles: form?.roles,
+            note: form?.note,
+        });
         if (newUser?.status === 200) {
             mutate();
             setOpen(false);
             setForm({
                 full_name: "",
-                email: "",
+                username: "",
                 password: "",
                 avatar_url: "",
                 is_active: true,
                 roles: "user",
                 note: "",
             });
+        }
+    };
+
+    const handleAvatarUpload = async (e) => {
+        const file = e.target.files?.[0];
+
+        if (!file) return;
+
+        try {
+            const res = await uploadImageBE(file);
+
+            setForm((prev) => ({
+                ...prev,
+                avatar_url: res.url,
+            }));
+        } catch (error) {
+            console.error(error);
         }
     };
 
@@ -107,7 +133,7 @@ export default function UserManagePage() {
                             <Avatar src={u?.avatar_url} alt={u?.full_name} />
                             <div>
                                 <h3 className="font-semibold">{u?.full_name}</h3>
-                                <p className="text-sm text-gray-400">{u?.email}</p>
+                                <p className="text-sm text-gray-400">{u?.username}</p>
                                 <p className="text-sm">
                                     Role: <span className="font-medium">{u?.roles}</span>
                                 </p>
@@ -163,9 +189,9 @@ export default function UserManagePage() {
                         sx={{ marginBottom: "1rem" }}
                     />
                     <TextField
-                        label="Email"
-                        name="email"
-                        value={form?.email}
+                        label="Username"
+                        name="username"
+                        value={form?.username}
                         onChange={handleChange}
                         fullWidth
                         sx={{ marginBottom: "1rem" }}
@@ -180,13 +206,13 @@ export default function UserManagePage() {
                         sx={{ marginBottom: "1rem" }}
                     />
                     <TextField
-                        label="Avatar URL"
-                        name="avatar_url"
-                        value={form?.avatar_url}
-                        onChange={handleChange}
+                        type="file"
                         fullWidth
-                        sx={{ marginBottom: "1rem" }}
+                        inputProps={{ accept: "image/*" }}
+                        onChange={handleAvatarUpload}
+                        sx={{ mb: 2 }}
                     />
+                    {form?.avatar_url && <img src={form.avatar_url} alt="" width={100} />}
                     <TextField
                         label="Note"
                         name="note"

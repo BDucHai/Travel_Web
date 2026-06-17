@@ -12,6 +12,7 @@ import useSWR from "swr";
 import { getBlog, getMostReadBlog } from "../api/Blog";
 // import LoadingScreen from "../Components/LoadingScreen";
 import { useAuth } from "../contexts/AuthContext";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 const Blog = () => {
     const { t } = useTranslation();
@@ -30,7 +31,9 @@ const Blog = () => {
 
     const [loadingMore, setLoadingMore] = useState(false);
 
-    const { data: listBlogs } = useSWR(["/blogs", params], ([_, params]) => getBlog(params));
+    const { data: listBlogs, isLoading: loadingListBlog } = useSWR(["/blogs", params], ([_, params]) =>
+        getBlog(params),
+    );
 
     const hasMore = (listBlogs?.pagination?.page || 1) < (listBlogs?.pagination?.totalPages || 1);
 
@@ -57,7 +60,7 @@ const Blog = () => {
         }));
     };
 
-    const { data: mostReadBlogs } = useSWR(
+    const { data: mostReadBlogs, isLoading: loadingBlogMost } = useSWR(
         [
             "/blogs-most-read",
             {
@@ -260,6 +263,15 @@ const Blog = () => {
 
                 {/* Modal */}
                 <ContactModal t={t} open={openContactModal} onClose={() => setOpenContactModal(false)} />
+                <Backdrop
+                    open={loadingBlogMost || loadingListBlog}
+                    sx={{
+                        color: "#fff",
+                        zIndex: (theme) => theme.zIndex.drawer + 9999,
+                        backgroundColor: "rgba(0,0,0,0.35)",
+                    }}>
+                    <CircularProgress color="inherit" />
+                </Backdrop>
             </>
             {/* )} */}
         </>

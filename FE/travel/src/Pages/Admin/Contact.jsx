@@ -1,62 +1,13 @@
 import React, { useState } from "react";
-import { Tabs, Tab, Box, Button, Pagination } from "@mui/material";
+import { Tabs, Tab, Box, Button, Pagination, Backdrop, CircularProgress } from "@mui/material";
 import { motion } from "framer-motion";
 import useSWR from "swr";
 import { getContacts, deleteContacts, updateStatusContact } from "../../api/Contact";
 
-const contactsFake = [
-    {
-        id: 1,
-        full_name: "Nguyen Van A",
-        email: "a@example.com",
-        phone_number: "0123456789",
-        message: "Xin chào, tôi cần hỗ trợ",
-        status: 0,
-        created_at: "2026-06-09",
-    },
-    {
-        id: 2,
-        full_name: "Tran Thi B",
-        email: "b@example.com",
-        phone_number: "0987654321",
-        message: "Vui lòng gọi lại",
-        status: 1,
-        created_at: "2026-06-08",
-    },
-    {
-        id: 3,
-        full_name: "Tran Thi B",
-        email: "b@example.com",
-        phone_number: "0987654321",
-        message: "Vui lòng gọi lại",
-        status: 2,
-        created_at: "2026-06-08",
-    },
-    {
-        id: 4,
-        full_name: "Tran Thi B",
-        email: "b@example.com",
-        phone_number: "0987654321",
-        message: "Vui lòng gọi lại",
-        status: 3,
-        created_at: "2026-06-08",
-    },
-];
-
-//Json tra {
-//     "data": [...],
-//     "pagination": {
-//         "page": 1,
-//         "limit": 10,
-//         "total": 52,
-//         "totalPages": 6
-//     }
-// }
-
 export default function Contact() {
     const statusTabs = [
-        { label: "NEW", value: 0 },
-        { label: "DONE", value: 2 },
+        { label: "NEW", value: "NEW" },
+        { label: "DONE", value: "DONE" },
     ];
 
     const [params, setParams] = useState({
@@ -65,7 +16,7 @@ export default function Contact() {
         limit: 10,
     });
 
-    const { data: contacts, mutate } = useSWR(["/admin/contact-messages", params], ([url, params]) =>
+    const { data: contacts, mutate, isLoading } = useSWR(["/admin/contact-messages", params], ([url, params]) =>
         getContacts(url, params),
     );
 
@@ -90,7 +41,7 @@ export default function Contact() {
             </Tabs>
 
             <div className="mt-6 space-y-4">
-                {(contacts?.data || contactsFake)?.map((c) => (
+                {contacts?.data?.map((c) => (
                     <motion.div
                         key={c?.id}
                         initial={{ opacity: 0, y: 20 }}
@@ -132,7 +83,7 @@ export default function Contact() {
                 <div className="flex justify-center mt-6">
                     <Pagination
                         page={params?.page}
-                        count={(contacts || contactsFake)?.pagination?.totalPages || 1}
+                        count={contacts?.pagination?.totalPages || 1}
                         color="primary"
                         onChange={(_, value) =>
                             setParams((prev) => ({
@@ -143,6 +94,15 @@ export default function Contact() {
                     />
                 </div>
             </div>
+            <Backdrop
+                open={isLoading}
+                sx={{
+                    color: "#fff",
+                    zIndex: (theme) => theme.zIndex.drawer + 9999,
+                    backgroundColor: "rgba(0,0,0,0.35)",
+                }}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </Box>
     );
 }

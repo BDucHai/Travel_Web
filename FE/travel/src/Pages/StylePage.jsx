@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import useSWR from "swr";
 import { getStyles } from "../api/Style";
+import { useTranslation } from "react-i18next";
 
 export default function StylesPage() {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const { lang } = useAuth();
     const { data: styles } = useSWR(["/styles", { lang }], ([_, params]) => getStyles(params));
@@ -22,15 +24,13 @@ export default function StylesPage() {
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-4">
                     <h1 className="text-4xl lg:text-6xl font-bold uppercase tracking-[3px]">Travel Styles</h1>
 
-                    <p className="mt-4 max-w-[700px] text-lg text-gray-200">
-                        Find the perfect travel experience that matches your interests and travel personality.
-                    </p>
+                    <p className="mt-4 max-w-[700px] text-lg text-gray-200">{t("slogan_Style")}</p>
                 </div>
             </div>
 
             {/* Title */}
             <div className="py-14 text-center">
-                <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 uppercase">Explore By Style</h2>
+                <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 uppercase">{t("explore_style")}</h2>
 
                 <div className="w-20 h-1 bg-[#c39562] mx-auto mt-4 rounded-full" />
             </div>

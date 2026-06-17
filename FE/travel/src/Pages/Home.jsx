@@ -14,6 +14,7 @@ import useSWR from "swr";
 import { getTours } from "../api/Tour";
 import { getReviews } from "../api/Review";
 import { useAuth } from "../contexts/AuthContext";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 const Home = () => {
     const { t } = useTranslation();
@@ -24,7 +25,7 @@ const Home = () => {
 
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    const { data: tours } = useSWR(["/tours", { page: 0, limit: 4, lang: lang }], ([_, params]) => getTours(params));
+    const { data: tours, isLoading: loadingTour } = useSWR(["/tours", { page: 0, limit: 4, lang: lang }], ([_, params]) => getTours(params));
 
     const styleTourShow = [
         {
@@ -104,7 +105,7 @@ const Home = () => {
         },
     ];
 
-    const { data: commentData } = useSWR(["/testimonials", { page: 0, limit: 9 }], ([url, params]) =>
+    const { data: commentData, isLoading: loadingComment } = useSWR(["/testimonials", { page: 0, limit: 9 }], ([url, params]) =>
         getReviews(url, params),
     );
 
@@ -259,6 +260,15 @@ const Home = () => {
                     </div>
                 </div>
                 {/* End client say */}
+                <Backdrop
+                    open={loadingTour || loadingComment}
+                    sx={{
+                        color: "#fff",
+                        zIndex: (theme) => theme.zIndex.drawer + 9999,
+                        backgroundColor: "rgba(0,0,0,0.35)",
+                    }}>
+                    <CircularProgress color="inherit" />
+                </Backdrop>
             </div>
         </>
     );

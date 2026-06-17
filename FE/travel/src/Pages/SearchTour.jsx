@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { getTours } from "../api/Tour";
-import { imgCardSample } from "../assets/images";
 import { useTranslation } from "react-i18next";
 import { IoGridOutline } from "react-icons/io5";
 import useSWR from "swr";
@@ -13,7 +12,7 @@ const SearchTour = () => {
     const { lang } = useAuth();
     const duration = searchParams.get("duration");
     const region = searchParams.get("region");
-    const destinations = searchParams.get("destinations");
+    const destinations = searchParams.get("destinationSlug");
     const styleSlug = searchParams.get("styleSlug");
     const collectionSlug = searchParams.get("collectionSlug");
 
@@ -23,7 +22,7 @@ const SearchTour = () => {
     const [filterSearch, setFilterSearch] = useState({
         duration: searchParams.get("duration"),
         region: searchParams.get("region"),
-        destinations: searchParams.get("destinations"),
+        destinations: searchParams.get("destinationSlug"),
         styleSlug: searchParams.get("styleSlug"),
         collectionSlug: searchParams.get("collectionSlug"),
         page: 0,

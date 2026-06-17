@@ -4,20 +4,17 @@ import AcceptReviewTab from "../../Components/AdminComponent/AcceptReviewTab";
 import ManageReviewTab from "../../Components/AdminComponent/ManageReviewTab";
 import { getReviews } from "../../api/Review";
 import useSWR from "swr";
-import { useTranslation } from "react-i18next";
 
 const ReviewAdminPage = () => {
-    const { t } = useTranslation();
-
     const statusTabs = [
-        { label: t("review.review_queue"), value: 0 },
-        { label: t("review.manage_accepted"), value: 1 },
+        { label: "PENDING", value: "PENDING" },
+        { label: "APPROVED", value: "APPROVED" },
     ];
 
     const [tab, setTab] = useState(0);
 
     const [params, setParams] = useState({
-        status: 0,
+        status: "PENDING",
         page: 0,
         limit: 10,
     });
@@ -55,9 +52,9 @@ const ReviewAdminPage = () => {
             </Tabs>
 
             <div className="mt-6">
-                {tab === 0 && <AcceptReviewTab data={reviews?.data} mutate={mutate} />}
+                {tab === "PENDING" && <AcceptReviewTab data={reviews?.data} mutate={mutate} />}
 
-                {tab === 1 && <ManageReviewTab data={reviews?.data} mutate={mutate} />}
+                {tab === "APPROVED" && <ManageReviewTab data={reviews?.data} mutate={mutate} />}
 
                 <div className="flex justify-center mt-6">
                     <Pagination
@@ -72,7 +69,6 @@ const ReviewAdminPage = () => {
                     />
                 </div>
             </div>
-            
         </div>
     );
 };

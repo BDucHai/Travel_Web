@@ -12,6 +12,8 @@
     "durationDay": "Durée (jours)",
     "destination": "Destinations",
     "priceFrom": "À partir de",
+    "gallery": "Galerie",
+
     "navbar": {
         "vietnam_tour": "circuits au vietnam",
         "7days_vn_tour": "Circuits de 7 jours au Vietnam",
@@ -45,6 +47,7 @@
     "top_pick_tour": "Circuits recommandés",
     "view_all_tour": "Voir tous les circuits",
     "tour_by_style": "Circuits par style",
+    "slogan_Style": "Trouvez l’expérience de voyage idéale qui correspond à vos centres d’intérêt et à votre personnalité de voyageur.",
     "explore_style": "Explorer tous les styles",
     "reason_choose": "Pourquoi choisir Reves Indochine",
     "our_client_say": "Ce que disent nos clients",
@@ -54,7 +57,7 @@
     "local_expertise": "Experts locaux",
     "local_expertise_desc": "Nos experts locaux conçoivent des voyages authentiques grâce à leur parfaite connaissance du terrain.",
     "authentic_immersion": "Immersion authentique",
-    "authentic_immersion_desc": "Nous vous emmenons au plus près des cultures et des communautés locales.",
+    "authentic_immersion_desc": "Nous vous permettons de découvrir en profondeur les cultures et communautés locales.",
     "quanlity_comfort": "Qualité et confort",
     "quanlity_comfort_desc": "Des services soigneusement sélectionnés pour garantir confort, sécurité et qualité tout au long du voyage.",
     "trusted": "Réseau local de confiance",
@@ -83,8 +86,8 @@
     "what_app": "WhatsApp (numéro de téléphone)",
     "your_phone": "Votre téléphone",
     "your_name": "Votre nom",
-    "country": "pays",
-    "rating": "évaluation",
+    "country": "Pays",
+    "rating": "Note",
     "content": "Contenu",
 
     "detail": "Détail",
@@ -177,15 +180,18 @@
         "content": "Nous aimerions connaître votre avis sur votre voyage ! Merci de partager vos impressions et commentaires.",
         "submit": "Soumettre un avis",
         "customer_review": "Avis des clients",
-        "review_queue": "Avis en attente",
+        "review_queue": "File d’attente des avis",
         "manage_accepted": "Gérer les avis approuvés",
         "write_review": "Rédiger un avis"
     },
 
-    "avatar_img": "Image de profil",
-    "upload_avatar": "Télécharger une image de profil",
+    "avatar_img": "Photo de profil",
+    "upload_avatar": "Télécharger une photo de profil",
     "upload_multi_img": "Télécharger plusieurs images",
     "travel_img": "Images de voyage",
     "overview": "Aperçu",
-    "highlight": "Points forts"
+    "highlight": "Points forts",
+
+    "need_help_plan": "Besoin d’aide pour organiser votre voyage ?",
+    "travel_help": "Nos spécialistes du voyage sont là pour vous aider à créer l’itinéraire idéal en Indochine."
 }

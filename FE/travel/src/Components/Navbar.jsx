@@ -194,13 +194,14 @@ const Navbar = ({ home }) => {
                                             <div className="">
                                                 <div
                                                     className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 text-[#ef8d21] text-[1rem] uppercase font-semibold rounded-[6px] cursor-pointer"
-                                                    onClick={() => navigate(`/tours?region=NORTH`)}>
+                                                    // onClick={() => navigate(`/tours?region=NORTH`)}
+                                                >
                                                     {t("navbar.northen_vn")}
                                                 </div>
                                                 {megaMenu?.travelInformation?.north?.map((no) => (
                                                     <div
                                                         className="w-[90%] px-[1rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
-                                                        onClick={() => navigate(no?.url)}>
+                                                        onClick={() => navigate(`/tours?destinationSlug=${no?.slug}`)}>
                                                         {no?.label}
                                                     </div>
                                                 ))}
@@ -209,7 +210,8 @@ const Navbar = ({ home }) => {
                                             <div className="">
                                                 <div
                                                     className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 text-[#ef8d21] text-[1rem] uppercase font-semibold rounded-[6px] cursor-pointer"
-                                                    onClick={() => navigate(`/tours?region=CENTRAL`)}>
+                                                    // onClick={() => navigate(`/tours?region=CENTRAL`)}
+                                                >
                                                     {t("navbar.central_vn")}
                                                 </div>
                                                 <img
@@ -222,7 +224,7 @@ const Navbar = ({ home }) => {
                                                 {megaMenu?.travelInformation?.central?.map((cen) => (
                                                     <div
                                                         className="w-[90%] px-[1rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
-                                                        onClick={() => navigate(cen?.url)}>
+                                                        onClick={() => navigate(`/tours?destinationSlug=${cen?.slug}`)}>
                                                         {cen?.label}
                                                     </div>
                                                 ))}
@@ -231,13 +233,14 @@ const Navbar = ({ home }) => {
                                             <div className="">
                                                 <div
                                                     className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 text-[#ef8d21] text-[1rem] uppercase font-semibold rounded-[6px] cursor-pointer"
-                                                    onClick={() => navigate(`/tours/region=SOUTH`)}>
+                                                    // onClick={() => navigate(`/tours/region=SOUTH`)}
+                                                >
                                                     {t("navbar.south_vn")}
                                                 </div>
                                                 {megaMenu?.travelInformation?.south?.map((s) => (
                                                     <div
                                                         className="w-[90%] px-[1rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
-                                                        onClick={() => navigate(s?.url)}>
+                                                        onClick={() => navigate(`/tours?destinationSlug=${s?.slug}`)}>
                                                         {s?.label}
                                                     </div>
                                                 ))}
@@ -424,7 +427,7 @@ const Navbar = ({ home }) => {
                                             megaMenu?.travelInformation?.north?.map((no) => (
                                                 <div
                                                     className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}
-                                                    onClick={() => navigate(no?.url)}>
+                                                    onClick={() => navigate(`/tours?destinationSlug=${no?.slug}`)}>
                                                     {no?.label}
                                                 </div>
                                             ))}
@@ -446,7 +449,7 @@ const Navbar = ({ home }) => {
                                             megaMenu?.travelInformation?.central?.map((cen) => (
                                                 <div
                                                     className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}
-                                                    onClick={() => navigate(cen?.url)}>
+                                                    onClick={() => navigate(`/tours?destinationSlug=${cen?.slug}`)}>
                                                     {cen?.label}
                                                 </div>
                                             ))}
@@ -466,7 +469,7 @@ const Navbar = ({ home }) => {
                                             megaMenu?.travelInformation?.south?.map((sou) => (
                                                 <div
                                                     className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}
-                                                    onClick={() => navigate(sou?.url)}>
+                                                    onClick={() => navigate(`/tours?destinationSlug=${sou?.slug}`)}>
                                                     {sou?.label}
                                                 </div>
                                             ))}

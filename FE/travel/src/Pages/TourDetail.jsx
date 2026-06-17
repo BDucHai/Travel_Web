@@ -6,13 +6,14 @@ import ContactModal from "../Components/ContactModal";
 import { getToursById } from "../api/Tour";
 import useSWR from "swr";
 import { useAuth } from "../contexts/AuthContext";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 const TourDetail = () => {
     const { id } = useParams();
     const { lang } = useAuth();
     const { t } = useTranslation();
 
-    const { data: tourDetail } = useSWR(id ? [`/tours/${id}`, { lang }] : null, ([url, params]) =>
+    const { data: tourDetail, isLoading } = useSWR(id ? [`/tours/${id}`, { lang }] : null, ([url, params]) =>
         getToursById(url, params),
     );
 
@@ -117,7 +118,7 @@ const TourDetail = () => {
 
                     {/* GALLERY */}
                     <section>
-                        <h2 className="text-2xl font-bold mb-4">Gallery</h2>
+                        <h2 className="text-2xl font-bold mb-4">{t("gallery")}</h2>
 
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                             {tourDetail?.imageUrls?.map((i) => (
@@ -169,6 +170,15 @@ const TourDetail = () => {
                 onClose={() => setContactModal(false)}
                 content={tourDetail?.title}
             />
+            <Backdrop
+                open={isLoading}
+                sx={{
+                    color: "#fff",
+                    zIndex: (theme) => theme.zIndex.drawer + 9999,
+                    backgroundColor: "rgba(0,0,0,0.35)",
+                }}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </div>
     );
 };

@@ -1,5 +1,17 @@
-import React, { useMemo, useState } from "react";
-import { Avatar, Box, Button, Dialog, DialogContent, DialogTitle, IconButton, Rating, TextField } from "@mui/material";
+import React, { useState } from "react";
+import {
+    Avatar,
+    Backdrop,
+    Box,
+    Button,
+    CircularProgress,
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    IconButton,
+    Rating,
+    TextField,
+} from "@mui/material";
 import { motion } from "framer-motion";
 import useSWR from "swr";
 import { useTranslation } from "react-i18next";
@@ -10,9 +22,11 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 export default function ReviewPage() {
     const { t } = useTranslation();
 
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(0);
 
-    const { data, mutate } = useSWR(["/reviews", { page, limit: 20 }], ([url, params]) => getReviews(url, params));
+    const { data, mutate, isLoading } = useSWR(["/testimonials", { page, limit: 20 }], ([url, params]) =>
+        getReviews(url, params),
+    );
 
     const [openModal, setOpenModal] = useState(false);
 
@@ -26,54 +40,7 @@ export default function ReviewPage() {
         list_image: [],
     });
 
-    const reviewFake = useMemo(
-        () => [
-            {
-                id: 1,
-                name: "Emily Watson",
-                email: "emily@gmail.com",
-                country: "United Kingdom",
-                rating: 5,
-                content:
-                    "Wonderful experience in Vietnam. Everything was perfectly organized and the guide was amazing.",
-                avatar_url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400",
-                list_image: [
-                    "https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=1200",
-                    "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200",
-                    "https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=1200",
-                ],
-                created_at: "2026-06-01",
-            },
-            {
-                id: 2,
-                name: "John Carter",
-                email: "john@gmail.com",
-                country: "United States",
-                rating: 4,
-                content: "The trip was beautiful and food was fantastic. I really enjoyed Ha Long Bay.",
-                avatar_url: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400",
-                list_image: [
-                    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200",
-                    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200",
-                ],
-                created_at: "2026-06-03",
-            },
-            {
-                id: 3,
-                name: "Sophie Martin",
-                email: "sophie@gmail.com",
-                country: "France",
-                rating: 5,
-                content: "Absolutely loved the local culture and people. Will come back again!",
-                avatar_url: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=400",
-                list_image: ["https://images.unsplash.com/photo-1493558103817-58b2924bce98?q=80&w=1200"],
-                created_at: "2026-06-04",
-            },
-        ],
-        [],
-    );
-
-    const reviews = data || reviewFake;
+    const reviews = data?.data;
 
     const handleChange = (e) => {
         setForm({
@@ -108,7 +75,27 @@ export default function ReviewPage() {
 
     const handleSubmit = async () => {
         try {
-            const res = await createReview(form);
+            const formData = new FormData();
+
+            // JSON data
+            formData.append(
+                "data",
+                JSON.stringify({
+                    token: form.token || "",
+                    name: form?.name,
+                    email: form?.email,
+                    country: form?.country,
+                    rating: form?.rating,
+                    content: form?.content,
+                }),
+            );
+
+            form?.list_image?.forEach((file) => {
+                formData.append("images", file);
+            });
+
+            const res = await createReview(formData);
+
             if (res?.status === 200) {
                 setForm({
                     name: "",
@@ -121,8 +108,7 @@ export default function ReviewPage() {
                 });
 
                 setOpenModal(false);
-
-                mutate();
+                await mutate();
             }
         } catch (error) {
             console.log(error);
@@ -391,6 +377,15 @@ export default function ReviewPage() {
                     </div>
                 </DialogContent>
             </Dialog>
+            <Backdrop
+                open={isLoading}
+                sx={{
+                    color: "#fff",
+                    zIndex: (theme) => theme.zIndex.drawer + 9999,
+                    backgroundColor: "rgba(0,0,0,0.35)",
+                }}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </Box>
     );
 }
