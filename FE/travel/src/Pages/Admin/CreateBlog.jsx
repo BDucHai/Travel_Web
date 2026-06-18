@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import {useState } from "react";
 import { uploadImage } from "../../utils/uploadImage";
 import BlogEditor from "../../Components/AdminComponent/BlogEditor";
 import { useNavigate, useParams } from "react-router-dom";
 import { createBlog, getBlogAdminById, updateBlog } from "../../api/Blog";
 import useSWR from "swr";
 import { useAuth } from "../../contexts/AuthContext";
-import { Backdrop, CircularProgress } from "@mui/material";
+import { Autocomplete, Backdrop, CircularProgress, TextField } from "@mui/material";
+import { getToursAdmin } from "../../api/Tour";
 
 const CreateBlog = () => {
     const [loading, setLoading] = useState(false);
@@ -28,12 +29,21 @@ const CreateBlog = () => {
         excerptEn: data?.excerptEn || "",
         excerptFr: data?.excerptFr || "",
 
+        tourRelated: data?.tourRelated || [],
+
         slugEn: data?.slugEn || "",
         slugFr: data?.slugFr || "",
 
         isFeature: false,
         viewCount: data?.view_count || 0,
     });
+
+      const [tourSearch, setTourSearch] = useState("");
+    const { data: tours } = useSWR(
+        ["/admin/tours", tourSearch],
+        ([_, search]) => getToursAdmin({ search }),
+        { keepPreviousData: true }
+    );
 
     const handleHeroUpload = async (e) => {
         const file = e.target.files[0];
@@ -68,6 +78,8 @@ const CreateBlog = () => {
                     slugEn: blog?.slugEn || "",
                     slugFr: blog?.slugFr || "",
 
+                    tourRelatedIds: blog?.tourRelated?.map(i => i?.id),
+
                     isFeature: blog?.isFeature,
                     viewCount: blog?.viewCount || 0,
                     status: "PUBLISHED",
@@ -89,6 +101,8 @@ const CreateBlog = () => {
 
                 excerptEn: blog?.excerptEn || "",
                 excerptFr: blog?.excerptFr || "",
+
+                tourRelatedIds: blog?.tourRelated?.map(i => i?.id),
 
                 slugEn: blog?.slugEn || "",
                 slugFr: blog?.slugFr || "",
@@ -242,6 +256,22 @@ const CreateBlog = () => {
                     placeholder="Excerpt (FR)..."
                     className="w-full border rounded-2xl p-4 h-28 text-[1rem] mb-8 outline-none"
                 />
+
+                {/* RelatedTour */}
+                <Autocomplete
+                    options={tours || []}
+                    value={blog.tour}
+                    onChange={(_, value) =>
+                        setBlog((prev) => ({
+                        ...prev,
+                        tourRelated: value,
+                        }))
+                    }
+                    onInputChange={(_, value) => setTourSearch(value)}
+                    getOptionLabel={(option) => option?.titleEn || ""}
+                    renderInput={(params) => <TextField {...params} label="Select Tour" />}
+                    />
+
 
                 {/* HERO IMAGE */}
                 <div className="mb-10">

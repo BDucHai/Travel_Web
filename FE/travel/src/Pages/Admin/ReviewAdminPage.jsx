@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Tabs, Tab, Pagination } from "@mui/material";
 import AcceptReviewTab from "../../Components/AdminComponent/AcceptReviewTab";
 import ManageReviewTab from "../../Components/AdminComponent/ManageReviewTab";

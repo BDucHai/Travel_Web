@@ -8,7 +8,7 @@ import Tooltip from "@mui/material/Tooltip";
 import { CiUnlock, CiLock, CiEdit } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
 import { Checkbox } from "@mui/material";
-import LoadingScreen from "../../Components/LoadingScreen";
+
 
 const TourManage = () => {
     const navigate = useNavigate();
