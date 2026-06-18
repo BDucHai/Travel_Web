@@ -40,7 +40,8 @@ const Banner = () => {
     useEffect(() => {
         startSlider();
         return () => clearInterval(intervalRef?.current);
-    }, [listBanner?.length]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <div
