@@ -15,9 +15,9 @@ export default function AdminLayout() {
         setOpenSideBar(!isMobile);
     }, [isMobile]);
 
-    // if (!user) {
-    //     return <Navigate to="/admin/login" replace />;
-    // }
+    if (!user) {
+        return <Navigate to="/admin/login" replace />;
+    }
 
     return (
         <div className="min-h-screen bg-[#0f172a]">

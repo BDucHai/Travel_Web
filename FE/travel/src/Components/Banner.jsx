@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { RiArrowLeftFill, RiArrowRightFill } from "react-icons/ri";
 
 const Banner = () => {
-    const [listBanner, setListBanner] = useState([
+    const listBanner = ([
         imgBanner.sampleBanner2,
         imgBanner.sampleBanner,
         imgBanner.sampleBanner1,
@@ -39,8 +39,8 @@ const Banner = () => {
 
     useEffect(() => {
         startSlider();
-        return () => clearInterval(intervalRef.current);
-    }, []);
+        return () => clearInterval(intervalRef?.current);
+    }, [listBanner?.length]);
 
     return (
         <div
