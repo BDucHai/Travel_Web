@@ -7,6 +7,7 @@ import { useMediaQuery } from "@mui/material";
 export default function AdminLayout() {
     const { user } = useAuth();
 
+    const accessToken = localStorage.getItem("accessToken");
     const isMobile = useMediaQuery("(max-width:1000px)");
 
     const [openSideBar, setOpenSideBar] = useState(true);
@@ -15,7 +16,7 @@ export default function AdminLayout() {
         setOpenSideBar(!isMobile);
     }, [isMobile]);
 
-    if (!user) {
+    if (!user || !accessToken) {
         return <Navigate to="/admin/login" replace />;
     }
 
