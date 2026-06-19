@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 import axiosClient from "../api/axios";
 
 // export const uploadImage = async (file) => {

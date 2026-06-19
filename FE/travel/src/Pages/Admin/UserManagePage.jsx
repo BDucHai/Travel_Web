@@ -19,7 +19,7 @@ import { MdDelete } from "react-icons/md";
 import { createUser, deleteUser, getUsers, lockUnlockUser } from "../../api/User";
 import useSWR from "swr";
 import Pagination from "@mui/material/Pagination";
-import { uploadImageBE } from "../../utils/uploadImage";
+import { uploadImage } from "../../utils/uploadImage";
 
 export default function UserManagePage() {
     const [open, setOpen] = useState(false);
@@ -93,7 +93,7 @@ export default function UserManagePage() {
         if (!file) return;
 
         try {
-            const res = await uploadImageBE(file);
+            const res = await uploadImage(file);
 
             setForm((prev) => ({
                 ...prev,
