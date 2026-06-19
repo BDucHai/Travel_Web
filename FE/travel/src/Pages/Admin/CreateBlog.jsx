@@ -1,4 +1,4 @@
-import {useState } from "react";
+import { useState } from "react";
 import { uploadImage } from "../../utils/uploadImage";
 import BlogEditor from "../../Components/AdminComponent/BlogEditor";
 import { useNavigate, useParams } from "react-router-dom";
@@ -38,11 +38,10 @@ const CreateBlog = () => {
         viewCount: data?.view_count || 0,
     });
 
-      const [tourSearch, setTourSearch] = useState("");
+    const [tourSearch, setTourSearch] = useState("");
     const { data: tours } = useSWR(
         ["/admin/tours", tourSearch],
-        ([_, search]) => getToursAdmin({ search }),
-        { keepPreviousData: true }
+        ([_, search]) => getToursAdmin({ page: 0, limit: 10, titleEn: search?.trim() || "" })
     );
 
     const handleHeroUpload = async (e) => {
@@ -78,7 +77,7 @@ const CreateBlog = () => {
                     slugEn: blog?.slugEn || "",
                     slugFr: blog?.slugFr || "",
 
-                    tourRelatedIds: blog?.tourRelated?.map(i => i?.id),
+                    tourRelatedIds: blog?.tourRelated?.map((i) => i?.id),
 
                     isFeature: blog?.isFeature,
                     viewCount: blog?.viewCount || 0,
@@ -102,7 +101,7 @@ const CreateBlog = () => {
                 excerptEn: blog?.excerptEn || "",
                 excerptFr: blog?.excerptFr || "",
 
-                tourRelatedIds: blog?.tourRelated?.map(i => i?.id),
+                tourRelatedIds: blog?.tourRelated?.map((i) => i?.id),
 
                 slugEn: blog?.slugEn || "",
                 slugFr: blog?.slugFr || "",
@@ -263,15 +262,14 @@ const CreateBlog = () => {
                     value={blog.tour}
                     onChange={(_, value) =>
                         setBlog((prev) => ({
-                        ...prev,
-                        tourRelated: value,
+                            ...prev,
+                            tourRelated: value,
                         }))
                     }
                     onInputChange={(_, value) => setTourSearch(value)}
                     getOptionLabel={(option) => option?.titleEn || ""}
                     renderInput={(params) => <TextField {...params} label="Select Tour" />}
-                    />
-
+                />
 
                 {/* HERO IMAGE */}
                 <div className="mb-10">
