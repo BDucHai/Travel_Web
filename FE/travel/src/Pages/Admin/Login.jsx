@@ -4,6 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { setSession } from "../../utils/session";
 import { LoginUser } from "../../api/User";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Login() {
     const { setUser } = useAuth();
@@ -13,22 +14,28 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
 
     const handleLogin = async (e) => {
-        e.preventDefault();
-        setLoading(true);
+  e.preventDefault();
+  setLoading(true);
 
-        const res = await LoginUser({
-            username,
-            password,
-        });
+  try {
+    const res = await LoginUser({
+      username,
+      password,
+    });
 
-        setUser(res?.user);
+    setUser(res?.user);
+    setSession(res?.user);
+    localStorage.setItem("accessToken", res?.accessToken);
 
-        setSession(res?.user);
-
-        localStorage.setItem("accessToken", res?.accessToken);
-        setLoading(false);
-        navigate("/admin/blog");
-    };
+    navigate("/admin/blog");
+  } catch (err) {
+    toast.error(
+      err?.response?.data?.message || "Đăng nhập thất bại. Vui lòng thử lại!"
+    );
+  } finally {
+    setLoading(false);
+  }
+};
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800">
