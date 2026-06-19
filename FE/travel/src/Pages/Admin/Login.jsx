@@ -23,8 +23,14 @@ export default function Login() {
       password,
     });
 
-    setUser(res?.user);
-    setSession(res?.user);
+    setUser({
+        username: res?.username,
+        fullName: res?.fullName,
+        roles: res?.roles
+    });
+    setSession({ username: res?.username,
+        fullName: res?.fullName,
+        roles: res?.roles});
     localStorage.setItem("accessToken", res?.accessToken);
 
     navigate("/admin/blog");
