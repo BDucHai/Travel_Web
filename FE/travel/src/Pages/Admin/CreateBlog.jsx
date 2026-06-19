@@ -7,6 +7,7 @@ import useSWR from "swr";
 import { useAuth } from "../../contexts/AuthContext";
 import { Autocomplete, Backdrop, CircularProgress, TextField } from "@mui/material";
 import { getToursAdmin } from "../../api/Tour";
+import { useDebounce } from "use-debounce";
 
 const CreateBlog = () => {
     const [loading, setLoading] = useState(false);
@@ -39,9 +40,14 @@ const CreateBlog = () => {
     });
 
     const [tourSearch, setTourSearch] = useState("");
-    const { data: tours } = useSWR(
-        ["/admin/tours", tourSearch],
-        ([_, search]) => getToursAdmin({ page: 0, limit: 10, titleEn: search?.trim() || "" })
+    const [debouncedSearch] = useDebounce(tourSearch, 400);
+
+    const { data: tours } = useSWR(["/admin/tours", debouncedSearch], ([_, search]) =>
+        getToursAdmin({
+            page: 0,
+            limit: 10,
+            titleEn: search || "",
+        }),
     );
 
     const handleHeroUpload = async (e) => {
