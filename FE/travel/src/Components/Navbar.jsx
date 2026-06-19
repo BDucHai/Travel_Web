@@ -9,6 +9,7 @@ import { imgBanner, imgGlobal, imgLang } from "../assets/images";
 import ContactModal from "./ContactModal";
 import useSWR from "swr";
 import { getMegaMenu } from "../api/Home";
+import { durationsDays } from "../constant";
 
 const Navbar = ({ home }) => {
     const { t, i18n } = useTranslation();
@@ -111,11 +112,11 @@ const Navbar = ({ home }) => {
                                     transform transition-all text-[0.85rem] cursor-default normal-case">
                                         <div className="grid grid-cols-3 gap-x-[10px] gap-y-[6px] p-[0.8rem] bg-[#f8fcf3] overflow-clip">
                                             <div className="">
-                                                {megaMenu?.vietnamTour?.duration?.map((dura) => (
+                                                {durationsDays?.map((dura) => (
                                                     <div
                                                         className="w-[90%] px-[0.4rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
-                                                        onClick={() => navigate(dura?.url)}>
-                                                        {dura?.label + " " + t("vietnam_tour")}
+                                                        onClick={() => navigate(`/tours?duration=${durationsDays?.value}`)}>
+                                                        {t(dura?.label)}
                                                     </div>
                                                 ))}
 
@@ -343,12 +344,13 @@ const Navbar = ({ home }) => {
 
                                         {/* Child Duration  */}
                                         {navChildVNTour.includes(1) &&
-                                            megaMenu?.vietnamTour?.duration?.map((dura) => (
-                                                <div
-                                                    className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}
-                                                    onClick={() => navigate(dura?.url)}>
-                                                    {dura?.label + " " + t("vietnam_tour")}
-                                                </div>
+                                              durationsDays?.map((dura) => (
+                                                    <div
+                                                        className="w-[90%] px-[0.4rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
+                                                        onClick={() => navigate(`/tours?duration=${durationsDays?.value}`)}>
+                                                        {t(dura?.label)}
+                                                    </div>
+                                                
                                             ))}
 
                                         <div
