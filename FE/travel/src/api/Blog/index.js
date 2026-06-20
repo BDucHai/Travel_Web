@@ -54,7 +54,7 @@ export const getBlogAdminById = async ({ id }) => {
 
 export const updateBlog = async ({ id, data }) => {
     try {
-        const res = await axiosClient.post(`/blogs/${id}`, data);
+        const res = await axiosClient.put(`/admin/blogs/${id}`, data);
 
         toast.success(i18n.t("notify.update_success"));
 

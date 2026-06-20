@@ -232,7 +232,7 @@ const BlogManage = () => {
                         },
 
                         "& .MuiDataGrid-columnHeaderTitle": {
-                            color: "#e8edf1 !important",
+                            color: "#131415 !important",
                             fontWeight: 600,
                         },
 

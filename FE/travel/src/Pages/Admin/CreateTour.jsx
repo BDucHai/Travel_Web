@@ -8,6 +8,7 @@ import { getDestinations } from "../../api/Destinations";
 import { getStyles } from "../../api/Style";
 import { getTourCollections } from "../../api/TourCollection";
 import { darkTextField, durationsDays } from "../../constant";
+import { uploadImage } from "../../utils/uploadImage";
 
 const CreateTour = () => {
     const { id } = useParams();
@@ -114,15 +115,38 @@ const CreateTour = () => {
         );
     };
 
-    const handleFeaturedImage = (e) => {
+    const handleFeaturedImage = async (e) => {
         const file = e.target.files?.[0];
-
         if (!file) return;
 
-        setTour((prev) => ({
-            ...prev,
-            featuredImage: file,
-        }));
+        try {
+            const res = await uploadImage(file);
+
+            setTour((prev) => ({
+                ...prev,
+                featuredImage: res.url, // chỉ lưu URL
+            }));
+        } catch (err) {
+            console.error("Upload featured image failed:", err);
+        }
+    };
+
+    const handleGalleryImages = async (e) => {
+        const files = Array.from(e.target.files || []);
+        if (!files.length) return;
+
+        try {
+            const uploadedImages = await Promise.all(files.map((file) => uploadImage(file)));
+
+            const urls = uploadedImages.map((img) => img.url);
+
+            setTour((prev) => ({
+                ...prev,
+                galleryImages: [...(Array.isArray(prev?.galleryImages) ? prev.galleryImages : []), ...urls],
+            }));
+        } catch (err) {
+            console.error("Upload gallery images failed:", err);
+        }
     };
 
     const handleUpdate = async () => {
@@ -136,27 +160,19 @@ const CreateTour = () => {
 
                 return {
                     id: day?.id,
-
                     dayNumber: day?.dayNumber || index + 1,
-
                     titleEn: day?.titleEn || "",
                     titleFr: day?.titleFr || "",
-
                     descriptionEn: day?.descriptionEn || "",
                     descriptionFr: day?.descriptionFr || "",
-
                     displayOrder: day?.displayOrder || index + 1,
-
                     imageIndex: hasNewFile ? itineraryImageIndex++ : null,
-
-                    // giữ ảnh cũ nếu chưa chọn ảnh mới
                     imageUrl: typeof day?.imageUrl === "string" ? day.imageUrl : null,
                 };
             });
 
             const payload = {
                 id: tourDetail?.id,
-
                 code: tour?.code,
 
                 durationDays: Number(tour?.duration_days),
@@ -174,9 +190,6 @@ const CreateTour = () => {
 
                 overviewEn: tour?.overview_en,
                 overviewFr: tour?.overview_fr,
-
-                itineraryEn: "",
-                itineraryFr: "",
 
                 inclusionEn: tour?.inclusion_en,
                 inclusionFr: tour?.inclusion_fr,
@@ -196,24 +209,21 @@ const CreateTour = () => {
             };
 
             const formData = new FormData();
-
             formData.append("data", JSON.stringify(payload));
 
-            // chỉ upload nếu user chọn ảnh mới
+            // ✅ FEATURE IMAGE (nếu là file)
             if (tour?.featuredImage instanceof File) {
                 formData.append("featuredImage", tour.featuredImage);
             }
 
-            // gallery mới
-            if (Array.isArray(tour?.galleryImages)) {
-                tour.galleryImages.forEach((image) => {
-                    if (image instanceof File) {
-                        formData.append("images", image);
-                    }
-                });
-            }
+            // ❗ GALLERY IMAGES
+            (tour?.galleryImages || []).forEach((img) => {
+                if (img instanceof File) {
+                    formData.append("galleryImages", img);
+                }
+            });
 
-            // itinerary ảnh mới
+            // itinerary images
             destinationDays.forEach((day) => {
                 if (day?.imageUrl instanceof File) {
                     formData.append("itineraryImages", day.imageUrl);
@@ -273,9 +283,6 @@ const CreateTour = () => {
                 overviewEn: tour?.overview_en,
                 overviewFr: tour?.overview_fr,
 
-                itineraryEn: "",
-                itineraryFr: "",
-
                 inclusionEn: tour?.inclusion_en,
                 inclusionFr: tour?.inclusion_fr,
 
@@ -287,27 +294,26 @@ const CreateTour = () => {
 
                 status: "PUBLISHED",
 
-                styleIds: tour?.styles?.map((item) => item?.id) || [],
-                collectionIds: tour?.collections?.map((item) => item?.id) || [],
+                styleIds: tour?.styles?.map((x) => x.id) || [],
+                collectionIds: tour?.collections?.map((x) => x.id) || [],
 
                 itineraryDays: itineraryDaysPayload,
             };
 
             const formData = new FormData();
-
             formData.append("data", JSON.stringify(payload));
 
+            // ✅ FEATURE IMAGE
             if (tour?.featuredImage instanceof File) {
                 formData.append("featuredImage", tour.featuredImage);
             }
 
-            if (Array.isArray(tour?.galleryImages)) {
-                tour.galleryImages.forEach((image) => {
-                    if (image instanceof File) {
-                        formData.append("images", image);
-                    }
-                });
-            }
+            // ❗ GALLERY IMAGES
+            (tour?.galleryImages || []).forEach((img) => {
+                if (img instanceof File) {
+                    formData.append("galleryImages", img);
+                }
+            });
 
             destinationDays.forEach((day) => {
                 if (day?.imageUrl instanceof File) {
@@ -327,19 +333,11 @@ const CreateTour = () => {
             setLoading(false);
         }
     };
+
     const handleChange = (field) => (e) => {
         setTour((prev) => ({
             ...prev,
             [field]: e.target.value,
-        }));
-    };
-
-    const handleGalleryImages = (e) => {
-        const files = Array.from(e.target.files || []);
-
-        setTour((prev) => ({
-            ...prev,
-            galleryImages: [...(Array.isArray(prev?.galleryImages) ? prev.galleryImages : []), ...files],
         }));
     };
 
@@ -381,6 +379,7 @@ const CreateTour = () => {
             is_active: tourDetail?.isActive,
 
             featuredImage: tourDetail?.featuredImageUrl,
+            galleryImages: tourDetail?.imageUrls || [],
 
             styles: tourDetail?.styleIds?.map((id) => ({ id })) || [],
 
@@ -721,7 +720,7 @@ const CreateTour = () => {
                         {tour?.galleryImages?.map((image, index) => (
                             <img
                                 key={index}
-                                src={URL.createObjectURL(image)}
+                                src={image instanceof File ? URL.createObjectURL(image) : image}
                                 alt=""
                                 className="h-40 w-full rounded-xl object-cover"
                             />

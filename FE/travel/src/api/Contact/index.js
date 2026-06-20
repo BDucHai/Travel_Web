@@ -4,7 +4,7 @@ import i18n from "../../i18n";
 
 export const createContacts = async (data) => {
     try {
-        const res = await axiosClient.post("/contacts", data);
+        const res = await axiosClient.post("/contact-messages", data);
 
         toast.success(i18n.t("notify.create_success"));
         return res?.data;

@@ -31,7 +31,7 @@ const CreateBlog = () => {
         excerptEn: data?.excerptEn || "",
         excerptFr: data?.excerptFr || "",
 
-        tourRelated: data?.tourRelated || [],
+        tourRelated: data?.relatedTours || [],
 
         slugEn: data?.slugEn || "",
         slugFr: data?.slugFr || "",
@@ -84,7 +84,7 @@ const CreateBlog = () => {
                     slugEn: blog?.slugEn || "",
                     slugFr: blog?.slugFr || "",
 
-                    tourRelatedIds: blog?.tourRelated?.map((i) => i?.id),
+                    relatedToursIds: blog?.tourRelated?.map((i) => i?.id),
 
                     isFeature: blog?.isFeature,
                     viewCount: blog?.viewCount || 0,
@@ -108,7 +108,7 @@ const CreateBlog = () => {
                 excerptEn: blog?.excerptEn || "",
                 excerptFr: blog?.excerptFr || "",
 
-                tourRelatedIds: blog?.tourRelated?.map((i) => i?.id),
+                relatedToursIds: blog?.tourRelated?.map((i) => i?.id),
 
                 slugEn: blog?.slugEn || "",
                 slugFr: blog?.slugFr || "",
@@ -124,28 +124,28 @@ const CreateBlog = () => {
         setLoading(false);
     };
 
-    useEffect(() =>{
+    useEffect(() => {
         setBlog({
-             titleEn: data?.titleEn || "",
-        titleFr: data?.titleFr || "",
+            titleEn: data?.titleEn || "",
+            titleFr: data?.titleFr || "",
 
-        heroImage: data?.heroImageUrl || null,
+            heroImage: data?.heroImageUrl || null,
 
-        contentEn: data?.contentEn || "",
-        contentFr: data?.contentFr || "",
+            contentEn: data?.contentEn || "",
+            contentFr: data?.contentFr || "",
 
-        excerptEn: data?.excerptEn || "",
-        excerptFr: data?.excerptFr || "",
+            excerptEn: data?.excerptEn || "",
+            excerptFr: data?.excerptFr || "",
 
-        tourRelated: data?.tourRelated || [],
+            tourRelated: data?.relatedTours || [],
 
-        slugEn: data?.slugEn || "",
-        slugFr: data?.slugFr || "",
+            slugEn: data?.slugEn || "",
+            slugFr: data?.slugFr || "",
 
-        isFeature: false,
-        viewCount: data?.view_count || 0
-        })
-    },[data])
+            isFeature: false,
+            viewCount: data?.view_count || 0,
+        });
+    }, [data]);
 
     return (
         <div className="w-full mx-auto py-10 px-5 bg-[#081416] text-white p-6">

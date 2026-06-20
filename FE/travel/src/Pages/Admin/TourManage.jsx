@@ -297,7 +297,7 @@ const TourManage = () => {
                         },
 
                         "& .MuiDataGrid-columnHeaderTitle": {
-                            color: "#e8edf1 !important",
+                            color: "#151617 !important",
                             fontWeight: 600,
                         },
 

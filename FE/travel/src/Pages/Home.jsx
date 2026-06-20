@@ -25,7 +25,10 @@ const Home = () => {
 
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    const { data: tours, isLoading: loadingTour } = useSWR(["/tours", { page: 0, limit: 4, lang: lang }], ([_, params]) => getTours(params));
+    const { data: tours, isLoading: loadingTour } = useSWR(
+        ["/tours", { page: 0, limit: 4, lang: lang }],
+        ([_, params]) => getTours(params),
+    );
 
     const styleTourShow = [
         {
@@ -105,8 +108,9 @@ const Home = () => {
         },
     ];
 
-    const { data: commentData, isLoading: loadingComment } = useSWR(["/testimonials", { page: 0, limit: 9 }], ([url, params]) =>
-        getReviews(url, params),
+    const { data: commentData, isLoading: loadingComment } = useSWR(
+        ["/testimonials", { page: 0, limit: 9 }],
+        ([url, params]) => getReviews(url, params),
     );
 
     const isLargeScreen = useMediaQuery("(min-width:1024px)");
@@ -114,11 +118,11 @@ const Home = () => {
     const chunkSize = isLargeScreen ? 3 : 2;
 
     const slides = [];
-    for (let i = 0; i < commentData?.length; i += chunkSize) {
-        slides.push(commentData?.slice(i, i + chunkSize));
+    for (let i = 0; i < commentData?.data?.length; i += chunkSize) {
+        slides.push(commentData?.data?.slice(i, i + chunkSize));
     }
 
-    const totalSlides = Math.ceil(commentData?.length / chunkSize);
+    const totalSlides = Math.ceil(commentData?.data?.length / chunkSize);
 
     return (
         <>
@@ -162,7 +166,7 @@ const Home = () => {
                     transition={{ duration: 0.4, ease: "easeOut" }}
                     viewport={{ once: true, amount: 0.2 }}>
                     {styleTourShow.map((t) => (
-                        <CardStyleHome style={t} />
+                        <CardStyleHome key={t?.id} style={t} />
                     ))}
                 </motion.div>
                 <div className="flex-box-center mt-[1.5rem]">
@@ -188,8 +192,8 @@ const Home = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, ease: "easeOut" }}
                     viewport={{ once: true, amount: 0.2 }}>
-                    {reason.map((t) => (
-                        <div className="flex items-center justify-start flex-col">
+                    {reason.map((t, index) => (
+                        <div className="flex items-center justify-start flex-col" key={index}>
                             <img src={t?.img} alt={t?.title} className="w-[60px] h-[60px]" />
                             <div className="text-wrap font-bold text-center mb-[0.5rem]">{t?.title}</div>
                             <div className="bg-text-sub-content text-center">{t?.description}</div>
@@ -230,7 +234,7 @@ const Home = () => {
                             x: `-${currentIndex * 100}%`,
                         }}
                         transition={{ duration: 0.25, ease: "easeOut" }}>
-                        {slides.map((group, index) => (
+                        {slides?.map((group, index) => (
                             <div
                                 key={index}
                                 className="min-w-full grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5 px-[2rem] md:px-[5rem] lg:px-[8rem]">

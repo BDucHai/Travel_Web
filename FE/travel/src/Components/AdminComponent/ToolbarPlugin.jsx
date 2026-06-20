@@ -81,33 +81,22 @@ const ToolbarPlugin = () => {
     };
 
     const handleImage = async (e) => {
+        setLoading(true);
         const files = Array.from(e.target.files);
 
-        if (!files.length) return;
+        for (const file of files) {
+            const res = await uploadImage(file);
 
-        setLoading(true);
-
-        try {
-            for (const file of files) {
-                const imageUrl = await uploadImage(file);
-
-                editor.update(() => {
-                    const imageNode = $createImageNode({
-                        id: imageUrl?.id,
-                        src: imageUrl?.url,
-                        alt: file.name,
-                    });
-
-                    $insertNodes([imageNode]);
+            editor.update(() => {
+                const node = $createImageNode({
+                    src: res.url,
+                    alt: file.name,
                 });
-            }
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setLoading(false);
-        }
 
-        e.target.value = "";
+                $insertNodes([node]);
+            });
+        }
+        setLoading(false);
     };
 
     const activeClass = "bg-white text-[#000]";
