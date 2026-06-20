@@ -5,18 +5,31 @@ import { useEffect, useState } from "react";
 import { useMediaQuery } from "@mui/material";
 
 export default function AdminLayout() {
-    const { user } = useAuth();
+    const { setUser } = useAuth();
 
     const accessToken = localStorage.getItem("accessToken");
-    const isMobile = useMediaQuery("(max-width:1000px)");
+    const session = localStorage.getItem("session");
 
+    console.log(accessToken,session);
+
+    const isMobile = useMediaQuery("(max-width:1000px)");
     const [openSideBar, setOpenSideBar] = useState(true);
 
     useEffect(() => {
         setOpenSideBar(!isMobile);
     }, [isMobile]);
 
-    if (!user || !accessToken) {
+    useEffect(() => {
+        if (session) {
+        try {
+            setUser(JSON.parse(session));
+        } catch (e) {
+            console.error("Invalid session data", e);
+        }
+        }
+    }, [setUser, session]);
+
+    if (!session || !accessToken) {
         return <Navigate to="/admin/login" replace />;
     }
 

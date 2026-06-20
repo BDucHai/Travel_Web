@@ -231,8 +231,8 @@ export default function UserManagePage() {
                         label="Active"
                     />
                     <Select name="roles" value={form?.roles} onChange={handleChange} fullWidth>
-                        <MenuItem value="user">User</MenuItem>
-                        <MenuItem value="admin">Admin</MenuItem>
+                        <MenuItem value="USER">User</MenuItem>
+                        <MenuItem value="ROLE_ADMIN">Admin</MenuItem>
                     </Select>
                 </DialogContent>
                 <DialogActions>

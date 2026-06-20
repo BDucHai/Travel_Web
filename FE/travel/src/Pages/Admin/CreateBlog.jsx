@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { uploadImage } from "../../utils/uploadImage";
 import BlogEditor from "../../Components/AdminComponent/BlogEditor";
 import { useNavigate, useParams } from "react-router-dom";
@@ -8,6 +8,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { Autocomplete, Backdrop, CircularProgress, TextField } from "@mui/material";
 import { getToursAdmin } from "../../api/Tour";
 import { useDebounce } from "use-debounce";
+import { darkTextField } from "../../constant";
 
 const CreateBlog = () => {
     const [loading, setLoading] = useState(false);
@@ -16,7 +17,7 @@ const CreateBlog = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
 
-    const { data } = useSWR(id ? ["/blogs/detail", { id: id }] : null, ([_, id]) => getBlogAdminById(id));
+    const { data, isLoading } = useSWR(id ? ["/blogs/detail", { id: id }] : null, ([_, id]) => getBlogAdminById(id));
 
     const [blog, setBlog] = useState({
         titleEn: data?.titleEn || "",
@@ -122,6 +123,29 @@ const CreateBlog = () => {
         }
         setLoading(false);
     };
+
+    useEffect(() =>{
+        setBlog({
+             titleEn: data?.titleEn || "",
+        titleFr: data?.titleFr || "",
+
+        heroImage: data?.heroImageUrl || null,
+
+        contentEn: data?.contentEn || "",
+        contentFr: data?.contentFr || "",
+
+        excerptEn: data?.excerptEn || "",
+        excerptFr: data?.excerptFr || "",
+
+        tourRelated: data?.tourRelated || [],
+
+        slugEn: data?.slugEn || "",
+        slugFr: data?.slugFr || "",
+
+        isFeature: false,
+        viewCount: data?.view_count || 0
+        })
+    },[data])
 
     return (
         <div className="w-full mx-auto py-10 px-5 bg-[#081416] text-white p-6">
@@ -264,21 +288,22 @@ const CreateBlog = () => {
 
                 {/* RelatedTour */}
                 <Autocomplete
-                    options={tours || []}
-                    value={blog.tour}
+                    options={tours?.data || []}
+                    value={blog?.tour}
                     onChange={(_, value) =>
                         setBlog((prev) => ({
                             ...prev,
                             tourRelated: value,
                         }))
                     }
+                    sx={darkTextField}
                     onInputChange={(_, value) => setTourSearch(value)}
                     getOptionLabel={(option) => option?.titleEn || ""}
-                    renderInput={(params) => <TextField {...params} label="Select Tour" />}
+                    renderInput={(params) => <TextField {...params} label="Select Tour Realted" />}
                 />
 
                 {/* HERO IMAGE */}
-                <div className="mb-10">
+                <div className="mt-3 mb-10">
                     <div className="font-semibold mb-3">Hero Banner Image</div>
 
                     <label
@@ -321,7 +346,7 @@ const CreateBlog = () => {
 
                 {/* CONTENT */}
                 <BlogEditor
-                    content={blog?.content}
+                    content={blog?.contentEn}
                     setContent={(html) =>
                         setBlog((prev) => ({
                             ...prev,
@@ -358,7 +383,7 @@ const CreateBlog = () => {
                 </button>
             </div>
             <Backdrop
-                open={loading}
+                open={loading || isLoading}
                 sx={{
                     color: "#fff",
                     zIndex: (theme) => theme.zIndex.drawer + 9999,

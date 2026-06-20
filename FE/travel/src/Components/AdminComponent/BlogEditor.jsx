@@ -12,26 +12,36 @@ import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 
 import { HeadingNode } from "@lexical/rich-text";
 
-import { $generateHtmlFromNodes } from "@lexical/html";
+import { $generateHtmlFromNodes, $generateNodesFromDOM } from "@lexical/html";
 import { ImageNode } from "../../utils/ImageNode";
 
 import ToolbarPlugin from "./ToolbarPlugin";
 
 const theme = {};
 
-const editorConfig = {
-    namespace: "BlogEditor",
-
-    theme,
-
-    onError(error) {
-        throw error;
-    },
-
-    nodes: [HeadingNode, ImageNode],
-};
-
 const BlogEditor = ({ content, setContent }) => {
+    const editorConfig = {
+        namespace: "BlogEditor",
+        editorState: (editor) => {
+        if (content) {
+            const parser = new DOMParser();
+            const dom = parser.parseFromString(content, "text/html");
+            const nodes = $generateNodesFromDOM(editor, dom);
+            editor.update(() => {
+            const root = editor.getRootElement();
+            root.append(...nodes);
+            });
+        }
+        },
+        theme,
+
+        onError(error) {
+            throw error;
+        },
+
+        nodes: [HeadingNode, ImageNode],
+    };
+
     return (
         <LexicalComposer initialConfig={editorConfig}>
             <div
