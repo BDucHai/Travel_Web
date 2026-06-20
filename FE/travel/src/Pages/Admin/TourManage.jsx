@@ -261,7 +261,7 @@ const TourManage = () => {
                     p-3
                 ">
                 <DataGrid
-                    rows={tours?.data}
+                    rows={tours?.data || []}
                     columns={columns}
                     pinnedColumns={{ right: ["actions"] }}
                     paginationMode="server"
@@ -297,7 +297,7 @@ const TourManage = () => {
                         },
 
                         "& .MuiDataGrid-columnHeaderTitle": {
-                            color: "#090a0b !important",
+                            color: "#e8edf1 !important",
                             fontWeight: 600,
                         },
 

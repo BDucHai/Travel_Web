@@ -20,6 +20,7 @@ import { createReview, getReviews } from "../api/Review";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { uploadImage } from "../utils/uploadImage";
 import { toast } from "react-toastify";
+import axiosClient from "../api/axios";
 
 export default function ReviewPage() {
     const { t } = useTranslation();
@@ -65,7 +66,7 @@ export default function ReviewPage() {
         } catch (err) {
             toast.error(t("notify.fail"));
         }
-        };
+    };
 
 
    const handleListImageChange = async (e) => {
@@ -96,7 +97,6 @@ export default function ReviewPage() {
 
     const handleSubmit = async () => {
         try {
-            // Bước 1: gọi createReview
             const reviewRes = await createReview({
             name: form?.name,
             email: form?.email,
@@ -105,9 +105,8 @@ export default function ReviewPage() {
             rating: form?.rating,
             content: form?.content,
             });
-            console.log(reviewRes);
-            if (reviewRes?.status === 200) {
-            const reviewId = reviewRes?.data?.id;
+            if (reviewRes?.id) {
+            const reviewId = reviewRes?.id;
 
             if (form?.list_image?.length > 0) {
                 for (let i = 0; i < form?.list_image?.length; i++) {
@@ -209,9 +208,9 @@ export default function ReviewPage() {
                                 <p className="mt-3 text-gray-700 leading-7">{r?.content}</p>
 
                                 {/* IMAGES */}
-                                {r?.list_image?.length > 0 && (
+                                {r?.imageUrls?.length > 0 && (
                                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-4">
-                                        {r?.list_image?.map((img, index) => (
+                                        {r?.imageUrls?.map((img, index) => (
                                             <img
                                                 key={index}
                                                 src={img}
@@ -240,11 +239,31 @@ export default function ReviewPage() {
             </div>
 
             {/* MODAL CREATE REVIEW */}
-            <Dialog open={openModal} onClose={() => setOpenModal(false)} maxWidth="md" fullWidth>
+            <Dialog open={openModal} onClose={() => {
+                setOpenModal(false);    
+                setForm({
+                    name: "",
+                    email: "",
+                    country: "",
+                    rating: 5,
+                    content: "",
+                    avatar_url: "",
+                    list_image: [],
+                })}} maxWidth="md" fullWidth>
                 <DialogTitle className="flex items-center justify-between">
                     <span className="font-bold text-xl">{t("review.title")}</span>
 
-                    <IconButton onClick={() => setOpenModal(false)}>
+                    <IconButton onClick={() => {
+                        setOpenModal(false);
+                        setForm({
+                            name: "",
+                            email: "",
+                            country: "",
+                            rating: 5,
+                            content: "",
+                            avatar_url: "",
+                            list_image: [],
+                        })}}>
                         <IoIosCloseCircleOutline />
                     </IconButton>
                 </DialogTitle>
@@ -372,7 +391,7 @@ export default function ReviewPage() {
                                     {form?.list_image?.map((img, index) => (
                                         <img
                                             key={index}
-                                            src={img}
+                                            src={img?.imageUrl}
                                             alt=""
                                             className="
                                                 w-full

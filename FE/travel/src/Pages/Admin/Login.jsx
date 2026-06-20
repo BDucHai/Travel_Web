@@ -54,14 +54,14 @@ export default function Login() {
 
                 <form onSubmit={handleLogin} className="space-y-6">
                     <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">User</label>
 
                         <input
                             type="text"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             className="w-full px-4 py-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 outline-none transition"
-                            // placeholder="you@example.com"
+                            placeholder=""
                         />
                     </div>
 

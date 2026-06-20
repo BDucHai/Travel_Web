@@ -197,8 +197,8 @@ const BlogManage = () => {
                     p-3
                 ">
                 <DataGrid
-                    rows={blog}
-                    columns={columns}
+                    rows={blog || []}
+                    columns={columns || []}
                     paginationMode="server"
                     loading={isLoading}
                     rowCount={data?.pagination?.total || 0}
@@ -232,7 +232,7 @@ const BlogManage = () => {
                         },
 
                         "& .MuiDataGrid-columnHeaderTitle": {
-                            color: "#090a0b !important",
+                            color: "#e8edf1 !important",
                             fontWeight: 600,
                         },
 
