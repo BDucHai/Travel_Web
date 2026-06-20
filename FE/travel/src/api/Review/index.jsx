@@ -4,7 +4,7 @@ import i18n from "../../i18n";
 
 export const createReview = async (data) => {
     try {
-        const res = await axiosClient.post("/testimonials/submit-feedback", data);
+        const res = await axiosClient.post("/testimonials", data);
 
         toast.success(i18n.t("notify.create_success"));
         return res?.data;
@@ -12,6 +12,7 @@ export const createReview = async (data) => {
         toast.error(i18n.t("notify.create_fail"));
     }
 };
+
 
 export const getReviews = async (url, params) => axiosClient.get(url, { params }).then((res) => res?.data);
 

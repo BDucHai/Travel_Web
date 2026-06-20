@@ -68,58 +68,72 @@ export default function ReviewPage() {
         };
 
 
-    const handleListImageChange = (e) => {
-        const files = Array.from(e.target.files || []);
+   const handleListImageChange = async (e) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
 
-        const previewImages = files.map((file) => URL.createObjectURL(file));
+    try {
+      
+        const uploadResults = await Promise.all(
+        files.map((file) => uploadImage(file))
+        );
 
-        setForm((prev) => ({
-            ...prev,
-            list_image: previewImages,
+        
+        const newImages = uploadResults.map((res) => ({
+        imageUrl: res?.url,
         }));
+
+      
+        setForm((prev) => ({
+        ...prev,
+        list_image: [...(prev.list_image || []), ...newImages],
+        }));
+    } catch (err) {
+        toast.error(t("notify.fail"));
+    }
     };
+
 
     const handleSubmit = async () => {
-        try {
-            const formData = new FormData();
+    try {
+        const reviewRes = await createReview({
+        name: form?.name,
+        email: form?.email,
+        avatarUrl: form?.avatar_url,
+        country: form?.country,
+        rating: form?.rating,
+        content: form?.content,
+        });
 
-            // JSON data
-            formData.append(
-                "data",
-                JSON.stringify({
-                    token: form.token || "",
-                    name: form?.name,
-                    email: form?.email,
-                    country: form?.country,
-                    rating: form?.rating,
-                    content: form?.content,
-                }),
-            );
+        if (reviewRes?.status === 200) {
+        const reviewId = reviewRes?.data?.id;
 
-            form?.list_image?.forEach((file) => {
-                formData.append("images", file);
-            });
+        const imagesPayload = form?.list_image?.map((img) => ({
+            imageUrl: img.imageUrl,
+        }));
 
-            const res = await createReview(formData);
-
-            if (res?.status === 200) {
-                setForm({
-                    name: "",
-                    email: "",
-                    country: "",
-                    rating: 5,
-                    content: "",
-                    avatar_url: "",
-                    list_image: [],
-                });
-
-                setOpenModal(false);
-                await mutate();
-            }
-        } catch (error) {
-            console.log(error);
+        if (imagesPayload?.length > 0) {
+            await axiosClient.post(`/reviews/${reviewId}/images`, imagesPayload);
         }
+
+        setForm({
+            name: "",
+            email: "",
+            country: "",
+            rating: 5,
+            content: "",
+            avatar_url: "",
+            list_image: [],
+        });
+
+        setOpenModal(false);
+        await mutate();
+        }
+    } catch (error) {
+        toast.error(t("notify.fail"));
+    }
     };
+
 
     const loadMore = () => {
         setPage((prev) => prev + 1);
