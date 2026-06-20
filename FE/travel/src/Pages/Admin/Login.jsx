@@ -14,34 +14,36 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
 
     const handleLogin = async (e) => {
-  e.preventDefault();
-  setLoading(true);
+        const expireTime = Date.now() + 3600000;
+    e.preventDefault();
+    setLoading(true);
 
-  try {
-    const res = await LoginUser({
-      username,
-      password,
-    });
+    try {
+        const res = await LoginUser({
+        username,
+        password,
+        });
 
-    setUser({
-        username: res?.username,
-        fullName: res?.fullName,
-        roles: res?.roles
-    });
-    setSession({ username: res?.username,
-        fullName: res?.fullName,
-        roles: res?.roles});
-    localStorage.setItem("accessToken", res?.accessToken);
+        setUser({
+            username: res?.username,
+            fullName: res?.fullName,
+            roles: res?.roles,
+            expireTime,
+        });
+        setSession({ username: res?.username,
+            fullName: res?.fullName,
+            roles: res?.roles});
+        localStorage.setItem("accessToken", res?.accessToken);
 
-    navigate("/admin/blog");
-  } catch (err) {
-    toast.error(
-      err?.response?.data?.message || "Đăng nhập thất bại. Vui lòng thử lại!"
-    );
-  } finally {
-    setLoading(false);
-  }
-};
+        navigate("/admin/blog");
+    } catch (err) {
+        toast.error(
+        err?.response?.data?.message || "Đăng nhập thất bại. Vui lòng thử lại!"
+        );
+    } finally {
+        setLoading(false);
+    }
+    };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800">

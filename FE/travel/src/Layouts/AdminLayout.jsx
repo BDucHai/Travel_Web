@@ -7,10 +7,8 @@ import { useMediaQuery } from "@mui/material";
 export default function AdminLayout() {
     const { setUser } = useAuth();
 
-    const accessToken = localStorage.getItem("accessToken");
-    const session = localStorage.getItem("session");
-
-    console.log(accessToken,session);
+    const sessionStr = localStorage.getItem("session");
+    const tokenStr = localStorage.getItem("accessToken");
 
     const isMobile = useMediaQuery("(max-width:1000px)");
     const [openSideBar, setOpenSideBar] = useState(true);
@@ -20,19 +18,33 @@ export default function AdminLayout() {
     }, [isMobile]);
 
     useEffect(() => {
-        if (session) {
+        let valid = true;
+
+        if (sessionStr) {
         try {
-            setUser(JSON.parse(session));
+            const session = JSON.parse(sessionStr);
+            if (Date.now() > session?.expireTime) {
+            localStorage.removeItem("session");
+            valid = false;
+            } else {
+            setUser(session);
+            }
         } catch (e) {
             console.error("Invalid session data", e);
+            valid = false;
         }
+        } else {
+        valid = false;
         }
-    }, [setUser, session]);
+        if (!valid) {
+        setUser(null);
+        }
+    }, [setUser, sessionStr, tokenStr]);
 
-    if (!session || !accessToken) {
+    if (!sessionStr || !tokenStr) {
         return <Navigate to="/admin/login" replace />;
     }
-
+    
     return (
         <div className="min-h-screen bg-[#0f172a]">
             <SideBar openSideBar={openSideBar} setOpenSideBar={setOpenSideBar} />

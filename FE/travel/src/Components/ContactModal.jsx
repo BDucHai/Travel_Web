@@ -17,10 +17,10 @@ import { createContacts } from "../api/Contact";
 const ContactModal = ({ t, open, onClose, content = "" }) => {
     const [loading, setLoading] = useState(false);
     const [contactPlan, setContactPlan] = useState({
-        name: "",
+        fullName: "",
         email: "",
-        phone: "",
-        content: content,
+        phoneNumber: "",
+        message: content || "",
     });
 
     const handleCreateRequest = async () => {
@@ -72,7 +72,7 @@ const ContactModal = ({ t, open, onClose, content = "" }) => {
                     fullWidth
                     variant="outlined"
                     margin="normal"
-                    onChange={(e) => setContactPlan((prev) => ({ ...prev, content: e.target.value }))}
+                    onChange={(e) => setContactPlan((prev) => ({ ...prev, message: e.target.value }))}
                 />
 
                 {/* Email + Name + Phone */}
@@ -88,14 +88,14 @@ const ContactModal = ({ t, open, onClose, content = "" }) => {
                     fullWidth
                     variant="outlined"
                     margin="normal"
-                    onChange={(e) => setContactPlan((prev) => ({ ...prev, name: e.target.value }))}
+                    onChange={(e) => setContactPlan((prev) => ({ ...prev, fullName: e.target.value }))}
                 />
                 <TextField
                     label={t("your_phone")}
                     fullWidth
                     variant="outlined"
                     margin="normal"
-                    onChange={(e) => setContactPlan((prev) => ({ ...prev, phone: e.target.value }))}
+                    onChange={(e) => setContactPlan((prev) => ({ ...prev, phoneNumber: e.target.value }))}
                 />
 
                 {/* Submit button */}

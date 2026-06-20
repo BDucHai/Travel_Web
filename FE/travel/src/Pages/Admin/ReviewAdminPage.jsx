@@ -11,7 +11,6 @@ const ReviewAdminPage = () => {
         { label: "APPROVED", value: "APPROVED" },
     ];
 
-    const [tab, setTab] = useState(0);
 
     const [params, setParams] = useState({
         status: "PENDING",
@@ -23,43 +22,57 @@ const ReviewAdminPage = () => {
         getReviews(url, params),
     );
 
-    const handleTabChange = (_, value) => {
-        setTab(value);
-
-        setParams((prev) => ({
-            ...prev,
-            status: statusTabs[value].value,
-            page: 0,
-        }));
-    };
-
     return (
         <div className="p-6 text-white">
             <div className="text-xl font-semibold mb-4">Review Management</div>
             <Tabs
-                value={tab}
-                onChange={handleTabChange}
-                sx={{
-                    "& .MuiTab-root": {
-                        color: "#fcfdff",
-                        textTransform: "none",
-                        fontWeight: 500,
-                    },
-                }}>
-                {statusTabs.map((s, idx) => (
-                    <Tab key={s.value} label={s.label} />
-                ))}
+            value={params?.status}
+            textColor="inherit"
+            indicatorColor="secondary"
+            sx={{
+                "& .MuiTab-root": {
+                color: "#fff",          
+                textTransform: "none",  
+                fontWeight: 500,
+                },
+                "& .Mui-selected": {
+                color: "#fff",         
+                },
+            }}
+            onChange={(_, newValue) => {
+                setParams(prev => ({
+                ...prev,
+                status: newValue,
+                page: 0,
+                }));
+            }}
+            >
+            {statusTabs.map((s, idx) => (
+                <Tab key={s.value} label={s.label} value={s.value} />
+            ))}
             </Tabs>
 
             <div className="mt-6">
-                {tab === "PENDING" && <AcceptReviewTab data={reviews || []} mutate={mutate} />}
+                {params?.status === "PENDING" && <AcceptReviewTab data={reviews?.data || []} mutate={mutate} />}
 
-                {tab === "APPROVED" && <ManageReviewTab data={reviews || []} mutate={mutate} />}
+                {params?.status === "APPROVED" && <ManageReviewTab data={reviews?.data || []} mutate={mutate} />}
 
                 <div className="flex justify-center mt-6">
                     <Pagination
-                        page={params?.page}
-                        count={reviews?.pagination?.totalPages || 1}
+                        page={params?.page + 1}
+                        count={reviews?.totalPages || 1}
+                         sx={{
+                            "& .MuiPaginationItem-root": {
+                            color: "#fff", 
+                            },
+                            "& .MuiPaginationItem-root.Mui-selected": {
+                            backgroundColor: "#fff", 
+                            color: "#000",           
+                            },
+                            "& .MuiPaginationItem-root:hover": {
+                            backgroundColor: "rgba(255,255,255,0.2)", 
+                            },
+                        }}
                         onChange={(_, page) =>
                             setParams((prev) => ({
                                 ...prev,

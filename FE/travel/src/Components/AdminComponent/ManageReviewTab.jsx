@@ -78,7 +78,7 @@ export default function ManageReviewTab({ data, mutate }) {
                         <div className="flex-1">
                             <div className="flex justify-between">
                                 <div className="font-semibold text-[#000]">{item?.name}</div>
-                                <div className="text-sm text-gray-500">{item?.date}</div>
+                                <div className="text-sm text-gray-500">{new Date(item?.createdAt)?.toLocaleDateString("vi-VN")}</div>
                             </div>
 
                             <div className="text-yellow-500 text-sm">⭐ {item?.rating}/5</div>
@@ -86,10 +86,10 @@ export default function ManageReviewTab({ data, mutate }) {
                             <p className="text-gray-700 mt-2">{item?.content}</p>
 
                             {/* IMAGE LIST */}
-                            {item?.images?.length > 0 && (
+                            {item?.imageUrls?.length > 0 && (
                                 <div className="mt-3">
                                     <ImageList cols={4} rowHeight={200} gap={8}>
-                                        {item?.images.map((img, index) => (
+                                        {item?.imageUrls.map((img, index) => (
                                             <ImageListItem key={index}>
                                                 <img
                                                     src={img}

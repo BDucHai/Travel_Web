@@ -20,7 +20,6 @@ export default function Contact() {
         getContacts(url, params),
     );
 
-    const handleChange = (_, newValue) => setParams((prev) => ({ ...prev, status: newValue }));
 
     const updateStatus = async (id) => {
         await updateStatusContact(id);
@@ -34,11 +33,33 @@ export default function Contact() {
 
     return (
         <Box className="bg-[radial-gradient(circle,_#0e3637_0%,_#0d0d11ab_70%)] text-white min-h-screen p-6">
-            <Tabs value={params?.tab} onChange={handleChange} textColor="inherit" indicatorColor="secondary">
-                {statusTabs.map((s, idx) => (
-                    <Tab key={s.value} label={s.label} value={s.label} />
+           <Tabs
+                value={params?.status}
+                textColor="inherit"
+                indicatorColor="secondary"
+                sx={{
+                    "& .MuiTab-root": {
+                    color: "#fff",          
+                    textTransform: "none",  
+                    fontWeight: 500,
+                    },
+                    "& .Mui-selected": {
+                    color: "#fff",         
+                    },
+                }}
+                onChange={(_, newValue) =>
+                    setParams((prev) => ({
+                    ...prev,
+                    status: newValue,
+                    page: 0,
+                    }))
+                }
+                >
+                {statusTabs.map((s) => (
+                    <Tab key={s.value} label={s.label} value={s.value} />
                 ))}
-            </Tabs>
+                </Tabs>
+
 
             <div className="mt-6 space-y-4">
                 {contacts?.data?.map((c) => (
@@ -53,7 +74,7 @@ export default function Contact() {
                         </p>
                         <p className="mt-2">{c?.message}</p>
                         <p className="text-xs text-gray-500 mt-2">
-                            Request Date: {new Date(c?.createdAt).toLocaleDateString("vi-VN")}
+                            Request Date: {new Date(c?.createdAt)?.toLocaleDateString("vi-VN")}
                         </p>
 
                         <div className="mt-4 flex gap-2">
@@ -82,8 +103,20 @@ export default function Contact() {
                 ))}
                 <div className="flex justify-center mt-6">
                     <Pagination
-                        page={params?.page}
-                        count={contacts?.pagination?.totalPages || 1}
+                        page={params?.page + 1}
+                        count={contacts?.totalPages || 1}
+                         sx={{
+                            "& .MuiPaginationItem-root": {
+                            color: "#fff", 
+                            },
+                            "& .MuiPaginationItem-root.Mui-selected": {
+                            backgroundColor: "#fff",
+                            color: "#000",          
+                            },
+                            "& .MuiPaginationItem-root:hover": {
+                            backgroundColor: "rgba(255,255,255,0.2)", 
+                            },
+                        }}
                         color="primary"
                         onChange={(_, value) =>
                             setParams((prev) => ({
