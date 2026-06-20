@@ -193,5 +193,7 @@
     "highlight": "Points forts",
 
     "need_help_plan": "Besoin d’aide pour organiser votre voyage ?",
-    "travel_help": "Nos spécialistes du voyage sont là pour vous aider à créer l’itinéraire idéal en Indochine."
+    "travel_help": "Nos spécialistes du voyage sont là pour vous aider à créer l’itinéraire idéal en Indochine.",
+
+    "no_value": "actuellement, il n'y a pas de tours adaptés"
 }

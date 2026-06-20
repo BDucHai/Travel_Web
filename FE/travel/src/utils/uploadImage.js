@@ -14,13 +14,16 @@ import axiosClient from "../api/axios";
 // };
 
 export const uploadImage = async (file) => {
-    const formData = new FormData();
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("folder", "travel-website");
 
-    formData.append("file", file);
-
-    formData.append("folder", "travel-website/banners");
-
-    const res = await axiosClient.post("upload/image", formData);
-
-    return { id: res?.data?.id, url: res?.data?.secure_url };
+  const res = await axiosClient.post("/upload/image", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  console.log(res);
+  return { id: res.data?.publicId, url: res.data?.url };
 };
+

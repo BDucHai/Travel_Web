@@ -93,63 +93,71 @@ const SearchTour = () => {
           grid-cols-1
           ${method ? "lg:grid-cols-2" : "lg:grid-cols-1"}
         `}>
-                {isLoading && filterSearch.page === 1 ? (
-                    <div className="text-center text-gray-500 col-span-full">{t("loading")}</div>
-                ) : (
-                    <AnimatePresence mode="wait">
-                        {allTours?.map((tour) => (
-                            <motion.div
-                                key={tour?.id}
-                                layout
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.05 }}
-                                className="
-                  bg-white rounded-2xl overflow-hidden shadow-md
-                  hover:shadow-xl transition cursor-pointer group
-                  flex flex-col lg:flex-row
-                "
-                                onClick={() => navigate(`/tours/detail/${tour?.slug}`)}>
-                                {/* IMAGE */}
-                                <div className="relative w-full lg:w-1/3 h-60 lg:h-auto">
-                                    <img
-                                        src={tour?.featuredImageUrl}
-                                        alt={tour?.title}
-                                        className="w-full h-full object-cover"
-                                    />
-                                    <div className="absolute top-3 left-3">
-                                        {tour?.isFeatured && (
-                                            <span className="text-xs bg-black/60 text-white px-3 py-1 rounded-full">
-                                                {t("popular")}
-                                            </span>
-                                        )}
-                                    </div>
-                                </div>
-
-                                {/* CONTENT */}
-                                <div className="flex-1 p-5 flex flex-col justify-between">
-                                    <div>
-                                        <h2 className="font-semibold text-[#ef8d21] text-[1.25rem] lg:text-[1.75rem] transition-all duration-300 group-hover:text-black">
-                                            {tour?.title}
-                                        </h2>
-                                        <p className="text-gray-500 mt-2 line-clamp-3">{tour?.shortDescription}</p>
-                                    </div>
-                                    <div className="flex items-center justify-start mt-4">
-                                        <span className="text-sm text-gray-600">
-                                            ⏱ {tour?.durationDays + " " + t("days")}
+            {isLoading ? (
+    <div className="text-center text-gray-500 col-span-full">
+        {t("loading")}
+    </div>
+            ) : allTours?.length === 0 ? (
+                <div className="text-center text-gray-500 col-span-full">
+                    {t("no_value")}
+                </div>
+            ) : (
+                <AnimatePresence mode="wait">
+                    {allTours?.map((tour) => (
+                        <motion.div
+                            key={tour?.id}
+                            layout
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.05 }}
+                            className="bg-white rounded-2xl overflow-hidden shadow-md
+                                    hover:shadow-xl transition cursor-pointer group
+                                    flex flex-col lg:flex-row"
+                            onClick={() => navigate(`/tours/detail/${tour?.slug}`)}
+                        >
+                            {/* IMAGE */}
+                            <div className="relative w-full lg:w-1/3 h-60 lg:h-auto">
+                                <img
+                                    src={tour?.featuredImageUrl}
+                                    alt={tour?.title}
+                                    className="w-full h-full object-cover"
+                                />
+                                <div className="absolute top-3 left-3">
+                                    {tour?.isFeatured && (
+                                        <span className="text-xs bg-black/60 text-white px-3 py-1 rounded-full">
+                                            {t("popular")}
                                         </span>
-                                    </div>
-                                    <div className="flex items-center justify-end mt-1">
-                                        <button className="px-4 py-2 bg-[#e38c2b] text-white rounded-xl hover:bg-black transition transition-all duration-300 group-hover:bg-black cursor-pointer">
-                                            {t("detail")}
-                                        </button>
-                                    </div>
+                                    )}
                                 </div>
-                            </motion.div>
-                        ))}
-                    </AnimatePresence>
-                )}
+                            </div>
+
+                {/* CONTENT */}
+                <div className="flex-1 p-5 flex flex-col justify-between">
+                    <div>
+                        <h2 className="font-semibold text-[#ef8d21] text-[1.25rem] lg:text-[1.75rem] transition-all duration-300 group-hover:text-black">
+                            {tour?.title}
+                        </h2>
+                        <p className="text-gray-500 mt-2 line-clamp-3">
+                            {tour?.shortDescription}
+                        </p>
+                    </div>
+                    <div className="flex items-center justify-start mt-4">
+                        <span className="text-sm text-gray-600">
+                            ⏱ {tour?.durationDays + " " + t("days")}
+                        </span>
+                    </div>
+                    <div className="flex items-center justify-end mt-1">
+                        <button className="px-4 py-2 bg-[#e38c2b] text-white rounded-xl hover:bg-black transition transition-all duration-300 group-hover:bg-black cursor-pointer">
+                            {t("detail")}
+                        </button>
+                    </div>
+                </div>
+            </motion.div>
+        ))}
+    </AnimatePresence>
+)}
+
             </div>
 
             {/* LOAD MORE */}

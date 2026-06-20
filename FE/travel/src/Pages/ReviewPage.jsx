@@ -18,6 +18,8 @@ import { useTranslation } from "react-i18next";
 import { MdAddPhotoAlternate } from "react-icons/md";
 import { createReview, getReviews } from "../api/Review";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import { uploadImage } from "../utils/uploadImage";
+import { toast } from "react-toastify";
 
 export default function ReviewPage() {
     const { t } = useTranslation();
@@ -49,18 +51,22 @@ export default function ReviewPage() {
         });
     };
 
-    const handleAvatarChange = (e) => {
+    const handleAvatarChange = async (e) => {
         const file = e.target.files?.[0];
-
         if (!file) return;
 
-        const preview = URL.createObjectURL(file);
+        try {
+            const avatarRes = await uploadImage(file);
 
-        setForm((prev) => ({
+            setForm((prev) => ({
             ...prev,
-            avatar_url: preview,
-        }));
-    };
+            avatar_url: avatarRes?.url,
+            }));
+        } catch (err) {
+            toast.error(t("notify.fail"));
+        }
+        };
+
 
     const handleListImageChange = (e) => {
         const files = Array.from(e.target.files || []);
