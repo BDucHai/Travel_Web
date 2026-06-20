@@ -115,7 +115,7 @@ const Navbar = ({ home }) => {
                                                 {durationsDays?.map((dura) => (
                                                     <div
                                                         className="w-[90%] px-[0.4rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
-                                                        onClick={() => navigate(`/tours?duration=${durationsDays?.value}`)}>
+                                                        onClick={() => navigate(`/tours?duration=${dura?.value}`)}>
                                                         {t(dura?.title)}
                                                     </div>
                                                 ))}
@@ -347,7 +347,7 @@ const Navbar = ({ home }) => {
                                               durationsDays?.map((dura) => (
                                                     <div
                                                         className="w-[90%] px-[0.4rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
-                                                        onClick={() => navigate(`/tours?duration=${durationsDays?.value}`)}>
+                                                        onClick={() => navigate(`/tours?duration=${dura?.value}`)}>
                                                         {t(dura?.title)}
                                                     </div>
                                                 
