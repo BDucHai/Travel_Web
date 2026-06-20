@@ -52,9 +52,9 @@ const ReviewAdminPage = () => {
             </Tabs>
 
             <div className="mt-6">
-                {tab === "PENDING" && <AcceptReviewTab data={reviews?.data || []} mutate={mutate} />}
+                {tab === "PENDING" && <AcceptReviewTab data={reviews || []} mutate={mutate} />}
 
-                {tab === "APPROVED" && <ManageReviewTab data={reviews?.data || []} mutate={mutate} />}
+                {tab === "APPROVED" && <ManageReviewTab data={reviews || []} mutate={mutate} />}
 
                 <div className="flex justify-center mt-6">
                     <Pagination
