@@ -95,44 +95,48 @@ export default function ReviewPage() {
 
 
     const handleSubmit = async () => {
-    try {
-        const reviewRes = await createReview({
-        name: form?.name,
-        email: form?.email,
-        avatarUrl: form?.avatar_url,
-        country: form?.country,
-        rating: form?.rating,
-        content: form?.content,
-        });
+        try {
+            // Bước 1: gọi createReview
+            const reviewRes = await createReview({
+            name: form?.name,
+            email: form?.email,
+            avatarUrl: form?.avatar_url,
+            country: form?.country,
+            rating: form?.rating,
+            content: form?.content,
+            });
+            console.log(reviewRes);
+            if (reviewRes?.status === 200) {
+            const reviewId = reviewRes?.data?.id;
 
-        if (reviewRes?.status === 200) {
-        const reviewId = reviewRes?.data?.id;
+            if (form?.list_image?.length > 0) {
+                for (let i = 0; i < form?.list_image?.length; i++) {
+                    const img = form?.list_image[i];
+                    await axiosClient.post(`/testimonials/${reviewId}/images`, {
+                        imageUrl: img?.imageUrl,
+                        displayOrder: i,
+                    });
+                }
+            }
 
-        const imagesPayload = form?.list_image?.map((img) => ({
-            imageUrl: img.imageUrl,
-        }));
+            setForm({
+                name: "",
+                email: "",
+                country: "",
+                rating: 5,
+                content: "",
+                avatar_url: "",
+                list_image: [],
+            });
 
-        if (imagesPayload?.length > 0) {
-            await axiosClient.post(`/reviews/${reviewId}/images`, imagesPayload);
+            setOpenModal(false);
+            await mutate();
+            }
+        } catch (error) {
+            toast.error(t("notify.fail"));
         }
-
-        setForm({
-            name: "",
-            email: "",
-            country: "",
-            rating: 5,
-            content: "",
-            avatar_url: "",
-            list_image: [],
-        });
-
-        setOpenModal(false);
-        await mutate();
-        }
-    } catch (error) {
-        toast.error(t("notify.fail"));
-    }
     };
+
 
 
     const loadMore = () => {
