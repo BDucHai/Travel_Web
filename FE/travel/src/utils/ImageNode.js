@@ -21,13 +21,11 @@ export class ImageNode extends DecoratorNode {
         return new ImageNode(node.__src, node.__alt, node.__key);
     }
 
-    // ✅ FIX IMPORT
     static importJSON(serializedNode) {
         const { src, alt } = serializedNode;
         return $createImageNode({ src, alt });
     }
 
-    // ✅ FIX EXPORT
     exportJSON() {
         return {
             type: "image",

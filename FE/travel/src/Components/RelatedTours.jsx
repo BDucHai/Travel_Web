@@ -5,8 +5,6 @@ import TourCard from "./TourCard";
 const RelatedTours = ({ tours }) => {
     return (
         <div className="mt-10">
-            <h2 className="text-2xl font-bold mb-4 text-gray-800">Related Tours</h2>
-
             <motion.div className="flex gap-6 overflow-x-auto pb-4" whileTap={{ cursor: "grabbing" }}>
                 {tours?.map((tour) => (
                     <motion.div

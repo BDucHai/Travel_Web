@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaWhatsapp } from "react-icons/fa";
-import DOMPurify from "dompurify";
 import { useTranslation } from "react-i18next";
 import ContactModal from "../Components/ContactModal";
 import { CgMail } from "react-icons/cg";
@@ -9,6 +8,7 @@ import { useAuth } from "../contexts/AuthContext";
 import useSWR from "swr";
 import { getBlogById } from "../api/Blog";
 import RelatedTours from "../Components/RelatedTours";
+import BlogContentViewer from "../Components/BlogContentViewer";
 
 const BlogDetail = () => {
     const { slug } = useParams();
@@ -86,25 +86,7 @@ const BlogDetail = () => {
             lg:px-0
             py-20
         ">
-                <div
-                    className="
-                prose
-                prose-lg
-                max-w-none
-                prose-img:rounded-2xl
-                prose-img:w-full
-                prose-img:shadow-xl
-                prose-img:my-10
-                prose-h1:text-5xl
-                prose-h1:font-bold
-                prose-h2:text-4xl
-                prose-p:leading-9
-                prose-p:text-gray-700
-            "
-                    dangerouslySetInnerHTML={{
-                        __html: DOMPurify.sanitize(blog?.content),
-                    }}
-                />
+                <BlogContentViewer content={blog?.content} />
 
                 {/* CONTACT FORM */}
                 <div className="border-t border-gray-200 mt-20 pt-16">
@@ -200,7 +182,7 @@ const BlogDetail = () => {
 
                 {/* RELATED TOURS */}
                 <div className="border-t border-gray-200 mt-20 pt-16">
-                    <h2 className="text-2xl font-serif mb-8">RELATED TOURS</h2>
+                    <h2 className="text-2xl font-serif mb-8">{t("related_tour")}</h2>
 
                     <RelatedTours tours={blog?.relatedTours} />
 
@@ -304,7 +286,12 @@ const BlogDetail = () => {
             </div>
 
             {/* Modal */}
-            <ContactModal t={t} open={openContactModal} onClose={() => setOpenContactModal(false)} />
+            <ContactModal
+                t={t}
+                open={openContactModal}
+                content={`I am interested in blog ${blog?.title} `}
+                onClose={() => setOpenContactModal(false)}
+            />
         </div>
     );
 };

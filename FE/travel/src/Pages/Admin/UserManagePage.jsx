@@ -70,7 +70,7 @@ export default function UserManagePage() {
             avatarUrl: form?.avatarUrl,
             isActive: form?.isActive,
             roles: form?.roles,
-            note: form?.note,
+            // note: form?.note,
         });
         if (newUser?.status === 200) {
             mutate();
@@ -213,14 +213,14 @@ export default function UserManagePage() {
                         sx={{ mb: 2 }}
                     />
                     {form?.avatar_url && <img src={form.avatar_url} alt="" width={100} />}
-                    <TextField
+                    {/* <TextField
                         label="Note"
                         name="note"
                         value={form?.note}
                         onChange={handleChange}
                         fullWidth
                         sx={{ marginBottom: "1rem" }}
-                    />
+                    /> */}
                     <FormControlLabel
                         control={
                             <Checkbox

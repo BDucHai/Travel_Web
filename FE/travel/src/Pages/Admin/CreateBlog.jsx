@@ -36,7 +36,7 @@ const CreateBlog = () => {
         slugEn: data?.slugEn || "",
         slugFr: data?.slugFr || "",
 
-        isFeature: false,
+        isFeature: data?.isFeatured || false,
         viewCount: data?.view_count || 0,
     });
 
@@ -85,8 +85,8 @@ const CreateBlog = () => {
                     slugFr: blog?.slugFr || "",
 
                     relatedToursIds: blog?.tourRelated?.map((i) => i?.id),
-
-                    isFeature: blog?.isFeature,
+                    isMostRead: true,
+                    isFeatured: blog?.isFeature,
                     viewCount: blog?.viewCount || 0,
                     status: "PUBLISHED",
                 },
@@ -112,8 +112,8 @@ const CreateBlog = () => {
 
                 slugEn: blog?.slugEn || "",
                 slugFr: blog?.slugFr || "",
-
-                isFeature: blog?.isFeature,
+                isMostRead: true,
+                isFeatured: blog?.isFeature,
                 viewCount: blog?.viewCount || 0,
                 status: "PUBLISHED",
             });

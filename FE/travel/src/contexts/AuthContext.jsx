@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
     const logout = () => setUser(null);
 
     const changeLang = (newLang) => {
-        setLang(newLang);
+        setLang(newLang || "en");
     };
 
     useEffect(() => {

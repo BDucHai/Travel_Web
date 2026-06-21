@@ -16,15 +16,14 @@ import { Backdrop, CircularProgress } from "@mui/material";
 
 const Blog = () => {
     const { t } = useTranslation();
-    const { lang } = useAuth;
+    const { lang } = useAuth();
     const navigate = useNavigate();
-
     const [openContactModal, setOpenContactModal] = useState(false);
 
     const [params, setParams] = useState({
         page: 0,
         limit: 8,
-        lang,
+        lang: lang,
     });
 
     const [listBlog, setListBlog] = useState([]);
@@ -35,7 +34,7 @@ const Blog = () => {
         getBlog(params),
     );
 
-    const hasMore = (listBlogs?.pagination?.page || 1) < (listBlogs?.pagination?.totalPages || 1);
+    const hasMore = (listBlogs?.page || 1) < (listBlogs?.totalPages || 1);
 
     useEffect(() => {
         if (!listBlogs?.data) return;
@@ -127,7 +126,7 @@ const Blog = () => {
                                         <div className="flex items-center text-sm text-dark mt-4">
                                             <span className="flex items-center mr-[0.8rem]">
                                                 {" "}
-                                                <CiCalendar className="mr-[0.2rem]" /> new
+                                                <CiCalendar className="mr-[0.2rem]" />
                                                 {new Date(mostReadBlogs?.[0]?.publishedAt).toLocaleDateString("vi-VN")}
                                             </span>
                                             <span className="flex items-center">
@@ -149,7 +148,7 @@ const Blog = () => {
                                                 navigate(`/blog/detail/${post?.slug}`);
                                             }}>
                                             <img
-                                                src={post?.image}
+                                                src={post?.heroImageUrl}
                                                 alt={post?.id}
                                                 className="w-full lg:w-1/3 object-cover"
                                             />

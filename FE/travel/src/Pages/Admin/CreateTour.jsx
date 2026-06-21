@@ -199,7 +199,8 @@ const CreateTour = () => {
 
                 isFeatured: Boolean(tour?.is_featured),
                 isActive: Boolean(tour?.is_active),
-
+                featuredImageUrl: tour?.featuredImage,
+                imageUrls: tour?.galleryImages || [],
                 status: "PUBLISHED",
 
                 styleIds: tour?.styles?.map((x) => x.id) || [],
@@ -210,18 +211,6 @@ const CreateTour = () => {
 
             const formData = new FormData();
             formData.append("data", JSON.stringify(payload));
-
-            // ✅ FEATURE IMAGE (nếu là file)
-            if (tour?.featuredImage instanceof File) {
-                formData.append("featuredImage", tour.featuredImage);
-            }
-
-            // ❗ GALLERY IMAGES
-            (tour?.galleryImages || []).forEach((img) => {
-                if (img instanceof File) {
-                    formData.append("galleryImages", img);
-                }
-            });
 
             // itinerary images
             destinationDays.forEach((day) => {
@@ -292,6 +281,8 @@ const CreateTour = () => {
                 isFeatured: Boolean(tour?.is_featured),
                 isActive: Boolean(tour?.is_active),
 
+                featuredImageUrl: tour?.featuredImage,
+                imageUrls: tour?.galleryImages || [],
                 status: "PUBLISHED",
 
                 styleIds: tour?.styles?.map((x) => x.id) || [],
@@ -303,17 +294,17 @@ const CreateTour = () => {
             const formData = new FormData();
             formData.append("data", JSON.stringify(payload));
 
-            // ✅ FEATURE IMAGE
-            if (tour?.featuredImage instanceof File) {
-                formData.append("featuredImage", tour.featuredImage);
-            }
+            // //  FEATURE IMAGE
+            // if (tour?.featuredImage instanceof File) {
+            //     formData.append("featuredImage", tour.featuredImage);
+            // }
 
-            // ❗ GALLERY IMAGES
-            (tour?.galleryImages || []).forEach((img) => {
-                if (img instanceof File) {
-                    formData.append("galleryImages", img);
-                }
-            });
+            // // GALLERY IMAGES
+            // (tour?.galleryImages || []).forEach((img) => {
+            //     if (img instanceof File) {
+            //         formData.append("galleryImages", img);
+            //     }
+            // });
 
             destinationDays.forEach((day) => {
                 if (day?.imageUrl instanceof File) {
