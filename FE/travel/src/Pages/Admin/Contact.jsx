@@ -16,13 +16,14 @@ export default function Contact() {
         limit: 10,
     });
 
-    const { data: contacts, mutate, isLoading } = useSWR(["/admin/contact-messages", params], ([url, params]) =>
-        getContacts(url, params),
-    );
+    const {
+        data: contacts,
+        mutate,
+        isLoading,
+    } = useSWR(["/admin/contact-messages", params], ([url, params]) => getContacts(url, params));
 
-
-    const updateStatus = async (id) => {
-        await updateStatusContact(id);
+    const updateStatus = async ({ id, status }) => {
+        await updateStatusContact(id, status);
         await mutate();
     };
 
@@ -33,33 +34,31 @@ export default function Contact() {
 
     return (
         <Box className="bg-[radial-gradient(circle,_#0e3637_0%,_#0d0d11ab_70%)] text-white min-h-screen p-6">
-           <Tabs
+            <Tabs
                 value={params?.status}
                 textColor="inherit"
                 indicatorColor="secondary"
                 sx={{
                     "& .MuiTab-root": {
-                    color: "#fff",          
-                    textTransform: "none",  
-                    fontWeight: 500,
+                        color: "#fff",
+                        textTransform: "none",
+                        fontWeight: 500,
                     },
                     "& .Mui-selected": {
-                    color: "#fff",         
+                        color: "#fff",
                     },
                 }}
                 onChange={(_, newValue) =>
                     setParams((prev) => ({
-                    ...prev,
-                    status: newValue,
-                    page: 0,
+                        ...prev,
+                        status: newValue,
+                        page: 0,
                     }))
-                }
-                >
+                }>
                 {statusTabs.map((s) => (
                     <Tab key={s.value} label={s.label} value={s.value} />
                 ))}
-                </Tabs>
-
+            </Tabs>
 
             <div className="mt-6 space-y-4">
                 {contacts?.data?.map((c) => (
@@ -84,7 +83,7 @@ export default function Contact() {
                                         variant="contained"
                                         color="success"
                                         size="small"
-                                        onClick={() => updateStatus(c?.id)}>
+                                        onClick={() => updateStatus({id: c?.id, status: "DONE"})}>
                                         Accept
                                     </Button>
                                 </>
@@ -105,16 +104,16 @@ export default function Contact() {
                     <Pagination
                         page={params?.page + 1}
                         count={contacts?.totalPages || 1}
-                         sx={{
+                        sx={{
                             "& .MuiPaginationItem-root": {
-                            color: "#fff", 
+                                color: "#fff",
                             },
                             "& .MuiPaginationItem-root.Mui-selected": {
-                            backgroundColor: "#fff",
-                            color: "#000",          
+                                backgroundColor: "#fff",
+                                color: "#000",
                             },
                             "& .MuiPaginationItem-root:hover": {
-                            backgroundColor: "rgba(255,255,255,0.2)", 
+                                backgroundColor: "rgba(255,255,255,0.2)",
                             },
                         }}
                         color="primary"

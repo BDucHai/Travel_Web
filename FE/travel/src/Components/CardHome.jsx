@@ -8,7 +8,7 @@ const CardHome = ({ tour }) => {
     const navigate = useNavigate();
     return (
         <div
-            className="relative flex flex-col w-full h-[22rem] lg:h-[28rem] border-[1px] border-[#3b97897d] rounded-[0.2rem] bg-white overflow-hidden"
+            className="relative flex flex-col w-full h-[22rem] lg:h-[24rem] border-[1px] border-[#3b97897d] rounded-[0.2rem] bg-white overflow-hidden"
             onClick={() => navigate(`/tours/detail/${tour?.slug}`)}>
             <div className="h-[45%] overflow-hidden">
                 <img
@@ -33,11 +33,11 @@ const CardHome = ({ tour }) => {
                 <div className="bg-text-sub-content text-wrap text-ellipsis line-clamp-[4] mt-[0.5rem]">
                     {tour?.shortDescription}
                 </div>
-                {tour?.createdAt && (
+                {/* {tour?.createdAt && (
                     <div className="text-[0.85rem] text-wrap text-ellipsis line-clamp-[4]">
                         {new Date(tour?.createdAt).toLocaleDateString("vi-VN")}
                     </div>
-                )}
+                )} */}
 
                 <div className="flex items-center mt-auto uppercase text-[#d38518] font-bold cursor-pointer">
                     {t("viewTour")} <FaLongArrowAltRight className="ml-2" />

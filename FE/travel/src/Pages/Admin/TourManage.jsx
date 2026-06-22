@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useSWR from "swr";
-import { deleteTours, getToursAdmin, updateTours } from "../../api/Tour";
+import { deleteTours, getToursAdmin, updateStatusTour } from "../../api/Tour";
 import { DataGrid } from "@mui/x-data-grid";
 import { motion } from "framer-motion";
 import Tooltip from "@mui/material/Tooltip";
 import { CiUnlock, CiLock, CiEdit } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
 import { Checkbox } from "@mui/material";
-
 
 const TourManage = () => {
     const navigate = useNavigate();
@@ -29,7 +28,7 @@ const TourManage = () => {
 
     const handleChangeActive = async ({ id, data, status }) => {
         setLoading(true);
-        await updateTours({ id, data: { ...data, isActive: status } });
+        await updateStatusTour({ id, status });
         await mutate();
         setLoading(false);
     };
@@ -89,14 +88,14 @@ const TourManage = () => {
             },
         },
         {
-            field: "isActive",
+            field: "status",
             headerName: "isActive",
             flex: 1,
             minWidth: 120,
             renderCell: (params) => {
                 return (
                     <div className="flex items-center justify-center">
-                        <Checkbox checked={params?.value} disabled />
+                        <Checkbox checked={params?.value === "PUBLISHED"} disabled />
                     </div>
                 );
             },
@@ -117,16 +116,15 @@ const TourManage = () => {
             renderCell: (params) => {
                 return (
                     <div className="flex items-center justify-center w-full h-full gap-2">
-                        <Tooltip title="UnActive Tour">
-                            <div
-                                onClick={() =>
-                                    handleChangeActive({
-                                        id: params?.row?.id,
-                                        data: params?.row,
-                                        status: params?.row?.isActive ? false : true,
-                                    })
-                                }
-                                className="
+                        <div
+                            onClick={() =>
+                                handleChangeActive({
+                                    id: params?.row?.id,
+                                    data: params?.row,
+                                    status: params?.row?.status === "PUBLISHED"? "DRAFT": "PUBLISHED",
+                                })
+                            }
+                            className="
                         px-3 py-1
                          rounded-md
                         bg-transparent
@@ -135,16 +133,15 @@ const TourManage = () => {
                         text-sm
                         cursor-pointer
                     ">
-                                {params?.row?.isActive ? (
-                                    <CiLock className="w-[1rem] h-[1rem]" />
-                                ) : (
-                                    <CiUnlock className="w-[1rem] h-[1rem]" />
-                                )}
-                            </div>
-                        </Tooltip>
+                            {params?.row?.status === "PUBLISHED" ? (
+                                <CiLock className="w-[1rem] h-[1rem]" />
+                            ) : (
+                                <CiUnlock className="w-[1rem] h-[1rem]" />
+                            )}
+                        </div>
 
                         <div
-                            onClick={() => navigate(`/admin/create/tour/${params?.row?.id}`)}
+                            onClick={() => navigate(`/admin/update/tour/${params?.row?.id}`)}
                             className="
                         px-3 py-1
                         rounded-md
@@ -297,7 +294,7 @@ const TourManage = () => {
                         },
 
                         "& .MuiDataGrid-columnHeaderTitle": {
-                            color: "#151617 !important",
+                            color: "#536d87 !important",
                             fontWeight: 600,
                         },
 

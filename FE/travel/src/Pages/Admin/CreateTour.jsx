@@ -12,18 +12,13 @@ import { uploadImage } from "../../utils/uploadImage";
 
 const CreateTour = () => {
     const { id } = useParams();
+    console.log(id);
+    const safeId = id && id !== "undefined" ? id : null;
     const navigate = useNavigate();
-    const { data: tourDetail, isLoading } = useSWR(id ? ["/tours", id] : null, ([_, id]) => getToursAdminById(id));
+    const { data: tourDetail, isLoading } = useSWR(safeId ? ["/tours", safeId] : null, ([_, safeId]) =>
+        getToursAdminById(safeId),
+    );
     const [loading, setLoading] = useState(false);
-    // const [styleSearch, setStyleSearch] = useState("");
-    // const [collectionSearch, setCollectionSearch] = useState("");
-    // const [destinationSearch, setDestinationSearch] = useState("");
-
-    // const [debouncedStyleSearch] = useDebounce(styleSearch, 1000);
-
-    // const [debouncedCollectionSearch] = useDebounce(collectionSearch, 1000);
-
-    // const [debouncedDestinationSearch] = useDebounce(destinationSearch, 1000);
 
     const { data: styles = [] } = useSWR(["/tour-styles", { lang: "en" }], ([_, params]) => getStyles(params));
 
@@ -203,8 +198,9 @@ const CreateTour = () => {
                 imageUrls: tour?.galleryImages || [],
                 status: "PUBLISHED",
 
-                styleIds: tour?.styles?.map((x) => x.id) || [],
-                collectionIds: tour?.collections?.map((x) => x.id) || [],
+                styleIds: tour?.styles?.map((x) => x?.id) || [],
+                collectionIds: tour?.collections?.map((x) => x?.id) || [],
+                destinationIds: tour?.destinations?.map((x) => x?.id) || [],
 
                 itineraryDays: itineraryDaysPayload,
             };
@@ -219,7 +215,7 @@ const CreateTour = () => {
                 }
             });
 
-            const res = await updateTours(id, formData);
+            const res = await updateTours({ id, data: formData });
 
             if (res?.status === 200) {
                 navigate("/admin/tours");
@@ -285,8 +281,9 @@ const CreateTour = () => {
                 imageUrls: tour?.galleryImages || [],
                 status: "PUBLISHED",
 
-                styleIds: tour?.styles?.map((x) => x.id) || [],
-                collectionIds: tour?.collections?.map((x) => x.id) || [],
+                styleIds: tour?.styles?.map((x) => x?.id) || [],
+                collectionIds: tour?.collections?.map((x) => x?.id) || [],
+                destinationIds: tour?.destinations?.map((x) => x?.id) || [],
 
                 itineraryDays: itineraryDaysPayload,
             };
@@ -392,7 +389,7 @@ const CreateTour = () => {
                         <p className="text-slate-400 mt-1">Create new travel experience</p>
                     </div>
 
-                    <Button variant="contained" onClick={id ? handleUpdate() : handleSubmit}>
+                    <Button variant="contained" onClick={safeId ? handleUpdate : handleSubmit}>
                         Save Tour
                     </Button>
                 </div>
@@ -552,7 +549,24 @@ const CreateTour = () => {
                     ">
                                 <div className="flex gap-4">
                                     <div className="w-32">
-                                        <TextField label="Day" value={item?.dayNumber} fullWidth sx={darkTextField} />
+                                        <TextField
+                                            label="Day"
+                                            value={item?.dayNumber}
+                                            onChange={(e) => {
+                                                setDestinationDays((prev) =>
+                                                    prev.map((item, i) =>
+                                                        i === index
+                                                            ? {
+                                                                  ...item,
+                                                                  dayNumber: e.target.value,
+                                                              }
+                                                            : item,
+                                                    ),
+                                                );
+                                            }}
+                                            fullWidth
+                                            sx={darkTextField}
+                                        />
                                     </div>
 
                                     <div className="flex-1">
@@ -878,7 +892,7 @@ const CreateTour = () => {
                 </div>
 
                 <div className="flex items-center justify-end mt-[1rem]">
-                    <Button variant="contained" onClick={id ? handleUpdate() : handleSubmit}>
+                    <Button variant="contained" onClick={id ? handleUpdate : handleSubmit}>
                         Save Tour
                     </Button>
                 </div>

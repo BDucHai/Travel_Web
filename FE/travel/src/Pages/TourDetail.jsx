@@ -24,8 +24,8 @@ const TourDetail = () => {
             {/* HERO */}
             <div className="relative h-[70vh] w-full overflow-hidden">
                 <img
-                    src="https://images.unsplash.com/photo-1528127269322-539801943592"
-                    alt="tourDetail?.slug"
+                    src={tourDetail?.featuredImageUrl}
+                    alt={tourDetail?.slug}
                     className="w-full h-full object-cover scale-105"
                 />
 

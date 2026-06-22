@@ -38,7 +38,7 @@ export const updateContacts = async ({ id, data }) => {
 
 export const updateStatusContact = async (id, status) => {
     try {
-        const res = await axiosClient.patch(`/admin/contact-messages/${id}/status`);
+        const res = await axiosClient.patch(`/admin/contact-messages/${id}/status`, {status});
         toast.success(i18n.t("notify.update_success"));
         return res?.data;
     } catch (err) {

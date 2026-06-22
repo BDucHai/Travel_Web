@@ -12,7 +12,7 @@ const SearchTour = () => {
     const { lang } = useAuth();
     const duration = searchParams.get("duration");
     const region = searchParams.get("region");
-    const destinations = searchParams.get("destinationSlug");
+    const destinationSlug = searchParams.get("destinationSlug");
     const styleSlug = searchParams.get("styleSlug");
     const collectionSlug = searchParams.get("collectionSlug");
 
@@ -22,7 +22,7 @@ const SearchTour = () => {
     const [filterSearch, setFilterSearch] = useState({
         duration: searchParams.get("duration"),
         region: searchParams.get("region"),
-        destinations: searchParams.get("destinationSlug"),
+        destinationSlug: searchParams.get("destinationSlug"),
         styleSlug: searchParams.get("styleSlug"),
         collectionSlug: searchParams.get("collectionSlug"),
         page: 0,
@@ -39,7 +39,7 @@ const SearchTour = () => {
         setFilterSearch({
             duration,
             region,
-            destinations,
+            destinationSlug,
             styleSlug,
             collectionSlug,
             page: 0,
@@ -48,7 +48,7 @@ const SearchTour = () => {
         });
 
         setAllTours([]);
-    }, [duration, region, destinations, styleSlug, collectionSlug, lang]);
+    }, [duration, region, destinationSlug, styleSlug, collectionSlug, lang]);
 
     useEffect(() => {
         if (!data) return;

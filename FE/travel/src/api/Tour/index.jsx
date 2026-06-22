@@ -16,7 +16,7 @@ export const createTours = async (data) => {
 
 export const deleteTours = async (id) => {
     try {
-        await axiosClient.delete(`/tours/${id}`);
+        await axiosClient.delete(`/admin/tours/${id}`);
 
         toast.success(i18n.t("notify.delete_success"));
     } catch (error) {
@@ -45,7 +45,7 @@ export const getToursById = async (url, params) => {
 
 export const updateTours = async ({ id, data }) => {
     try {
-        const res = await axiosClient.put(`/admin/tours/${id}`, data);
+        const res = await axiosClient.put(`/admin/tours/update/with-images/${id}`, data);
 
         toast.success(i18n.t("notify.update_success"));
 
@@ -69,7 +69,7 @@ export const getToursAdminById = async (id) => {
 
 export const updateStatusTour = async ({ id, status }) => {
     try {
-        await axiosClient.post(`/admin/tours/${id}`, { id, status });
+        await axiosClient.patch(`/admin/tours/${id}/status`, { status });
         toast.success(i18n.t("notify.update_success"));
     } catch (err) {
         toast.error(i18n.t("notify.update_fail"));

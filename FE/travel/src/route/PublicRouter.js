@@ -32,14 +32,14 @@ const routesNavSticky = [
 
 const routeAdmin = [
     { path: "/admin/create/blog", component: CreateBlog, roles: ["user", "admin"] },
-    { path: "/admin/create/blog/:id", component: CreateBlog, roles: ["user", "admin"] },
+    { path: "/admin/update/blog/:id", component: CreateBlog, roles: ["user", "admin"] },
     { path: "/admin/review", component: ReviewAdminPage, roles: ["user", "admin"] },
     { path: "/admin/blog", component: BlogManage, roles: ["user", "admin"] },
     { path: "/admin/contact", component: Contact, roles: ["user", "admin"] },
     { path: "/admin/manageUser", component: UserManagePage, roles: ["admin"] },
     { path: "/admin/tour", component: TourManage, roles: ["user", "admin"] },
     { path: "/admin/create/tour", component: CreateTour, roles: ["user", "admin"] },
-    { path: "/admin/create/tour/:id", component: CreateTour, roles: ["user", "admin"] },
+    { path: "/admin/update/tour/:id", component: CreateTour, roles: ["user", "admin"] },
     { path: "/admin/profile/:id", component: ProfilePage, roles: ["user", "admin"] },
     { path: "/admin/destinations", component: DestinationList, roles: ["user", "admin"] },
     { path: "/admin/destinations/create/:id?", component: CreateDestination, roles: ["user", "admin"] },

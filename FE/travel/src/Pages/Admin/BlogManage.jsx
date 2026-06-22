@@ -83,7 +83,7 @@ const BlogManage = () => {
                 return (
                     <div className="flex items-center justify-center w-full h-full gap-2">
                         <button
-                            onClick={() => navigate(`/admin/create/blog/${params?.row?.id}`)}
+                            onClick={() => navigate(`/admin/update/blog/${params?.row?.id}`)}
                             className="
                         px-3 py-1
                         rounded-md
@@ -232,7 +232,7 @@ const BlogManage = () => {
                         },
 
                         "& .MuiDataGrid-columnHeaderTitle": {
-                            color: "#131415 !important",
+                            color: "#6486a8 !important",
                             fontWeight: 600,
                         },
 

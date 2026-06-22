@@ -288,18 +288,20 @@ const CreateBlog = () => {
 
                 {/* RelatedTour */}
                 <Autocomplete
+                    multiple
                     options={tours?.data || []}
-                    value={blog?.tour}
+                    value={blog?.tourRelated || []}
                     onChange={(_, value) =>
                         setBlog((prev) => ({
                             ...prev,
                             tourRelated: value,
                         }))
                     }
-                    sx={darkTextField}
                     onInputChange={(_, value) => setTourSearch(value)}
                     getOptionLabel={(option) => option?.titleEn || ""}
-                    renderInput={(params) => <TextField {...params} label="Select Tour Realted" />}
+                    isOptionEqualToValue={(option, value) => option.id === value.id}
+                    sx={darkTextField}
+                    renderInput={(params) => <TextField {...params} label="Select Tour Related" />}
                 />
 
                 {/* HERO IMAGE */}
