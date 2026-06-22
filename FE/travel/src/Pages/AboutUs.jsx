@@ -4,6 +4,11 @@ import { useTranslation } from "react-i18next";
 import { imgReason } from "../assets/images";
 import ContactModal from "../Components/ContactModal";
 
+import Avatar from "@mui/material/Avatar";
+import useSWR from "swr";
+import { getActiveUser } from "../api/User";
+import { Tooltip } from "@mui/material";
+
 const AboutUs = () => {
     const { t } = useTranslation();
 
@@ -71,22 +76,7 @@ const AboutUs = () => {
         },
     ];
 
-    const member = [
-        {
-            id: 1,
-            img: "https://www.vietnamworks.com/hrinsider/wp-content/uploads/2023/12/anh-den-ngau.jpeg",
-            name: "Phuong Hoang",
-            role: "Representative in Vietnam",
-            description:
-                "Been with the company since 2006, Mai set the example of pursuing a determined career path by getting hands on with various roles within the company including operations, customer services and management. Throughout the years, Mai has acquired extensive knowledge and experiences of tourism offerings and services in",
-        },
-        {
-            id: 2,
-            img: "https://www.vietnamworks.com/hrinsider/wp-content/uploads/2023/12/anh-den-ngau.jpeg",
-            name: "Mr Manh Hoa NGUYEN",
-            role: "Founder",
-        },
-    ];
+    const { data: member } = useSWR("/auth/active-customers", getActiveUser);
 
     const representativeFrance = [
         {
@@ -214,23 +204,25 @@ const AboutUs = () => {
 
                     <hr className="mx-auto mt-[0.5rem] w-[4rem] border-2 text-[#efb771]" />
                 </div>
-                <div className="flex gap-[1.5rem] lg:gap-[4rem] lg:px-[1rem] xl:px-[2rem]">
-                    {member.map((item) => (
-                        <div key={item.id} className=" flex-1 flex flex-col lg:flex-row gap-[2rem] items-start">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-[1.5rem] lg:gap-[4rem] lg:px-[1rem] xl:px-[2rem]">
+                    {member?.map((item) => (
+                        <div key={item?.id} className=" flex-1 flex flex-col lg:flex-row gap-[2rem] items-start overflow-clip">
                             {/* Image */}
-                            <div className="w-[5rem] h-[5rem] shrink-0">
+                            {item?.avatarUrl ?  <div className="w-[5rem] h-[5rem] shrink-0">
                                 <img
-                                    src={item?.img}
-                                    alt={item?.name}
+                                    src={item?.avatarUrl}
+                                    alt={item?.fullName}
                                     className="w-full h-full rounded-full object-cover"
                                 />
-                            </div>
+                            </div> : <div className="w-full h-full rounded-full object-cover"><Avatar>{item?.fullName?.charAt(0)}</Avatar></div>}
+                           
                             <div className="flex flex-col gap-2">
-                                <div className="text-[1.5rem] font-[500]">{item?.name}</div>
+                                <div className="text-[1rem] font-[500]">{item?.fullName}</div>
 
-                                <div className="text-[#d48b32]">{item?.role}</div>
+                                {/* <div className="text-[#d48b32]">{item?.roles?.join(",")}</div> */}
 
-                                <div className="text-justify leading-[2rem]">{item?.description}</div>
+                                <Tooltip title={item?.email}><div className="text-justify leading-[2rem]">{item?.email}</div></Tooltip>
+                                <Tooltip title={item?.phone}><div className="text-justify leading-[2rem]">{item?.phone}</div></Tooltip>
                             </div>
                         </div>
                     ))}

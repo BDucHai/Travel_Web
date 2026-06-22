@@ -19,7 +19,7 @@ const Footer = () => {
         const res = await createContacts({
             email: sendMail,
         });
-        if (res?.status === 200) {
+        if (res) {
             setSendMail("");
         }
     };

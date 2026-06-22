@@ -91,7 +91,7 @@ const CreateBlog = () => {
                     status: "PUBLISHED",
                 },
             });
-            if (res?.status === 200) {
+            if (res) {
                 navigate("/admin/blog");
             }
         } else {
@@ -117,7 +117,7 @@ const CreateBlog = () => {
                 viewCount: blog?.viewCount || 0,
                 status: "PUBLISHED",
             });
-            if (res?.status === 200) {
+            if (res) {
                 navigate("/admin/blog");
             }
         }

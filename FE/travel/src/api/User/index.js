@@ -21,7 +21,7 @@ export const getUserById = async ({ id }) => {
 
 export const createUser = async (data) => {
     try {
-        const response = await axiosClient.post("/users/create", data);
+        const response = await axiosClient.post("/auth/create", data);
         toast.success(i18n.t("notify.create_success"));
         return response?.data;
     } catch (error) {
@@ -30,16 +30,19 @@ export const createUser = async (data) => {
     }
 };
 
-export const getUsers = async (params) => {
-    const response = await axiosClient.get("/users", {
-        params,
-    });
+export const getUsers = async () => {
+    const response = await axiosClient.get("/auth/user");
     return response?.data;
 };
 
+export const getActiveUser = async () =>{
+    const response = await axiosClient.get("/auth/active-customers");
+    return response?.data;
+}
+
 export const deleteUser = async (id) => {
     try {
-        await axiosClient.delete(`/users/${id}`);
+        await axiosClient.delete(`/admin/${id}`);
         toast.success(i18n.t("notify.delete_success"));
     } catch (error) {
         toast.error(i18n.t("notify.delete_fail"));

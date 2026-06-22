@@ -12,6 +12,8 @@ import {
     Checkbox,
     Select,
     MenuItem,
+    Backdrop,
+    CircularProgress,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { CiUnlock, CiLock } from "react-icons/ci";
@@ -23,7 +25,7 @@ import { uploadImage } from "../../utils/uploadImage";
 
 export default function UserManagePage() {
     const [open, setOpen] = useState(false);
-
+    const [loading, setLoading] = useState(false);
     const [params, setParams] = useState({
         page: 0,
         limit: 20,
@@ -33,46 +35,33 @@ export default function UserManagePage() {
         full_name: "",
         username: "",
         password: "",
+        email: "",
+        phone: "",
         avatar_url: "",
         is_active: true,
-        roles: "user",
+        roles: "USER",
         note: "",
     });
 
-    const { data: users, mutate } = useSWR(["/users", params], ([_, params]) => getUsers(params));
+    const { data: users, mutate } = useSWR("/auth/users", getUsers);
 
-    const userFake = [
-        {
-            id: 1,
-            full_name: "Nguyen Van A",
-            username: "a@example.com",
-            avatar_url: "https://i.pravatar.cc/100?img=1",
-            is_active: true,
-            roles: "admin",
-        },
-        {
-            id: 2,
-            full_name: "Tran Thi B",
-            username: "b@example.com",
-            avatar_url: "https://i.pravatar.cc/100?img=2",
-            is_active: false,
-            roles: "user",
-        },
-    ];
 
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
     const handleSubmit = async () => {
+        setLoading(true);
         const newUser = await createUser({
             username: form?.username,
-            fullName: form?.fullName,
+            fullName: form?.full_name,
+            email: form?.email,
+            phone: form?.phone,
             password: form?.password,
-            avatarUrl: form?.avatarUrl,
-            isActive: form?.isActive,
-            roles: form?.roles,
+            avatarUrl: form?.avatar_url,
+            isActive: form?.is_active,
+            roleId: form?.roles === "ROLE_ADMIN"? 1: 2,
             // note: form?.note,
         });
-        if (newUser?.status === 200) {
+        if (newUser?.username) {
             mutate();
             setOpen(false);
             setForm({
@@ -81,13 +70,15 @@ export default function UserManagePage() {
                 password: "",
                 avatar_url: "",
                 is_active: true,
-                roles: "user",
+                roles: "USER",
                 note: "",
             });
         }
+        setLoading(false);
     };
 
     const handleAvatarUpload = async (e) => {
+        setLoading(true);
         const file = e.target.files?.[0];
 
         if (!file) return;
@@ -102,11 +93,14 @@ export default function UserManagePage() {
         } catch (error) {
             console.error(error);
         }
+        setLoading(false);
     };
 
     const handleDelete = async (id) => {
+        setLoading(true);
         await deleteUser(id);
         mutate();
+        setLoading(false);
     };
 
     const toggleActive = async ({ id, status }) => {
@@ -123,7 +117,7 @@ export default function UserManagePage() {
             </Button>
 
             <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-                {(users || userFake)?.map((u) => (
+                {(users)?.map((u) => (
                     <motion.div
                         key={u?.id}
                         initial={{ opacity: 0, y: 20 }}
@@ -213,14 +207,22 @@ export default function UserManagePage() {
                         sx={{ mb: 2 }}
                     />
                     {form?.avatar_url && <img src={form.avatar_url} alt="" width={100} />}
-                    {/* <TextField
-                        label="Note"
-                        name="note"
-                        value={form?.note}
+                    <TextField
+                        label="Email"
+                        name="email"
+                        value={form?.email}
                         onChange={handleChange}
                         fullWidth
                         sx={{ marginBottom: "1rem" }}
-                    /> */}
+                    />
+                    <TextField
+                        label="phone"
+                        name="phone"
+                        value={form?.phone}
+                        onChange={handleChange}
+                        fullWidth
+                        sx={{ marginBottom: "1rem" }}
+                    />
                     <FormControlLabel
                         control={
                             <Checkbox
@@ -242,6 +244,16 @@ export default function UserManagePage() {
                     </Button>
                 </DialogActions>
             </Dialog>
+
+            <Backdrop
+                open={loading}
+                sx={{
+                    color: "#fff",
+                    zIndex: (theme) => theme.zIndex.drawer + 9999,
+                    backgroundColor: "rgba(0,0,0,0.35)",
+                }}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </Box>
     );
 }

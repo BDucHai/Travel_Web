@@ -217,7 +217,7 @@ const CreateTour = () => {
 
             const res = await updateTours({ id, data: formData });
 
-            if (res?.status === 200) {
+            if (res) {
                 navigate("/admin/tours");
             }
         } catch (error) {
@@ -311,7 +311,7 @@ const CreateTour = () => {
 
             const res = await createTours(formData);
 
-            if (res?.status === 200 || res?.status === 201) {
+            if (res) {
                 navigate("/admin/tours");
             }
         } catch (error) {

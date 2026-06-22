@@ -26,7 +26,7 @@ const ContactModal = ({ t, open, onClose, content = "" }) => {
     const handleCreateRequest = async () => {
         setLoading(true);
         const res = await createContacts(contactPlan);
-        if (res?.status === 200) {
+        if (res) {
             onClose();
         }
         setLoading(false);
@@ -69,6 +69,7 @@ const ContactModal = ({ t, open, onClose, content = "" }) => {
                     label={t("your_request")}
                     multiline
                     rows={5}
+                    value={contactPlan?.message}
                     fullWidth
                     variant="outlined"
                     margin="normal"
@@ -79,6 +80,7 @@ const ContactModal = ({ t, open, onClose, content = "" }) => {
                 <TextField
                     label={t("your_email")}
                     fullWidth
+                    value={contactPlan?.email}
                     variant="outlined"
                     margin="normal"
                     onChange={(e) => setContactPlan((prev) => ({ ...prev, email: e.target.value }))}
@@ -86,6 +88,7 @@ const ContactModal = ({ t, open, onClose, content = "" }) => {
                 <TextField
                     label={t("your_name")}
                     fullWidth
+                    value={contactPlan?.fullName}
                     variant="outlined"
                     margin="normal"
                     onChange={(e) => setContactPlan((prev) => ({ ...prev, fullName: e.target.value }))}
@@ -93,6 +96,7 @@ const ContactModal = ({ t, open, onClose, content = "" }) => {
                 <TextField
                     label={t("your_phone")}
                     fullWidth
+                    value={contactPlan?.phoneNumber}
                     variant="outlined"
                     margin="normal"
                     onChange={(e) => setContactPlan((prev) => ({ ...prev, phoneNumber: e.target.value }))}

@@ -54,12 +54,12 @@ export default function CreateDestination() {
         e.preventDefault();
         if (isEdit) {
             const res = await updateDestination(id, destination);
-            if (res?.status === 200) {
+            if (res) {
                 navigate("/admin/destinations");
             }
         } else {
             const res = await createDestinations(destination);
-            if (res?.status === 200) {
+            if (res) {
                 navigate("/admin/destinations");
             }
         }

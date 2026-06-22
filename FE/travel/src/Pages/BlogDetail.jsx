@@ -286,12 +286,12 @@ const BlogDetail = () => {
             </div>
 
             {/* Modal */}
-            <ContactModal
+            {blog &&  <ContactModal
                 t={t}
                 open={openContactModal}
                 content={`I am interested in blog ${blog?.title} `}
                 onClose={() => setOpenContactModal(false)}
-            />
+            />}  
         </div>
     );
 };
