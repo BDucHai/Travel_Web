@@ -147,7 +147,7 @@ const Home = () => {
                 <div className="flex-box-center mt-[1.5rem]">
                     <div
                         className="px-[3rem] py-[0.5rem] border-[2px] border-[#d38518] text-[#d38518] font-semibold uppercase cursor-pointer hover:bg-[#c39562] hover:text-white"
-                        onClick={() => navigate("/tour")}>
+                        onClick={() => navigate("/tours")}>
                         {t("view_all_tour")}
                     </div>
                 </div>

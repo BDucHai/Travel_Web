@@ -167,7 +167,7 @@ const Navbar = ({ home }) => {
                           className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 text-[#ef8d21] text-[1rem] uppercase font-semibold rounded-[6px] cursor-pointer"
                           onClick={() =>
                             navigate(
-                              `/tour/search?style=all&title=navbar.all_style_tour`
+                              `/tours/search?style=all&title=navbar.all_style_tour`
                             )
                           }
                         >
