@@ -643,8 +643,8 @@ const Navbar = ({ home }) => {
                       alt="frLang"
                       className="w-[2rem]"
                       onClick={() => {
-                        i18n.changeLanguage("en");
-                        changeLang("en");
+                        i18n.changeLanguage("fr");
+                        changeLang("fr");
                       }}
                     />
                   </div>
