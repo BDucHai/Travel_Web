@@ -15,6 +15,7 @@ import { getTours } from "../api/Tour";
 import { getReviews } from "../api/Review";
 import { useAuth } from "../contexts/AuthContext";
 import { Backdrop, CircularProgress } from "@mui/material";
+import { getBannerHome } from "../api/Banner";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -24,6 +25,8 @@ const Home = () => {
   const navigate = useNavigate();
 
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const { data: banners } = useSWR("/banners", getBannerHome);
 
   const { data: tours, isLoading: loadingTour } = useSWR(
     ["/tours", { page: 0, limit: 4, lang: lang }],
@@ -126,7 +129,7 @@ const Home = () => {
 
   return (
     <>
-      <Banner />
+      <Banner banners={banners}/>
       {/* TOp pick tour, style ,why reverse, clinet say 0.85 and 1.3 */}
       <div className="pb-[1rem] lg:pb-[2rem] text-[0.85rem] lg:text-[1rem] bg-[#f9f7f4]">
         <div className="text-center mb-[1rem] pb-[0.5rem] pt-[2.5rem] text-[1rem] lg:text-[1.5rem] text-[#000000c9] tracking-[1.5px] font-semibold font-inter uppercase">

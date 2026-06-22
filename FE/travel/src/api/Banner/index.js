@@ -23,3 +23,6 @@ export const deleteBanner = async (id) => {
     toast.error(i18n.t("notify.delete_fail"));
   }
 };
+
+
+export const getBannerHome = async () => axiosClient.get("/banners").then((res) => res?.data);

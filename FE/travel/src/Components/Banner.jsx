@@ -1,24 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-import { imgBanner } from "../assets/images";
 import { motion, AnimatePresence } from "framer-motion";
 import { RiArrowLeftFill, RiArrowRightFill } from "react-icons/ri";
 
-const Banner = () => {
-    const listBanner = ([
-        imgBanner.sampleBanner2,
-        imgBanner.sampleBanner,
-        imgBanner.sampleBanner1,
-    ]);
-
+const Banner = ({ banners }) => {
     const [touchStart, setTouchStart] = useState(0);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [loaded, setLoaded] = useState(Array(listBanner.length).fill(false));
+    const [loaded, setLoaded] = useState(Array(banners?.length).fill(false));
 
     const intervalRef = useRef(null);
 
     const startSlider = () => {
         intervalRef.current = setInterval(() => {
-            setCurrentIndex((prev) => (prev === listBanner.length - 1 ? 0 : prev + 1));
+            setCurrentIndex((prev) => (prev === banners?.length - 1 ? 0 : prev + 1));
         }, 300000);
     };
 
@@ -28,12 +21,12 @@ const Banner = () => {
     };
 
     const handleNext = () => {
-        setCurrentIndex((prev) => (prev === listBanner.length - 1 ? 0 : prev + 1));
+        setCurrentIndex((prev) => (prev === banners?.length - 1 ? 0 : prev + 1));
         resetSlider();
     };
 
     const handlePrev = () => {
-        setCurrentIndex((prev) => (prev === 0 ? listBanner.length - 1 : prev - 1));
+        setCurrentIndex((prev) => (prev === 0 ? banners?.length - 1 : prev - 1));
         resetSlider();
     };
 
@@ -55,12 +48,12 @@ const Banner = () => {
             }}>
             <AnimatePresence>
                 <motion.div className="flex" animate={{ x: `-${currentIndex * 100}%` }} transition={{ duration: 0.35 }}>
-                    {listBanner.map((img, index) => (
+                    {banners?.map((img, index) => (
                         <div
-                            key={index}
+                            key={img?.id}
                             className="w-full min-w-full shrink-0 min-h-[300px] md:min-h-[400px] max-h-[400px] md:max-h-[500px] lg:max-h-[600px] relative bg-gray-200">
                             <motion.img
-                                src={img}
+                                src={img?.imageUrl}
                                 alt="banner"
                                 className="w-full h-full object-cover contrast-105"
                                 loading="lazy"
