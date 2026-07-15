@@ -45,7 +45,7 @@ export const getToursById = async (url, params) => {
 
 export const updateTours = async ({ id, data }) => {
     try {
-        const res = await axiosClient.put(`/admin/tours/update/with-images/${id}`, data);
+        const res = await axiosClient.put(`/admin/tours/update/with-images/${id}?lang=en`, data);
 
         toast.success(i18n.t("notify.update_success"));
 
