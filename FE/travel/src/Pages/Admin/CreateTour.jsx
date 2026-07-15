@@ -12,10 +12,17 @@ import { uploadImage } from "../../utils/uploadImage";
 
 const CreateTour = () => {
     const { id } = useParams();
-    const safeId = id && id !== "undefined" ? id : null;
+    const safeId = id;
     const navigate = useNavigate();
-    const { data: tourDetail, isLoading } = useSWR(safeId ? ["/tours", safeId] : null, ([_, safeId]) =>
-        getToursAdminById(safeId),
+    const { data: tourDetail, isLoading } = useSWR(
+        id ? ["/tours", id] : null,
+        ([_, safeId]) => getToursAdminById(safeId),
+        {
+            revalidateOnMount: true,
+            revalidateOnFocus: false,
+            revalidateOnReconnect: false,
+            revalidateIfStale: false,
+        },
     );
     const [loading, setLoading] = useState(false);
 
