@@ -218,7 +218,7 @@ const CreateTour = () => {
             const res = await updateTours({ id, data: formData });
 
             if (res) {
-                navigate("/admin/tours");
+                navigate("/admin/tour");
             }
         } catch (error) {
             console.error(error);
@@ -312,7 +312,7 @@ const CreateTour = () => {
             const res = await createTours(formData);
 
             if (res) {
-                navigate("/admin/tours");
+                navigate("/admin/tour");
             }
         } catch (error) {
             console.error("Create tour failed:", error);
