@@ -154,7 +154,7 @@ const CreateTour = () => {
                 const hasNewFile = day?.imageUrl instanceof File;
 
                 return {
-                    id: day?.id,
+                    // id: day?.id,
                     dayNumber: day?.dayNumber || index + 1,
                     titleEn: day?.titleEn || "",
                     titleFr: day?.titleFr || "",
