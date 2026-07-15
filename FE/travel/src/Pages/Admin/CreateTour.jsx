@@ -12,7 +12,6 @@ import { uploadImage } from "../../utils/uploadImage";
 
 const CreateTour = () => {
     const { id } = useParams();
-    console.log(id);
     const safeId = id && id !== "undefined" ? id : null;
     const navigate = useNavigate();
     const { data: tourDetail, isLoading } = useSWR(safeId ? ["/tours", safeId] : null, ([_, safeId]) =>
@@ -167,7 +166,7 @@ const CreateTour = () => {
             });
 
             const payload = {
-                id: tourDetail?.id,
+                // id: tourDetail?.id,
                 code: tour?.code,
 
                 durationDays: Number(tour?.duration_days),
