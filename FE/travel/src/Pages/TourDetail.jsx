@@ -95,9 +95,16 @@ const TourDetail = () => {
                   </div>
                   <div className="flex-1 p-5">
                     <h3 className="font-semibold text-lg text-[#e38c2b]">
-                      {item?.dayNumber} — {item?.title}
+                      {t("day")} {item?.dayNumber} — {item?.title}
                     </h3>
-                    <p className="text-gray-600 mt-2">{item?.description}</p>
+                    {item?.description?.split("\n").map((para, idx, arr) => (
+                      <p
+                        key={idx}
+                        className={`text-[#000] mt-2 ${idx === arr.length - 1 ? "italic text-gray-700" : ""}`}
+                      >
+                        {para}
+                      </p>
+                  ))}
                   </div>
                 </motion.div>
               ))}

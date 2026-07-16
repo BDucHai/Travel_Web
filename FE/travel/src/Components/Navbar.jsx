@@ -37,7 +37,7 @@ const Navbar = ({ home }) => {
                         ? "absolute bg-linear-to-b from-[#2d3435f2] to-[#3c4d5678] text-white"
                         : "sticky top-0 bg-[#fff] text-[#000]"
                 } top-0 left-0 z-[800] py-[0.5rem] md:px-[2rem] w-full text[1rem] ${
-                    lang === "en" ? "xl:text-[1.3rem]" : "text-[1rem]"
+                    lang === "en" ? "xl:text-[1.15rem]" : "text-[1rem]"
                 }  font-roboto font-bold`}>
                 {/* I18 language */}
                 <div className="hidden lg:flex items-center justify-end">
@@ -93,16 +93,10 @@ const Navbar = ({ home }) => {
                         />
                         <div>
                             <div
-                                className={`text-wrap text-[1rem] lg:text-[1.4rem] w-[60px] ${
+                                className={`text-wrap text-[1rem] lg:text-[1.2rem] w-[60px] ${
                                     home ? "text-[#f0f6cc]" : "text-dark"
                                 }`}>
                                 REVES INDOCHINE
-                            </div>
-                            <div
-                                className={`text-[0.4rem] lg:text-[0.6rem] mb-[0.1rem] ${
-                                    home ? "" : "text-[#000000a8]"
-                                }`}>
-                                DREAM OF INDOCHINE
                             </div>
                         </div>
                     </div>
