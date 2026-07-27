@@ -66,16 +66,16 @@ const TourDetail = () => {
           </section>
 
           {/* EXCLUSION */}
-          <section>
+          {/* <section>
             <h2 className="text-2xl font-bold mb-4">{t("exclusion")}</h2>
             <p className="text-gray-600 leading-relaxed">{tourDetail?.exclusion}</p>
-          </section>
+          </section> */}
 
           {/* INCLUSION */}
-          <section>
+          {/* <section>
             <h2 className="text-2xl font-bold mb-4">{t("inclusion")}</h2>
             <p className="text-gray-600 leading-relaxed">{tourDetail?.inclusion}</p>
-          </section>
+          </section> */}
 
           {/* ITINERARY */}
           <section>
@@ -130,7 +130,7 @@ const TourDetail = () => {
 
           {/* RIGHT SIDEBAR */}
           <div className="lg:col-span-4">
-                    <div className="sticky top-10 bg-white rounded-2xl shadow-md p-6 space-y-6">
+                    <div className="sticky top-[10rem] bg-white rounded-2xl shadow-md p-6 space-y-6">
                         <div>
                             <p className="text-gray-500 text-sm">{t("durationDay")}</p>
                             <p className="font-semibold">{tourDetail?.durationDays + " " + t("days")}</p>
@@ -138,10 +138,10 @@ const TourDetail = () => {
 
                         <div>
                             <p className="text-gray-500 text-sm">{t("destination")}</p>
-                            <p className="font-semibold">{tourDetail?.destinationNames?.join(" + ")}</p>
+                            <p className="font-semibold">{tourDetail?.destinationNames?.join(", ")}</p>
                         </div>
 
-                        <div>
+                        {/* <div>
                             <p className="text-gray-500 text-sm">{t("groupSize")}</p>
                             <p className="font-semibold">{tourDetail?.groupSize}</p>
                         </div>
@@ -149,7 +149,7 @@ const TourDetail = () => {
                         <div>
                             <p className="text-gray-500 text-sm">{t("priceFrom")}</p>
                             <p className="font-semibold">{tourDetail?.priceFrom}$</p>
-                        </div>
+                        </div> */}
 
                         <button
                             className="w-full py-3 bg-[#e38c2b] text-white rounded-xl hover:bg-black transition cursor-pointer"
