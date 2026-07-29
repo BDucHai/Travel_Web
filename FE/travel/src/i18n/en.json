@@ -8,6 +8,7 @@
      "day": "Day",
      "days": "Days",
      "inclusion": "Inclusion",
+     "brief_itinerary": "Brief Itinerary",
      "exclusion": "Exclusion",
      "groupSize": "Group Size",
      "durationDay": "Duration Day",
@@ -178,6 +179,7 @@
           "travel_img": "Travel Image",
           "overview": "Overview",
           "highlight": "Highlights",
+          "overnight": "Overnight",
           "need_help_plan": "Need help planning your trip?",
           "travel_help": "Our travel specialists are here to help you build your perfect Indochina journey.",
 

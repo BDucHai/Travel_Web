@@ -21,11 +21,19 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 import { uploadImage } from "../utils/uploadImage";
 import { toast } from "react-toastify";
 import axiosClient from "../api/axios";
+import Lightbox from "yet-another-react-lightbox";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import "yet-another-react-lightbox/styles.css";
+
+
 
 export default function ReviewPage() {
   const { t } = useTranslation();
 
   const [page, setPage] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [index, setIndex] = useState(0);
+const [slides, setSlides] = useState([]);
 
   const { data, mutate, isLoading } = useSWR(
     ["/testimonials", { page, limit: 20 }],
@@ -213,12 +221,12 @@ export default function ReviewPage() {
                         key={index}
                         src={img}
                         alt={index}
-                        className="
-                                                    w-full
-                                                    h-[180px]
-                                                    object-cover
-                                                    rounded-2xl
-                                                "
+                        className="w-full h-[180px] object-cover rounded-2xl"
+                        onClick={() => {
+                          setSlides(r.imageUrls.map((x) => ({ src: x })));
+                          setIndex(index);
+                          setOpen(true); 
+                        }}
                       />
                     ))}
                   </div>
@@ -228,6 +236,15 @@ export default function ReviewPage() {
           </motion.div>
         ))}
       </div>
+
+        {/* Lightbox */}
+        <Lightbox
+        open={open}
+        close={() => setOpen(false)}
+        index={index}
+        slides={slides}
+        plugins={[Zoom]}
+      />
 
       {/* LOAD MORE */}
       <div
@@ -239,6 +256,7 @@ export default function ReviewPage() {
           {t("load_more")}
         </Button>
       </div>
+
 
       {/* MODAL CREATE REVIEW */}
       <Dialog

@@ -8,6 +8,7 @@
     "day": "Jour",
     "days": "Jours",
     "inclusion": "Inclus",
+    "brief_itinerary": "Itinéraire bref",
     "tour_hightlight": "Point Fort De La Visite",
     "exclusion": "Non inclus",
     "groupSize": "Taille du groupe",
@@ -194,7 +195,7 @@
     "travel_img": "Images de voyage",
     "overview": "Aperçu",
     "highlight": "Points forts",
-
+    "overnight": "Du jour au lendemain",
     "need_help_plan": "Besoin d’aide pour organiser votre voyage ?",
     "travel_help": "Nos spécialistes du voyage sont là pour vous aider à créer l’itinéraire idéal en Indochine.",
 

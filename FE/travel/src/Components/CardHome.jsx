@@ -8,7 +8,7 @@ const CardHome = ({ tour }) => {
     const navigate = useNavigate();
     return (
         <div
-            className="relative flex flex-col w-full h-[22rem] lg:h-[24rem] border-[1px] border-[#3b97897d] rounded-[0.2rem] bg-white overflow-hidden"
+            className="relative flex flex-col w-full h-[22rem] lg:h-[24rem] border-[1px] border-[#3b97897d] rounded-[0.2rem] bg-white overflow-hidden cursor-pointer"
             onClick={() => navigate(`/tours/detail/${tour?.slug}`)}>
             <div className="h-[45%] overflow-hidden">
                 <img

@@ -128,7 +128,7 @@ const Navbar = ({ home }) => {
                                                     </div>
                                                 ))}
 
-                                                <img
+                                                {/* <img
                                                     srcSet={`${imgBanner.cungvulam}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                                                     src={`${imgBanner.cungvulam}?w=164&h=164&fit=crop&auto=format`}
                                                     style={{
@@ -139,7 +139,7 @@ const Navbar = ({ home }) => {
                                                     }}
                                                     alt={imgBanner.cungvulam}
                                                     loading="lazy"
-                                                />
+                                                /> */}
                                             </div>
                                             <div className="">
                                                 <div

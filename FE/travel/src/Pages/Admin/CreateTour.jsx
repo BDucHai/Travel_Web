@@ -797,18 +797,20 @@ const CreateTour = () => {
                         fullWidth
                     />
                     <TextField
-                        label="Exclusion EN"
+                        label="Brief Itinerary EN"
                         sx={darkTextField}
                         value={tour?.exclusion_en}
                         onChange={handleChange("exclusion_en")}
+                        placeholder="(Viết a+b+c xuống dòng b+c+d, ...)"
                         multiline
                         minRows={3}
                         fullWidth
                     />
                     <TextField
-                        label="Exclusion FR"
+                        label="Brief Itinerary FR"
                         sx={darkTextField}
                         value={tour?.exclusion_fr}
+                        placeholder="(Viết a+b+c xuống dòng b+c+d, ...)"
                         onChange={handleChange("exclusion_fr")}
                         multiline
                         minRows={3}

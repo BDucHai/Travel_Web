@@ -79,10 +79,41 @@ const TourDetail = () => {
           </section>
 
           {/* EXCLUSION */}
-          {/* <section>
-            <h2 className="text-2xl font-bold mb-4">{t("exclusion")}</h2>
-            <p className="text-gray-600 leading-relaxed">{tourDetail?.exclusion}</p>
-          </section> */}
+          <section>
+            <h2 className="text-2xl font-bold mb-4">{t("brief_itinerary")}</h2>
+            <div className="grid grid-cols-7 gap-4">
+              <>
+              <div className="col-span-1 text-[#000] mt-2 font-bold">
+                        {t("days")}
+                      </div>
+                      <div className="col-span-4 text-[#000] mt-2 font-bold">
+                        {t("highlight")}
+                      </div>
+                      <div className="col-span-2 text-[#000] mt-2 font-bold">
+                        {t("overnight")}
+                      </div>
+              </>
+              {tourDetail?.exclusion
+                ?.split(/\n+/) 
+                .map((line, lineIdx) => {
+                  const parts = line.split("+");
+                  return (
+                    <>
+                      <div key={`${lineIdx}-0`} className="col-span-1 text-[#000] mt-2">
+                        {parts?.[0]?.trim()}
+                      </div>
+                      <div key={`${lineIdx}-1`} className="col-span-4 text-[#000] mt-2">
+                        {parts?.[1]?.trim()}
+                      </div>
+                      <div key={`${lineIdx}-2`} className="col-span-2 text-[#000] mt-2">
+                        {parts?.[2]?.trim()}
+                      </div>
+                    </>
+                  );
+                })}
+            </div>
+
+          </section>
 
 
           {/* ITINERARY */}
