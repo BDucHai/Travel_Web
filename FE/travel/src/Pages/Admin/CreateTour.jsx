@@ -779,7 +779,7 @@ const CreateTour = () => {
                         fullWidth
                     />
                     <TextField
-                        label="Inclusion EN"
+                        label="Tour Hightlight EN"
                         sx={darkTextField}
                         value={tour?.inclusion_en}
                         onChange={handleChange("inclusion_en")}
@@ -788,7 +788,7 @@ const CreateTour = () => {
                         fullWidth
                     />
                     <TextField
-                        label="Inclusion FR"
+                        label="Tour Hightlight FR"
                         sx={darkTextField}
                         value={tour?.inclusion_fr}
                         onChange={handleChange("inclusion_fr")}

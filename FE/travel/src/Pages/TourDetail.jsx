@@ -11,6 +11,7 @@ import { Backdrop, CircularProgress } from "@mui/material";
 import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/styles.css";
+import { highlightUppercase } from "../constant/regexFunction";
 
 const TourDetail = () => {
   const { id } = useParams();
@@ -65,17 +66,24 @@ const TourDetail = () => {
             <p className="text-gray-600 leading-relaxed">{tourDetail?.overview}</p>
           </section>
 
+          {/* Tour Hightlight */}
+          <section>
+            <h2 className="text-2xl font-bold mb-4">{t("tour_hightlight")}</h2>
+            {tourDetail?.inclusion?.split("\n").map((para, idx, arr) => (
+                      <p
+                        key={idx}
+                        className={`text-[#000] mt-2`}
+                        dangerouslySetInnerHTML={{ __html: "‣ " + highlightUppercase(para) }}
+                      />
+                  ))}
+          </section>
+
           {/* EXCLUSION */}
           {/* <section>
             <h2 className="text-2xl font-bold mb-4">{t("exclusion")}</h2>
             <p className="text-gray-600 leading-relaxed">{tourDetail?.exclusion}</p>
           </section> */}
 
-          {/* INCLUSION */}
-          {/* <section>
-            <h2 className="text-2xl font-bold mb-4">{t("inclusion")}</h2>
-            <p className="text-gray-600 leading-relaxed">{tourDetail?.inclusion}</p>
-          </section> */}
 
           {/* ITINERARY */}
           <section>
@@ -95,7 +103,7 @@ const TourDetail = () => {
                   </div>
                   <div className="flex-1 p-5">
                     <h3 className="font-semibold text-lg text-[#e38c2b]">
-                      {t("day")} {item?.dayNumber} — {item?.title}
+                      {t("day")} {item?.dayNumber}. {item?.title}
                     </h3>
                     {item?.description?.split("\n").map((para, idx, arr) => (
                       <p
@@ -112,7 +120,7 @@ const TourDetail = () => {
           </section>
 
           {/* GALLERY */}
-          <section>
+          {/* <section>
             <h2 className="text-2xl font-bold mb-4">{t("gallery")}</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               {tourDetail?.imageUrls?.map((src, idx) => (
@@ -125,7 +133,7 @@ const TourDetail = () => {
                 />
               ))}
             </div>
-          </section>
+          </section> */}
         </div>
 
           {/* RIGHT SIDEBAR */}

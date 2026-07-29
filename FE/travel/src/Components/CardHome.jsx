@@ -28,7 +28,7 @@ const CardHome = ({ tour }) => {
             )}
 
             <div className="flex-1 px-[0.5rem] lg:px-[0.8rem] py-[0.6rem] flex flex-col">
-                <div className="text-[1rem] lg:text-[1.2rem]">{tour?.title}</div>
+                <div className="w-full text-[1rem] lg:text-[1.2rem] text-center font-[800]">{tour?.title}</div>
                 {/* <div className="py-[0.1rem] lg:py-[0.5rem]">{tour?.durationDays}</div> */}
                 <div className="bg-text-sub-content text-wrap text-ellipsis line-clamp-[4] mt-[0.5rem]">
                     {tour?.shortDescription}
@@ -39,7 +39,7 @@ const CardHome = ({ tour }) => {
                     </div>
                 )} */}
 
-                <div className="flex items-center mt-auto uppercase text-[#d38518] font-bold cursor-pointer">
+                <div className="flex justify-center items-center mt-auto uppercase text-[#d38518] font-bold cursor-pointer">
                     {t("viewTour")} <FaLongArrowAltRight className="ml-2" />
                 </div>
             </div>

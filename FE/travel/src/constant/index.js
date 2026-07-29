@@ -5,22 +5,27 @@ export const durationsDays = [
         title: "navbar.7days_vn_tour",
     },
     {
-        id: 1,
+        id: 2,
         value: 10,
         title: "navbar.10days_vn_tour",
     },
     {
-        id: 1,
+        id: 6,
+        value: 11,
+        title: "navbar.11days_vn_tour",
+    },
+    {
+        id: 3,
         value: 12,
         title: "navbar.12days_vn_tour",
     },
     {
-        id: 1,
+        id: 4,
         value: 14,
         title: "navbar.2w_vn_tour",
     },
     {
-        id: 1,
+        id: 5,
         value: 21,
         title: "navbar.3w_vn_tour",
     },
