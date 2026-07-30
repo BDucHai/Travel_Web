@@ -212,7 +212,7 @@ const Navbar = ({ home }) => {
                                                 {megaMenu?.travelInformation?.north?.map((no) => (
                                                     <div
                                                         className="w-[90%] px-[1rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
-                                                        onClick={() => navigate(`/tours?destinationSlug=${no?.slug}`)}>
+                                                        onClick={() => navigate(`/tours?destinationSlug=${no?.slug}`, {state: { content: no?.content }})}>
                                                         {no?.label}
                                                     </div>
                                                 ))}
@@ -235,7 +235,7 @@ const Navbar = ({ home }) => {
                                                 {megaMenu?.travelInformation?.central?.map((cen) => (
                                                     <div
                                                         className="w-[90%] px-[1rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
-                                                        onClick={() => navigate(`/tours?destinationSlug=${cen?.slug}`)}>
+                                                        onClick={() => navigate(`/tours?destinationSlug=${cen?.slug}`, {state: { content: cen?.content }})}>
                                                         {cen?.label}
                                                     </div>
                                                 ))}
@@ -251,7 +251,7 @@ const Navbar = ({ home }) => {
                                                 {megaMenu?.travelInformation?.south?.map((s) => (
                                                     <div
                                                         className="w-[90%] px-[1rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
-                                                        onClick={() => navigate(`/tours?destinationSlug=${s?.slug}`)}>
+                                                        onClick={() => navigate(`/tours?destinationSlug=${s?.slug}`, {state: { content: s?.content }})}>
                                                         {s?.label}
                                                     </div>
                                                 ))}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { getTours } from "../api/Tour";
 import { useTranslation } from "react-i18next";
@@ -15,6 +15,10 @@ const SearchTour = () => {
     const destinationSlug = searchParams.get("destinationSlug");
     const styleSlug = searchParams.get("styleSlug");
     const collectionSlug = searchParams.get("collectionSlug");
+
+    const location = useLocation();
+    const contentTravel = location?.state?.content || "";
+
 
     const { t } = useTranslation();
     const navigate = useNavigate();
@@ -71,8 +75,13 @@ const SearchTour = () => {
         <div className="min-h-screen bg-[#fcf5ef] px-6 py-10">
             {/* HEADER */}
             <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10">
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-800">{data?.title}</h1>
+                <h1 className="text-4xl md:text-5xl font-bold text-gray-800 font-marcellus uppercase">{destinationSlug}</h1>
             </motion.div>
+
+            {/* Review Location     */}
+            <div className="px-5 mb-[1.25rem] text-[1.35rem] bg-caro rounded-md">
+                <div className="font-dancing whitespace-pre-line">{contentTravel}</div>
+            </div>
 
             {/* TOOLBAR */}
             <div className="mx-auto px-[0.5rem] lg:px-[2rem] flex justify-end mb-4">
@@ -82,6 +91,7 @@ const SearchTour = () => {
                     <IoGridOutline className={`w-7 h-7 transition ${method ? "text-[#e38c2b]" : "text-gray-600"}`} />
                 </button>
             </div>
+
 
             {/* LIST */}
             <div
@@ -131,7 +141,6 @@ const SearchTour = () => {
                                     )}
                                 </div>
                             </div>
-
                 {/* CONTENT */}
                 <div className="flex-1 p-5 flex flex-col justify-between">
                     <div>
@@ -144,7 +153,7 @@ const SearchTour = () => {
                     </div>
                     <div className="flex items-center justify-start mt-4">
                         <span className="text-sm text-gray-600">
-                            ⏱ {tour?.durationDays + " " + t("days")}
+                            ⏱ {tour?.groupSize + " " + t("days")}
                         </span>
                     </div>
                     <div className="flex items-center justify-end mt-1">

@@ -51,6 +51,16 @@ code {
     color: #3b3b3b;
     font-size: 0.9rem;
 }
+
+.bg-caro {
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 246, 236, 0.685),
+    rgba(255, 250, 245, 0.651) 2px,
+    rgba(255, 255, 255, 0.925) 2px,
+    rgba(241,225,225,0.9) 4px
+  );
+}
 /* <= 1024px */
 @media (max-width: 1024px) {
 }
