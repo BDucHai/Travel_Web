@@ -437,7 +437,7 @@ const CreateTour = () => {
                         />
 
                         <TextField
-                            label="Group Size"
+                            label="Reality Day"
                             value={tour?.group_size}
                             onChange={handleChange("group_size")}
                             fullWidth
@@ -642,7 +642,7 @@ const CreateTour = () => {
                                     }}
                                     fullWidth
                                     multiline
-                                    maxRows={2}
+                                    maxRows={4}
                                     sx={darkTextField}
                                 />
                                 <div className="my-[1rem]"></div>
@@ -663,7 +663,7 @@ const CreateTour = () => {
                                     }}
                                     fullWidth
                                     multiline
-                                    maxRows={2}
+                                    maxRows={4}
                                     sx={darkTextField}
                                 />
 

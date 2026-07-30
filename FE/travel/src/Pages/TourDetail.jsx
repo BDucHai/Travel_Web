@@ -11,7 +11,7 @@ import { Backdrop, CircularProgress } from "@mui/material";
 import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/styles.css";
-import { highlightUppercase } from "../constant/regexFunction";
+import { highlightPlusBold } from "../constant/regexFunction";
 
 const TourDetail = () => {
   const { id } = useParams();
@@ -73,7 +73,7 @@ const TourDetail = () => {
                       <p
                         key={idx}
                         className={`text-[#000] mt-2`}
-                        dangerouslySetInnerHTML={{ __html: "‣ " + highlightUppercase(para) }}
+                        dangerouslySetInnerHTML={{ __html: "•    " + highlightPlusBold(para) }}
                       />
                   ))}
           </section>
@@ -140,9 +140,10 @@ const TourDetail = () => {
                       <p
                         key={idx}
                         className={`text-[#000] mt-2 ${idx === arr.length - 1 ? "italic text-gray-700" : ""}`}
-                      >
-                        {para}
-                      </p>
+                        dangerouslySetInnerHTML={{
+                          __html: highlightPlusBold(para)
+                        }}
+                      />
                   ))}
                   </div>
                 </motion.div>
@@ -172,7 +173,7 @@ const TourDetail = () => {
                     <div className="sticky top-[10rem] bg-white rounded-2xl shadow-md p-6 space-y-6">
                         <div>
                             <p className="text-gray-500 text-sm">{t("durationDay")}</p>
-                            <p className="font-semibold">{tourDetail?.durationDays + " " + t("days")}</p>
+                            <p className="font-semibold">{tourDetail?.groupSize + " " + t("days")}</p>
                         </div>
 
                         <div>

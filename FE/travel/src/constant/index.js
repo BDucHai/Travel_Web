@@ -10,11 +10,6 @@ export const durationsDays = [
         title: "navbar.10days_vn_tour",
     },
     {
-        id: 6,
-        value: 11,
-        title: "navbar.11days_vn_tour",
-    },
-    {
         id: 3,
         value: 12,
         title: "navbar.12days_vn_tour",
