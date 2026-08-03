@@ -36,7 +36,7 @@ const Navbar = ({ home }) => {
                     home
                         ? "absolute bg-linear-to-b from-[#2d3435f2] to-[#3c4d5678] text-white"
                         : "sticky top-0 bg-[#fff] text-[#000]"
-                } top-0 left-0 z-[800] py-[0.5rem] md:px-[2rem] w-full text[1rem] ${
+                } top-0 left-0 z-[800] py-[0.5rem] md:px-[2rem] w-full text-[1rem] ${
                     lang === "en" ? "xl:text-[1.15rem]" : "text-[1rem]"
                 }  font-roboto font-bold`}>
                 {/* I18 language */}
@@ -328,7 +328,7 @@ const Navbar = ({ home }) => {
                             <div className="pt-[1rem] overflow-scroll">
                                 {/* VIETNAM TOUR MOBILE */}
                                 <div
-                                    className={`flex items-center px-[1rem] py-[0.75rem] uppercase gap-1 text-[1rem] ${
+                                    className={`flex items-center px-[1rem] py-[0.75rem] uppercase gap-1 text-[0.85rem] ${
                                         navChild.includes(1) ? "bg-[#fff] text-[#ef8d21]" : "bg-transparent text-[#fff]"
                                     }`}
                                     onClick={() => {
@@ -366,8 +366,11 @@ const Navbar = ({ home }) => {
                                         {navChildVNTour.includes(1) &&
                                             durationsDays?.map((dura) => (
                                                 <div
-                                                    className="w-[90%] px-[0.4rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
-                                                    onClick={() => navigate(`/tours?duration=${dura?.value}`)}>
+                                                    className="w-[90%] px-[4rem] py-[0.5rem] text-[#fff] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
+                                                    onClick={() => {
+                                                        navigate(`/tours?duration=${dura?.value}`);
+                                                        setOpenNavMobile(false);
+                                                    }}>
                                                     {t(dura?.title)}
                                                 </div>
                                             ))}
@@ -391,8 +394,11 @@ const Navbar = ({ home }) => {
                                         {navChildVNTour.includes(2) &&
                                             megaMenu?.vietnamTour?.styles?.map((style) => (
                                                 <div
-                                                    className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}
-                                                    onClick={() => navigate(style?.url)}>
+                                                    className={`flex items-center text-[#fff] px-[4rem] py-[0.5rem] gap-1`}
+                                                    onClick={() => {
+                                                        navigate(style?.url);
+                                                        setOpenNavMobile(false);
+                                                    }}>
                                                     {style?.label}
                                                 </div>
                                             ))}
@@ -415,8 +421,11 @@ const Navbar = ({ home }) => {
                                         {navChildVNTour.includes(3) &&
                                             megaMenu?.vietnamTour?.combined?.map((cb) => (
                                                 <div
-                                                    className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}
-                                                    onClick={() => navigate(cb?.url)}>
+                                                    className={`flex items-center text-[#fff] px-[4rem] py-[0.5rem] gap-1`}
+                                                    onClick={() => {
+                                                        navigate(cb?.url);
+                                                        setOpenNavMobile(false);
+                                                    }}>
                                                     {cb?.label}
                                                 </div>
                                             ))}
@@ -443,7 +452,7 @@ const Navbar = ({ home }) => {
                                 {navChild.includes(2) && (
                                     <div className="transition-all duration-300 text-[0.85rem]">
                                         <div
-                                            className={`flex items-center px-[1.75rem] py-[0.5rem] gap-1 ${
+                                            className={`flex items-center  px-[1.75rem] py-[0.5rem] gap-1 ${
                                                 navChildTravelInfor.includes(1)
                                                     ? "bg-[#fff] text-[#ef8d21]"
                                                     : "bg-transparent text-[#fff]"
@@ -461,8 +470,11 @@ const Navbar = ({ home }) => {
                                         {navChildTravelInfor.includes(1) &&
                                             megaMenu?.travelInformation?.north?.map((no) => (
                                                 <div
-                                                    className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}
-                                                    onClick={() => navigate(`/tours?destinationSlug=${no?.slug}`)}>
+                                                    className={`flex items-center text-[#fff] px-[4rem] py-[0.5rem] gap-1`}
+                                                    onClick={() => {
+                                                        navigate(`/tours?destinationSlug=${no?.slug}`, {state: { content: no?.content }});
+                                                        setOpenNavMobile(false);
+                                                    }}>
                                                     {no?.label}
                                                 </div>
                                             ))}
@@ -487,8 +499,11 @@ const Navbar = ({ home }) => {
                                         {navChildTravelInfor.includes(2) &&
                                             megaMenu?.travelInformation?.central?.map((cen) => (
                                                 <div
-                                                    className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}
-                                                    onClick={() => navigate(`/tours?destinationSlug=${cen?.slug}`)}>
+                                                    className={`flex items-center text-[#fff] px-[4rem] py-[0.5rem] gap-1`}
+                                                    onClick={() => {
+                                                        navigate(`/tours?destinationSlug=${cen?.slug}`, {state: { content: cen?.content }});
+                                                        setOpenNavMobile(false);
+                                                    }}>
                                                     {cen?.label}
                                                 </div>
                                             ))}
@@ -511,8 +526,11 @@ const Navbar = ({ home }) => {
                                         {navChildTravelInfor.includes(3) &&
                                             megaMenu?.travelInformation?.south?.map((sou) => (
                                                 <div
-                                                    className={`flex items-center px-[4rem] py-[0.5rem] gap-1`}
-                                                    onClick={() => navigate(`/tours?destinationSlug=${sou?.slug}`)}>
+                                                    className={`flex items-center text-[#fff] px-[4rem] py-[0.5rem] gap-1`}
+                                                    onClick={() => {
+                                                        navigate(`/tours?destinationSlug=${sou?.slug}`, {state: { content: sou?.content }});
+                                                        setOpenNavMobile(false);
+                                                        }}>
                                                     {sou?.label}
                                                 </div>
                                             ))}
@@ -520,18 +538,29 @@ const Navbar = ({ home }) => {
                                 )}
 
                                 <div
-                                    className={`flex items-center px-[1rem] py-[0.75rem] uppercase gap-1 text-[1rem] text-white`}>
+                                    className={`flex items-center px-[1rem] py-[0.75rem] uppercase gap-1 text-[1rem] text-white`}
+                                    onClick={() => {
+                                        navigate("/about");
+                                        setOpenNavMobile(false);
+                                    }}>
                                     {t("about_us")}
                                 </div>
 
                                 <div
-                                    className={`flex items-center px-[1rem] py-[0.75rem] uppercase gap-1 text-[1rem] text-white`}>
+                                    className={`flex items-center px-[1rem] py-[0.75rem] uppercase gap-1 text-[1rem] text-white`} onClick={() => {
+                                        setOpenNavMobile(false);
+                                        navigate("/blog");
+                                    }}>
                                     {t("blog")}
                                 </div>
                             </div>
                             <div className="mt-auto pb-[0.2rem]">
                                 <div
-                                    className={`flex justify-center items-center border-t-[1px] px-[1rem] py-[0.75rem] bg-[#289193] uppercase gap-1 text-[1rem]`}>
+                                    className={`flex justify-center items-center border-t-[1px] px-[1rem] py-[0.75rem] bg-[#289193] uppercase gap-1 text-[1rem]`}
+                                    onClick={() => {
+                                        setOpenNavMobile(false);
+                                        setOpenContactModal(true);
+                                    }}>
                                     {t("contact_us")}
                                 </div>
                                 <div

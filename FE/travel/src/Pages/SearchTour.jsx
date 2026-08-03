@@ -84,7 +84,7 @@ const SearchTour = () => {
             </div>
 
             {/* TOOLBAR */}
-            <div className="mx-auto px-[0.5rem] lg:px-[2rem] flex justify-end mb-4">
+            <div className="mx-auto px-[0.5rem] lg:px-[2rem] hidden md:flex justify-end mb-4">
                 <button
                     onClick={() => setMethod((prev) => !prev)}
                     className="p-2 rounded-lg hover:bg-black/5 transition cursor-pointer">
