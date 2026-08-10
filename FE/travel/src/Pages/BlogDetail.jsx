@@ -9,6 +9,7 @@ import useSWR from "swr";
 import { getBlogById } from "../api/Blog";
 import RelatedTours from "../Components/RelatedTours";
 import BlogContentViewer from "../Components/BlogContentViewer";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 const BlogDetail = () => {
     const { slug } = useParams();
@@ -18,7 +19,7 @@ const BlogDetail = () => {
 
     const navigate = useNavigate();
 
-    const { data: blog } = useSWR(slug ? ["/blogs/detail", { slug, lang }] : null, ([_, params]) =>
+    const { data: blog, isLoading } = useSWR(slug ? ["/blogs/detail", { slug, lang }] : null, ([_, params]) =>
         getBlogById(params),
     );
 
@@ -284,6 +285,10 @@ const BlogDetail = () => {
                     </a>
                 </div>
             </div>
+
+            <Backdrop open={isLoading} sx={{ color: "#fff", zIndex: 9999, backgroundColor: "rgba(0,0,0,0.35)" }}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
 
             {/* Modal */}
             {blog &&  <ContactModal
