@@ -76,7 +76,7 @@ const CommentCard = ({ comment }) => {
                     </div>
                     <Rating name="read-only" value={comment?.rating} readOnly />
                     <div className="mt-3 mb-3 whitespace-pre-line">{comment?.content}</div>
-                    {comment?.imageUrls && (
+                    {comment?.imageUrls?.length > 0 && (
                         <img src={comment?.imageUrls?.[0]} alt="comment" className="w-auto h-auto rounded-md mt-2" />
                     )}
                 </DialogContent>

@@ -51,7 +51,7 @@ const Navbar = ({ home }) => {
                                 i18n.changeLanguage("en");
                                 changeLang("en");
                             }}
-                            className={`relative font-semibold rounded-full transition-all duration-300 px-1 py-1 text-[10px] lg:px-3 lg:py-1.5 lg:text-xs
+                            className={`relative font-semibold rounded-full transition-all duration-300 px-1 py-1 text-[10px] lg:px-3 lg:py-1.5 lg:text-xs cursor-pointer
                                             ${
                                                 i18n.language === "en"
                                                     ? "bg-white text-black shadow-md scale-[1.03]"
@@ -68,7 +68,7 @@ const Navbar = ({ home }) => {
                                 changeLang("fr");
                             }}
                             className={`
-                                                relative font-semibold rounded-full transition-all duration-300
+                                                relative font-semibold rounded-full transition-all duration-300 cursor-pointer
                                                 px-1 py-1 text-[10px]
                                                 lg:px-3 lg:py-1.5 lg:text-xs
                                                 ${
@@ -128,7 +128,7 @@ const Navbar = ({ home }) => {
                                                     </div>
                                                 ))}
 
-                                                {/* <img
+                                                <img
                                                     srcSet={`${imgBanner.cungvulam}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                                                     src={`${imgBanner.cungvulam}?w=164&h=164&fit=crop&auto=format`}
                                                     style={{
@@ -139,7 +139,7 @@ const Navbar = ({ home }) => {
                                                     }}
                                                     alt={imgBanner.cungvulam}
                                                     loading="lazy"
-                                                /> */}
+                                                />
                                             </div>
                                             <div className="">
                                                 <div

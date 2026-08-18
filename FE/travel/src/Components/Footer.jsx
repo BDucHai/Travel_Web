@@ -137,10 +137,10 @@ const Footer = () => {
                 <div>
                     <div className="text-[1rem] mb-[0.5rem] uppercase font-medium text-[#d38518]">{t("follow")}</div>
                     <div className="flex items-center">
-                        <div className="p-[0.25rem] border-[1px] border- rounded-full cursor-pointer">
+                        <div className="p-[0.25rem] border-[1px] border- rounded-full cursor-pointer" onClick={() => window.open("https://www.facebook.com/share/1EY1K9Ro15/?mibextid=wwXlfr", "_blank")}>
                             <TiSocialFacebook className="w-[1.25rem] h-[1.25rem]" />
                         </div>
-                        <div className="p-[0.25rem] border-[1px] border- rounded-full cursor-pointer ml-[0.8rem]">
+                        <div className="p-[0.25rem] border-[1px] border- rounded-full cursor-pointer ml-[0.8rem]" onClick={() => window.open("https://www.instagram.com/reves.indochine?igsh=MWFjbjk3Mzl1NXltdw==", "_blank")}>
                             <TiSocialInstagram className="w-[1.25rem] h-[1.25rem]" />
                         </div>
                         <div className="p-[0.25rem] border-[1px] border- rounded-full cursor-pointer ml-[0.8rem]">
