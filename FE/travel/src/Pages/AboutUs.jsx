@@ -124,16 +124,16 @@ const AboutUs = () => {
                     <div className="py-[0.5rem] font-marcellus text-[1.5rem] lg:text-[2.5rem] text-wrap font-bold">
                         {t("aboutUs.craft")}
                     </div>
-                    <div className="font-dancing lg:text-[1.25rem] text-wrap">{t("aboutUs.craft_desc")}</div>
+                    <div className="font-lora lg:text-[1.25rem] text-wrap ">{t("aboutUs.craft_desc")}</div>
                 </div>
             </div>
             <div className="bg-[#fcf5ef] w-full px-[3rem] lg:px-[3rem] pb-[4rem]">
                 {/* Our story */}
-                <div className="pt-[3rem] mb-[1rem] py-[0.5rem] text-[1.25rem] lg:text-[2rem] text-[#06575fc9] tracking-[1.5px] font-semibold uppercase">
+                <div className="pt-[3rem] mb-[1rem] py-[0.5rem] text-[1.25rem] lg:text-[2rem] text-[#06575fc9] text-center tracking-[1.5px] font-semibold uppercase">
                     {t("aboutUs.our_story")}
                     <hr className="mt-[0.5rem] w-[4rem] border-2 text-[#efb771]" />
                 </div>
-                <div className="text-wrap whitespace-pre-wrap px-[0.5rem]">{t("aboutUs.content_ourStory")}</div>
+                <div className="text-wrap whitespace-pre-wrap px-[0.5rem]"><Trans i18nKey="content_ourStory" components={{ b: <b /> }} /></div>
                 {/* Our philosofie */}
                 <div className="mt-[2rem] mb-[1rem] py-[0.5rem] text-[1.25rem] lg:text-[2rem] text-[#06575fc9] tracking-[1.5px] font-semibold uppercase">
                     {t("aboutUs.our_philosophy")}
