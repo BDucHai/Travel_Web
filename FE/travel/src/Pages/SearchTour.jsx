@@ -6,23 +6,34 @@ import { useTranslation } from "react-i18next";
 import { IoGridOutline } from "react-icons/io5";
 import useSWR from "swr";
 import { useAuth } from "../contexts/AuthContext";
+import { getHeaderTitle } from "../constant/helper";
 
 const SearchTour = () => {
+
+    const { t } = useTranslation();
+    const navigate = useNavigate();
+
     const [searchParams] = useSearchParams();
     const { lang } = useAuth();
     const duration = searchParams.get("duration");
     const region = searchParams.get("region");
     const destinationSlug = searchParams.get("destinationSlug");
-    const cleanSlug = destinationSlug?.replace(/-fr$/, "")?.replace(/-/g, " ");
     const styleSlug = searchParams.get("styleSlug");
     const collectionSlug = searchParams.get("collectionSlug");
+
+
+    const headerTitle = getHeaderTitle({
+        duration,
+        region,
+        destinationSlug,
+        styleSlug,
+        collectionSlug,
+        t,
+        });
 
     const location = useLocation();
     const contentTravel = location?.state?.content || "";
 
-
-    const { t } = useTranslation();
-    const navigate = useNavigate();
 
     const [filterSearch, setFilterSearch] = useState({
         duration: searchParams.get("duration"),
@@ -76,7 +87,7 @@ const SearchTour = () => {
         <div className="min-h-screen bg-[#fcf5ef] px-6 py-10">
             {/* HEADER */}
             <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10">
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-800 font-marcellus uppercase">{cleanSlug || ""}</h1>
+                <h1 className="text-4xl md:text-5xl font-bold text-gray-800 font-marcellus uppercase">{headerTitle || ""}</h1>
             </motion.div>
 
             {/* Review Location     */}
