@@ -1,6 +1,6 @@
 // PostCard.jsx
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { imgReason } from "../assets/images";
 import ContactModal from "../Components/ContactModal";
 
@@ -115,7 +115,7 @@ const AboutUs = () => {
         <>
             <div className="relative w-full max-h-[450px] text-[1rem]">
                 <img
-                    src="https://static.vecteezy.com/system/resources/previews/008/741/315/non_2x/asian-backpack-couple-tourist-holding-city-map-crossing-the-road-travel-people-vacation-lifestyle-concept-free-photo.jpg"
+                    src="https://res.cloudinary.com/ds7h9l4xo/image/upload/v1787143830/1787128676593_551057346228966023_551057346228966023_42225bdee92418ffcb5355760db9ab84_xwo1r3.jpg"
                     alt="bannerBlog"
                     className="w-full min-h-[100px] lg:min-h-[300px] max-h-[200px] lg:max-h-[400px] object-cover"
                 />
@@ -124,16 +124,18 @@ const AboutUs = () => {
                     <div className="py-[0.5rem] font-marcellus text-[1.5rem] lg:text-[2.5rem] text-wrap font-bold">
                         {t("aboutUs.craft")}
                     </div>
-                    <div className="font-lora lg:text-[1.25rem] text-wrap ">{t("aboutUs.craft_desc")}</div>
+                    <div className="font-lora italic lg:text-[1.25rem] text-wrap ">{t("aboutUs.craft_desc")}</div>
                 </div>
             </div>
             <div className="bg-[#fcf5ef] w-full px-[3rem] lg:px-[3rem] pb-[4rem]">
                 {/* Our story */}
                 <div className="pt-[3rem] mb-[1rem] py-[0.5rem] text-[1.25rem] lg:text-[2rem] text-[#06575fc9] text-center tracking-[1.5px] font-semibold uppercase">
                     {t("aboutUs.our_story")}
-                    <hr className="mt-[0.5rem] w-[4rem] border-2 text-[#efb771]" />
+                    <hr className="mt-[0.5rem] w-[4rem] border-2 text-[#efb771] ml-[47%]" />
                 </div>
-                <div className="text-wrap whitespace-pre-wrap px-[0.5rem]"><Trans i18nKey="content_ourStory" components={{ b: <b /> }} /></div>
+                <div className="text-wrap whitespace-pre-wrap px-[0.5rem]">
+                    <Trans i18nKey="aboutUs.content_ourStory" components={{ b: <b /> }} />
+                </div>
                 {/* Our philosofie */}
                 <div className="mt-[2rem] mb-[1rem] py-[0.5rem] text-[1.25rem] lg:text-[2rem] text-[#06575fc9] tracking-[1.5px] font-semibold uppercase">
                     {t("aboutUs.our_philosophy")}
@@ -206,23 +208,35 @@ const AboutUs = () => {
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-[1.5rem] lg:gap-[4rem] lg:px-[1rem] xl:px-[2rem]">
                     {member?.map((item) => (
-                        <div key={item?.id} className=" flex-1 flex flex-col lg:flex-row gap-[2rem] items-start overflow-clip">
+                        <div
+                            key={item?.id}
+                            className=" flex-1 flex flex-col lg:flex-row gap-[2rem] items-start overflow-clip">
                             {/* Image */}
-                            {item?.avatarUrl ?  <div className="w-[5rem] h-[5rem] shrink-0">
-                                <img
-                                    src={item?.avatarUrl}
-                                    alt={item?.fullName}
-                                    className="w-full h-full rounded-full object-cover"
-                                />
-                            </div> : <div className="w-full h-full rounded-full object-cover"><Avatar>{item?.fullName?.charAt(0)}</Avatar></div>}
-                           
+                            {item?.avatarUrl ? (
+                                <div className="w-[5rem] h-[5rem] shrink-0">
+                                    <img
+                                        src={item?.avatarUrl}
+                                        alt={item?.fullName}
+                                        className="w-full h-full rounded-full object-cover"
+                                    />
+                                </div>
+                            ) : (
+                                <div className="w-full h-full rounded-full object-cover">
+                                    <Avatar>{item?.fullName?.charAt(0)}</Avatar>
+                                </div>
+                            )}
+
                             <div className="flex flex-col gap-2">
                                 <div className="text-[1rem] font-[500]">{item?.fullName}</div>
 
                                 {/* <div className="text-[#d48b32]">{item?.roles?.join(",")}</div> */}
 
-                                <Tooltip title={item?.email}><div className="text-justify leading-[2rem]">{item?.email}</div></Tooltip>
-                                <Tooltip title={item?.phone}><div className="text-justify leading-[2rem]">{item?.phone}</div></Tooltip>
+                                <Tooltip title={item?.email}>
+                                    <div className="text-justify leading-[2rem]">{item?.email}</div>
+                                </Tooltip>
+                                <Tooltip title={item?.phone}>
+                                    <div className="text-justify leading-[2rem]">{item?.phone}</div>
+                                </Tooltip>
                             </div>
                         </div>
                     ))}
