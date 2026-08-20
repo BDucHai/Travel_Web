@@ -1,13 +1,11 @@
 // PostCard.jsx
-import React, { useState } from "react";
+import { useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { imgReason } from "../assets/images";
 import ContactModal from "../Components/ContactModal";
 
-import Avatar from "@mui/material/Avatar";
-import useSWR from "swr";
-import { getActiveUser } from "../api/User";
-import { Tooltip } from "@mui/material";
+// import useSWR from "swr";
+// import { getActiveUser } from "../api/User";
 
 const AboutUs = () => {
     const { t } = useTranslation();
@@ -76,7 +74,7 @@ const AboutUs = () => {
         },
     ];
 
-    const { data: member } = useSWR("/auth/active-customers", getActiveUser);
+    // const { data: member } = useSWR("/auth/active-customers", getActiveUser);
 
     const representativeFrance = [
         {
