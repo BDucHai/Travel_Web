@@ -13,9 +13,11 @@ import {
 
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { createContacts } from "../api/Contact";
+import { useAuth } from "../contexts/AuthContext";
 
 const ContactModal = ({ t, open, onClose, content = "" }) => {
     const [loading, setLoading] = useState(false);
+    const { lang } = useAuth();
     const [contactPlan, setContactPlan] = useState({
         fullName: "",
         email: "",
@@ -57,11 +59,16 @@ const ContactModal = ({ t, open, onClose, content = "" }) => {
                         flexDirection: "row",
                         mb: 2,
                     }}>
-                    <Avatar alt="Phuong Hoang" src="/avatar.png" />
+                        {lang === "fr"? <><Avatar alt="Thuy Nguyen" src="https://res.cloudinary.com/ds7h9l4xo/image/upload/v1787143825/1787128520896_551057346228966023_551057346228966023_3ce86204f04e30483cced07de2161e4f_vkdlne.jpg" />
 
                     <Box sx={{ marginLeft: "1rem" }}>
-                        <p className="font-semibold">Hello I'm Phuong HOANG, your specialist.</p>
-                    </Box>
+                        <p className="font-semibold">Bonjour, je suis Thuy Nguyen, votre conseillère.</p>
+                    </Box></>: <><Avatar alt="Phuong Hoang" src="https://res.cloudinary.com/ds7h9l4xo/image/upload/v1787143826/1787128784261_551057346228966023_551057346228966023_5f6f8929dabddb5afd1ab13ac82970e3_vcc5bi.jpg" />
+
+                    <Box sx={{ marginLeft: "1rem" }}>
+                        <p className="font-semibold">Hello, I'm Phuong Hoang, your consultant.</p>
+                    </Box></>}
+                    
                 </Box>
 
                 {/* Multi-line content area */}

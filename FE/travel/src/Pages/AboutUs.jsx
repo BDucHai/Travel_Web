@@ -133,26 +133,30 @@ const AboutUs = () => {
                     {t("aboutUs.our_story")}
                     <hr className="mt-[0.5rem] w-[4rem] border-2 text-[#efb771] ml-[47%]" />
                 </div>
-                <div className="text-wrap whitespace-pre-wrap px-[0.5rem]">
-                    <Trans i18nKey="aboutUs.content_ourStory" components={{ b: <b /> }} />
+                {/* eslint-disable-next-line jsx-a11y/heading-has-content */}
+                <div className="text-wrap whitespace-pre-line px-[0.5rem] ">
+                    <Trans  i18nKey="aboutUs.content_ourStory"  components={{ b: <b />, h2: <h2 className="text-xl font-bold"/>}} />
                 </div>
                 {/* Our philosofie */}
-                <div className="mt-[2rem] mb-[1rem] py-[0.5rem] text-[1.25rem] lg:text-[2rem] text-[#06575fc9] tracking-[1.5px] font-semibold uppercase">
-                    {t("aboutUs.our_philosophy")}
-                    <hr className="mt-[0.5rem] w-[4rem] border-2 text-[#efb771]" />
-                </div>
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 lg:px-[1.5rem] xl:px-[5rem]">
-                    {ourPhilosophy?.map((t, index) => (
-                        <div
-                            className="flex items-center justify-start flex-col border-[1px] border-[#8d8f87] bg-[#fff] rounded-lg p-[1rem]"
-                            key={index}>
-                            <img src={t?.img} alt={t?.title} className="w-[60px] h-[60px]" />
-                            <div className="text-wrap font-bold text-center mb-[0.5rem]">{t?.title}</div>
-                            <div className="text-center">{t?.description}</div>
+                <div className="mt-[3.5rem] py-[4rem] bg-cover bg-center flex justify-center items-center bg-[url(https://res.cloudinary.com/ds7h9l4xo/image/upload/v1787143826/1787128826597_551057346228966023_551057346228966023_d38a158ddb9b63a280791333b14aa9dd_ccy0cl.jpg)]">
+                    <div className="bg-[#fcf5ef] border-[1px] border-transparent rounded-[0.5rem] pt-[2rem] pb-[3rem] mx-[3.5rem]">
+                        <div className="mb-[1rem] py-[0.5rem] text-[1.25rem] lg:text-[2rem] text-[#06575fc9] tracking-[1.5px] font-bold uppercase text-center">
+                            {t("aboutUs.our_philosophy")}
+                            <hr className="mt-[0.5rem] w-[4rem] ml-[46%] border-2 text-[#efb771]" />
                         </div>
-                    ))}
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 lg:px-[1.5rem] xl:px-[5rem]">
+                            {ourPhilosophy?.map((t, index) => (
+                                <div
+                                    className="flex items-center justify-start flex-col rounded-lg p-[1rem]"
+                                    key={index}>
+                                    <img src={t?.img} alt={t?.title} className="w-[60px] h-[60px]" />
+                                    <div className="text-wrap font-bold text-[1.5rem] text-center mb-[0.5rem]">{t?.title}</div>
+                                    <div className="text-center">{t?.description}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
-
                 {/* Reason chosse Indochina */}
                 <div className="text-center mt-[3.5rem] mb-[1rem] py-[0.5rem] text-[1.25rem] lg:text-[2rem] text-[#000] tracking-[1.5px] font-semibold font-inter uppercase">
                     {t("reason_choose")}
@@ -176,17 +180,17 @@ const AboutUs = () => {
                             className="w-full h-full object-cover"
                         />
                     </div>
-                    <div className="lg:px-[1.5rem] xl:px-[3rem] py-[0.25rem]">
-                        <div className="text-[1.5rem] text-[#0e6387] font-semibold mb-[1rem] font-inter">
+                    <div className="lg:px-[1.5rem] xl:px-[3rem] py-[0.25rem] font-gelasio">
+                        <div className="text-[1.5rem] text-[#0e6387] font-semibold mb-[1rem] uppercase">
                             {t("aboutUs.representative_france")}
                         </div>
                         <div className="flex-1 grid grid-cols-3 gap-6">
                             {representativeFrance.map((t) => (
                                 <div className="flex justify-start items-start">
                                     <img src={t?.img} alt={t?.title} className="w-[60px] h-[60px]" />
-                                    <div>
-                                        <div className="text-wrap font-bold text-center mb-[0.25rem]">{t?.title}</div>
-                                        <div className="text-wrap bg-text-sub-content text-center">
+                                    <div className="ml-[0.5rem]">
+                                        <div className="text-wrap font-bold mb-[0.25rem]">{t?.title}</div>
+                                        <div className="text-wrap bg-text-sub-content ">
                                             {t?.description}
                                         </div>
                                     </div>
@@ -200,46 +204,67 @@ const AboutUs = () => {
                     <div className="text-[1.5rem] text-[#db7e0b] font-dancing">{t("aboutUs.let_create")}</div>
                 </div>
 
+                {/* Our partner in France */}
+                    <div className="text-center mt-[3.5rem] mb-[1rem] py-[0.5rem] text-[1.25rem] lg:text-[2rem] text-[#000] tracking-[1.5px] font-semibold uppercase">
+                        {t("aboutUs.our_partners_france")}
+
+                        <hr className="mx-auto mt-[0.5rem] w-[4rem] border-2 text-[#efb771]" />
+                    </div>
+
+
                 {/* Meet team */}
                 <div className="text-center mt-[3.5rem] mb-[1rem] py-[0.5rem] text-[1.25rem] lg:text-[2rem] text-[#000] tracking-[1.5px] font-semibold font-inter uppercase">
                     {t("aboutUs.meet_team")}
 
                     <hr className="mx-auto mt-[0.5rem] w-[4rem] border-2 text-[#efb771]" />
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-[1.5rem] lg:gap-[4rem] lg:px-[1rem] xl:px-[2rem]">
-                    {member?.map((item) => (
-                        <div
-                            key={item?.id}
+                <div className="grid grid-cols-2 gap-[1.5rem] lg:gap-[4rem] lg:px-[1rem] xl:px-[2rem]">
+                    <div
                             className=" flex-1 flex flex-col lg:flex-row gap-[2rem] items-start overflow-clip">
                             {/* Image */}
-                            {item?.avatarUrl ? (
-                                <div className="w-[5rem] h-[5rem] shrink-0">
+                            <div className="w-[5rem] h-[5rem] shrink-0">
                                     <img
-                                        src={item?.avatarUrl}
-                                        alt={item?.fullName}
+                                        src="https://res.cloudinary.com/ds7h9l4xo/image/upload/v1787143825/1787128520896_551057346228966023_551057346228966023_3ce86204f04e30483cced07de2161e4f_vkdlne.jpg"
+                                        alt="Thuy Nguyen"
                                         className="w-full h-full rounded-full object-cover"
                                     />
-                                </div>
-                            ) : (
-                                <div className="w-full h-full rounded-full object-cover">
-                                    <Avatar>{item?.fullName?.charAt(0)}</Avatar>
-                                </div>
-                            )}
-
+                            </div>
                             <div className="flex flex-col gap-2">
-                                <div className="text-[1rem] font-[500]">{item?.fullName}</div>
+                                <div className="text-[1rem] font-[500]">Thuy Nguyen</div>
 
-                                {/* <div className="text-[#d48b32]">{item?.roles?.join(",")}</div> */}
+                                <div className="text-[#d48b32]">{t("aboutUs.sale_fr")} </div>
 
-                                <Tooltip title={item?.email}>
+                                {/* <Tooltip title={item?.email}>
                                     <div className="text-justify leading-[2rem]">{item?.email}</div>
                                 </Tooltip>
                                 <Tooltip title={item?.phone}>
                                     <div className="text-justify leading-[2rem]">{item?.phone}</div>
-                                </Tooltip>
+                                </Tooltip> */}
                             </div>
                         </div>
-                    ))}
+                        <div
+                            className=" flex-1 flex flex-col lg:flex-row gap-[2rem] items-start overflow-clip">
+                            {/* Image */}
+                            <div className="w-[5rem] h-[5rem] shrink-0">
+                                    <img
+                                        src="https://res.cloudinary.com/ds7h9l4xo/image/upload/v1787143826/1787128784261_551057346228966023_551057346228966023_5f6f8929dabddb5afd1ab13ac82970e3_vcc5bi.jpg"
+                                        alt="Phuong Hoang"
+                                        className="w-full h-full rounded-full object-cover"
+                                    />
+                            </div>
+                            <div className="flex flex-col gap-2">
+                                <div className="text-[1rem] font-[500]">Phuong Hoang</div>
+
+                                <div className="text-[#d48b32]">{t("aboutUs.sale_eng")} </div>
+
+                                {/* <Tooltip title={item?.email}>
+                                    <div className="text-justify leading-[2rem]">{item?.email}</div>
+                                </Tooltip>
+                                <Tooltip title={item?.phone}>
+                                    <div className="text-justify leading-[2rem]">{item?.phone}</div>
+                                </Tooltip> */}
+                            </div>
+                        </div>
                 </div>
 
                 <hr className="mt-[2rem] text-[#bc8b3869]" />
