@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { imgReason } from "../assets/images";
 import ContactModal from "../Components/ContactModal";
+import ContactModalFrm from "../Components/ContactModalFrm";
 
 // import useSWR from "swr";
 // import { getActiveUser } from "../api/User";
@@ -291,6 +292,7 @@ const AboutUs = () => {
 
             {/* Modal */}
             <ContactModal t={t} open={openContactModal} onClose={() => setOpenContactModal(false)} />
+                {/* <ContactModalFrm t={t} open={openContactModal} onClose={() => setOpenContactModal(false)} /> */}
         </>
     );
 };

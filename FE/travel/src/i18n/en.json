@@ -83,13 +83,13 @@
     "load_more": "Load more",
     "loading": "Loading...",
     "send": "Send",
-    "send_inquiry": "Send My Inquiry",
+    "send_inquiry": "Send Your Inquiry",
     "your_request": "Your request",
     "your_question": "Your question",
     "your_email": "Your email",
     "what_app": "WhatsApp (Phone number)",
     "your_phone": "Your phone",
-    "your_name": "Your name",
+    "your_name": "Your first and last name",
     "country": "Country",
     "rating": "Rating",
     "content": "Content",
@@ -188,5 +188,13 @@
     "travel_help": "Our travel specialists are here to help you build your perfect Indochina journey.",
 
     "no_value": "There aren't any suitable tours at the moment",
-    "related_tour": "Related Tour"
+    "related_tour": "Related Tour",
+
+    "plan_journey": "Your message",
+    "send_us_enquiry": "Tell us about your trip",
+    "plan_contact_desc": "Share your travel preferences, questions, or any details you would like us to know about your trip.",
+    "contact_mess_placeholder": "Tell us about your trip, your preferences or any questions you may have",
+    "contact_name_placeholder": "Enter your first and  last name",
+    "title": "Title",
+    "nationality": "Nationality"
 }
