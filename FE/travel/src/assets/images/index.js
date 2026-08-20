@@ -29,7 +29,7 @@ import userConnect from "./userconnect.svg";
 import chat from "./chat.svg";
 import date from "./date.svg";
 import headphone from "./headphone.svg";
-import security from "./headphone.svg";
+import security from "./security.svg";
 import people from "./people.svg";
 import adventureStyle from "./adventureStyle.jpg";
 import cultural from "./cultural.webp";

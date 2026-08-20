@@ -12,6 +12,10 @@ const AboutUs = () => {
 
     const [openContactModal, setOpenContactModal] = useState(false);
 
+    const H2 = ({ children }) => (
+    <h2 className="text-xl font-bold">{children}</h2>
+    );
+
     const ourPhilosophy = [
         {
             img: imgReason.holidayVillage,
@@ -131,9 +135,11 @@ const AboutUs = () => {
                     {t("aboutUs.our_story")}
                     <hr className="mt-[0.5rem] w-[4rem] border-2 text-[#efb771] ml-[47%]" />
                 </div>
-                {/* eslint-disable-next-line jsx-a11y/heading-has-content */}
                 <div className="text-wrap whitespace-pre-line px-[0.5rem] ">
-                    <Trans  i18nKey="aboutUs.content_ourStory"  components={{ b: <b />, h2: <h2 className="text-xl font-bold"/>}} />
+                    <Trans 
+                        i18nKey="aboutUs.content_ourStory" 
+                        components={{ b: <b />, h2: <H2 /> }} 
+                        />
                 </div>
                 {/* Our philosofie */}
                 <div className="mt-[3.5rem] py-[4rem] bg-cover bg-center flex justify-center items-center bg-[url(https://res.cloudinary.com/ds7h9l4xo/image/upload/v1787143826/1787128826597_551057346228966023_551057346228966023_d38a158ddb9b63a280791333b14aa9dd_ccy0cl.jpg)]">
@@ -142,7 +148,7 @@ const AboutUs = () => {
                             {t("aboutUs.our_philosophy")}
                             <hr className="mt-[0.5rem] w-[4rem] ml-[46%] border-2 text-[#efb771]" />
                         </div>
-                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 lg:px-[1.5rem] xl:px-[5rem]">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 lg:px-[1.5rem] xl:px-[5rem]">
                             {ourPhilosophy?.map((t, index) => (
                                 <div
                                     className="flex items-center justify-start flex-col rounded-lg p-[1rem]"
@@ -182,7 +188,7 @@ const AboutUs = () => {
                         <div className="text-[1.5rem] text-[#0e6387] font-semibold mb-[1rem] uppercase">
                             {t("aboutUs.representative_france")}
                         </div>
-                        <div className="flex-1 grid grid-cols-3 gap-6">
+                        <div className="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {representativeFrance.map((t) => (
                                 <div className="flex justify-start items-start">
                                     <img src={t?.img} alt={t?.title} className="w-[60px] h-[60px]" />

@@ -50,7 +50,7 @@ const Footer = () => {
                             href="https://mail.google.com/mail/?view=cm&fs=1&to=hhp238@gmail.com"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-2 no-underline">
+                            className="flex items-center gap-2 no-underline text-wrap">
                             <CiMail className="text-[#d38518]" />
                             reves.indochine@gmail.com
                         </a>
