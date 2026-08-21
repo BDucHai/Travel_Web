@@ -18,7 +18,7 @@ export const getReviews = async (url, params) => axiosClient.get(url, { params }
 
 export const deleteReview = async (id) => {
     try {
-        await axiosClient.delete(`/testimonials/${id}`);
+        await axiosClient.delete(`/admin/testimonials/${id}`);
         toast.success(i18n.t("notify.delete_success"));
     } catch (error) {
         toast.error(i18n.t("notify.delete_fail"));
