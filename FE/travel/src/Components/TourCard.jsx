@@ -30,11 +30,6 @@ const TourCard = ({ tour }) => {
                 <h3 className="text-lg font-semibold text-gray-900 line-clamp-2 min-h-[56px]">{tour?.title}</h3>
 
                 <div className="flex items-center justify-between mt-5">
-                    <div>
-                        {/* <p className="text-xs uppercase tracking-wide text-gray-400">From</p> */}
-                        <p className="text-2xl font-bold text-[#c39562]">${tour?.priceFrom}</p>
-                    </div>
-
                     <button className="w-11 h-11 rounded-full bg-[#c39562] text-white flex items-center justify-center group-hover:translate-x-1 transition">
                         <FaLongArrowAltRight size={18} />
                     </button>

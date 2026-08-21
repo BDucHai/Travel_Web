@@ -5,7 +5,7 @@ import { RiArrowLeftFill, RiArrowRightFill } from "react-icons/ri";
 const Banner = ({ banners }) => {
     const [touchStart, setTouchStart] = useState(0);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [loaded, setLoaded] = useState(Array(banners?.length).fill(false));
+    // const [loaded, setLoaded] = useState(Array(banners?.length).fill(false));
 
     const intervalRef = useRef(null);
 
@@ -57,17 +57,20 @@ const Banner = ({ banners }) => {
                                 alt="banner"
                                 className="w-full h-full object-cover contrast-105"
                                 loading="lazy"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: loaded[index] ? 1 : 0 }}
-                                transition={{ duration: 0.5 }}
-                                onLoad={() =>
-                                    setLoaded((prev) => {
-                                        const newState = [...prev];
-                                        newState[index] = true;
-                                        return newState;
-                                    })
+                                initial={{ scale: 1 }}
+                                animate={
+                                    index === currentIndex
+                                        ? { scale: [1, 1.06, 1] }
+                                        : { scale: 1 }
+                                }
+                                transition={
+                                    index === currentIndex
+                                        ? { duration: 12, repeat: Infinity, ease: "easeInOut" }
+                                        : { duration: 0 }
                                 }
                             />
+
+
                         </div>
                     ))}
                 </motion.div>

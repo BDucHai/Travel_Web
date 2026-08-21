@@ -37,7 +37,7 @@ const CreateBlog = () => {
         slugFr: data?.slugFr || "",
 
         isFeature: data?.isFeatured || false,
-        viewCount: data?.view_count || 0,
+        viewCount: data?.viewCount || 0,
     });
 
     const [tourSearch, setTourSearch] = useState("");
@@ -69,7 +69,7 @@ const CreateBlog = () => {
             const res = await updateBlog({
                 id,
                 data: {
-                    authorName: user?.username || "",
+                    authorName: user?.fullName || "",
                     titleEn: blog?.titleEn || "",
                     titleFr: blog?.titleFr || "",
 
@@ -84,7 +84,7 @@ const CreateBlog = () => {
                     slugEn: blog?.slugEn || "",
                     slugFr: blog?.slugFr || "",
 
-                    relatedToursIds: blog?.tourRelated?.map((i) => i?.id),
+                    relatedTourIds: blog?.tourRelated?.map((i) => i?.id),
                     isMostRead: true,
                     isFeatured: blog?.isFeature,
                     viewCount: blog?.viewCount || 0,
@@ -108,7 +108,7 @@ const CreateBlog = () => {
                 excerptEn: blog?.excerptEn || "",
                 excerptFr: blog?.excerptFr || "",
 
-                relatedToursIds: blog?.tourRelated?.map((i) => i?.id),
+                relatedTourIds: blog?.tourRelated?.map((i) => i?.id),
 
                 slugEn: blog?.slugEn || "",
                 slugFr: blog?.slugFr || "",
@@ -142,8 +142,8 @@ const CreateBlog = () => {
             slugEn: data?.slugEn || "",
             slugFr: data?.slugFr || "",
 
-            isFeature: false,
-            viewCount: data?.view_count || 0,
+            isFeature: data?.isFeatured,
+            viewCount: data?.viewCount || 0,
         });
     }, [data]);
 
