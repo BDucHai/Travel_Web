@@ -75,7 +75,7 @@ const Blog = () => {
                 <LoadingScreen />
             ) : ( */}
             <>
-                <div>
+                <div className="bg-[#fcf5ef]">
                     <div className="relative">
                         <img
                             src={imgGlobal.bannerBlog}

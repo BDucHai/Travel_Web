@@ -47,19 +47,18 @@ const BlogContentViewer = ({ content }) => {
         <LexicalComposer initialConfig={initialConfig}>
             <div
                 className="
-                    prose
-                    prose-lg
-                    max-w-none
-                    prose-img:rounded-2xl
-                    prose-img:w-full
-                    prose-img:shadow-xl
-                    prose-img:my-10
-                    prose-h1:text-5xl
-                    prose-h1:font-bold
-                    prose-h2:text-4xl
-                    prose-p:leading-9
-                    prose-p:text-gray-700
-                ">
+        prose
+        prose-lg
+        max-w-none
+        [&_h1]:text-[2.5rem]
+        [&_h1]:font-bold
+        [&_h2]:text-[2rem]
+        [&_h2]:font-bold
+        [&_h2]:mt-8
+        [&_h2]:mb-4
+        [&_p]:leading-9
+        [&_p]:text-gray-700
+    ">
                 <RichTextPlugin
                     contentEditable={<ContentEditable className="outline-none pointer-events-none" />}
                     placeholder={null}
