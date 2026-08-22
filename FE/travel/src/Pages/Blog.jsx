@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { CgMail } from "react-icons/cg";
 import { FaWhatsapp } from "react-icons/fa";
-import ContactModal from "../Components/ContactModal";
 import { imgGlobal } from "../assets/images";
 import { useTranslation } from "react-i18next";
 import { CiCalendar } from "react-icons/ci";
@@ -13,6 +12,7 @@ import { getBlog, getMostReadBlog } from "../api/Blog";
 // import LoadingScreen from "../Components/LoadingScreen";
 import { useAuth } from "../contexts/AuthContext";
 import { Backdrop, CircularProgress } from "@mui/material";
+import ContactModalFrm from "../Components/ContactModalFrm";
 
 const Blog = () => {
     const { t } = useTranslation();
@@ -261,7 +261,7 @@ const Blog = () => {
                 </div>
 
                 {/* Modal */}
-                <ContactModal t={t} open={openContactModal} onClose={() => setOpenContactModal(false)} />
+                <ContactModalFrm t={t} open={openContactModal} onClose={() => setOpenContactModal(false)} />
                 <Backdrop
                     open={loadingBlogMost || loadingListBlog}
                     sx={{

@@ -205,5 +205,36 @@
     "travel_help": "Nos spécialistes du voyage sont là pour vous aider à créer l’itinéraire idéal en Indochine.",
 
     "no_value": "actuellement, il n'y a pas de tours adaptés",
-    "related_tour": "Tour associé"
+    "related_tour": "Tour associé",
+
+    "plan_journey": "Votre message",
+    "send_us_enquiry": "Parlez-nous de votre voyage",
+    "plan_contact_desc": "Partagez avec nous vos préférences de voyage, vos questions ou tout autre détail que vous souhaiteriez nous communiquer concernant votre voyage.",
+    "contact_mess_placeholder": "Parlez-nous de votre voyage, de vos préférences ou de vos éventuelles questions",
+    "contact_name_placeholder": "Entrez votre prénom et votre nom",
+    "title": "Civilité",
+    "nationality": "Nationalité",
+    "mailExample": "votremail@email.com",
+    "email": "E-mail",
+    "phone_number_example": "ex. +33 1 23 45 67 89",
+    "phone_number_title": "Numéro de téléphone",
+    "contact_info": "Afin de pouvoir vous contacter au sujet de votre demande, nous vous recommandons de fournir un numéro de téléphone,\\n en particulier si notre réponse par e-mail ne vous parvient pas.",
+    "contact_method": "Souhaitez-vous échanger avec nous via WhatsApp ?",
+    "contact_method_yes": "Oui, via WhatsApp",
+    "contact_method_no": "Non, l'e-mail me suffit",
+    "what_apps_choose": "Si vous choisissez WhatsApp, nous vous contacterons directement au numéro indiqué ci-dessus afin de discuter de votre voyage et de répondre à toutes vos questions.",
+    "hear_about": "Comment avez-vous entendu parler de nous ?",
+    "select_options": "Veuillez sélectionner une option",
+    "none": "-Aucune-",
+    "not_share_info": "Vos informations sont sécurisées et ne seront jamais communiquées à des tiers.",
+    "send_require": "Envoyer ma demande",
+    "hear_from": {
+        "google": "Google / Moteur de recherche",
+        "facebook": "Facebook / Instagram",
+        "friend": "Recommandation d'un ami",
+        "travel_agency": "Agence de voyage / Professionnel du tourisme",
+        "web": "Site de voyage / Blog",
+        "pre_trip": "Voyage précédent avec nous",
+        "other": "Autre"
+    }
 }

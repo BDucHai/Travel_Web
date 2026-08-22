@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaWhatsapp } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
-import ContactModal from "../Components/ContactModal";
 import { CgMail } from "react-icons/cg";
 import { useAuth } from "../contexts/AuthContext";
 import useSWR from "swr";
@@ -10,6 +9,7 @@ import { getBlogById } from "../api/Blog";
 import RelatedTours from "../Components/RelatedTours";
 import BlogContentViewer from "../Components/BlogContentViewer";
 import { Backdrop, CircularProgress } from "@mui/material";
+import ContactModalFrm from "../Components/ContactModalFrm";
 
 const BlogDetail = () => {
     const { slug } = useParams();
@@ -291,7 +291,7 @@ const BlogDetail = () => {
             </Backdrop>
 
             {/* Modal */}
-            {blog &&  <ContactModal
+            {blog &&  <ContactModalFrm
                 t={t}
                 open={openContactModal}
                 content={`I am interested in blog ${blog?.title} `}

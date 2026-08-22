@@ -5,7 +5,9 @@ import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { HeadingNode } from "@lexical/rich-text";
 import { useEffect, useRef } from "react";
+
 import { ImageNode } from "../utils/ImageNode";
+import { VideoNode } from "../utils/VideoNode";
 
 const theme = {};
 
@@ -19,7 +21,7 @@ function InitialStatePlugin({ content }) {
         try {
             const editorState = editor.parseEditorState(content);
             editor.setEditorState(editorState);
-            editor.setEditable(false); // read only
+            editor.setEditable(false);
         } catch (error) {
             console.error("Failed to parse blog content:", error);
         }
@@ -35,7 +37,9 @@ const BlogContentViewer = ({ content }) => {
         namespace: "BlogContentViewer",
         theme,
         editable: false,
-        nodes: [HeadingNode, ImageNode],
+
+        nodes: [HeadingNode, ImageNode, VideoNode],
+
         onError(error) {
             console.error(error);
         },
@@ -47,20 +51,23 @@ const BlogContentViewer = ({ content }) => {
         <LexicalComposer initialConfig={initialConfig}>
             <div
                 className="
-        prose
-        prose-lg
-        max-w-none
-        [&_h1]:text-[2.5rem]
-        [&_h1]:font-bold
-        [&_h2]:text-[2rem]
-        [&_h2]:font-bold
-        [&_h2]:mt-8
-        [&_h2]:mb-4
-        [&_p]:leading-9
-        [&_p]:text-gray-700
-    ">
+                    prose
+                    prose-lg
+                    max-w-none
+
+                    [&_h1]:text-[2.5rem]
+                    [&_h1]:font-bold
+
+                    [&_h2]:text-[2rem]
+                    [&_h2]:font-bold
+                    [&_h2]:mt-8
+                    [&_h2]:mb-4
+
+                    [&_p]:leading-9
+                    [&_p]:text-gray-700
+                ">
                 <RichTextPlugin
-                    contentEditable={<ContentEditable className="outline-none pointer-events-none" />}
+                    contentEditable={<ContentEditable className="outline-none" />}
                     placeholder={null}
                     ErrorBoundary={LexicalErrorBoundary}
                 />

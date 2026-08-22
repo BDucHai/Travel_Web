@@ -9,8 +9,9 @@ import { $createHeadingNode, $isHeadingNode } from "@lexical/rich-text";
 import { useEffect, useState } from "react";
 
 import { uploadImage } from "../../utils/uploadImage";
-
 import { $createImageNode } from "../../utils/ImageNode";
+
+import { $createVideoNode } from "../../utils/VideoNode";
 
 const ToolbarPlugin = () => {
     const [editor] = useLexicalComposerContext();
@@ -82,21 +83,95 @@ const ToolbarPlugin = () => {
 
     const handleImage = async (e) => {
         setLoading(true);
+
         const files = Array.from(e.target.files);
 
-        for (const file of files) {
-            const res = await uploadImage(file);
+        try {
+            for (const file of files) {
+                const res = await uploadImage(file);
 
-            editor.update(() => {
-                const node = $createImageNode({
-                    src: res.url,
-                    alt: file.name,
+                editor.update(() => {
+                    const node = $createImageNode({
+                        src: res.url,
+                        alt: file.name,
+                    });
+
+                    $insertNodes([node]);
                 });
+            }
+        } catch (error) {
+            console.error("Upload image error:", error);
+        } finally {
+            setLoading(false);
 
-                $insertNodes([node]);
-            });
+            // Cho phép chọn lại cùng một file
+            e.target.value = "";
         }
-        setLoading(false);
+    };
+
+    // =========================
+    // INSERT VIDEO
+    // =========================
+
+    const getYoutubeEmbedUrl = (url) => {
+        try {
+            const parsedUrl = new URL(url);
+
+            // https://www.youtube.com/watch?v=xxxxx
+            if (parsedUrl.hostname === "www.youtube.com" || parsedUrl.hostname === "youtube.com") {
+                // Link embed
+                if (parsedUrl.pathname.startsWith("/embed/")) {
+                    const videoId = parsedUrl.pathname.split("/embed/")[1];
+
+                    if (!videoId) return null;
+
+                    return `https://www.youtube.com/embed/${videoId}`;
+                }
+
+                // Link watch
+                const videoId = parsedUrl.searchParams.get("v");
+
+                if (!videoId) {
+                    return null;
+                }
+
+                return `https://www.youtube.com/embed/${videoId}`;
+            }
+
+            // https://youtu.be/xxxxx
+            if (parsedUrl.hostname === "youtu.be") {
+                const videoId = parsedUrl.pathname.substring(1);
+
+                if (!videoId) {
+                    return null;
+                }
+
+                return `https://www.youtube.com/embed/${videoId}`;
+            }
+
+            return null;
+        } catch {
+            return null;
+        }
+    };
+
+    const handleVideo = () => {
+        const url = window.prompt("Nhập link YouTube:");
+
+        if (!url) return;
+
+        const embedUrl = getYoutubeEmbedUrl(url.trim());
+
+        if (!embedUrl) {
+            alert("Link YouTube không hợp lệ!");
+            return;
+        }
+
+        editor.update(() => {
+            const videoNode = $createVideoNode(embedUrl);
+
+            $insertNodes([videoNode]);
+        });
     };
 
     const activeClass = "bg-white text-[#000]";
@@ -112,42 +187,55 @@ const ToolbarPlugin = () => {
                 gap-2
                 bg-transparent
             ">
+            {/* BOLD */}
             <button
+                type="button"
                 onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")}
                 className={`px-3 py-1 border rounded-lg ${formats.bold ? activeClass : ""}`}>
                 Bold
             </button>
 
+            {/* ITALIC */}
             <button
+                type="button"
                 onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic")}
                 className={`px-3 py-1 border rounded-lg ${formats.italic ? activeClass : ""}`}>
                 Italic
             </button>
 
+            {/* UNDERLINE */}
             <button
+                type="button"
                 onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline")}
                 className={`px-3 py-1 border rounded-lg ${formats.underline ? activeClass : ""}`}>
                 Underline
             </button>
 
+            {/* H1 */}
             <button
+                type="button"
                 onClick={() => formatHeading("h1")}
                 className={`px-3 py-1 border rounded-lg ${blockType === "h1" ? activeClass : ""}`}>
                 H1
             </button>
 
+            {/* H2 */}
             <button
+                type="button"
                 onClick={() => formatHeading("h2")}
                 className={`px-3 py-1 border rounded-lg ${blockType === "h2" ? activeClass : ""}`}>
                 H2
             </button>
 
+            {/* PARAGRAPH */}
             <button
+                type="button"
                 onClick={formatParagraph}
                 className={`px-3 py-1 border rounded-lg ${blockType === "paragraph" ? activeClass : ""}`}>
                 P
             </button>
 
+            {/* IMAGE */}
             <label
                 className="
                     px-4
@@ -162,6 +250,22 @@ const ToolbarPlugin = () => {
                 <input type="file" hidden multiple accept="image/*" onChange={handleImage} />
             </label>
 
+            {/* VIDEO */}
+            <button
+                type="button"
+                onClick={handleVideo}
+                className="
+                    px-4
+                    py-2
+                    bg-black
+                    text-white
+                    rounded-lg
+                    cursor-pointer
+                ">
+                Insert Video
+            </button>
+
+            {/* LOADING */}
             {loading && (
                 <div
                     className="

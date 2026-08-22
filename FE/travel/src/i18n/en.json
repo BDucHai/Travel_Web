@@ -196,5 +196,28 @@
     "contact_mess_placeholder": "Tell us about your trip, your preferences or any questions you may have",
     "contact_name_placeholder": "Enter your first and  last name",
     "title": "Title",
-    "nationality": "Nationality"
+    "nationality": "Nationality",
+    "mailExample": "yourmail@email.com",
+    "email": "Email",
+    "phone_number_example": "ex +33 1 23 45 67 89",
+    "phone_number_title": "Phone number",
+    "contact_info": "To ensure we can reach you regarding your enquiry, we recommend providing a phone number,\n especially if our email response does not reach you.",
+    "contact_method": "Would you like to speak with us by WhatsApp?",
+    "contact_method_yes": "Yes, by WhatsApp",
+    "contact_method_no": "No, email is sufficient",
+    "what_apps_choose": "If you choose WhatsApp, we will contact you directly on the number provided above to discuss your trip and answer any questions.",
+    "hear_about": "How did you hear about us?",
+    "select_options": "Please select an options",
+    "none": "-None-",
+    "not_share_info": "Your information is secure and will never be shared.",
+    "send_require": "Send My Enquiry",
+    "hear_from": {
+        "google": "Google / Search engine",
+        "facebook": "Facebook / Instagram",
+        "friend": "Recommendation from a friend",
+        "travel_agency": "Travel agency / Travel professional",
+        "web": "Travel website / Blog",
+        "pre_trip": "Previous trip with us",
+        "other": "Other"
+    }
 }

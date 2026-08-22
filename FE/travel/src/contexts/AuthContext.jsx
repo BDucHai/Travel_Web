@@ -4,13 +4,13 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [lang, setLang] = useState("en");
+    const [lang, setLang] = useState("fr");
 
     const login = (data) => setUser(data);
     const logout = () => setUser(null);
 
     const changeLang = (newLang) => {
-        setLang(newLang || "en");
+        setLang(newLang || "fr");
     };
 
     useEffect(() => {
@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
             localStorage.removeItem("session");
             setUser(null);
         }
-        }, []);
+    }, []);
 
     return (
         <AuthContext.Provider

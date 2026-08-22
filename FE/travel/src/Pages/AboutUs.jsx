@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { imgReason } from "../assets/images";
-import ContactModal from "../Components/ContactModal";
+import ContactModalFrm from "../Components/ContactModalFrm";
 // import ContactModalFrm from "../Components/ContactModalFrm";
 
 // import useSWR from "swr";
@@ -13,9 +13,7 @@ const AboutUs = () => {
 
     const [openContactModal, setOpenContactModal] = useState(false);
 
-    const H2 = ({ children }) => (
-    <h2 className="text-xl font-bold">{children}</h2>
-    );
+    const H2 = ({ children }) => <h2 className="text-xl font-bold">{children}</h2>;
 
     const ourPhilosophy = [
         {
@@ -137,10 +135,7 @@ const AboutUs = () => {
                     <hr className="mt-[0.5rem] w-[4rem] border-2 text-[#efb771] ml-[47%]" />
                 </div>
                 <div className="text-wrap whitespace-pre-line px-[0.5rem] ">
-                    <Trans 
-                        i18nKey="aboutUs.content_ourStory" 
-                        components={{ b: <b />, h2: <H2 /> }} 
-                        />
+                    <Trans i18nKey="aboutUs.content_ourStory" components={{ b: <b />, h2: <H2 /> }} />
                 </div>
                 {/* Our philosofie */}
                 <div className="mt-[3.5rem] py-[4rem] bg-cover bg-center flex justify-center items-center bg-[url(https://res.cloudinary.com/ds7h9l4xo/image/upload/v1787143826/1787128826597_551057346228966023_551057346228966023_d38a158ddb9b63a280791333b14aa9dd_ccy0cl.jpg)]">
@@ -155,7 +150,9 @@ const AboutUs = () => {
                                     className="flex items-center justify-start flex-col rounded-lg p-[1rem]"
                                     key={index}>
                                     <img src={t?.img} alt={t?.title} className="w-[60px] h-[60px]" />
-                                    <div className="text-wrap font-bold text-[1.5rem] text-center mb-[0.5rem]">{t?.title}</div>
+                                    <div className="text-wrap font-bold text-[1.5rem] text-center mb-[0.5rem]">
+                                        {t?.title}
+                                    </div>
                                     <div className="text-center">{t?.description}</div>
                                 </div>
                             ))}
@@ -195,9 +192,7 @@ const AboutUs = () => {
                                     <img src={t?.img} alt={t?.title} className="w-[60px] h-[60px]" />
                                     <div className="ml-[0.5rem]">
                                         <div className="text-wrap font-bold mb-[0.25rem]">{t?.title}</div>
-                                        <div className="text-wrap bg-text-sub-content ">
-                                            {t?.description}
-                                        </div>
+                                        <div className="text-wrap bg-text-sub-content ">{t?.description}</div>
                                     </div>
                                 </div>
                             ))}
@@ -210,13 +205,33 @@ const AboutUs = () => {
                 </div>
 
                 {/* Our partner in France */}
-                    <div className="text-center mt-[3.5rem] mb-[1rem] py-[0.5rem] text-[1.25rem] lg:text-[2rem] text-[#000] tracking-[1.5px] font-semibold uppercase">
-                        {t("aboutUs.our_partners_france")}
+                <div className="text-center mt-[3.5rem] mb-[1rem] py-[0.5rem] text-[1.25rem] lg:text-[2rem] text-[#000] tracking-[1.5px] font-semibold uppercase">
+                    {t("aboutUs.our_partners_france")}
 
-                        <hr className="mx-auto mt-[0.5rem] w-[4rem] border-2 text-[#efb771]" />
+                    <hr className="mx-auto mt-[0.5rem] w-[4rem] border-2 text-[#efb771]" />
+                </div>
+                <div className="mx-auto mt-8 flex max-w-[520px] items-center justify-center gap-8 px-4">
+                    {/* Marco Vasco */}
+                    <div className="flex h-[100px] w-[210px] items-center justify-center">
+                        <img
+                            src="https://res.cloudinary.com/ds7h9l4xo/image/upload/v1787373123/rco_vvuzpm.jpg"
+                            alt="Marco Vasco"
+                            className="max-h-[120px] max-w-[180px] object-contain mix-blend-multiply"
+                        />
                     </div>
 
+                    {/* Divider */}
+                    <div className="h-[55px] w-px shrink-0 bg-[#e5e0db]" />
 
+                    {/* FF Vélo */}
+                    <div className="flex h-[100px] w-[210px] items-center justify-center">
+                        <img
+                            src="https://res.cloudinary.com/ds7h9l4xo/image/upload/v1787373123/ffvelo_wpgci5.jpg"
+                            alt="FF Vélo"
+                            className="max-h-[120px] max-w-[180px] object-contain mix-blend-multiply"
+                        />
+                    </div>
+                </div>
                 {/* Meet team */}
                 <div className="text-center mt-[3.5rem] mb-[1rem] py-[0.5rem] text-[1.25rem] lg:text-[2rem] text-[#000] tracking-[1.5px] font-semibold font-inter uppercase">
                     {t("aboutUs.meet_team")}
@@ -224,52 +239,50 @@ const AboutUs = () => {
                     <hr className="mx-auto mt-[0.5rem] w-[4rem] border-2 text-[#efb771]" />
                 </div>
                 <div className="grid grid-cols-2 gap-[1.5rem] lg:gap-[4rem] lg:px-[1rem] xl:px-[2rem]">
-                    <div
-                            className=" flex-1 flex flex-col lg:flex-row gap-[2rem] items-start overflow-clip">
-                            {/* Image */}
-                            <div className="w-[5rem] h-[5rem] shrink-0">
-                                    <img
-                                        src="https://res.cloudinary.com/ds7h9l4xo/image/upload/v1787143825/1787128520896_551057346228966023_551057346228966023_3ce86204f04e30483cced07de2161e4f_vkdlne.jpg"
-                                        alt="Thuy Nguyen"
-                                        className="w-full h-full rounded-full object-cover"
-                                    />
-                            </div>
-                            <div className="flex flex-col gap-2">
-                                <div className="text-[1rem] font-[500]">Thuy Nguyen</div>
+                    <div className=" flex-1 flex flex-col lg:flex-row gap-[2rem] items-start overflow-clip">
+                        {/* Image */}
+                        <div className="w-[5rem] h-[5rem] shrink-0">
+                            <img
+                                src="https://res.cloudinary.com/ds7h9l4xo/image/upload/v1787143825/1787128520896_551057346228966023_551057346228966023_3ce86204f04e30483cced07de2161e4f_vkdlne.jpg"
+                                alt="Thuy Nguyen"
+                                className="w-full h-full rounded-full object-cover"
+                            />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <div className="text-[1rem] font-[500]">Bich Thuy</div>
 
-                                <div className="text-[#d48b32]">{t("aboutUs.sale_fr")} </div>
+                            <div className="text-[#d48b32]">{t("aboutUs.sale_fr")} </div>
 
-                                {/* <Tooltip title={item?.email}>
+                            {/* <Tooltip title={item?.email}>
                                     <div className="text-justify leading-[2rem]">{item?.email}</div>
                                 </Tooltip>
                                 <Tooltip title={item?.phone}>
                                     <div className="text-justify leading-[2rem]">{item?.phone}</div>
                                 </Tooltip> */}
-                            </div>
                         </div>
-                        <div
-                            className=" flex-1 flex flex-col lg:flex-row gap-[2rem] items-start overflow-clip">
-                            {/* Image */}
-                            <div className="w-[5rem] h-[5rem] shrink-0">
-                                    <img
-                                        src="https://res.cloudinary.com/ds7h9l4xo/image/upload/v1787143826/1787128784261_551057346228966023_551057346228966023_5f6f8929dabddb5afd1ab13ac82970e3_vcc5bi.jpg"
-                                        alt="Phuong Hoang"
-                                        className="w-full h-full rounded-full object-cover"
-                                    />
-                            </div>
-                            <div className="flex flex-col gap-2">
-                                <div className="text-[1rem] font-[500]">Phuong Hoang</div>
+                    </div>
+                    <div className=" flex-1 flex flex-col lg:flex-row gap-[2rem] items-start overflow-clip">
+                        {/* Image */}
+                        <div className="w-[5rem] h-[5rem] shrink-0">
+                            <img
+                                src="https://res.cloudinary.com/ds7h9l4xo/image/upload/v1787143826/1787128784261_551057346228966023_551057346228966023_5f6f8929dabddb5afd1ab13ac82970e3_vcc5bi.jpg"
+                                alt="Phuong Hoang"
+                                className="w-full h-full rounded-full object-cover"
+                            />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <div className="text-[1rem] font-[500]">Phuong Hoang</div>
 
-                                <div className="text-[#d48b32]">{t("aboutUs.sale_eng")} </div>
+                            <div className="text-[#d48b32]">{t("aboutUs.sale_eng")} </div>
 
-                                {/* <Tooltip title={item?.email}>
+                            {/* <Tooltip title={item?.email}>
                                     <div className="text-justify leading-[2rem]">{item?.email}</div>
                                 </Tooltip>
                                 <Tooltip title={item?.phone}>
                                     <div className="text-justify leading-[2rem]">{item?.phone}</div>
                                 </Tooltip> */}
-                            </div>
                         </div>
+                    </div>
                 </div>
 
                 <hr className="mt-[2rem] text-[#bc8b3869]" />
@@ -291,8 +304,8 @@ const AboutUs = () => {
             </div>
 
             {/* Modal */}
-            <ContactModal t={t} open={openContactModal} onClose={() => setOpenContactModal(false)} />
-                {/* <ContactModalFrm t={t} open={openContactModal} onClose={() => setOpenContactModal(false)} /> */}
+            {/* <ContactModal t={t} open={openContactModal} onClose={() => setOpenContactModal(false)} /> */}
+            <ContactModalFrm t={t} open={openContactModal} onClose={() => setOpenContactModal(false)} />
         </>
     );
 };

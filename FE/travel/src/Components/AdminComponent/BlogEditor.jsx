@@ -9,7 +9,10 @@ import { $getRoot } from "lexical";
 
 import { $generateNodesFromDOM } from "@lexical/html";
 import { HeadingNode } from "@lexical/rich-text";
+
 import { ImageNode } from "../../utils/ImageNode";
+import { VideoNode } from "../../utils/VideoNode";
+
 import { useEffect, useRef } from "react";
 import ToolbarPlugin from "../AdminComponent/ToolbarPlugin";
 
@@ -39,10 +42,11 @@ function InitialContentPlugin({ content }) {
                     editor.setEditorState(state);
                 }
 
-                // CASE 2: HTML cũ (fallback)
+                // CASE 2: HTML cũ
                 else {
                     const parser = new DOMParser();
                     const dom = parser.parseFromString(content, "text/html");
+
                     const nodes = $generateNodesFromDOM(editor, dom);
 
                     const root = $getRoot();
@@ -66,16 +70,20 @@ const BlogEditor = ({ content, setContent }) => {
     const editorConfig = {
         namespace: "BlogEditor",
         theme,
-        nodes: [HeadingNode, ImageNode],
+
+        nodes: [HeadingNode, ImageNode, VideoNode],
+
         onError(error) {
-            throw error;
+            console.error(error);
         },
     };
 
     return (
         <LexicalComposer initialConfig={editorConfig}>
+            {/* TOOLBAR */}
             <ToolbarPlugin />
 
+            {/* EDITOR */}
             <RichTextPlugin
                 contentEditable={<ContentEditable className="min-h-[500px] p-6 outline-none" />}
                 placeholder={<div className="p-4 text-gray-400">Write...</div>}
@@ -84,9 +92,10 @@ const BlogEditor = ({ content, setContent }) => {
 
             <HistoryPlugin />
 
+            {/* LOAD CONTENT */}
             <InitialContentPlugin content={content} />
 
-            {/* SAVE */}
+            {/* SAVE CONTENT */}
             <OnChangePlugin
                 onChange={(editorState) => {
                     if (skip.current) {
@@ -94,7 +103,6 @@ const BlogEditor = ({ content, setContent }) => {
                         return;
                     }
 
-                    // 👉 vẫn gửi string (JSON)
                     setContent(JSON.stringify(editorState));
                 }}
             />

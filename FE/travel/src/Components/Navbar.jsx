@@ -6,10 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { LuTableOfContents } from "react-icons/lu";
 import { IoCaretDownOutline } from "react-icons/io5";
 import { imgBanner, imgGlobal, imgLang } from "../assets/images";
-import ContactModal from "./ContactModal";
 import useSWR from "swr";
 import { getMegaMenu } from "../api/Home";
 import { durationsDays } from "../constant";
+import * as Flags from "country-flag-icons/react/3x2";
+import ContactModalFrm from "./ContactModalFrm";
 
 const Navbar = ({ home }) => {
     const { t, i18n } = useTranslation();
@@ -40,24 +41,27 @@ const Navbar = ({ home }) => {
                     lang === "en" ? "xl:text-[1.15rem]" : "text-[1rem]"
                 }  font-roboto font-bold`}>
                 {/* I18 language */}
-                <div className="hidden lg:flex items-center justify-end">
+                <div className="hidden lg:flex items-center justify-end px-[2rem]">
                     <div
-                        className={`flex items-center gap-1 p-1 rounded-full ${
+                        className={`flex items-center gap-1.5 p-1 rounded-full ${
                             home ? "bg-white/10" : "bg-[#000]"
-                        }  backdrop-blur-xl border border-white/20 shadow-lg`}>
+                        } backdrop-blur-xl border border-white/20 shadow-lg`}>
+                        <Flags.US title="English" className="w-6 h-4 object-cover rounded-sm" />
+
                         {/* EN */}
                         <button
                             onClick={() => {
                                 i18n.changeLanguage("en");
                                 changeLang("en");
                             }}
-                            className={`relative font-semibold rounded-full transition-all duration-300 px-1 py-1 text-[10px] lg:px-3 lg:py-1.5 lg:text-xs cursor-pointer
-                                            ${
-                                                i18n.language === "en"
-                                                    ? "bg-white text-black shadow-md scale-[1.03]"
-                                                    : "text-white/80 hover:text-white hover:bg-white/10"
-                                            }
-                                        `}>
+                            className={`relative font-semibold rounded-full transition-all duration-300
+                px-2 py-1.5 text-xs cursor-pointer
+                ${
+                    i18n.language === "en"
+                        ? "bg-white text-black shadow-md scale-[1.03]"
+                        : "text-white/80 hover:text-white hover:bg-white/10"
+                }
+            `}>
                             EN
                         </button>
 
@@ -67,18 +71,19 @@ const Navbar = ({ home }) => {
                                 i18n.changeLanguage("fr");
                                 changeLang("fr");
                             }}
-                            className={`
-                                                relative font-semibold rounded-full transition-all duration-300 cursor-pointer
-                                                px-1 py-1 text-[10px]
-                                                lg:px-3 lg:py-1.5 lg:text-xs
-                                                ${
-                                                    i18n.language === "fr"
-                                                        ? "bg-white text-black shadow-md scale-[1.03]"
-                                                        : "text-white/80 hover:text-white hover:bg-white/10"
-                                                }
-                                            `}>
+                            className={`relative font-semibold rounded-full transition-all duration-300
+                px-2 py-1.5 text-xs cursor-pointer
+                ${
+                    i18n.language === "fr"
+                        ? "bg-white text-black shadow-md scale-[1.03]"
+                        : "text-white/80 hover:text-white hover:bg-white/10"
+                }
+            `}>
                             FR
                         </button>
+
+                        {/* France flag */}
+                        <Flags.FR title="France" className="w-6 h-4 object-cover rounded-sm" />
                     </div>
                 </div>
                 {/* Nav */}
@@ -212,7 +217,11 @@ const Navbar = ({ home }) => {
                                                 {megaMenu?.travelInformation?.north?.map((no) => (
                                                     <div
                                                         className="w-[90%] px-[1rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
-                                                        onClick={() => navigate(`/tours?destinationSlug=${no?.slug}`, {state: { content: no?.content }})}>
+                                                        onClick={() =>
+                                                            navigate(`/tours?destinationSlug=${no?.slug}`, {
+                                                                state: { content: no?.content },
+                                                            })
+                                                        }>
                                                         {no?.label}
                                                     </div>
                                                 ))}
@@ -235,7 +244,11 @@ const Navbar = ({ home }) => {
                                                 {megaMenu?.travelInformation?.central?.map((cen) => (
                                                     <div
                                                         className="w-[90%] px-[1rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
-                                                        onClick={() => navigate(`/tours?destinationSlug=${cen?.slug}`, {state: { content: cen?.content }})}>
+                                                        onClick={() =>
+                                                            navigate(`/tours?destinationSlug=${cen?.slug}`, {
+                                                                state: { content: cen?.content },
+                                                            })
+                                                        }>
                                                         {cen?.label}
                                                     </div>
                                                 ))}
@@ -251,7 +264,11 @@ const Navbar = ({ home }) => {
                                                 {megaMenu?.travelInformation?.south?.map((s) => (
                                                     <div
                                                         className="w-[90%] px-[1rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
-                                                        onClick={() => navigate(`/tours?destinationSlug=${s?.slug}`, {state: { content: s?.content }})}>
+                                                        onClick={() =>
+                                                            navigate(`/tours?destinationSlug=${s?.slug}`, {
+                                                                state: { content: s?.content },
+                                                            })
+                                                        }>
                                                         {s?.label}
                                                     </div>
                                                 ))}
@@ -472,7 +489,9 @@ const Navbar = ({ home }) => {
                                                 <div
                                                     className={`flex items-center text-[#fff] px-[4rem] py-[0.5rem] gap-1`}
                                                     onClick={() => {
-                                                        navigate(`/tours?destinationSlug=${no?.slug}`, {state: { content: no?.content }});
+                                                        navigate(`/tours?destinationSlug=${no?.slug}`, {
+                                                            state: { content: no?.content },
+                                                        });
                                                         setOpenNavMobile(false);
                                                     }}>
                                                     {no?.label}
@@ -501,7 +520,9 @@ const Navbar = ({ home }) => {
                                                 <div
                                                     className={`flex items-center text-[#fff] px-[4rem] py-[0.5rem] gap-1`}
                                                     onClick={() => {
-                                                        navigate(`/tours?destinationSlug=${cen?.slug}`, {state: { content: cen?.content }});
+                                                        navigate(`/tours?destinationSlug=${cen?.slug}`, {
+                                                            state: { content: cen?.content },
+                                                        });
                                                         setOpenNavMobile(false);
                                                     }}>
                                                     {cen?.label}
@@ -528,9 +549,11 @@ const Navbar = ({ home }) => {
                                                 <div
                                                     className={`flex items-center text-[#fff] px-[4rem] py-[0.5rem] gap-1`}
                                                     onClick={() => {
-                                                        navigate(`/tours?destinationSlug=${sou?.slug}`, {state: { content: sou?.content }});
+                                                        navigate(`/tours?destinationSlug=${sou?.slug}`, {
+                                                            state: { content: sou?.content },
+                                                        });
                                                         setOpenNavMobile(false);
-                                                        }}>
+                                                    }}>
                                                     {sou?.label}
                                                 </div>
                                             ))}
@@ -547,7 +570,8 @@ const Navbar = ({ home }) => {
                                 </div>
 
                                 <div
-                                    className={`flex items-center px-[1rem] py-[0.75rem] uppercase gap-1 text-[1rem] text-white`} onClick={() => {
+                                    className={`flex items-center px-[1rem] py-[0.75rem] uppercase gap-1 text-[1rem] text-white`}
+                                    onClick={() => {
                                         setOpenNavMobile(false);
                                         navigate("/blog");
                                     }}>
@@ -594,7 +618,7 @@ const Navbar = ({ home }) => {
                 </AnimatePresence>
 
                 {/* Modal */}
-                <ContactModal t={t} open={openContactModal} onClose={() => setOpenContactModal(false)} />
+                <ContactModalFrm t={t} open={openContactModal} onClose={() => setOpenContactModal(false)} />
             </div>
         </>
     );

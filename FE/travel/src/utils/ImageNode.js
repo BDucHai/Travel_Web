@@ -54,6 +54,7 @@ export class ImageNode extends DecoratorNode {
     }
 }
 
+
 export function $createImageNode({ src, alt }) {
     return new ImageNode(src, alt);
 }
