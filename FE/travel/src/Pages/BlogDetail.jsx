@@ -10,6 +10,7 @@ import RelatedTours from "../Components/RelatedTours";
 import BlogContentViewer from "../Components/BlogContentViewer";
 import { Backdrop, CircularProgress } from "@mui/material";
 import ContactModalFrm from "../Components/ContactModalFrm";
+import { createContacts } from "../api/Contact";
 
 const BlogDetail = () => {
     const { slug } = useParams();
@@ -33,6 +34,18 @@ const BlogDetail = () => {
     const handleChangeValueRequest = (e) => {
         setRequest({ ...request, [e?.target?.name]: e?.target?.value });
     };
+
+    const handleSendRequest = async() =>{
+                await createContacts({
+                    fullName: request?.name,
+                    email: request?.email,
+                    phoneNumber: request?.phone,
+                    message: request?.message,
+                    nationality: "None",
+                    contactMethod: "email",
+                    hearFrom: "None",
+                });
+    }
 
     return (
         <div className="bg-white">
@@ -62,8 +75,8 @@ const BlogDetail = () => {
 
                     <h1
                         className="
-                            text-5xl
-                            lg:text-7xl
+                            text-3xl
+                            lg:text-5xl
                             font-bold
                             leading-tight
                         ">
@@ -161,23 +174,26 @@ const BlogDetail = () => {
                             onChange={handleChangeValueRequest}
                         />
 
-                        <div className="md:col-span-2">
-                            <button
-                                type="submit"
+                        <div className="md:col-span-2 text-center">
+                            <div
+                                onClick={handleSendRequest}
                                 className="
-                                    bg-[#b8860b]
-                                    text-white
-                                    px-8
-                                    py-3
-                                    text-sm
-                                    tracking-wider
-                                    hover:bg-[#9c7209]
-                                    transition-all
-                                    cursor-pointer
-                                ">
+                                inline-block
+                                bg-[#b8860b]
+                                text-white
+                                px-8
+                                py-3
+                                text-sm
+                                tracking-wider
+                                hover:bg-[#9c7209]
+                                transition-all
+                                cursor-pointer
+                                "
+                            >
                                 {t("send_inquiry")}
-                            </button>
+                            </div>
                         </div>
+
                     </form>
                 </div>
 

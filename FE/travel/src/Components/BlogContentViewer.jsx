@@ -55,16 +55,15 @@ const BlogContentViewer = ({ content }) => {
                     prose-lg
                     max-w-none
 
-                    [&_h1]:text-[2.5rem]
+                    [&_h1]:text-[1.5rem]
                     [&_h1]:font-bold
 
-                    [&_h2]:text-[2rem]
+                    [&_h2]:text-[1.2rem]
                     [&_h2]:font-bold
                     [&_h2]:mt-8
                     [&_h2]:mb-4
 
                     [&_p]:leading-9
-                    [&_p]:text-gray-700
                 ">
                 <RichTextPlugin
                     contentEditable={<ContentEditable className="outline-none" />}
