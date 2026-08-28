@@ -62,7 +62,6 @@ const BlogDetail = () => {
                 />
 
                 <div className="absolute inset-0 bg-black/40" />
-
                 <div
                     className="
                         absolute
@@ -90,7 +89,6 @@ const BlogDetail = () => {
                     </div>
                 </div>
             </div>
-
             {/* CONTENT */}
             <div
                 className="
