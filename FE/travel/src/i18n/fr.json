@@ -236,5 +236,7 @@
         "web": "Site de voyage / Blog",
         "pre_trip": "Voyage précédent avec nous",
         "other": "Autre"
-    }
+    },
+
+    "in_this_page": "Sur cette page"
 }

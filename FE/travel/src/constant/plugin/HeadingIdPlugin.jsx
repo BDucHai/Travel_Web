@@ -1,27 +1,25 @@
-import { $getRoot, $getSelection } from "lexical";
-import { $isHeadingNode } from "@lexical/rich-text";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { useEffect } from "react";
 
-function HeadingIdPlugin() {
+export default function HeadingIdPlugin() {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
-    return editor.registerUpdateListener(({ editorState }) => {
-      editorState.read(() => {
-        const root = $getRoot();
-        root.getChildren().forEach((node, index) => {
-          if ($isHeadingNode(node)) {
-            if (!node.getId()) {
-              node.setId(`heading-${index}`);
-            }
-          }
+    return editor.registerMutationListener(
+      // lắng nghe HeadingNode
+      require("@lexical/rich-text").HeadingNode,
+      () => {
+        editor.update(() => {
+          const root = editor.getRootElement();
+          if (!root) return;
+          const headings = root.querySelectorAll("h1, h2");
+          headings.forEach((h, i) => {
+            if (!h.id) h.id = `heading-${i}`;
+          });
         });
-      });
-    });
+      }
+    );
   }, [editor]);
 
   return null;
 }
-
-export default HeadingIdPlugin;
