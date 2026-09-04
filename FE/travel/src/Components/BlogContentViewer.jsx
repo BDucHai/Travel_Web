@@ -3,78 +3,83 @@ import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { HeadingNode } from "@lexical/rich-text";
 import { useEffect, useRef } from "react";
 
 import { ImageNode } from "../utils/ImageNode";
 import { VideoNode } from "../utils/VideoNode";
+import TOC from "./TOC";
+import HeadingIdPlugin from "../constant/plugin/HeadingIdPlugin";
+import { HeadingNode } from "@lexical/rich-text";
 
 const theme = {};
 
 function InitialStatePlugin({ content }) {
-    const [editor] = useLexicalComposerContext();
-    const loadedRef = useRef(false);
+  const [editor] = useLexicalComposerContext();
+  const loadedRef = useRef(false);
 
-    useEffect(() => {
-        if (!content || loadedRef.current) return;
+  useEffect(() => {
+    if (!content || loadedRef.current) return;
 
-        try {
-            const editorState = editor.parseEditorState(content);
-            editor.setEditorState(editorState);
-            editor.setEditable(false);
-        } catch (error) {
-            console.error("Failed to parse blog content:", error);
-        }
+    try {
+      const editorState = editor.parseEditorState(content);
+      editor.setEditorState(editorState);
+      editor.setEditable(false);
+    } catch (error) {
+      console.error("Failed to parse blog content:", error);
+    }
 
-        loadedRef.current = true;
-    }, [content, editor]);
+    loadedRef.current = true;
+  }, [content, editor]);
 
-    return null;
+  return null;
 }
 
 const BlogContentViewer = ({ content }) => {
-    const initialConfig = {
-        namespace: "BlogContentViewer",
-        theme,
-        editable: false,
+  const initialConfig = {
+    namespace: "BlogContentViewer",
+    theme,
+    editable: false,
+    nodes: [HeadingNode, ImageNode, VideoNode],
+    onError(error) {
+      console.error(error);
+    },
+  };
 
-        nodes: [HeadingNode, ImageNode, VideoNode],
+  if (!content) return null;
 
-        onError(error) {
-            console.error(error);
-        },
-    };
+  return (
+    <div className="px-[0.75rem] lg:px-[2rem]">
+      <LexicalComposer initialConfig={initialConfig}>
+        <div className="relative content-wrapper flex">
+          {/* Nội dung blog */}
+          <div
+            className="
+            prose prose-lg max-w-none
+            [&_h1]:text-[1.5rem] [&_h1]:font-bold
+            [&_h2]:text-[1.2rem] [&_h2]:font-bold [&_h2]:mt-8 [&_h2]:mb-4
+            [&_p]:leading-9 flex-[2]"
+          >
+            <RichTextPlugin
+              contentEditable={<ContentEditable className="outline-none" />}
+              placeholder={null}
+              ErrorBoundary={LexicalErrorBoundary}
+            />
+            <InitialStatePlugin content={content} />
 
-    if (!content) return null;
+            {/* Gắn id cho heading */}
+            <HeadingIdPlugin />
+          </div>
 
-    return (
-        <LexicalComposer initialConfig={initialConfig}>
-            <div
-                className="
-                    prose
-                    prose-lg
-                    max-w-none
-
-                    [&_h1]:text-[1.5rem]
-                    [&_h1]:font-bold
-
-                    [&_h2]:text-[1.2rem]
-                    [&_h2]:font-bold
-                    [&_h2]:mt-8
-                    [&_h2]:mb-4
-
-                    [&_p]:leading-9
-                ">
-                <RichTextPlugin
-                    contentEditable={<ContentEditable className="outline-none" />}
-                    placeholder={null}
-                    ErrorBoundary={LexicalErrorBoundary}
-                />
-
-                <InitialStatePlugin content={content} />
+          <div className="hidden md:block flex-[0.75] lg:ml-[1.5rem]">
+            <div className="sticky top-[120px] h-[calc(100vh-120px)] overflow-y-scroll scroll-super-thin">
+              <TOC />
             </div>
-        </LexicalComposer>
-    );
+          </div>
+        </div>
+      </LexicalComposer>
+    </div>
+  );
 };
+
 
 export default BlogContentViewer;

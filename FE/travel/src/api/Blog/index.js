@@ -54,12 +54,11 @@ export const getBlogAdminById = async ({ id }) => {
 
 export const updateBlog = async ({ id, data }) => {
     try {
-        const res = await axiosClient.put(`/admin/blogs/${id}`, data);
+        return await axiosClient.put(`/admin/blogs/${id}`, data).then((res) => res?.data);;
 
-        toast.success(i18n.t("notify.update_success"));
-
-        return res?.data;
     } catch (err) {
         toast.error(i18n.t("notify.update_fail"));
     }
 };
+
+export const getBlogRandom = async (params) => axiosClient.get("/blogs/blogs/random", { params }).then((res) => res?.data);

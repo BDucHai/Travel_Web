@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
     /* font-family:
@@ -11,6 +15,18 @@ body {
 
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+/* global.css */
+.scroll-super-thin::-webkit-scrollbar {
+  width: 1px;
+}
+.scroll-super-thin::-webkit-scrollbar-thumb {
+  background-color: #9ca3af; 
+  border-radius: 9999px;
+}
+.scroll-super-thin::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .font-inter {

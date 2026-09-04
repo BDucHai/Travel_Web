@@ -62,7 +62,6 @@ const BlogDetail = () => {
                 />
 
                 <div className="absolute inset-0 bg-black/40" />
-
                 <div
                     className="
                         absolute
@@ -90,20 +89,13 @@ const BlogDetail = () => {
                     </div>
                 </div>
             </div>
-
             {/* CONTENT */}
             <div
-                className="
-            max-w-[1000px]
-            mx-auto
-            px-5
-            lg:px-0
-            py-20
-        ">
+                className="px-[1rem] lg:px-0 py-20">
                 <BlogContentViewer content={blog?.content} />
 
                 {/* CONTACT FORM */}
-                <div className="border-t border-gray-200 mt-20 pt-16">
+                <div className="border-t border-gray-200 mt-20 pt-16 px-[0.5rem] lg:px-[2.5rem]">
                     <h2 className="text-3xl font-serif mb-2">{t("need_help_plan")}</h2>
 
                     <p className="text-gray-500 mb-8">{t("travel_help")}</p>
@@ -198,7 +190,7 @@ const BlogDetail = () => {
                 </div>
 
                 {/* RELATED TOURS */}
-                <div className="border-t border-gray-200 mt-20 pt-16">
+                <div className="border-t border-gray-200 mt-20 pt-16 lg:px-[2.5rem]">
                     <h2 className="text-2xl font-serif mb-8">{t("related_tour")}</h2>
 
                     <RelatedTours tours={blog?.relatedTours} />
