@@ -172,7 +172,7 @@ const Blog = () => {
                                 </div>
 
                                 {/* Mobile & md layout: tất cả 4 bài */}
-                                {mostReadBlogs?.data?.map((post, idx) => (
+                                {mostReadBlogs?.map((post, idx) => (
                                     <div
                                         key={post?.id}
                                         className="flex flex-col md:flex-row lg:hidden border-1 border-[#ccc] lg:border-0"

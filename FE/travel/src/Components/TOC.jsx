@@ -8,6 +8,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { CiCalendar } from "react-icons/ci";
 import { FaEye } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
+import { Tooltip } from "@mui/material";
 
 export default function TOC() {
   const { slug } = useParams();
@@ -61,21 +62,27 @@ export default function TOC() {
         {(listBlogs ? listBlogs.filter(b => b.slug !== slug) : [])?.map((post) => (
           <div
             key={post?.id}
-            className="flex cursor-pointer mt-[0.5rem]"
+            className="flex cursor-pointer mt-[0.5rem] max-h-[90px]"
             onClick={() => {
               navigate(`/blog/detail/${post?.slug}`);
             }}>
-            <div className="flex-1 mr-[0.5rem]">            
+            <div className="flex-1 mr-[0.5rem]">
               <img
                 src={post?.heroImageUrl}
                 alt={post?.id}
-                className="w-full max-h-[120px] object-cover"
+                className="w-full h-full object-cover"
               />
             </div>
             <div className="flex-1">
               <div>
                 {/* <p className="text-xs text-gray-500">{post?.guide}</p> */}
-                <h3 className="text-[0.75rem]] font-semibold">{post?.title}</h3>
+                <Tooltip title={post?.title}>
+                  <h3
+                    className="text-[0.75rem] font-semibold line-clamp-3"
+                  >
+                    {post?.title}
+                  </h3>
+                </Tooltip>
               </div>
               <div className="flex items-center text-xs text-dark mt-2">
                 <span className="flex items-center mr-[0.8rem]">
@@ -90,13 +97,13 @@ export default function TOC() {
           </div>
         ))}
       </div>
-    
-          <div
-            className="mt-[0.5rem] mb-[1rem] text-[#d38518] font-semibold uppercase cursor-pointer"
-            onClick={() => navigate("/blog")}
-          >
-            {t("view_more_article")}
-          </div>
+
+      <div
+        className="mt-[0.5rem] mb-[1rem] text-[#d38518] font-semibold uppercase cursor-pointer"
+        onClick={() => navigate("/blog")}
+      >
+        {t("view_more_article")}
+      </div>
 
 
     </div>

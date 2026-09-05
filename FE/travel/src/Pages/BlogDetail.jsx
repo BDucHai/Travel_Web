@@ -8,17 +8,21 @@ import useSWR from "swr";
 import { getBlogById } from "../api/Blog";
 import RelatedTours from "../Components/RelatedTours";
 import BlogContentViewer from "../Components/BlogContentViewer";
-import { Backdrop, CircularProgress } from "@mui/material";
+import { Backdrop, CircularProgress, Typography } from "@mui/material";
 import ContactModalFrm from "../Components/ContactModalFrm";
 import { createContacts } from "../api/Contact";
+
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import Link from '@mui/material/Link';
 
 const BlogDetail = () => {
     const { slug } = useParams();
     const { t } = useTranslation();
     const { lang } = useAuth();
     const [openContactModal, setOpenContactModal] = useState(false);
-
     const navigate = useNavigate();
+
 
     const { data: blog, isLoading } = useSWR(slug ? ["/blogs/detail", { slug, lang }] : null, ([_, params]) =>
         getBlogById(params),
@@ -35,16 +39,16 @@ const BlogDetail = () => {
         setRequest({ ...request, [e?.target?.name]: e?.target?.value });
     };
 
-    const handleSendRequest = async() =>{
-                await createContacts({
-                    fullName: request?.name,
-                    email: request?.email,
-                    phoneNumber: request?.phone,
-                    message: request?.message,
-                    nationality: "None",
-                    contactMethod: "email",
-                    hearFrom: "None",
-                });
+    const handleSendRequest = async () => {
+        await createContacts({
+            fullName: request?.name,
+            email: request?.email,
+            phoneNumber: request?.phone,
+            message: request?.message,
+            nationality: "None",
+            contactMethod: "email",
+            hearFrom: "None",
+        });
     }
 
     return (
@@ -89,9 +93,55 @@ const BlogDetail = () => {
                     </div>
                 </div>
             </div>
+            {/* Breakcrum */}
+            <div className="px-[0.5rem] lg:px-[2rem] mt-[0.5rem]">
+                <Breadcrumbs
+                    separator={<NavigateNextIcon fontSize="small" />}
+                    aria-label="breadcrumb"
+                    sx={{
+                        p: 1.5,
+                        backgroundColor: '#f5f5f5',
+                        borderRadius: 1
+                    }}
+                >
+                    <Link
+                        underline="hover"
+                        key="1"
+                        color="primary"
+                        sx={{ fontWeight: 'bold', cursor: "pointer" }}
+                        onClick={() => navigate("/")}
+                    >
+                        {t("home")}
+                    </Link>
+
+                    <Link
+                        underline="hover"
+                        key="2"
+                        color="primary"
+                        sx={{ fontWeight: 'bold', cursor: "pointer"  }}
+                        onClick={() => navigate("/blog")}
+                    >
+                        {t("blog")}
+                    </Link>
+
+                    <Typography
+                        key="3"
+                        sx={{
+                            color: 'text.primary',
+                            fontWeight: 'bold',
+                            whiteSpace: 'normal',
+                            wordBreak: 'break-word'
+                        }}
+                    >
+                        {blog?.title}
+                    </Typography>
+                </Breadcrumbs>
+
+            </div>
+
             {/* CONTENT */}
             <div
-                className="px-[1rem] lg:px-0 py-20">
+                className="px-[1rem] lg:px-0 py-20 pt-10">
                 <BlogContentViewer content={blog?.content} />
 
                 {/* CONTACT FORM */}
@@ -299,12 +349,12 @@ const BlogDetail = () => {
             </Backdrop>
 
             {/* Modal */}
-            {blog &&  <ContactModalFrm
+            {blog && <ContactModalFrm
                 t={t}
                 open={openContactModal}
                 content={`I am interested in blog ${blog?.title} `}
                 onClose={() => setOpenContactModal(false)}
-            />}  
+            />}
         </div>
     );
 };

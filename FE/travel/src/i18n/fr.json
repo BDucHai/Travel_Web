@@ -199,8 +199,8 @@
     "upload_multi_img": "Télécharger plusieurs images",
     "travel_img": "Images de voyage",
     "overview": "Aperçu",
-    "highlight": "Points forts",
-    "overnight": "Du jour au lendemain",
+    "highlight": "Itinéraire",
+    "overnight": "Nuitée",
     "need_help_plan": "Besoin d’aide pour organiser votre voyage ?",
     "travel_help": "Nos spécialistes du voyage sont là pour vous aider à créer l’itinéraire idéal en Indochine.",
 
@@ -240,5 +240,6 @@
 
     "in_this_page": "Sur cette page",
     "you_may_also_like": "Vous pourriez aussi aimer",
-    "view_more_article": "Voir plus d'articles"
+    "view_more_article": "Voir plus d'articles",
+    "home": "Maison"
 }
