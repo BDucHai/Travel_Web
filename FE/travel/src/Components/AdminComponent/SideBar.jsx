@@ -13,6 +13,7 @@ import { MdOutlineTour } from "react-icons/md";
 import { BiSolidCommentEdit } from "react-icons/bi";
 import { GiCampingTent } from "react-icons/gi";
 import { FaPhoneVolume } from "react-icons/fa6";
+import { FaQuestion } from "react-icons/fa";
 import { FaHouseChimneyUser } from "react-icons/fa6";
 import { MdLogout } from "react-icons/md";
 import { clearSession } from "../../utils/session";
@@ -75,6 +76,12 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
       title: t("admin.manageUser"),
       icon: <FaHouseChimneyUser />,
       direct: "/admin/manageUser",
+    },
+        {
+      id: 11,
+      title: "Question Location",
+      icon: <FaQuestion />,
+      direct: "/admin/questionThread",
     },
     {
       id: 9,

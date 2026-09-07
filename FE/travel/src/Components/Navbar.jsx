@@ -342,7 +342,7 @@ const Navbar = ({ home }) => {
                             animate={{ height: "auto", opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             transition={{ duration: 0.2 }}>
-                            <div className="pt-[1rem] overflow-scroll">
+                            <div className="pt-[1rem] overflow-y-scroll">
                                 {/* VIETNAM TOUR MOBILE */}
                                 <div
                                     className={`flex items-center px-[1rem] py-[0.75rem] uppercase gap-1 text-[0.85rem] ${

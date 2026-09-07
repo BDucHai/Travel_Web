@@ -18,6 +18,7 @@ import DestinationList from "../Pages/Admin/DestinationList";
 import CreateDestination from "../Pages/Admin/CreateDestination";
 import StylesPage from "../Pages/StylePage";
 import BannerPage from "../Pages/Admin/BannerPage";
+import AdminQuestionThread from "../Pages/Admin/AdminQuestionThread";
 
 const publicRoutes = [{ path: "/", component: Home }];
 
@@ -74,6 +75,11 @@ const routeAdmin = [
   {
     path: "/admin/destinations/create/:id?",
     component: CreateDestination,
+    roles: ["user", "admin"],
+  },
+  {
+    path: "/admin/questionThread",
+    component: AdminQuestionThread,
     roles: ["user", "admin"],
   },
   { path: "/admin/banner", component: BannerPage, roles: ["user", "admin"] },
