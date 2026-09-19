@@ -14,9 +14,19 @@ import { ImageNode } from "../../utils/ImageNode";
 import { VideoNode } from "../../utils/VideoNode";
 
 import { useEffect, useRef } from "react";
-import ToolbarPlugin from "../AdminComponent/ToolbarPlugin";
+import ToolbarPlugin from "./ToolbarPlugin";
+import { ImageGalleryNode } from "../../utils/ImageGalleryNode";
+// import TextColorPlugin from "../../constant/plugin/TextColorPlugin";
+// import { TextStyleNode } from "../../utils/TextStyleNode";
 
-const theme = {};
+const theme = {
+  heading: {
+    h1: "text-[1.5rem] font-bold",
+    h2: "text-[1.2rem] font-bold mt-8 mb-4",
+  },
+  paragraph: "leading-9",
+};
+
 
 function isJSON(str) {
     try {
@@ -64,14 +74,14 @@ function InitialContentPlugin({ content }) {
     return null;
 }
 
-const BlogEditor = ({ content, setContent }) => {
+const LexicalEditor = ({ content, setContent }) => {
     const skip = useRef(true);
 
     const editorConfig = {
         namespace: "BlogEditor",
         theme,
 
-        nodes: [HeadingNode, ImageNode, VideoNode],
+        nodes: [HeadingNode, ImageNode, VideoNode,  ImageGalleryNode],
 
         onError(error) {
             console.error(error);
@@ -85,8 +95,8 @@ const BlogEditor = ({ content, setContent }) => {
 
             {/* EDITOR */}
             <RichTextPlugin
-                contentEditable={<ContentEditable className="min-h-[500px] p-6 outline-none" />}
-                placeholder={<div className="p-4 text-gray-400">Write...</div>}
+                contentEditable={<ContentEditable className="h-[500px] p-6 outline-none w-full overflow-y-auto whitespace-pre-wrap break-words " />}
+                placeholder={<div className="p-4">Write...</div>}
                 ErrorBoundary={LexicalErrorBoundary}
             />
 
@@ -110,4 +120,4 @@ const BlogEditor = ({ content, setContent }) => {
     );
 };
 
-export default BlogEditor;
+export default LexicalEditor;

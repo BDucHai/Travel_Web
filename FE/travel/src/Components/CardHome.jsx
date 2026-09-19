@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { featureTour } from "../constant";
 
 const CardHome = ({ tour }) => {
     const { t } = useTranslation();
@@ -23,12 +24,16 @@ const CardHome = ({ tour }) => {
             </div>
             {tour?.isFeatured && (
                 <div className="absolute top-2 left-2 px-[0.5rem] py-[0.25rem] rounded-[0.2rem] bg-[#efb771cf] text-white font-semibold text-[0.7rem] uppercase">
-                    {t("popular")}
+                    {t(
+                        featureTour.find(
+                            (item) => item?.id === tour?.isFeatured
+                        )?.value
+                    )}
                 </div>
             )}
 
             <div className="flex-1 px-[0.5rem] lg:px-[0.8rem] py-[0.6rem] flex flex-col">
-                <div className="w-full text-[1rem] lg:text-[1.2rem] text-center font-[800]">{tour?.title}</div>
+                <div className="w-full text-[1rem] lg:text-[1.2rem] text-center font-[700]">{tour?.title}</div>
                 {/* <div className="py-[0.1rem] lg:py-[0.5rem]">{tour?.durationDays}</div> */}
                 <div className="bg-text-sub-content text-wrap text-ellipsis line-clamp-[4] mt-[0.5rem]">
                     {tour?.shortDescription}

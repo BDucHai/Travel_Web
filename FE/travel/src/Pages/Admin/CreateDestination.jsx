@@ -4,44 +4,62 @@ import { createDestinations, getDestinationById, updateDestination } from "../..
 import { useNavigate, useParams } from "react-router-dom";
 import useSWR from "swr";
 import { darkTextField } from "../../constant";
+import { uploadImage } from "../../utils/uploadImage";
+import LexicalEditor from "../../Components/AdminComponent/LexicalEditor";
 
 export default function CreateDestination() {
     const { id } = useParams();
 
     const isEdit = !!id;
 
-    const { data } = useSWR(id ? ["/destinations", id] : null, ([_, id]) => getDestinationById(id));
+    const { data } = useSWR(id ? [`/admin/destinations/${id}?lang=en`, id] : null, ([_, id]) => getDestinationById(id));
 
     const navigate = useNavigate();
     const [destination, setDestination] = useState({
-        country_id: "",
+        countryId: "",
         region: 1,
-        name_en: "",
-        name_fr: "",
+        nameEn: "",
+        nameFr: "",
 
-        slug_en: "",
-        slug_fr: "",
+        slugEn: "",
+        slugFr: "",
 
-        short_description_en: "",
-        short_description_fr: "",
+        shortDescriptionEn: "",
+        shortDescriptionFr: "",
 
-        content_en: "",
-        content_fr: "",
+        contentEn: "",
+        contentFr: "",
 
-        best_time_to_visit_en: "",
-        best_time_to_visit_fr: "",
+        bestTimeToVisitEn: "",
+        bestTimeToVisitFr: "",
 
-        thumbnail_url: "",
-        hero_image_url: "",
+        thumbnailUrl: "",
+        heroImageUrl: "",
 
         latitude: "",
         longitude: "",
 
-        is_featured: false,
-        is_active: true,
+        isFeatured: false,
+        isActive: true,
 
-        display_order: 0,
+        displayOrder: 0,
     });
+
+    const handleFeaturedImage = async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        try {
+            const res = await uploadImage(file, "travel-website/destination");
+
+            setDestination((prev) => ({
+                ...prev,
+                heroImageUrl: res.url,
+            }));
+        } catch (err) {
+            console.error("Upload hero image failed:", err);
+        }
+    };
 
     const handleChange = (field, value) => {
         setDestination((prev) => ({
@@ -69,40 +87,39 @@ export default function CreateDestination() {
         if (!data) return;
 
         setDestination({
-            country_id: data?.country_id || "",
+            countryId: data?.country?.id || "",
 
             region: data?.region || 1,
 
-            name_en: data?.name_en || "",
-            name_fr: data?.name_fr || "",
+            nameEn: data?.nameEn || "",
+            nameFr: data?.nameFr || "",
 
-            slug_en: data?.slug_en || "",
-            slug_fr: data?.slug_fr || "",
+            slugEn: data?.slugEn || "",
+            slugFr: data?.slugFr || "",
 
-            short_description_en: data?.short_description_en || "",
+            shortDescriptionEn: data?.shortDescriptionEn || "",
 
-            short_description_fr: data?.short_description_fr || "",
+            shortDescriptionFr: data?.shortDescriptionFr || "",
 
-            content_en: data?.content_en || "",
-            content_fr: data?.content_fr || "",
+            contentEn: data?.contentEn || "",
+            contentFr: data?.contentFr || "",
 
-            best_time_to_visit_en: data?.best_time_to_visit_en || "",
+            bestTimeToVisitEn: data?.bestTimeToVisitEn || "",
 
-            best_time_to_visit_fr: data?.best_time_to_visit_fr || "",
+            bestTimeToVisitFr: data?.bestTimeToVisitFr || "",
 
-            thumbnail_url: data?.thumbnail_url || "",
+            thumbnailUrl: data?.thumbnailUrl || "",
 
-            hero_image_url: data?.hero_image_url || "",
+            heroImageUrl: data?.heroImageUrl || "",
 
             latitude: data?.latitude || "",
 
             longitude: data?.longitude || "",
 
-            is_featured: data?.is_featured || false,
+            isFeatured: data?.isFeatured || false,
 
-            is_active: data?.is_active ?? true,
-
-            display_order: data?.display_order || 0,
+            isActive: data?.isActive ?? true,
+            displayOrder: data?.displayOrder || 0,
         });
     }, [data]);
 
@@ -131,32 +148,32 @@ export default function CreateDestination() {
                         <TextField
                             fullWidth
                             label="Name EN"
-                            value={destination.name_en}
-                            onChange={(e) => handleChange("name_en", e.target.value)}
+                            value={destination?.nameEn}
+                            onChange={(e) => handleChange("nameEn", e.target.value)}
                             sx={darkTextField}
                         />
 
                         <TextField
                             fullWidth
                             label="Name FR"
-                            value={destination.name_fr}
-                            onChange={(e) => handleChange("name_fr", e.target.value)}
+                            value={destination?.nameFr}
+                            onChange={(e) => handleChange("nameFr", e.target.value)}
                             sx={darkTextField}
                         />
 
                         <TextField
                             fullWidth
                             label="Slug EN"
-                            value={destination.slug_en}
-                            onChange={(e) => handleChange("slug_en", e.target.value)}
+                            value={destination?.slugEn}
+                            onChange={(e) => handleChange("slugEn", e.target.value)}
                             sx={darkTextField}
                         />
 
                         <TextField
                             fullWidth
                             label="Slug FR"
-                            value={destination.slug_fr}
-                            onChange={(e) => handleChange("slug_fr", e.target.value)}
+                            value={destination?.slugFr}
+                            onChange={(e) => handleChange("slugFr", e.target.value)}
                             sx={darkTextField}
                         />
 
@@ -164,31 +181,42 @@ export default function CreateDestination() {
                             select
                             fullWidth
                             label="Region"
-                            value={destination.region}
+                            value={destination?.region}
                             onChange={(e) => handleChange("region", e.target.value)}
                             sx={darkTextField}>
-                            <MenuItem value={1}>Northern</MenuItem>
-                            <MenuItem value={2}>Central</MenuItem>
-                            <MenuItem value={3}>Southern</MenuItem>
+                            <MenuItem value={"NORTH"}>Northern</MenuItem>
+                            <MenuItem value={"CENTRAL"}>Central</MenuItem>
+                            <MenuItem value={"SOUTH"}>Southern</MenuItem>
+                        </TextField>
+
+                        <TextField
+                            select
+                            fullWidth
+                            label="Country"
+                            value={destination?.countryId}
+                            onChange={(e) => handleChange("countryId", e.target.value)}
+                            sx={darkTextField}>
+                            <MenuItem value={"1"}>Viet Nam</MenuItem>
+                            <MenuItem value={"2"}>Cambo</MenuItem>
                         </TextField>
 
                         <TextField
                             fullWidth
                             label="Display Order"
                             type="number"
-                            value={destination.display_order}
-                            onChange={(e) => handleChange("display_order", e.target.value)}
+                            value={destination?.displayOrder}
+                            onChange={(e) => handleChange("displayOrder", e.target.value)}
                             sx={darkTextField}
                         />
 
                         <div className="md:col-span-2">
                             <TextField
                                 multiline
-                                rows={4}
+                                rows={3}
                                 fullWidth
                                 label="Short Description EN"
-                                value={destination.short_description_en}
-                                onChange={(e) => handleChange("short_description_en", e.target.value)}
+                                value={destination?.shortDescriptionEn}
+                                onChange={(e) => handleChange("shortDescriptionEn", e.target.value)}
                                 sx={darkTextField}
                             />
                         </div>
@@ -196,35 +224,48 @@ export default function CreateDestination() {
                         <div className="md:col-span-2">
                             <TextField
                                 multiline
-                                rows={4}
+                                rows={3}
                                 fullWidth
                                 label="Short Description FR"
-                                value={destination.short_description_fr}
-                                onChange={(e) => handleChange("short_description_fr", e.target.value)}
+                                value={destination?.shortDescriptionFr}
+                                onChange={(e) => handleChange("shortDescriptionFr", e.target.value)}
                                 sx={darkTextField}
+                            />
+                        </div>
+
+                        <div className="md:col-span-2">
+                            <LexicalEditor
+                                content={destination?.contentEn}
+                                setContent={(html) =>
+                                    setDestination((prev) => ({
+                                        ...prev,
+                                        contentEn: html,
+                                    }))
+                                }
+                            />
+
+                        </div>
+
+                        <div className="md:col-span-2">
+                            <LexicalEditor
+                                content={destination?.contentFr}
+                                setContent={(html) =>
+                                    setDestination((prev) => ({
+                                        ...prev,
+                                        contentFr: html,
+                                    }))
+                                }
                             />
                         </div>
 
                         <div className="md:col-span-2">
                             <TextField
                                 multiline
-                                rows={8}
+                                rows={3}
                                 fullWidth
-                                label="Content EN"
-                                value={destination.content_en}
-                                onChange={(e) => handleChange("content_en", e.target.value)}
-                                sx={darkTextField}
-                            />
-                        </div>
-
-                        <div className="md:col-span-2">
-                            <TextField
-                                multiline
-                                rows={8}
-                                fullWidth
-                                label="Content FR"
-                                value={destination.content_fr}
-                                onChange={(e) => handleChange("content_fr", e.target.value)}
+                                label="Title En"
+                                value={destination?.bestTimeToVisitEn}
+                                onChange={(e) => handleChange("bestTimeToVisitEn", e.target.value)}
                                 sx={darkTextField}
                             />
                         </div>
@@ -234,46 +275,35 @@ export default function CreateDestination() {
                                 multiline
                                 rows={3}
                                 fullWidth
-                                label="Best Time To Visit EN"
-                                value={destination.best_time_to_visit_en}
-                                onChange={(e) => handleChange("best_time_to_visit_en", e.target.value)}
+                                label="Title FR"
+                                value={destination?.bestTimeToVisitFr}
+                                onChange={(e) => handleChange("bestTimeToVisitFr", e.target.value)}
                                 sx={darkTextField}
                             />
                         </div>
 
-                        <div className="md:col-span-2">
-                            <TextField
-                                multiline
-                                rows={3}
-                                fullWidth
-                                label="Best Time To Visit FR"
-                                value={destination.best_time_to_visit_fr}
-                                onChange={(e) => handleChange("best_time_to_visit_fr", e.target.value)}
-                                sx={darkTextField}
-                            />
+
+                        {/* Image  Hero*/}
+                        <div className="col-span-2 bg-slate-900 border border-slate-800 rounded-3xl p-6 mt-[3rem]">
+                            <h2 className="text-xl font-semibold mb-4">Featured Image</h2>
+                            <input type="file" accept="image/*" onChange={handleFeaturedImage} className="cursor-pointer" />
+                            {destination?.heroImageUrl && (
+                                <img
+                                    src={
+                                        typeof destination?.heroImageUrl === "string"
+                                            ? destination?.heroImageUrl
+                                            : URL.createObjectURL(destination?.heroImageUrl)
+                                    }
+                                    alt=""
+                                    className="mt-4 h-[300px] w-full object-cover rounded-2xl"
+                                />
+                            )}
                         </div>
-
-                        <TextField
-                            fullWidth
-                            label="Thumbnail URL"
-                            value={destination.thumbnail_url}
-                            onChange={(e) => handleChange("thumbnail_url", e.target.value)}
-                            sx={darkTextField}
-                        />
-
-                        <TextField
-                            fullWidth
-                            label="Hero Image URL"
-                            value={destination.hero_image_url}
-                            onChange={(e) => handleChange("hero_image_url", e.target.value)}
-                            sx={darkTextField}
-                        />
-
                         <TextField
                             fullWidth
                             type="number"
                             label="Latitude"
-                            value={destination.latitude}
+                            value={destination?.latitude}
                             onChange={(e) => handleChange("latitude", e.target.value)}
                             sx={darkTextField}
                         />
@@ -282,53 +312,13 @@ export default function CreateDestination() {
                             fullWidth
                             type="number"
                             label="Longitude"
-                            value={destination.longitude}
+                            value={destination?.longitude}
                             onChange={(e) => handleChange("longitude", e.target.value)}
                             sx={darkTextField}
                         />
                     </div>
 
-                    {(destination.thumbnail_url || destination.hero_image_url) && (
-                        <div className="grid md:grid-cols-2 gap-6 mt-8">
-                            {destination.thumbnail_url && (
-                                <div>
-                                    <p className="text-sm text-gray-400 mb-2">Thumbnail Preview</p>
 
-                                    <img
-                                        src={destination.thumbnail_url}
-                                        alt="thumbnail"
-                                        className="
-                                    w-full
-                                    h-56
-                                    object-cover
-                                    rounded-2xl
-                                    border
-                                    border-white/10
-                                "
-                                    />
-                                </div>
-                            )}
-
-                            {destination.hero_image_url && (
-                                <div>
-                                    <p className="text-sm text-gray-400 mb-2">Hero Preview</p>
-
-                                    <img
-                                        src={destination.hero_image_url}
-                                        alt="hero"
-                                        className="
-                                    w-full
-                                    h-56
-                                    object-cover
-                                    rounded-2xl
-                                    border
-                                    border-white/10
-                                "
-                                    />
-                                </div>
-                            )}
-                        </div>
-                    )}
 
                     <div className="flex flex-wrap gap-8 mt-8">
                         <FormControlLabel
@@ -337,8 +327,8 @@ export default function CreateDestination() {
                             }}
                             control={
                                 <Switch
-                                    checked={destination.is_featured}
-                                    onChange={(e) => handleChange("is_featured", e.target.checked)}
+                                    checked={destination?.isFeatured}
+                                    onChange={(e) => handleChange("isFeatured", e.target.checked)}
                                     sx={{
                                         "& .MuiSwitch-switchBase.Mui-checked": {
                                             color: "#c39562",
@@ -359,8 +349,8 @@ export default function CreateDestination() {
                             }}
                             control={
                                 <Switch
-                                    checked={destination.is_active}
-                                    onChange={(e) => handleChange("is_active", e.target.checked)}
+                                    checked={destination?.isActive}
+                                    onChange={(e) => handleChange("isActive", e.target.checked)}
                                     sx={{
                                         "& .MuiSwitch-switchBase.Mui-checked": {
                                             color: "#c39562",

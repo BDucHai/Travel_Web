@@ -78,20 +78,31 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
       direct: "/admin/manageUser",
     },
         {
-      id: 11,
+      id: 9,
       title: "Question Location",
       icon: <FaQuestion />,
       direct: "/admin/questionThread",
     },
     {
-      id: 9,
+      id: 10,
       title: "Banner",
       icon: <ImLocation />,
       direct: "/admin/banner",
     },
-
     {
-      id: 10,
+      id: 11,
+      title: "Destination",
+      icon: <ImLocation />,
+      direct: "/admin/destinations",
+    },
+     {
+      id: 12,
+      title: "Create Destination",
+      icon: <ImLocation />,
+      direct: "/admin/destinations/create",
+    },
+    {
+      id: 13,
       title: t("admin.logout"),
       icon: <MdLogout />,
       direct: "/admin/login",

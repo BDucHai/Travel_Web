@@ -218,7 +218,7 @@ const Navbar = ({ home }) => {
                                                     <div
                                                         className="w-[90%] px-[1rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
                                                         onClick={() =>
-                                                            navigate(`/tours?destinationSlug=${no?.slug}`, {
+                                                            navigate(`/destination/${no?.slug}`, {
                                                                 state: { content: no?.content },
                                                             })
                                                         }>
@@ -245,7 +245,7 @@ const Navbar = ({ home }) => {
                                                     <div
                                                         className="w-[90%] px-[1rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
                                                         onClick={() =>
-                                                            navigate(`/tours?destinationSlug=${cen?.slug}`, {
+                                                            navigate(`/destination/${cen?.slug}`, {
                                                                 state: { content: cen?.content },
                                                             })
                                                         }>
@@ -265,7 +265,7 @@ const Navbar = ({ home }) => {
                                                     <div
                                                         className="w-[90%] px-[1rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
                                                         onClick={() =>
-                                                            navigate(`/tours?destinationSlug=${s?.slug}`, {
+                                                            navigate(`/destination/${s?.slug}`, {
                                                                 state: { content: s?.content },
                                                             })
                                                         }>
@@ -489,7 +489,7 @@ const Navbar = ({ home }) => {
                                                 <div
                                                     className={`flex items-center text-[#fff] px-[4rem] py-[0.5rem] gap-1`}
                                                     onClick={() => {
-                                                        navigate(`/tours?destinationSlug=${no?.slug}`, {
+                                                        navigate(`/destination/${no?.slug}`, {
                                                             state: { content: no?.content },
                                                         });
                                                         setOpenNavMobile(false);
@@ -520,7 +520,7 @@ const Navbar = ({ home }) => {
                                                 <div
                                                     className={`flex items-center text-[#fff] px-[4rem] py-[0.5rem] gap-1`}
                                                     onClick={() => {
-                                                        navigate(`/tours?destinationSlug=${cen?.slug}`, {
+                                                        navigate(`/destination/${cen?.slug}`, {
                                                             state: { content: cen?.content },
                                                         });
                                                         setOpenNavMobile(false);
@@ -549,7 +549,7 @@ const Navbar = ({ home }) => {
                                                 <div
                                                     className={`flex items-center text-[#fff] px-[4rem] py-[0.5rem] gap-1`}
                                                     onClick={() => {
-                                                        navigate(`/tours?destinationSlug=${sou?.slug}`, {
+                                                        navigate(`/destination/${sou?.slug}`, {
                                                             state: { content: sou?.content },
                                                         });
                                                         setOpenNavMobile(false);

@@ -54,6 +54,7 @@ const [slides, setSlides] = useState([]);
 
   const reviews = data?.data;
 
+
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -249,7 +250,7 @@ const [slides, setSlides] = useState([]);
       {/* LOAD MORE */}
       <div
         className={`${
-          data?.totalPage <= page ? "hidden" : "flex"
+          data?.totalPages <= page + 1 ? "hidden" : "flex"
         } justify-center pb-10`}
       >
         <Button variant="outlined" onClick={loadMore}>

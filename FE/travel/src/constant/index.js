@@ -99,3 +99,18 @@ export const darkTextField = {
         color: "#fff",
     },
 };
+
+export const featureTour = [
+    {
+        id: 1,
+        value: "top_rated"
+    },
+    {
+        id: 2,
+        value: "new"
+    },
+    {
+        id: 3,
+        value: "best_price"
+    }
+]

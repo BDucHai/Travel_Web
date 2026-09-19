@@ -3,13 +3,15 @@ import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { ImageNode } from "../utils/ImageNode";
 import { VideoNode } from "../utils/VideoNode";
-import TOC from "./TOC";
 import HeadingIdPlugin from "../constant/plugin/HeadingIdPlugin";
 import { HeadingNode } from "@lexical/rich-text";
+
+
+import { TOCDestination } from "./TOCDestination";
 import { ImageGalleryNode } from "../utils/ImageGalleryNode";
 
 const theme = {};
@@ -35,9 +37,9 @@ function InitialStatePlugin({ content }) {
   return null;
 }
 
-const BlogContentViewer = ({ content }) => {
+const DestinationContentViewer = ({ content }) => {
   const initialConfig = {
-    namespace: "BlogContentViewer",
+    namespace: "DestinationContentViewer",
     theme,
     editable: false,
     nodes: [HeadingNode, ImageNode, VideoNode, ImageGalleryNode],
@@ -46,15 +48,22 @@ const BlogContentViewer = ({ content }) => {
     },
   };
 
+    const [hideTOC, setHideTOC] = useState(false);
+
+
   if (!content) return null;
 
   return (
-    <div className="px-[0.75rem] lg:px-[2rem]">
+    <div className="">
+      {/* Content */}
       <LexicalComposer initialConfig={initialConfig}>
-        <div className="relative content-wrapper flex">
+
+       <TOCDestination hideTOC={hideTOC} setHideTOC={setHideTOC} />
+
           {/* Nội dung blog */}
+        <div className="relative content-wrapper flex">
           <div
-             className="
+            className="
               prose prose-lg max-w-none
               [&_h1]:text-[1.2rem] md:[&_h1]:text-[1.3rem]
               [&_h2]:text-[1rem] md:[&_h2]:text-[1.1rem]
@@ -73,11 +82,6 @@ const BlogContentViewer = ({ content }) => {
             <HeadingIdPlugin />
           </div>
 
-          <div className="hidden md:block flex-[0.75] lg:ml-[1.5rem]">
-            <div className="sticky top-[120px] h-[calc(100vh-120px)] overflow-y-scroll scroll-super-thin">
-              <TOC />
-            </div>
-          </div>
         </div>
       </LexicalComposer>
     </div>
@@ -85,4 +89,4 @@ const BlogContentViewer = ({ content }) => {
 };
 
 
-export default BlogContentViewer;
+export default DestinationContentViewer;

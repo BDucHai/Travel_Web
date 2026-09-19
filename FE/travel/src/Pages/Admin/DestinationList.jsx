@@ -30,20 +30,29 @@ export default function DestinationList() {
 
     const columns = [
         {
-            field: "thumbnailUrl",
-            headerName: "Image",
-            width: 100,
-            renderCell: (params) => <img src={params.value} alt="" className="w-16 h-12 object-cover rounded" />,
-        },
-        {
             field: "name",
-            headerName: "Name EN",
-            flex: 1,
+            headerName: "Name",
+            width: 100,
         },
         {
             field: "region",
             headerName: "Region",
             width: 120,
+        },
+        {
+            field: "shortDescription",
+            headerName: "Short Description",
+            width: 180,
+        },
+        {
+            field: "displayOrder",
+            headerName: "Order",
+            width: 100,
+        },
+        {
+            field: "slug",
+            headerName: "Slug",
+            width: 100,
         },
         {
             field: "isActive",
@@ -55,11 +64,6 @@ export default function DestinationList() {
                 ) : (
                     <Chip label="Hidden" color="error" size="small" />
                 ),
-        },
-        {
-            field: "display_order",
-            headerName: "Order",
-            width: 100,
         },
         {
             field: "actions",
@@ -97,13 +101,14 @@ export default function DestinationList() {
             </Box>
 
             <DataGrid
-                rows={data || []}
+                rows={Array.isArray(data) ? data : []}      
                 columns={columns}
                 loading={isLoading}
                 getRowId={(row) => row.id}
-                paginationMode="server"
-                rowCount={data?.pagination?.total || 0}
+                paginationMode="client"       
+                rowCount={data?.length || 0}  
                 pageSizeOptions={[20, 50, 100]}
+                autoHeight                              
                 paginationModel={{
                     page: params?.page,
                     pageSize: params?.limit,
@@ -120,7 +125,7 @@ export default function DestinationList() {
                     color: "#e5e7eb",
 
                     "& .MuiDataGrid-main": {
-                        backgroundColor: "#0f172a",
+                        backgroundColor: "#8e96a8",
                     },
 
                     "& .MuiDataGrid-virtualScroller": {
@@ -133,7 +138,7 @@ export default function DestinationList() {
                     },
 
                     "& .MuiDataGrid-columnHeaderTitle": {
-                        color: "#090a0b !important",
+                        color: "#f3f5f7 !important",
                         fontWeight: 600,
                     },
 

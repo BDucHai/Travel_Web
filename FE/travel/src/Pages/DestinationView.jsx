@@ -1,49 +1,30 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { getTours } from "../api/Tour";
 import { useTranslation } from "react-i18next";
 import { IoGridOutline } from "react-icons/io5";
 import useSWR from "swr";
 import { useAuth } from "../contexts/AuthContext";
-import { getHeaderTitle } from "../constant/helper";
+import { getDestinationDetail } from "../api/Destinations";
+import QuestionDestinationGuest from "../Components/QuestionDestinationGuest";
+import DestinationContentViewer from "../Components/DestinationContentViewer";
+import { Backdrop, CircularProgress } from "@mui/material";
 import { featureTour } from "../constant";
 
-const SearchTour = () => {
+const DestinationView = () => {
 
     const { t } = useTranslation();
     const navigate = useNavigate();
 
-    const [searchParams] = useSearchParams();
+    const { id: destinationSlug } = useParams();
     const { lang } = useAuth();
-    const duration = searchParams.get("duration");
-    const region = searchParams.get("region");
-    const destinationSlug = searchParams.get("destinationSlug");
-    const styleSlug = searchParams.get("styleSlug");
-    const collectionSlug = searchParams.get("collectionSlug");
-
-
-    const headerTitle = getHeaderTitle({
-        duration,
-        region,
-        destinationSlug,
-        styleSlug,
-        collectionSlug,
-        t,
-    });
-
-    const location = useLocation();
-    const contentTravel = location?.state?.content || "";
 
 
     const [filterSearch, setFilterSearch] = useState({
-        duration: searchParams.get("duration"),
-        region: searchParams.get("region"),
-        destinationSlug: searchParams.get("destinationSlug"),
-        styleSlug: searchParams.get("styleSlug"),
-        collectionSlug: searchParams.get("collectionSlug"),
+        destinationSlug,
         page: 0,
-        limit: 8,
+        limit: 6,
         lang,
     });
     const [allTours, setAllTours] = useState([]);
@@ -52,20 +33,20 @@ const SearchTour = () => {
         keepPreviousData: true,
     });
 
+    const { data: detailDestination, isLoading: loadingDestination } = useSWR(destinationSlug ? [`/destinations/${destinationSlug}`, { lang }] : null, ([url, params]) =>
+        getDestinationDetail(url, params),
+    )
+
     useEffect(() => {
         setFilterSearch({
-            duration,
-            region,
             destinationSlug,
-            styleSlug,
-            collectionSlug,
             page: 0,
-            limit: 8,
+            limit: 6,
             lang,
         });
 
         setAllTours([]);
-    }, [duration, region, destinationSlug, styleSlug, collectionSlug, lang]);
+    }, [destinationSlug, lang]);
 
     useEffect(() => {
         if (!data) return;
@@ -85,37 +66,47 @@ const SearchTour = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#fcf5ef] px-6 py-10">
-            {/* HEADER */}
-            <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10">
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-800 font-marcellus uppercase">{headerTitle || ""}</h1>
+        <div className="min-h-screen bg-[#fcf5ef] pb-10">
+            {/* Hero img */}
+            <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="w-full">
+                <img src={detailDestination?.heroImageUrl} alt="hero_url" className="w-full max-h-[400px]" />
             </motion.div>
 
-            {/* Review Location     */}
-            <div className="px-5 mb-[1.25rem] text-[1.35rem] bg-caro rounded-md">
-                <div className="font-dancing whitespace-pre-line">{contentTravel}</div>
-            </div>
+            <div className="px-[0.5rem] md:px-[2.5rem]">
+                {/* header and short desc */}
+                <div className="mt-[1.25rem] text-[1rem] text-start px-[0.75rem] lg:px-[2rem]">
+                    <div className="text-[1.5rem] md:text-[2rem] text-[#ef8d21] uppercase font-bold">{detailDestination?.bestTimeToVisit}</div>
+                    <div className="">{detailDestination?.shortDescription}</div>
+                </div>
 
-            {/* TOOLBAR */}
-            <div className="mx-auto px-[0.5rem] lg:px-[2rem] hidden md:flex justify-end mb-4">
-                <button
-                    onClick={() => setMethod((prev) => !prev)}
-                    className="p-2 rounded-lg hover:bg-black/5 transition cursor-pointer">
-                    <IoGridOutline className={`w-7 h-7 transition ${method ? "text-[#e38c2b]" : "text-gray-600"}`} />
-                </button>
+                {/* Review Location*/}
+                <div className=" mt-[0.5rem] mb-[1.25rem] text-[1rem] rounded-md px-[0.75rem] lg:px-[2rem]">
+                    <DestinationContentViewer content={detailDestination?.content} />
+                </div>
+
+                {/* Question */}
+                <div className="text-center mt-[2rem] pt-[0.5rem] text-[1rem] lg:text-[1.5rem] text-[#000000c9] tracking-[1.5px] font-semibold font-inter uppercase">{t("question_comment")}</div>
+                <hr className="mx-auto mt-[0.15rem] mb-[1rem] w-[4rem] border-2 text-[#efb771]" />
+                <QuestionDestinationGuest destId={detailDestination?.id} />
+
+
+                {/* LIST START */}
+                <div className="text-center mt-[2rem] pt-[0.5rem] text-[1rem] lg:text-[1.5rem] text-[#000000c9] tracking-[1.5px] font-semibold font-inter uppercase">{t("explore_our_tour")}</div>
+                <hr className="mx-auto mt-[0.5rem] mb-[1rem] w-[4rem] border-2 text-[#efb771]" />
+                {/* TOOLBAR LIST*/}
+                <div className="mx-auto px-[0.5rem] lg:px-[2rem] hidden md:flex justify-end mb-4">
+                    <button
+                        onClick={() => setMethod((prev) => !prev)}
+                        className="p-2 rounded-lg hover:bg-black/5 transition cursor-pointer">
+                        <IoGridOutline className={`w-7 h-7 transition ${method ? "text-[#e38c2b]" : "text-gray-600"}`} />
+                    </button>
+                </div>
             </div>
 
 
             {/* LIST */}
             <div
-                className={`
-          px-[0.5rem]
-          lg:px-[2rem]
-          mx-auto
-          grid gap-6
-          grid-cols-1
-          ${method ? "lg:grid-cols-2" : "lg:grid-cols-1"}
-        `}>
+                className={`px-[0.5rem] lg:px-[2rem] mx-auto grid gap-6 grid-cols-1 ${method ? "lg:grid-cols-2" : "lg:grid-cols-1"}`}>
                 {isLoading ? (
                     <div className="text-center text-gray-500 col-span-full">
                         {t("loading")}
@@ -197,8 +188,19 @@ const SearchTour = () => {
                     </button>
                 </div>
             )}
+
+            <Backdrop
+                open={isLoading || loadingDestination}
+                sx={{
+                    color: "#fff",
+                    zIndex: (theme) => theme.zIndex.drawer + 9999,
+                    backgroundColor: "rgba(0,0,0,0.35)",
+                }}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </div>
     );
 };
 
-export default SearchTour;
+export default DestinationView;

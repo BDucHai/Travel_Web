@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import useSWR from "swr";
 import {
   Avatar,
   Button,
@@ -13,96 +14,50 @@ import {
   Badge,
   Pagination,
 } from "@mui/material";
+import { createQuestionReply, getQuestionsAdmin } from "../../api/Question";
 
-
-const sampleQuestions = [
-  {
-    id: 1,
-    name: "Nguyễn Văn A",
-    email: "a@example.com",
-    content: "Cho tôi hỏi về tour Đà Nẵng?",
-    created_at: "2026-09-07",
-    status: "pending",
-    replies: [
-      {
-        id: 101,
-        author: "Khách B",
-        type: "user",
-        content: "Tôi cũng quan tâm tour này.",
-        created_at: "2026-09-07 10:00",
-      },
-    ],
-  },
-  {
-    id: 2,
-    name: "Trần Thị B",
-    email: "b@example.com",
-    content: "Có khuyến mãi gì cho tour Hạ Long không?",
-    created_at: "2026-09-06",
-    status: "answered",
-    replies: [
-      {
-        id: 102,
-        author: "Admin",
-        type: "admin",
-        content: "Hiện có giảm giá 20% cho đoàn từ 5 người.",
-        created_at: "2026-09-06 12:00",
-      },
-    ],
-  },
-];
 
 export default function AdminQuestionThread() {
-  const [questions, setQuestions] = useState(sampleQuestions);
   const [tab, setTab] = useState(0);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const pageSize = 5;
   const [replyText, setReplyText] = useState({});
 
-  const pendingCount = questions?.filter((q) => q?.status === "pending")?.length;
+  const { data: questions, mutate } = useSWR(
+    tab === 0
+      ? "/questions" 
+      : `/questions/status/${tab === 1 ? "pending" : "answered"}`,
+    getQuestionsAdmin
+  );
 
-  const filtered = questions.filter((q) => {
+  const pendingCount = questions?.filter((q) => q.status === "pending")?.length || 0;
+
+  const filtered = (questions || []).filter((q) => {
     const matchSearch =
       q?.name?.toLowerCase()?.includes(search?.toLowerCase()) ||
       q?.email?.toLowerCase()?.includes(search?.toLowerCase()) ||
       q?.content?.toLowerCase()?.includes(search?.toLowerCase());
-
-    const matchTab =
-      tab === 0
-        ? true
-        : tab === 1
-        ? q?.status === "pending"
-        : q?.status === "answered";
-
-    return matchSearch && matchTab;
+    return matchSearch;
   });
 
-  const paginated = filtered?.slice((page - 1) * pageSize, page * pageSize);
+  const paginated = filtered.slice((page - 1) * pageSize, page * pageSize);
 
-  const handleReplySubmit = (qid) => {
+  const handleReplySubmit = async (qid) => {
     if (!replyText[qid]?.trim()) return;
-    setQuestions((prev) =>
-      prev.map((q) =>
-        q.id === qid
-          ? {
-              ...q,
-              replies: [
-                ...q.replies,
-                {
-                  id: Date.now(),
-                  author: "Admin",
-                  type: "admin",
-                  content: replyText[qid],
-                  created_at: new Date().toISOString(),
-                },
-              ],
-              status: "answered",
-            }
-          : q
-      )
+    await createQuestionReply(
+      {
+        data: {
+          name: "Reves Indochine",
+          email: "reves.indochine@gmail.com",
+          avatarUrl: "https://res.cloudinary.com/ds7h9l4xo/image/upload/v1782132529/logo_ekf3vo.png",
+          content: replyText[qid],
+        },
+        qid: qid
+      }
     );
     setReplyText((prev) => ({ ...prev, [qid]: "" }));
+    mutate(); 
   };
 
   return (
@@ -143,16 +98,16 @@ export default function AdminQuestionThread() {
       {/* Question list */}
       <div className="mt-6 space-y-4">
         {paginated.map((q) => (
-          <Card key={q?.id} className="bg-gray-800 text-white">
+          <Card key={q.id} className="bg-gray-800 text-white">
             <CardHeader
-              avatar={<Avatar src={q?.avatar_url}>{q?.name[0]}</Avatar>}
-              title={q?.name}
-              subheader={`${q?.email} • ${q?.created_at}`}
+              avatar={<Avatar src={q.avatarUrl}>{q.name[0]}</Avatar>}
+              title={q.name}
+              subheader={`${q.email} • ${q.createdAt}`}
               subheaderTypographyProps={{ style: { color: "#ccc" } }}
               action={
                 <Chip
-                  label={q?.status}
-                  color={q?.status === "pending" ? "warning" : "success"}
+                  label={q.status}
+                  color={q.status === "pending" ? "warning" : "success"}
                 />
               }
             />
@@ -161,17 +116,17 @@ export default function AdminQuestionThread() {
 
               {/* Replies */}
               <div className="space-y-2">
-                {q?.replies?.map((r) => (
+                {q.replies?.map((r) => (
                   <div
-                    key={r?.id}
+                    key={r.id}
                     className={`p-2 rounded ${
-                      r?.type === "admin"
+                      r.type === "admin"
                         ? "bg-blue-900 text-blue-100"
                         : "bg-gray-700 text-gray-200"
                     }`}
                   >
-                    <strong>{r?.author}:</strong> {r?.content}
-                    <div className="text-xs text-gray-400">{r?.created_at}</div>
+                    <strong>{r.name}:</strong> {r.content}
+                    <div className="text-xs text-gray-400">{r.createdAt}</div>
                   </div>
                 ))}
               </div>
@@ -182,7 +137,7 @@ export default function AdminQuestionThread() {
                   fullWidth
                   multiline
                   rows={2}
-                  value={replyText[q?.id] || ""}
+                  value={replyText[q.id] || ""}
                   onChange={(e) =>
                     setReplyText((prev) => ({ ...prev, [q.id]: e.target.value }))
                   }

@@ -9,9 +9,22 @@ export const getDestinations = async (params = {}) => {
     return response?.data;
 };
 
+export const getDestinationDetail = async(url, params) =>{
+   try {
+        const res = await axiosClient.get(url, {
+            params,
+        });
+
+        return res?.data;
+    } catch (err) {
+        toast.error(i18n.t("notify.fail"));
+    }
+}
+
+
 export const createDestinations = async (data) => {
     try {
-        const res = await axiosClient.post("/destinations", data);
+        const res = await axiosClient.post("admin/destinations", data);
 
         toast.success(i18n.t("notify.create_success"));
 
@@ -22,14 +35,14 @@ export const createDestinations = async (data) => {
 };
 
 export const getDestinationById = async (id) => {
-    const response = await axiosClient.get(`/destinations/${id}`);
+    const response = await axiosClient.get(`/admin/destinations/${id}`);
 
     return response.data;
 };
 
 export const updateDestination = async (id, data) => {
     try {
-        const response = await axiosClient.post(`/destinations/${id}`, data);
+        const response = await axiosClient.put(`admin/destinations/${id}`, data);
 
         toast.success(i18n.t("notify.update_success"));
 

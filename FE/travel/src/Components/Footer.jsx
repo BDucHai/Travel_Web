@@ -26,7 +26,7 @@ const Footer = () => {
 
     return (
         <>
-            <div className="flex justify-between gap-3 py-[1.5rem] px-[1rem] lg:px-[3rem] bg-[#161515fa] text-white">
+            <div className="flex justify-between gap-3 py-[1.5rem] px-[1rem] lg:px-[1.5rem] bg-[#161515fa] text-white">
                 {/* Logo part */}
                 <div className="ml-[0.5rem] lg:ml-[3rem] max-w-[50%] lg:max-w-[20%]">
                     <div

@@ -3,12 +3,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import useSWR from "swr";
 import { createTours, getToursAdminById, updateTours } from "../../api/Tour";
 
-import { TextField, Button, Switch, FormControlLabel, Autocomplete, Backdrop, CircularProgress } from "@mui/material";
+import { TextField, Button, Switch, FormControlLabel, Autocomplete, Backdrop, CircularProgress, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { getDestinations } from "../../api/Destinations";
 import { getStyles } from "../../api/Style";
 import { getTourCollections } from "../../api/TourCollection";
-import { darkTextField, durationsDays } from "../../constant";
+import { darkTextField, durationsDays, featureTour } from "../../constant";
 import { uploadImage } from "../../utils/uploadImage";
+import { toast } from "react-toastify";
 
 const CreateTour = () => {
     const { id } = useParams();
@@ -61,7 +62,7 @@ const CreateTour = () => {
         exclusion_en: "",
         exclusion_fr: "",
 
-        is_featured: false,
+        is_featured: "",
 
         is_active: true,
 
@@ -198,7 +199,7 @@ const CreateTour = () => {
                 exclusionEn: tour?.exclusion_en,
                 exclusionFr: tour?.exclusion_fr,
 
-                isFeatured: Boolean(tour?.is_featured),
+                isFeatured: tour?.is_featured,
                 isActive: Boolean(tour?.is_active),
                 featuredImageUrl: tour?.featuredImage,
                 imageUrls: tour?.galleryImages || [],
@@ -280,7 +281,7 @@ const CreateTour = () => {
                 exclusionEn: tour?.exclusion_en,
                 exclusionFr: tour?.exclusion_fr,
 
-                isFeatured: Boolean(tour?.is_featured),
+                isFeatured: tour?.is_featured,
                 isActive: Boolean(tour?.is_active),
 
                 featuredImageUrl: tour?.featuredImage,
@@ -321,8 +322,7 @@ const CreateTour = () => {
                 navigate("/admin/tour");
             }
         } catch (error) {
-            console.error("Create tour failed:", error);
-            console.error("Response data:", error?.response?.data);
+            toast.error("Create tour failed, Please try again!!!");
         } finally {
             setLoading(false);
         }
@@ -563,9 +563,9 @@ const CreateTour = () => {
                                                     prev.map((item, i) =>
                                                         i === index
                                                             ? {
-                                                                  ...item,
-                                                                  dayNumber: e.target.value,
-                                                              }
+                                                                ...item,
+                                                                dayNumber: e.target.value,
+                                                            }
                                                             : item,
                                                     ),
                                                 );
@@ -584,9 +584,9 @@ const CreateTour = () => {
                                                     prev.map((item, i) =>
                                                         i === index
                                                             ? {
-                                                                  ...item,
-                                                                  titleEn: e.target.value,
-                                                              }
+                                                                ...item,
+                                                                titleEn: e.target.value,
+                                                            }
                                                             : item,
                                                     ),
                                                 );
@@ -605,9 +605,9 @@ const CreateTour = () => {
                                                         prev.map((item, i) =>
                                                             i === index
                                                                 ? {
-                                                                      ...item,
-                                                                      titleFr: e.target.value,
-                                                                  }
+                                                                    ...item,
+                                                                    titleFr: e.target.value,
+                                                                }
                                                                 : item,
                                                         ),
                                                     );
@@ -633,9 +633,9 @@ const CreateTour = () => {
                                             prev.map((item, i) =>
                                                 i === index
                                                     ? {
-                                                          ...item,
-                                                          descriptionEn: e.target.value,
-                                                      }
+                                                        ...item,
+                                                        descriptionEn: e.target.value,
+                                                    }
                                                     : item,
                                             ),
                                         );
@@ -654,9 +654,9 @@ const CreateTour = () => {
                                             prev.map((item, i) =>
                                                 i === index
                                                     ? {
-                                                          ...item,
-                                                          descriptionFr: e.target.value,
-                                                      }
+                                                        ...item,
+                                                        descriptionFr: e.target.value,
+                                                    }
                                                     : item,
                                             ),
                                         );
@@ -818,46 +818,63 @@ const CreateTour = () => {
                     />
                 </div>
 
-                {/* Toggle  */}
+                {/* Feature  */}
                 <div className="flex gap-8 mt-[3rem] bg-slate-900 border border-slate-800 rounded-3xl p-6">
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                checked={tour?.is_featured}
-                                onChange={(e) =>
-                                    setTour((prev) => ({
-                                        ...prev,
-                                        is_featured: e.target.checked,
-                                    }))
-                                }
-                                sx={{
-                                    "& .MuiSwitch-track": {
-                                        backgroundColor: "rgba(255,255,255,0.12)",
-                                        opacity: 1,
-                                    },
+                    <FormControl fullWidth size="small">
+                        <InputLabel>Featured Type</InputLabel>
 
-                                    "& .MuiSwitch-thumb": {
-                                        backgroundColor: "#fff",
-                                        border: "1px solid rgba(255,255,255,0.15)",
-                                    },
+                        <Select
+                            value={tour?.is_featured || ""}
+                            label="Featured Type"
+                            onChange={(e) =>
+                                setTour((prev) => ({
+                                    ...prev,
+                                    is_featured: e.target.value,
+                                }))
+                            }
+                            sx={{
+                                color: "#fff",
 
-                                    "& .MuiSwitch-switchBase.Mui-checked": {
-                                        color: "#c39562",
-                                    },
+                                "& .MuiOutlinedInput-notchedOutline": {
+                                    borderColor: "rgba(255,255,255,0.2)",
+                                },
 
-                                    "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-                                        backgroundColor: "#c39562",
-                                        opacity: 1,
-                                    },
+                                "&:hover .MuiOutlinedInput-notchedOutline": {
+                                    borderColor: "#c39562",
+                                },
 
-                                    "& .MuiSwitch-switchBase.Mui-checked .MuiSwitch-thumb": {
-                                        backgroundColor: "#fff",
+                                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                                    borderColor: "#c39562",
+                                },
+
+                                "& .MuiSvgIcon-root": {
+                                    color: "#fff",
+                                },
+                            }}
+                            MenuProps={{
+                                PaperProps: {
+                                    sx: {
+                                        backgroundColor: "#1a1a1f",
+                                        color: "#fff",
+
+                                        "& .MuiMenuItem-root:hover": {
+                                            backgroundColor: "rgba(195,149,98,0.15)",
+                                        },
+
+                                        "& .MuiMenuItem-root.Mui-selected": {
+                                            backgroundColor: "rgba(195,149,98,0.25)",
+                                        },
                                     },
-                                }}
-                            />
-                        }
-                        label="Featured"
-                    />
+                                },
+                            }}
+                        >
+                            {featureTour?.map((item) => (
+                                <MenuItem key={item?.id} value={item?.value}>
+                                    {item?.value?.replace("_", " ")?.toUpperCase()}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
 
                     <FormControlLabel
                         control={

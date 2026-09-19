@@ -241,5 +241,27 @@
     "in_this_page": "Sur cette page",
     "you_may_also_like": "Vous pourriez aussi aimer",
     "view_more_article": "Voir plus d'articles",
-    "home": "Maison"
+    "home": "Maison",
+    "fill_info":"Veuillez remplir l'email, le nom et la question !",
+    "table_content": "Table des matières",
+    "hide": "acher",
+    "show": "Spectacle",
+    "explore_our_tour": "Explorez davantage avec nos circuits",
+    "question_comment": "Question & Commentaire",
+    "question": {
+        "title1": "Une question sur",
+        "title2": "Posez vos questions à nos experts locaux et bénéficiez de conseils issus d'une véritable expertise",
+        "ask_question": "Poser une question",
+        "your_question": "Votre question ou commentaire",
+        "submit": "Envoyer votre question",
+        "type_question": "Tapez votre question ici ....",
+        "write_question": "Écrivez votre question"
+    },
+    "upload": "Téléverser",
+    "top_rated": "Les mieux notés",
+    "new": "Nouveau",
+    "best_price": "Meilleur prix",
+    "reply": "Réponse",
+    "cancel": "Annuler"
+
 }

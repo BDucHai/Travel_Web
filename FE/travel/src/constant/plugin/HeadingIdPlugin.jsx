@@ -12,7 +12,7 @@ export default function HeadingIdPlugin() {
         editor.update(() => {
           const root = editor.getRootElement();
           if (!root) return;
-          const headings = root.querySelectorAll("h1, h2");
+          const headings = root.querySelectorAll("h1");
           headings.forEach((h, i) => {
             if (!h.id) h.id = `heading-${i}`;
           });

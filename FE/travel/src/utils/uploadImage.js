@@ -13,17 +13,17 @@ import axiosClient from "../api/axios";
 //     return { id: res?.data?.id, url: res?.data?.secure_url };
 // };
 
-export const uploadImage = async (file) => {
+export const uploadImage = async (file, folder = "travel-website") => {
   const formData = new FormData();
   formData.append("file", file);
-  formData.append("folder", "travel-website");
+  formData.append("folder", folder);
 
   const res = await axiosClient.post("/upload/image", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
   });
-  console.log(res);
+
   return { id: res.data?.publicId, url: res.data?.url };
 };
 

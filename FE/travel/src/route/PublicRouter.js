@@ -19,6 +19,7 @@ import CreateDestination from "../Pages/Admin/CreateDestination";
 import StylesPage from "../Pages/StylePage";
 import BannerPage from "../Pages/Admin/BannerPage";
 import AdminQuestionThread from "../Pages/Admin/AdminQuestionThread";
+import DestinationView from "../Pages/DestinationView";
 
 const publicRoutes = [{ path: "/", component: Home }];
 
@@ -30,6 +31,7 @@ const routesNavSticky = [
   { path: "/tours/detail/:id", component: TourDetail },
   { path: "/review", component: ReviewPage },
   { path: "/styles", component: StylesPage },
+  { path: "/destination/:id", component: DestinationView },
 ];
 
 const routeAdmin = [

@@ -224,5 +224,26 @@
     "in_this_page": "In this page",
     "you_may_also_like": "You may also like",
     "view_more_article": "View more articles →",
-    "home": "Home"
+    "home": "Home",
+    "fill_info": "Please fill email, name and question!",
+    "table_content": "Table of contents",
+    "hide": "Hide",
+    "show": "Show",
+    "explore_our_tour": "Explore more with our tours",
+    "question_comment": "Question & Comment",
+    "question":{
+        "title1": "Have a question about",
+        "title2": "Ask our local travel experts and get answers from real expertise",
+        "ask_question": "Ask a Question",
+        "your_question": "Your question or comment",
+        "submit": "Submit your question",
+        "type_question": "Type your question here ....",
+        "write_question": "Write your question"
+    },
+    "upload": "Upload",
+    "top_rated": "Top rated",
+    "new": "New",
+    "best_price": "Best price",
+    "reply": "Reply",
+    "cancel": "Cancel"
 }

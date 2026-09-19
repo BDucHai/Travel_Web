@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { uploadImage } from "../../utils/uploadImage";
-import BlogEditor from "../../Components/AdminComponent/BlogEditor";
+import LexicalEditor from "../../Components/AdminComponent/LexicalEditor";
 import { useNavigate, useParams } from "react-router-dom";
 import { createBlog, getBlogAdminById, updateBlog } from "../../api/Blog";
 import useSWR from "swr";
@@ -272,18 +272,19 @@ const CreateBlog = () => {
                 </div>
 
                 {/* EXCERPT EN */}
-                <input
+
+                <textarea
                     value={blog?.excerptEn}
                     onChange={(e) => setBlog((prev) => ({ ...prev, excerptEn: e?.target?.value }))}
                     placeholder="Excerpt (EN)..."
-                    className="w-full border rounded-2xl p-4 text-[1.25rem] font-semibold mb-5 outline-none"
+                    className="w-full border rounded-2xl p-4 h-24 text-[1rem] mb-8 outline-none"
                 />
 
                 <textarea
                     value={blog?.excerptFr}
                     onChange={(e) => setBlog((prev) => ({ ...prev, excerptFr: e?.target?.value }))}
                     placeholder="Excerpt (FR)..."
-                    className="w-full border rounded-2xl p-4 h-28 text-[1rem] mb-8 outline-none"
+                    className="w-full border rounded-2xl p-4 h-24 text-[1rem] mb-8 outline-none"
                 />
 
                 {/* RelatedTour */}
@@ -347,7 +348,8 @@ const CreateBlog = () => {
                 </div>
 
                 {/* CONTENT */}
-                <BlogEditor
+                <div className="mt-[3rem] mb-[0.5rem] text-[2.5rem] font-bold">English Content</div>
+                <LexicalEditor
                     content={blog?.contentEn}
                     setContent={(html) =>
                         setBlog((prev) => ({
@@ -359,7 +361,7 @@ const CreateBlog = () => {
 
                 <div className="mt-[3rem] mb-[0.5rem] text-[2.5rem] font-bold">France Content</div>
 
-                <BlogEditor
+                <LexicalEditor
                     content={blog?.contentFr}
                     setContent={(html) =>
                         setBlog((prev) => ({
