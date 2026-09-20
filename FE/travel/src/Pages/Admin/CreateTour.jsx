@@ -3,7 +3,19 @@ import { useNavigate, useParams } from "react-router-dom";
 import useSWR from "swr";
 import { createTours, getToursAdminById, updateTours } from "../../api/Tour";
 
-import { TextField, Button, Switch, FormControlLabel, Autocomplete, Backdrop, CircularProgress, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import {
+    TextField,
+    Button,
+    Switch,
+    FormControlLabel,
+    Autocomplete,
+    Backdrop,
+    CircularProgress,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+} from "@mui/material";
 import { getDestinations } from "../../api/Destinations";
 import { getStyles } from "../../api/Style";
 import { getTourCollections } from "../../api/TourCollection";
@@ -563,9 +575,9 @@ const CreateTour = () => {
                                                     prev.map((item, i) =>
                                                         i === index
                                                             ? {
-                                                                ...item,
-                                                                dayNumber: e.target.value,
-                                                            }
+                                                                  ...item,
+                                                                  dayNumber: e.target.value,
+                                                              }
                                                             : item,
                                                     ),
                                                 );
@@ -584,9 +596,9 @@ const CreateTour = () => {
                                                     prev.map((item, i) =>
                                                         i === index
                                                             ? {
-                                                                ...item,
-                                                                titleEn: e.target.value,
-                                                            }
+                                                                  ...item,
+                                                                  titleEn: e.target.value,
+                                                              }
                                                             : item,
                                                     ),
                                                 );
@@ -605,9 +617,9 @@ const CreateTour = () => {
                                                         prev.map((item, i) =>
                                                             i === index
                                                                 ? {
-                                                                    ...item,
-                                                                    titleFr: e.target.value,
-                                                                }
+                                                                      ...item,
+                                                                      titleFr: e.target.value,
+                                                                  }
                                                                 : item,
                                                         ),
                                                     );
@@ -633,9 +645,9 @@ const CreateTour = () => {
                                             prev.map((item, i) =>
                                                 i === index
                                                     ? {
-                                                        ...item,
-                                                        descriptionEn: e.target.value,
-                                                    }
+                                                          ...item,
+                                                          descriptionEn: e.target.value,
+                                                      }
                                                     : item,
                                             ),
                                         );
@@ -654,9 +666,9 @@ const CreateTour = () => {
                                             prev.map((item, i) =>
                                                 i === index
                                                     ? {
-                                                        ...item,
-                                                        descriptionFr: e.target.value,
-                                                    }
+                                                          ...item,
+                                                          descriptionFr: e.target.value,
+                                                      }
                                                     : item,
                                             ),
                                         );
@@ -801,27 +813,37 @@ const CreateTour = () => {
                         sx={darkTextField}
                         value={tour?.exclusion_en}
                         onChange={handleChange("exclusion_en")}
-                        placeholder="(Viết a+b+c xuống dòng b+c+d, ...)"
+                        placeholder="(Viết ngày+hightlight+overnight xuống dòng ngày+hightlight+overnight, ...)"
                         multiline
                         minRows={3}
                         fullWidth
+                        InputLabelProps={{ shrink: true }}
                     />
                     <TextField
                         label="Brief Itinerary FR"
                         sx={darkTextField}
                         value={tour?.exclusion_fr}
-                        placeholder="(Viết a+b+c xuống dòng b+c+d, ...)"
+                        placeholder="(Viết ngày+hightlight+overnight xuống dòng ngày+hightlight+overnight, ...)"
                         onChange={handleChange("exclusion_fr")}
                         multiline
                         minRows={3}
                         fullWidth
+                        InputLabelProps={{ shrink: true }}
                     />
                 </div>
 
                 {/* Feature  */}
                 <div className="flex gap-8 mt-[3rem] bg-slate-900 border border-slate-800 rounded-3xl p-6">
                     <FormControl fullWidth size="small">
-                        <InputLabel>Featured Type</InputLabel>
+                        <InputLabel
+                            sx={{
+                                color: "#fff",
+                                "&.Mui-focused": {
+                                    color: "#fff",
+                                },
+                            }}>
+                            Featured Type
+                        </InputLabel>
 
                         <Select
                             value={tour?.is_featured || ""}
@@ -866,10 +888,9 @@ const CreateTour = () => {
                                         },
                                     },
                                 },
-                            }}
-                        >
+                            }}>
                             {featureTour?.map((item) => (
-                                <MenuItem key={item?.id} value={item?.value}>
+                                <MenuItem key={item?.id} value={item?.id}>
                                     {item?.value?.replace("_", " ")?.toUpperCase()}
                                 </MenuItem>
                             ))}

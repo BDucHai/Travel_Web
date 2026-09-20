@@ -10,7 +10,6 @@ import { getHeaderTitle } from "../constant/helper";
 import { featureTour } from "../constant";
 
 const SearchTour = () => {
-
     const { t } = useTranslation();
     const navigate = useNavigate();
 
@@ -21,7 +20,6 @@ const SearchTour = () => {
     const destinationSlug = searchParams.get("destinationSlug");
     const styleSlug = searchParams.get("styleSlug");
     const collectionSlug = searchParams.get("collectionSlug");
-
 
     const headerTitle = getHeaderTitle({
         duration,
@@ -34,7 +32,6 @@ const SearchTour = () => {
 
     const location = useLocation();
     const contentTravel = location?.state?.content || "";
-
 
     const [filterSearch, setFilterSearch] = useState({
         duration: searchParams.get("duration"),
@@ -88,7 +85,9 @@ const SearchTour = () => {
         <div className="min-h-screen bg-[#fcf5ef] px-6 py-10">
             {/* HEADER */}
             <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10">
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-800 font-marcellus uppercase">{headerTitle || ""}</h1>
+                <h1 className="text-xl md:text-2xl font-bold text-gray-800 font-marcellus uppercase">
+                    {headerTitle || ""}
+                </h1>
             </motion.div>
 
             {/* Review Location     */}
@@ -105,7 +104,6 @@ const SearchTour = () => {
                 </button>
             </div>
 
-
             {/* LIST */}
             <div
                 className={`
@@ -117,13 +115,9 @@ const SearchTour = () => {
           ${method ? "lg:grid-cols-2" : "lg:grid-cols-1"}
         `}>
                 {isLoading ? (
-                    <div className="text-center text-gray-500 col-span-full">
-                        {t("loading")}
-                    </div>
+                    <div className="text-center text-gray-500 col-span-full">{t("loading")}</div>
                 ) : allTours?.length === 0 ? (
-                    <div className="text-center text-gray-500 col-span-full">
-                        {t("no_value")}
-                    </div>
+                    <div className="text-center text-gray-500 col-span-full">{t("no_value")}</div>
                 ) : (
                     <AnimatePresence mode="wait">
                         {allTours?.map((tour) => (
@@ -137,8 +131,7 @@ const SearchTour = () => {
                                 className="bg-white rounded-2xl overflow-hidden shadow-md
                                     hover:shadow-xl transition cursor-pointer group
                                     flex flex-col lg:flex-row"
-                                onClick={() => navigate(`/tours/detail/${tour?.slug}`)}
-                            >
+                                onClick={() => navigate(`/tours/detail/${tour?.slug}`)}>
                                 {/* IMAGE */}
                                 <div className="relative w-full lg:w-1/3 h-60 lg:h-auto">
                                     <img
@@ -147,13 +140,9 @@ const SearchTour = () => {
                                         className="w-full h-full object-cover"
                                     />
                                     <div className="absolute top-3 left-3">
-                                        {tour?.isFeatured && (
+                                        {tour?.isFeatured > 0 && (
                                             <span className="text-xs bg-black/60 text-white px-3 py-1 rounded-full">
-                                                {t(
-                                                    featureTour.find(
-                                                        (item) => item?.id === tour?.isFeatured
-                                                    )?.value
-                                                )}
+                                                {t(featureTour.find((item) => item?.id === tour?.isFeatured)?.value)}
                                             </span>
                                         )}
                                     </div>
@@ -164,9 +153,7 @@ const SearchTour = () => {
                                         <h2 className="font-semibold text-[#ef8d21] text-[1rem] lg:text-[1.25rem] transition-all duration-300 group-hover:text-black">
                                             {tour?.title}
                                         </h2>
-                                        <p className="text-gray-900 mt-2 line-clamp-3">
-                                            {tour?.shortDescription}
-                                        </p>
+                                        <p className="text-gray-900 mt-2 line-clamp-3">{tour?.shortDescription}</p>
                                     </div>
                                     <div className="flex items-center justify-start mt-4">
                                         <span className="text-sm text-gray-900">
@@ -183,7 +170,6 @@ const SearchTour = () => {
                         ))}
                     </AnimatePresence>
                 )}
-
             </div>
 
             {/* LOAD MORE */}

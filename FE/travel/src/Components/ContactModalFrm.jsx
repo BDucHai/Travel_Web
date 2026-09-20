@@ -33,7 +33,7 @@ import { useMemo } from "react";
 import countryList from "react-select-country-list";
 import * as Flags from "country-flag-icons/react/3x2";
 import { createContacts } from "../api/Contact";
-import { IoMdSearch } from "react-icons/io";
+import { IoMdCloseCircleOutline, IoMdSearch } from "react-icons/io";
 import { toast } from "react-toastify";
 
 const ContactModalFrm = ({ t, open, onClose, content = "" }) => {
@@ -91,12 +91,21 @@ const ContactModalFrm = ({ t, open, onClose, content = "" }) => {
             PaperProps={{
                 sx: {
                     width: "90vw",
-                    height: "90vh",
                     maxWidth: "none",
                     maxHeight: "none",
+
+                    height: {
+                        xs: "75vh",
+                        md: "90vh",
+                    },
                 },
             }}>
-            <div className="relative text-[1rem] w-full h-full px-[1rem] lg:px-[3rem] py-[1.5rem] overflow-scroll bg-[#fdfbf8]">
+            <div className="relative text-[1rem] w-full h-full px-[1rem] lg:px-[3rem] pt-[0.5rem] pb-[1.5rem] overflow-scroll bg-[#fdfbf8]">
+                <div className="flex justify-end items-center">
+                    <div className="px-[0.5rem] py-[0.25rem] rounded-full cursor-pointer" onClick={() => onClose()}>
+                        <IoMdCloseCircleOutline className="text-[#c05f5f] text-[1.5rem] md:text-[2rem]" />
+                    </div>
+                </div>
                 {/* header */}
                 <div className="text-center font-gelasio uppercase tracking-wider text-[#b77c31]">
                     {t("plan_journey")}
@@ -205,6 +214,22 @@ const ContactModalFrm = ({ t, open, onClose, content = "" }) => {
                                     }
 
                                     return selected;
+                                }}
+                                MenuProps={{
+                                    PaperProps: {
+                                        sx: {
+                                            maxHeight: {
+                                                xs: "45vh",
+                                                sm: "50vh",
+                                            },
+                                        },
+                                    },
+                                    MenuListProps: {
+                                        sx: {
+                                            paddingTop: 0,
+                                            paddingBottom: 0,
+                                        },
+                                    },
                                 }}
                                 sx={{
                                     backgroundColor: "white",

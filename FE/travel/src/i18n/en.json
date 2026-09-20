@@ -42,7 +42,9 @@
         "combine_tour": "Combine Tours",
         "northen_vn": "Northern Vietnam",
         "central_vn": "Central Vietnam",
-        "south_vn": "Southern Vietnam"
+        "south_vn": "Southern Vietnam",
+        "by_duration": "By Duration",
+        "by_travel_style": "By travel style"
     },
     "about_us": "About us",
     "blog": "Blog",

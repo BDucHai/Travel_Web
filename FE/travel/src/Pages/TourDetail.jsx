@@ -61,7 +61,7 @@ const TourDetail = () => {
                     {/* OVERVIEW */}
                     <section>
                         <h2 className="text-2xl font-bold mb-4">{t("overview")}</h2>
-                        <p className="text-gray-600 leading-relaxed">{tourDetail?.overview}</p>
+                        <p className="text-gray-900 leading-relaxed">{tourDetail?.overview}</p>
                     </section>
 
                     {/* Tour Hightlight */}
@@ -77,7 +77,7 @@ const TourDetail = () => {
                     </section>
 
                     {/* EXCLUSION */}
-                    <section>
+                    <section className="bg-[#f1dece] rounded-[4px] p-[0.85rem]">
                         <h2 className="text-2xl font-bold mb-4">{t("brief_itinerary")}</h2>
                         <div className="grid grid-cols-7 gap-4">
                             <>

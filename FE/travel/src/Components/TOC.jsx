@@ -37,7 +37,7 @@ export default function TOC() {
   };
 
   return (
-    <div className="bg-[#ffebcd4f] px-[1rem] py-[0.6rem] text-[0.8rem]">
+    <div className="bg-[#ffebcd4f] px-[1rem] py-[0.6rem] text-[1rem]">
       <div>
         <h3 className="font-bold mb-2 pl-[0.5rem] uppercase border-l-[0.5rem] border-[#ef8d21]">{t("in_this_page")}</h3>
         <ul>

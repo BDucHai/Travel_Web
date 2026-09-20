@@ -40,10 +40,12 @@
         "photo_tour": "Circuits photographiques",
         "duration": "Durée",
         "all_style_tour": "Styles de voyage",
-        "combine_tour": "Circuits combinés",
+        "combine_tour": "Voyages combinés",
         "northen_vn": "Nord du Vietnam",
         "central_vn": "Centre du Vietnam",
-        "south_vn": "Sud du Vietnam"
+        "south_vn": "Sud du Vietnam",
+        "by_duration": "Selon la durée",
+        "by_travel_style": "Selon vos envies"
     },
 
     "about_us": "À propos de nous",

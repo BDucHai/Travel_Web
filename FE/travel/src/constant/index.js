@@ -82,7 +82,6 @@ export const darkTextField = {
         backgroundColor: "#334155",
     },
 
-
     "& .MuiOutlinedInput-input": {
         color: "#fff",
     },
@@ -102,15 +101,19 @@ export const darkTextField = {
 
 export const featureTour = [
     {
+        id: 0,
+        value: "NONE",
+    },
+    {
         id: 1,
-        value: "top_rated"
+        value: "top_rated",
     },
     {
         id: 2,
-        value: "new"
+        value: "new",
     },
     {
         id: 3,
-        value: "best_price"
-    }
-]
+        value: "best_price",
+    },
+];

@@ -12,9 +12,9 @@ import { Backdrop, CircularProgress, Typography } from "@mui/material";
 import ContactModalFrm from "../Components/ContactModalFrm";
 import { createContacts } from "../api/Contact";
 
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import Link from '@mui/material/Link';
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import Link from "@mui/material/Link";
 
 const BlogDetail = () => {
     const { slug } = useParams();
@@ -22,7 +22,6 @@ const BlogDetail = () => {
     const { lang } = useAuth();
     const [openContactModal, setOpenContactModal] = useState(false);
     const navigate = useNavigate();
-
 
     const { data: blog, isLoading } = useSWR(slug ? ["/blogs/detail", { slug, lang }] : null, ([_, params]) =>
         getBlogById(params),
@@ -49,7 +48,7 @@ const BlogDetail = () => {
             contactMethod: "email",
             hearFrom: "None",
         });
-    }
+    };
 
     return (
         <div className="bg-white">
@@ -100,17 +99,15 @@ const BlogDetail = () => {
                     aria-label="breadcrumb"
                     sx={{
                         p: 1.5,
-                        backgroundColor: '#f5f5f5',
-                        borderRadius: 1
-                    }}
-                >
+                        backgroundColor: "#f5f5f5",
+                        borderRadius: 1,
+                    }}>
                     <Link
                         underline="hover"
                         key="1"
                         color="primary"
-                        sx={{ fontWeight: 'bold', cursor: "pointer" }}
-                        onClick={() => navigate("/")}
-                    >
+                        sx={{ fontWeight: "bold", cursor: "pointer" }}
+                        onClick={() => navigate("/")}>
                         {t("home")}
                     </Link>
 
@@ -118,37 +115,33 @@ const BlogDetail = () => {
                         underline="hover"
                         key="2"
                         color="primary"
-                        sx={{ fontWeight: 'bold', cursor: "pointer"  }}
-                        onClick={() => navigate("/blog")}
-                    >
+                        sx={{ fontWeight: "bold", cursor: "pointer" }}
+                        onClick={() => navigate("/blog")}>
                         {t("blog")}
                     </Link>
 
                     <Typography
                         key="3"
                         sx={{
-                            color: 'text.primary',
-                            fontWeight: 'bold',
-                            whiteSpace: 'normal',
-                            wordBreak: 'break-word'
-                        }}
-                    >
+                            color: "text.primary",
+                            fontWeight: "bold",
+                            whiteSpace: "normal",
+                            wordBreak: "break-word",
+                        }}>
                         {blog?.title}
                     </Typography>
                 </Breadcrumbs>
-
             </div>
 
             {/* CONTENT */}
-            <div
-                className="px-[1rem] lg:px-0 py-20 pt-10">
+            <div className="px-[0.2rem] lg:px-[0.5rem] py-20 pt-10 bg-[#cec6ad78]">
                 <BlogContentViewer content={blog?.content} />
 
                 {/* CONTACT FORM */}
-                <div className="border-t border-gray-200 mt-20 pt-16 px-[0.5rem] lg:px-[2.5rem]">
+                <div className="border-t border-gray-200 mt-20 pt-16 pb-[1rem] px-[0.5rem] lg:px-[2.5rem]">
                     <h2 className="text-3xl font-serif mb-2">{t("need_help_plan")}</h2>
 
-                    <p className="text-gray-500 mb-8">{t("travel_help")}</p>
+                    <p className="text-gray-900 mb-8">{t("travel_help")}</p>
 
                     <form className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <input
@@ -156,7 +149,7 @@ const BlogDetail = () => {
                             placeholder={t("your_name")}
                             className="
                                 border
-                                border-gray-300
+                                border-white
                                 px-4
                                 py-3
                                 outline-none
@@ -172,7 +165,7 @@ const BlogDetail = () => {
                             placeholder={t("your_email")}
                             className="
                                 border
-                                border-gray-300
+                                border-white
                                 px-4
                                 py-3
                                 outline-none
@@ -188,7 +181,7 @@ const BlogDetail = () => {
                             placeholder={t("what_app")}
                             className="
                                 border
-                                border-gray-300
+                                border-white
                                 px-4
                                 py-3
                                 outline-none
@@ -204,7 +197,7 @@ const BlogDetail = () => {
                             placeholder={t("your_question")}
                             className="
                                 border
-                                border-gray-300
+                               border-white
                                 px-4
                                 py-3
                                 outline-none
@@ -225,17 +218,16 @@ const BlogDetail = () => {
                                 text-white
                                 px-8
                                 py-3
+                                rounded-[0.5rem]
                                 text-sm
                                 tracking-wider
                                 hover:bg-[#9c7209]
                                 transition-all
                                 cursor-pointer
-                                "
-                            >
+                                ">
                                 {t("send_inquiry")}
                             </div>
                         </div>
-
                     </form>
                 </div>
 
@@ -349,12 +341,14 @@ const BlogDetail = () => {
             </Backdrop>
 
             {/* Modal */}
-            {blog && <ContactModalFrm
-                t={t}
-                open={openContactModal}
-                content={`I am interested in blog ${blog?.title} `}
-                onClose={() => setOpenContactModal(false)}
-            />}
+            {blog && (
+                <ContactModalFrm
+                    t={t}
+                    open={openContactModal}
+                    content={`I am interested in blog ${blog?.title} `}
+                    onClose={() => setOpenContactModal(false)}
+                />
+            )}
         </div>
     );
 };

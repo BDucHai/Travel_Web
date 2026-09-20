@@ -10,8 +10,8 @@ import { useTranslation } from "react-i18next";
 import { SiBlogger } from "react-icons/si";
 import { LiaBlogSolid } from "react-icons/lia";
 import { MdOutlineTour } from "react-icons/md";
-import { BiSolidCommentEdit } from "react-icons/bi";
-import { GiCampingTent } from "react-icons/gi";
+import { BiLocationPlus, BiSolidCommentEdit } from "react-icons/bi";
+import { GiCampingTent, GiTatteredBanner } from "react-icons/gi";
 import { FaPhoneVolume } from "react-icons/fa6";
 import { FaQuestion } from "react-icons/fa";
 import { FaHouseChimneyUser } from "react-icons/fa6";
@@ -19,135 +19,135 @@ import { MdLogout } from "react-icons/md";
 import { clearSession } from "../../utils/session";
 import { useAuth } from "../../contexts/AuthContext";
 import { ImLocation } from "react-icons/im";
+import * as Flags from "country-flag-icons/react/3x2";
 
 const SideBar = ({ openSideBar, setOpenSideBar }) => {
-  const { t } = useTranslation();
-  const { user } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
+    const { t, i18n } = useTranslation();
+    const { user, changeLang } = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
 
-  const isMobile = useMediaQuery("(max-width:900px)");
+    const isMobile = useMediaQuery("(max-width:900px)");
 
-  const listMenu = [
-    {
-      id: 1,
-      title: t("admin.view_page"),
-      icon: <FaSquareWebAwesomeStroke />,
-      direct: "/",
-    },
-    {
-      id: 2,
-      title: t("admin.list_blog"),
-      icon: <SiBlogger />,
-      direct: "/admin/blog",
-    },
-    {
-      id: 3,
-      title: t("admin.create_blog"),
-      icon: <LiaBlogSolid />,
-      direct: "/admin/create/blog",
-    },
-    {
-      id: 4,
-      title: t("admin.tour"),
-      icon: <MdOutlineTour />,
-      direct: "/admin/tour",
-    },
-    {
-      id: 5,
-      title: t("admin.create_tour"),
-      icon: <GiCampingTent />,
-      direct: "/admin/create/tour",
-    },
-    {
-      id: 6,
-      title: t("admin.manage_review"),
-      icon: <BiSolidCommentEdit />,
-      direct: "/admin/review",
-    },
-    {
-      id: 7,
-      title: t("admin.contact"),
-      icon: <FaPhoneVolume />,
-      direct: "/admin/contact",
-    },
-    {
-      id: 8,
-      title: t("admin.manageUser"),
-      icon: <FaHouseChimneyUser />,
-      direct: "/admin/manageUser",
-    },
+    const listMenu = [
         {
-      id: 9,
-      title: "Question Location",
-      icon: <FaQuestion />,
-      direct: "/admin/questionThread",
-    },
-    {
-      id: 10,
-      title: "Banner",
-      icon: <ImLocation />,
-      direct: "/admin/banner",
-    },
-    {
-      id: 11,
-      title: "Destination",
-      icon: <ImLocation />,
-      direct: "/admin/destinations",
-    },
-     {
-      id: 12,
-      title: "Create Destination",
-      icon: <ImLocation />,
-      direct: "/admin/destinations/create",
-    },
-    {
-      id: 13,
-      title: t("admin.logout"),
-      icon: <MdLogout />,
-      direct: "/admin/login",
-    },
-  ];
-
-  return (
-    <Drawer
-      variant="permanent"
-      anchor="left"
-      open={openSideBar}
-      sx={{
-        width: openSideBar ? (isMobile ? "80%" : 280) : 90,
-        flexShrink: 0,
-        "& .MuiDrawer-paper": {
-          width: openSideBar ? (isMobile ? "80%" : 280) : 90,
-          transition: "all 0.3s ease",
-          background: "#111827",
-          color: "white",
-          borderRight: "1px solid #1f2937",
-          overflowX: "hidden",
-          boxSizing: "border-box",
-
-          /* Scrollbar custom */
-          "&::-webkit-scrollbar": {
-            width: "6px", // nhỏ gọn
-            height: "6px",
-          },
-          "&::-webkit-scrollbar-track": {
-            background: "#111827", // đồng màu nền
-          },
-          "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "#1f2937", // màu xám đậm
-            borderRadius: "10px",
-          },
-          "&::-webkit-scrollbar-thumb:hover": {
-            backgroundColor: "#374151", // hover sáng hơn chút
-          },
+            id: 1,
+            title: t("admin.view_page"),
+            icon: <FaSquareWebAwesomeStroke />,
+            direct: "/",
         },
-      }}
-    >
-      <div className="relative w-full h-full flex flex-col">
-        {/* Logo */}
-        <div
-          className={`
+        {
+            id: 2,
+            title: t("admin.list_blog"),
+            icon: <SiBlogger />,
+            direct: "/admin/blog",
+        },
+        {
+            id: 3,
+            title: t("admin.create_blog"),
+            icon: <LiaBlogSolid />,
+            direct: "/admin/create/blog",
+        },
+        {
+            id: 4,
+            title: t("admin.tour"),
+            icon: <MdOutlineTour />,
+            direct: "/admin/tour",
+        },
+        {
+            id: 5,
+            title: t("admin.create_tour"),
+            icon: <GiCampingTent />,
+            direct: "/admin/create/tour",
+        },
+        {
+            id: 6,
+            title: t("admin.manage_review"),
+            icon: <BiSolidCommentEdit />,
+            direct: "/admin/review",
+        },
+        {
+            id: 7,
+            title: t("admin.contact"),
+            icon: <FaPhoneVolume />,
+            direct: "/admin/contact",
+        },
+        {
+            id: 8,
+            title: t("admin.manageUser"),
+            icon: <FaHouseChimneyUser />,
+            direct: "/admin/manageUser",
+        },
+        {
+            id: 9,
+            title: "Question Location",
+            icon: <FaQuestion />,
+            direct: "/admin/questionThread",
+        },
+        {
+            id: 10,
+            title: "Banner",
+            icon: <GiTatteredBanner />,
+            direct: "/admin/banner",
+        },
+        {
+            id: 11,
+            title: "Destination",
+            icon: <ImLocation />,
+            direct: "/admin/destinations",
+        },
+        {
+            id: 12,
+            title: "Create Destination",
+            icon: <BiLocationPlus />,
+            direct: "/admin/destinations/create",
+        },
+        {
+            id: 13,
+            title: t("admin.logout"),
+            icon: <MdLogout />,
+            direct: "/admin/login",
+        },
+    ];
+
+    return (
+        <Drawer
+            variant="permanent"
+            anchor="left"
+            open={openSideBar}
+            sx={{
+                width: openSideBar ? (isMobile ? "80%" : 280) : 90,
+                flexShrink: 0,
+                "& .MuiDrawer-paper": {
+                    width: openSideBar ? (isMobile ? "80%" : 280) : 90,
+                    transition: "all 0.3s ease",
+                    background: "#111827",
+                    color: "white",
+                    borderRight: "1px solid #1f2937",
+                    overflowX: "hidden",
+                    boxSizing: "border-box",
+
+                    /* Scrollbar custom */
+                    "&::-webkit-scrollbar": {
+                        width: "6px", // nhỏ gọn
+                        height: "6px",
+                    },
+                    "&::-webkit-scrollbar-track": {
+                        background: "#111827", // đồng màu nền
+                    },
+                    "&::-webkit-scrollbar-thumb": {
+                        backgroundColor: "#1f2937", // màu xám đậm
+                        borderRadius: "10px",
+                    },
+                    "&::-webkit-scrollbar-thumb:hover": {
+                        backgroundColor: "#374151", // hover sáng hơn chút
+                    },
+                },
+            }}>
+            <div className="relative w-full h-full flex flex-col">
+                {/* Logo */}
+                <div
+                    className={`
                         h-[5rem]
                         flex
                         items-center
@@ -155,46 +155,56 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
                         border-[#1f2937]
                         transition-all
                         duration-300
-                        ${
-                          openSideBar
-                            ? "justify-between px-6"
-                            : "justify-center"
-                        }
-                    `}
-        >
-          <AnimatePresence>
-            {openSideBar && (
-              <motion.h1
-                initial={{
-                  opacity: 0,
-                  x: -20,
-                }}
-                animate={{
-                  opacity: 1,
-                  x: 0,
-                }}
-                exit={{
-                  opacity: 0,
-                  x: -20,
-                }}
-                transition={{ duration: 0.2 }}
-                className="
+                        ${openSideBar ? "justify-between px-6" : "justify-center"}
+                    `}>
+                    <AnimatePresence>
+                        {openSideBar && (
+                            <motion.h1
+                                initial={{
+                                    opacity: 0,
+                                    x: -20,
+                                }}
+                                animate={{
+                                    opacity: 1,
+                                    x: 0,
+                                }}
+                                exit={{
+                                    opacity: 0,
+                                    x: -20,
+                                }}
+                                transition={{ duration: 0.2 }}
+                                className="
                                     whitespace-nowrap
                                     my-[0.5rem]
                                     cursor-pointer
                                 "
-                onClick={() => navigate(`/admin/profile/${user?.id}`)}
-              >
-                <Avatar alt="Remy Sharp" src={user?.avatar_url || ""} />
-              </motion.h1>
-            )}
-          </AnimatePresence>
-
-          {/* Toggle */}
-          <motion.div
-            whileTap={{ scale: 0.9 }}
-            onClick={() => setOpenSideBar((prev) => !prev)}
-            className="
+                                onClick={() => navigate(`/admin/profile/${user?.id}`)}>
+                                <Avatar alt="Remy Sharp" src={user?.avatar_url || ""} />
+                            </motion.h1>
+                        )}
+                    </AnimatePresence>
+                    <div className="flex ">
+                        <div
+                            className="ml-2"
+                            onClick={() => {
+                                i18n.changeLanguage("en");
+                                changeLang("en");
+                            }}>
+                            <Flags.US title="English" className="w-6 h-4 object-cover rounded-sm" />
+                        </div>
+                        <div
+                            onClick={() => {
+                                i18n.changeLanguage("fr");
+                                changeLang("fr");
+                            }}>
+                            <Flags.FR title="France" className="w-6 h-4 object-cover rounded-sm" />
+                        </div>
+                    </div>
+                    {/* Toggle */}
+                    <motion.div
+                        whileTap={{ scale: 0.9 }}
+                        onClick={() => setOpenSideBar((prev) => !prev)}
+                        className="
                             w-[2.5rem]
                             h-[2.5rem]
                             rounded-full
@@ -206,175 +216,144 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
                             justify-center
                             cursor-pointer
                             shrink-0
-                        "
-          >
-            {openSideBar ? (
-              <MdKeyboardArrowLeft className="text-[1.3rem]" />
-            ) : (
-              <MdKeyboardArrowRight className="text-[1.3rem]" />
-            )}
-          </motion.div>
-        </div>
-
-        {/* Menu */}
-        <div className="flex-1 flex flex-col gap-2 p-4">
-          {listMenu?.map((item) => {
-            const active = location.pathname === item?.direct;
-            if (item?.id === 10) {
-              return (
-                <motion.div
-                  whileHover={{ x: 5 }}
-                  whileTap={{ scale: 0.98 }}
-                  key={item.id}
-                  onClick={() => {
-                    clearSession();
-                    localStorage.removeItem("accessToken");
-                    navigate(item?.direct);
-                  }}
-                  className={`
-                                    group
-                                    flex
-                                    items-center
-                                    justify-start px-4
-                                    gap-4
-                                    py-4
-                                    rounded-xl
-                                    cursor-pointer
-                                    transition-all
-                                    duration-50
-                                    ${
-                                      active
-                                        ? "bg-[#1e293b] border border-[#334155]"
-                                        : "hover:bg-[#1f2937]"
-                                    }
-                                `}
-                >
-                  {/* Icon */}
-                  <div
-                    className={`
-                                        text-[1.2rem]
-                                        shrink-0
-                                        ${
-                                          active
-                                            ? "text-[#60a5fa]"
-                                            : "text-white"
-                                        }
-                                    `}
-                  >
-                    {item?.icon}
-                  </div>
-
-                  {/* Text */}
-                  <AnimatePresence>
-                    {openSideBar && (
-                      <motion.p
-                        initial={{
-                          opacity: 0,
-                          x: -10,
-                        }}
-                        animate={{
-                          opacity: 1,
-                          x: 0,
-                        }}
-                        exit={{
-                          opacity: 0,
-                          x: -10,
-                        }}
-                        className={`
-                                                text-[0.95rem]
-                                                font-medium
-                                                whitespace-nowrap
-                                                ${
-                                                  active
-                                                    ? "text-[#60a5fa]"
-                                                    : "text-white"
-                                                }
-                                            `}
-                      >
-                        {item?.title}
-                      </motion.p>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              );
-            }
-            return (
-              <motion.div
-                whileHover={{ x: 5 }}
-                whileTap={{ scale: 0.98 }}
-                key={item?.id}
-                onClick={() => navigate(item.direct)}
-                className={`
-                                    group
-                                    flex
-                                    items-center
-                                    justify-start px-4
-                                    gap-4
-                                    py-4
-                                    rounded-xl
-                                    cursor-pointer
-                                    transition-all
-                                    duration-50
-                                    ${
-                                      active
-                                        ? "bg-[#1e293b] border border-[#334155]"
-                                        : "hover:bg-[#1f2937]"
-                                    }
-                                `}
-              >
-                {/* Icon */}
-                <div
-                  className={`
-                                        text-[1.2rem]
-                                        shrink-0
-                                        ${
-                                          active
-                                            ? "text-[#60a5fa]"
-                                            : "text-white"
-                                        }
-                                    `}
-                >
-                  {item?.icon}
+                        ">
+                        {openSideBar ? (
+                            <MdKeyboardArrowLeft className="text-[1.3rem]" />
+                        ) : (
+                            <MdKeyboardArrowRight className="text-[1.3rem]" />
+                        )}
+                    </motion.div>
                 </div>
 
-                {/* Text */}
-                <AnimatePresence>
-                  {openSideBar && (
-                    <motion.p
-                      initial={{
-                        opacity: 0,
-                        x: -10,
-                      }}
-                      animate={{
-                        opacity: 1,
-                        x: 0,
-                      }}
-                      exit={{
-                        opacity: 0,
-                        x: -10,
-                      }}
-                      className={`
+                {/* Menu */}
+                <div className="flex-1 flex flex-col gap-2 p-4">
+                    {listMenu?.map((item) => {
+                        const active = location.pathname === item?.direct;
+                        if (item?.id === 10) {
+                            return (
+                                <motion.div
+                                    whileHover={{ x: 5 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    key={item.id}
+                                    onClick={() => {
+                                        clearSession();
+                                        localStorage.removeItem("accessToken");
+                                        navigate(item?.direct);
+                                    }}
+                                    className={`
+                                    group
+                                    flex
+                                    items-center
+                                    justify-start px-4
+                                    gap-4
+                                    py-4
+                                    rounded-xl
+                                    cursor-pointer
+                                    transition-all
+                                    duration-50
+                                    ${active ? "bg-[#1e293b] border border-[#334155]" : "hover:bg-[#1f2937]"}
+                                `}>
+                                    {/* Icon */}
+                                    <div
+                                        className={`
+                                        text-[1.2rem]
+                                        shrink-0
+                                        ${active ? "text-[#60a5fa]" : "text-white"}
+                                    `}>
+                                        {item?.icon}
+                                    </div>
+
+                                    {/* Text */}
+                                    <AnimatePresence>
+                                        {openSideBar && (
+                                            <motion.p
+                                                initial={{
+                                                    opacity: 0,
+                                                    x: -10,
+                                                }}
+                                                animate={{
+                                                    opacity: 1,
+                                                    x: 0,
+                                                }}
+                                                exit={{
+                                                    opacity: 0,
+                                                    x: -10,
+                                                }}
+                                                className={`
                                                 text-[0.95rem]
                                                 font-medium
                                                 whitespace-nowrap
-                                                ${
-                                                  active
-                                                    ? "text-[#60a5fa]"
-                                                    : "text-white"
-                                                }
-                                            `}
-                    >
-                      {item?.title}
-                    </motion.p>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            );
-          })}
-        </div>
-      </div>
-    </Drawer>
-  );
+                                                ${active ? "text-[#60a5fa]" : "text-white"}
+                                            `}>
+                                                {item?.title}
+                                            </motion.p>
+                                        )}
+                                    </AnimatePresence>
+                                </motion.div>
+                            );
+                        }
+                        return (
+                            <motion.div
+                                whileHover={{ x: 5 }}
+                                whileTap={{ scale: 0.98 }}
+                                key={item?.id}
+                                onClick={() => navigate(item.direct)}
+                                className={`
+                                    group
+                                    flex
+                                    items-center
+                                    justify-start px-4
+                                    gap-4
+                                    py-4
+                                    rounded-xl
+                                    cursor-pointer
+                                    transition-all
+                                    duration-50
+                                    ${active ? "bg-[#1e293b] border border-[#334155]" : "hover:bg-[#1f2937]"}
+                                `}>
+                                {/* Icon */}
+                                <div
+                                    className={`
+                                        text-[1.2rem]
+                                        shrink-0
+                                        ${active ? "text-[#60a5fa]" : "text-white"}
+                                    `}>
+                                    {item?.icon}
+                                </div>
+
+                                {/* Text */}
+                                <AnimatePresence>
+                                    {openSideBar && (
+                                        <motion.p
+                                            initial={{
+                                                opacity: 0,
+                                                x: -10,
+                                            }}
+                                            animate={{
+                                                opacity: 1,
+                                                x: 0,
+                                            }}
+                                            exit={{
+                                                opacity: 0,
+                                                x: -10,
+                                            }}
+                                            className={`
+                                                text-[0.95rem]
+                                                font-medium
+                                                whitespace-nowrap
+                                                ${active ? "text-[#60a5fa]" : "text-white"}
+                                            `}>
+                                            {item?.title}
+                                        </motion.p>
+                                    )}
+                                </AnimatePresence>
+                            </motion.div>
+                        );
+                    })}
+                </div>
+            </div>
+        </Drawer>
+    );
 };
 
 export default SideBar;

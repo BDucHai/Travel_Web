@@ -22,13 +22,9 @@ const CardHome = ({ tour }) => {
                                     duration-500"
                 />
             </div>
-            {tour?.isFeatured && (
+            {tour?.isFeatured > 0 && (
                 <div className="absolute top-2 left-2 px-[0.5rem] py-[0.25rem] rounded-[0.2rem] bg-[#efb771cf] text-white font-semibold text-[0.7rem] uppercase">
-                    {t(
-                        featureTour.find(
-                            (item) => item?.id === tour?.isFeatured
-                        )?.value
-                    )}
+                    {t(featureTour.find((item) => item?.id === Number(tour?.isFeatured))?.value)}
                 </div>
             )}
 

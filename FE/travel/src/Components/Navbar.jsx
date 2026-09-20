@@ -93,7 +93,7 @@ const Navbar = ({ home }) => {
                         onClick={() => navigate("/")}>
                         <img
                             src={imgGlobal.logo}
-                            className="w-[2rem] h-[2rem] lg:w-[3.1rem] lg:h-[3.1rem] object-cover"
+                            className="w-[2rem] h-[2rem] lg:w-[3.1rem] lg:h-[3.1rem] object-cover bg-[#e5ebdf] rounded-full"
                             alt="logo"
                         />
                         <div>
@@ -125,6 +125,11 @@ const Navbar = ({ home }) => {
                                     transform transition-all text-[0.85rem] cursor-default normal-case">
                                         <div className="grid grid-cols-3 gap-x-[10px] gap-y-[6px] p-[0.8rem] bg-[#f8fcf3] overflow-clip">
                                             <div className="">
+                                                <div
+                                                    className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 text-[#ef8d21] text-[1rem] uppercase font-semibold rounded-[6px] cursor-pointer"
+                                                    onClick={() => navigate(`/tours?duration`)}>
+                                                    {t("navbar.by_duration")}
+                                                </div>
                                                 {durationsDays?.map((dura) => (
                                                     <div
                                                         className="w-[90%] px-[0.4rem] py-[0.8rem] transition hover:text-[#ef8d21] hover:scale-105 hover:bg-[#d1edf0] rounded-[6px] cursor-pointer"
@@ -149,10 +154,8 @@ const Navbar = ({ home }) => {
                                             <div className="">
                                                 <div
                                                     className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 text-[#ef8d21] text-[1rem] uppercase font-semibold rounded-[6px] cursor-pointer"
-                                                    onClick={() =>
-                                                        navigate(`/tours/search?style=all&title=navbar.all_style_tour`)
-                                                    }>
-                                                    {t("navbar.all_style_tour")}
+                                                    onClick={() => navigate(`/tours?styleSlug`)}>
+                                                    {t("navbar.by_travel_style")}
                                                 </div>
                                                 {megaMenu?.vietnamTour?.styles?.map((style) => (
                                                     <div
@@ -166,12 +169,7 @@ const Navbar = ({ home }) => {
                                             <div className="">
                                                 <div
                                                     className="w-[90%] px-[0.4rem] py-[0.8rem] flex items-center gap-2 text-[#ef8d21] text-[1rem] uppercase font-semibold rounded-[6px] cursor-pointer"
-                                                    // onClick={() =>
-                                                    //     navigate(
-                                                    //         `/tour/search?combineTour=all&title=navbar.combine_tour`,
-                                                    //     )
-                                                    // }
-                                                >
+                                                    onClick={() => navigate(`/tours/collectionSlug`)}>
                                                     {t("navbar.combine_tour")}
                                                 </div>
                                                 {megaMenu?.vietnamTour?.combined?.map((cb) => (
@@ -342,7 +340,7 @@ const Navbar = ({ home }) => {
                             animate={{ height: "auto", opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             transition={{ duration: 0.2 }}>
-                            <div className="pt-[1rem] overflow-y-scroll">
+                            <div className="pt-[1rem] overflow-y-scroll scroll-super-thin">
                                 {/* VIETNAM TOUR MOBILE */}
                                 <div
                                     className={`flex items-center px-[1rem] py-[0.75rem] uppercase gap-1 text-[0.85rem] ${
@@ -373,7 +371,7 @@ const Navbar = ({ home }) => {
                                                     prev.includes(1) ? prev.filter((item) => item !== 1) : [...prev, 1],
                                                 )
                                             }>
-                                            {t("navbar.duration")}
+                                            {t("navbar.by_duration")}
                                             <div>
                                                 <IoCaretDownOutline />
                                             </div>
@@ -403,7 +401,7 @@ const Navbar = ({ home }) => {
                                                     prev.includes(2) ? prev.filter((item) => item !== 2) : [...prev, 2],
                                                 )
                                             }>
-                                            {t("navbar.all_style_tour")}
+                                            {t("navbar.by_travel_style")}
                                             <div>
                                                 <IoCaretDownOutline />
                                             </div>
@@ -450,7 +448,7 @@ const Navbar = ({ home }) => {
                                 )}
                                 {/* TRAVEL INFOR MOBILE */}
                                 <div
-                                    className={`flex items-center px-[1rem] py-[0.75rem] uppercase gap-1 text-[1rem] ${
+                                    className={`flex items-center px-[1rem] py-[0.75rem] uppercase gap-1 text-[0.85rem] ${
                                         navChild.includes(2) ? "bg-[#fff] text-[#ef8d21]" : "bg-transparent text-[#fff]"
                                     }`}
                                     onClick={() => {
@@ -561,7 +559,7 @@ const Navbar = ({ home }) => {
                                 )}
 
                                 <div
-                                    className={`flex items-center px-[1rem] py-[0.75rem] uppercase gap-1 text-[1rem] text-white`}
+                                    className={`flex items-center px-[1rem] py-[0.75rem] uppercase gap-1 text-[0.85rem] text-white`}
                                     onClick={() => {
                                         navigate("/about");
                                         setOpenNavMobile(false);
@@ -570,7 +568,7 @@ const Navbar = ({ home }) => {
                                 </div>
 
                                 <div
-                                    className={`flex items-center px-[1rem] py-[0.75rem] uppercase gap-1 text-[1rem] text-white`}
+                                    className={`flex items-center px-[1rem] py-[0.75rem] uppercase gap-1 text-[0.85rem] text-white`}
                                     onClick={() => {
                                         setOpenNavMobile(false);
                                         navigate("/blog");
