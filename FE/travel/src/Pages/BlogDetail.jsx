@@ -93,13 +93,12 @@ const BlogDetail = () => {
                 </div>
             </div>
             {/* Breakcrum */}
-            <div className="px-[0.5rem] lg:px-[2rem] mt-[0.5rem]">
+            <div className="mx-[0.5rem] lg:mx-[2rem] mt-[0.75rem] bg-[#a7ecf7]">
                 <Breadcrumbs
                     separator={<NavigateNextIcon fontSize="small" />}
                     aria-label="breadcrumb"
                     sx={{
                         p: 1.5,
-                        backgroundColor: "#f5f5f5",
                         borderRadius: 1,
                     }}>
                     <Link
@@ -134,11 +133,11 @@ const BlogDetail = () => {
             </div>
 
             {/* CONTENT */}
-            <div className="px-[0.2rem] lg:px-[0.5rem] py-20 pt-10 bg-[#cec6ad78]">
+            <div className="px-[0.2rem] lg:px-[0.5rem] py-20 pt-10 bg-[#f6f6f0]">
                 <BlogContentViewer content={blog?.content} />
 
                 {/* CONTACT FORM */}
-                <div className="border-t border-gray-200 mt-20 pt-16 pb-[1rem] px-[0.5rem] lg:px-[2.5rem]">
+                <div className="border-y border-gray-600 mt-20 pt-16 pb-[3rem] px-[0.5rem] lg:px-[2.5rem]">
                     <h2 className="text-3xl font-serif mb-2">{t("need_help_plan")}</h2>
 
                     <p className="text-gray-900 mb-8">{t("travel_help")}</p>
@@ -147,14 +146,7 @@ const BlogDetail = () => {
                         <input
                             type="text"
                             placeholder={t("your_name")}
-                            className="
-                                border
-                                border-white
-                                px-4
-                                py-3
-                                outline-none
-                                focus:border-[#b8860b]
-                            "
+                            className="border border-[#733d3d] rounded-[4px] px-4 py-3 outline-none focus:border-[#b8860b]"
                             name="name"
                             value={request?.name}
                             onChange={handleChangeValueRequest}
@@ -163,14 +155,7 @@ const BlogDetail = () => {
                         <input
                             type="email"
                             placeholder={t("your_email")}
-                            className="
-                                border
-                                border-white
-                                px-4
-                                py-3
-                                outline-none
-                                focus:border-[#b8860b]
-                            "
+                            className="border border-[#733d3d] rounded-[4px] px-4 py-3 outline-none focus:border-[#b8860b]"
                             name="email"
                             value={request?.email}
                             onChange={handleChangeValueRequest}
@@ -179,14 +164,7 @@ const BlogDetail = () => {
                         <input
                             type="text"
                             placeholder={t("what_app")}
-                            className="
-                                border
-                                border-white
-                                px-4
-                                py-3
-                                outline-none
-                                focus:border-[#b8860b]
-                            "
+                            className="border border-[#733d3d] rounded-[4px] px-4 py-3 outline-none focus:border-[#b8860b]"
                             name="phone"
                             value={request?.phone}
                             onChange={handleChangeValueRequest}
@@ -195,21 +173,13 @@ const BlogDetail = () => {
                         <textarea
                             rows={4}
                             placeholder={t("your_question")}
-                            className="
-                                border
-                               border-white
-                                px-4
-                                py-3
-                                outline-none
-                                resize-none
-                                focus:border-[#b8860b]
-                            "
+                            className="col-span-2 border border-[#733d3d] rounded-[4px] px-4 py-3 outline-none focus:border-[#b8860b]"
                             name="question"
                             value={request?.question}
                             onChange={handleChangeValueRequest}
                         />
 
-                        <div className="md:col-span-2 text-center">
+                        <div className="md:col-span-2 mt-2 text-center">
                             <div
                                 onClick={handleSendRequest}
                                 className="
@@ -232,7 +202,7 @@ const BlogDetail = () => {
                 </div>
 
                 {/* RELATED TOURS */}
-                <div className="border-t border-gray-200 mt-20 pt-16 lg:px-[2.5rem]">
+                <div className="pt-16 lg:px-[2.5rem]">
                     <h2 className="text-2xl font-serif mb-8">{t("related_tour")}</h2>
 
                     <RelatedTours tours={blog?.relatedTours} />
