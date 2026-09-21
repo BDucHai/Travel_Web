@@ -137,7 +137,7 @@ const BlogDetail = () => {
                 <BlogContentViewer content={blog?.content} />
 
                 {/* CONTACT FORM */}
-                <div className="border-y border-gray-600 mt-20 pt-16 pb-[3rem] px-[0.5rem] lg:px-[2.5rem]">
+                <div className="border-y border-gray-600 bg-[#d0ecf0] mt-20 pt-16 pb-[3rem] px-[0.5rem] lg:px-[2.5rem]">
                     <h2 className="text-3xl font-serif mb-2">{t("need_help_plan")}</h2>
 
                     <p className="text-gray-900 mb-8">{t("travel_help")}</p>
