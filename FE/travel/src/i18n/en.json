@@ -247,5 +247,8 @@
     "new": "New",
     "best_price": "Best price",
     "reply": "Reply",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "search": "Search",
+    "no_result": "No result",
+    "see_all": "See all"
 }

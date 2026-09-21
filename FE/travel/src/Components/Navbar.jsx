@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../contexts/AuthContext";
@@ -11,6 +11,11 @@ import { getMegaMenu } from "../api/Home";
 import { durationsDays } from "../constant";
 import * as Flags from "country-flag-icons/react/3x2";
 import ContactModalFrm from "./ContactModalFrm";
+import { useDebounce } from "../contexts/useDebounce";
+import { globalSearch } from "../api/GlobalSearch";
+import { CgSearch } from "react-icons/cg";
+import CloseIcon from "@mui/icons-material/Close";
+import ModalSearchGloabalResult from "./ModalSearchGlobalResult";
 
 const Navbar = ({ home }) => {
     const { t, i18n } = useTranslation();
@@ -21,6 +26,14 @@ const Navbar = ({ home }) => {
         pop: 0,
     });
 
+    const [search, setSearch] = useState("");
+    const debouncedSearch = useDebounce(search, 1000);
+
+    const searchRef = useRef(null);
+
+    const [searchOpen, setSearchOpen] = useState(false);
+    const [openMobileSearch, setOpenMobileSearch] = useState(false);
+
     const [openContactModal, setOpenContactModal] = useState(false);
 
     const [openNavMobile, setOpenNavMobile] = useState(false);
@@ -30,6 +43,56 @@ const Navbar = ({ home }) => {
     const [navChildTravelInfor, setNavChildTravelInfor] = useState([]);
 
     const { data: megaMenu } = useSWR([`/layout/mega-menu`, { lang: lang }], ([_, params]) => getMegaMenu(params));
+
+    const { data: dataSearchGlobal, isLoading: searchLoading } = useSWR(
+        debouncedSearch.trim() ? ["/blogs/globalSearch", debouncedSearch, lang, true] : null,
+        ([_, keyword, lang, limit]) =>
+            globalSearch({
+                keyword,
+                lang,
+                limit,
+            }),
+    );
+
+    useEffect(() => {
+        if (debouncedSearch.trim()) {
+            setSearchOpen(true);
+        } else {
+            setSearchOpen(false);
+        }
+    }, [debouncedSearch]);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (searchRef.current && !searchRef.current.contains(event.target)) {
+                setSearchOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    const handleSearchNavigate = (type, slug) => {
+        setSearchOpen(false);
+        setSearch("");
+
+        if (type === "blog") {
+            navigate(`/blog/detail/${slug}`);
+        }
+
+        if (type === "tour") {
+            navigate(`/tours/detail/${slug}`);
+        }
+    };
+
+    const handleSeeAllSearch = () => {
+        navigate("/globalSearch");
+    }
+
     return (
         <>
             <div
@@ -40,8 +103,76 @@ const Navbar = ({ home }) => {
                 } top-0 left-0 z-[800] py-[0.5rem] md:px-[2rem] w-full text-[1rem] ${
                     lang === "en" ? "xl:text-[1.15rem]" : "text-[1rem]"
                 }  font-roboto font-bold`}>
-                {/* I18 language */}
+                {/*Search and  I18 language */}
                 <div className="hidden lg:flex items-center justify-end px-[2rem]">
+                    <div className="relative w-[16rem] mr-[1rem]">
+                        <input
+                            type="text"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            onFocus={() => {
+                                if (debouncedSearch.trim()) {
+                                    setSearchOpen(true);
+                                }
+                            }}
+                            placeholder={t("search")}
+                            className={`w-full h-[2.5rem] pl-[2.5rem] pr-[1rem] rounded-full outline-none text-sm transition-all duration-300
+                            ${
+                                home
+                                    ? "bg-white/15 text-white placeholder:text-white/60 border border-white/20"
+                                    : "bg-black/5 text-black placeholder:text-black/50 border border-black/10"
+                            }
+
+                            backdrop-blur-xl
+                            focus:border-white/50
+                            focus:ring-2
+                            focus:ring-white/20
+                            shadow-lg
+                        `}
+                        />
+
+                        {/* Search icon */}
+                        <CgSearch
+                            className={`absolute left-[0.9rem] top-1/2 -translate-y-1/2 w-[1.1rem] h-[1.1rem] pointer-events-none ${home ? "text-white/70" : "text-black/50"}`}
+                        />
+
+                        {/* Loading */}
+                        {searchLoading && (
+                            <div className="absolute right-[0.9rem] top-1/2 -translate-y-1/2">
+                                <div
+                                    className={`w-[1rem] h-[1rem] rounded-full border-2 border-t-transparent animate-spin ${home ? "border-white/70" : "border-black/50"}`}
+                                />
+                            </div>
+                        )}
+
+                        {/* Clear */}
+                        {!searchLoading && search && (
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setSearch("");
+                                    setSearchOpen(false);
+                                }}
+                                className={`absolute right-[0.7rem] top-1/2 -translate-y-1/2 flex items-center justify-center w-[1.5rem] h-[1.5rem] rounded-full transition-all cursor-pointer 
+                                    ${
+                                        home
+                                            ? "text-white/60 hover:bg-white/10 hover:text-white"
+                                            : "text-black/40 hover:bg-black/10 hover:text-black"
+                                    }`}>
+                                <CloseIcon sx={{ fontSize: "1rem" }} />
+                            </button>
+                        )}
+                        {searchOpen && (
+                            <ModalSearchGloabalResult
+                                blogs={dataSearchGlobal?.blogs?.content || []}
+                                tours={dataSearchGlobal?.tours?.content || []}
+                                loading={searchLoading}
+                                onSelect={handleSearchNavigate}
+                                onSeeAll={handleSeeAllSearch}
+                                t={t}
+                            />
+                        )}
+                    </div>
                     <div
                         className={`flex items-center gap-1.5 p-1 rounded-full ${
                             home ? "bg-white/10" : "bg-[#000]"
@@ -55,13 +186,8 @@ const Navbar = ({ home }) => {
                                 changeLang("en");
                             }}
                             className={`relative font-semibold rounded-full transition-all duration-300
-                px-2 py-1.5 text-xs cursor-pointer
-                ${
-                    i18n.language === "en"
-                        ? "bg-white text-black shadow-md scale-[1.03]"
-                        : "text-white/80 hover:text-white hover:bg-white/10"
-                }
-            `}>
+                        px-2 py-1.5 text-xs cursor-pointer
+                        ${i18n.language === "en" ? "bg-white text-black shadow-md scale-[1.03]" : "text-white/80 hover:text-white hover:bg-white/10"}`}>
                             EN
                         </button>
 
@@ -71,14 +197,8 @@ const Navbar = ({ home }) => {
                                 i18n.changeLanguage("fr");
                                 changeLang("fr");
                             }}
-                            className={`relative font-semibold rounded-full transition-all duration-300
-                px-2 py-1.5 text-xs cursor-pointer
-                ${
-                    i18n.language === "fr"
-                        ? "bg-white text-black shadow-md scale-[1.03]"
-                        : "text-white/80 hover:text-white hover:bg-white/10"
-                }
-            `}>
+                            className={`relative font-semibold rounded-full transition-all duration-300 px-2 py-1.5 text-xs cursor-pointer
+                            ${i18n.language === "fr" ? "bg-white text-black shadow-md scale-[1.03]" : "text-white/80 hover:text-white hover:bg-white/10"}`}>
                             FR
                         </button>
 
@@ -320,7 +440,19 @@ const Navbar = ({ home }) => {
                     </div>
 
                     {/* Mobile */}
+
                     <div className="flex-1 flex justify-end items-center lg:hidden">
+                        {/* Search */}
+                        <div
+                            className="px-[0.75rem] py-[0.5rem] text-[1.5rem] cursor-pointer"
+                            onClick={() => {
+                                setOpenMobileSearch(true);
+                                setOpenNavMobile(false);
+                            }}>
+                            <CgSearch />
+                        </div>
+
+                        {/* Menu */}
                         <div
                             className="px-[1rem] py-[0.5rem] text-[1.5rem]"
                             onClick={() => {
@@ -610,6 +742,61 @@ const Navbar = ({ home }) => {
                                         />
                                     </div>
                                 </div>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
+                {/* SearchMobile */}
+                <AnimatePresence>
+                    {openMobileSearch && (
+                        <motion.div
+                            className="fixed inset-0 z-[99999] bg-white flex flex-col"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.2 }}>
+                            {/* Search Header */}
+                            <div className="flex items-center gap-[0.5rem] px-[1rem] py-[1rem] border-b border-black/10">
+                                {/* Input */}
+                                <div className="relative flex-1">
+                                    <CgSearch className="absolute left-[0.75rem] top-1/2 -translate-y-1/2 text-black/40" />
+
+                                    <input
+                                        autoFocus
+                                        type="text"
+                                        value={search}
+                                        onChange={(e) => setSearch(e.target.value)}
+                                        placeholder={t("search")}
+                                        className="w-full h-[2.75rem] pl-[2.75rem] pr-[1rem] rounded-full bg-[#f5f5f5] text-black outline-none border border-black/10 focus:border-black/30"
+                                    />
+                                </div>
+
+                                {/* Close */}
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setOpenMobileSearch(false);
+                                        setSearch("");
+                                    }}
+                                    className=" w-[2.75rem] h-[2.75rem] flex items-center justify-center rounded-full text-black text-[1.5rem] hover:bg-black/5">
+                                    <CloseIcon />
+                                </button>
+                            </div>
+
+                            {/* Search Results */}
+                            <div className="flex-1 overflow-y-auto">
+                                {search.trim() && (
+                                    <ModalSearchGloabalResult
+                                        blogs={dataSearchGlobal?.blogs?.content || []}
+                                        tours={dataSearchGlobal?.tours?.content || []}
+                                        loading={searchLoading}
+                                        onSelect={handleSearchNavigate}
+                                        onSeeAll={handleSeeAllSearch}
+                                        t={t}
+                                        mobile
+                                    />
+                                )}
                             </div>
                         </motion.div>
                     )}

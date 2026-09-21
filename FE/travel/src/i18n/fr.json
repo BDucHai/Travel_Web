@@ -244,7 +244,7 @@
     "you_may_also_like": "Vous pourriez aussi aimer",
     "view_more_article": "Voir plus d'articles",
     "home": "Maison",
-    "fill_info":"Veuillez remplir l'email, le nom et la question !",
+    "fill_info": "Veuillez remplir l'email, le nom et la question !",
     "table_content": "Table des matières",
     "hide": "acher",
     "show": "Spectacle",
@@ -264,6 +264,8 @@
     "new": "Nouveau",
     "best_price": "Meilleur prix",
     "reply": "Réponse",
-    "cancel": "Annuler"
-
+    "cancel": "Annuler",
+    "search": "Recherche",
+    "no_result": "Aucun résultat",
+    "see_all": "Voir tout"
 }

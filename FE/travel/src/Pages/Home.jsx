@@ -138,7 +138,7 @@ const Home = () => {
           <hr className="mx-auto mt-[0.5rem] w-[4rem] border-2 text-[#efb771]" />
         </div>
         <motion.div
-          className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 px-[2rem] md:px-[5rem] lg:px-[8rem]"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 px-[2rem] md:px-[5rem] xl:px-[8rem]"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
@@ -165,7 +165,7 @@ const Home = () => {
           <hr className="mx-auto mt-[0.5rem] w-[4rem] border-2 text-[#efb771]" />
         </div>
         <motion.div
-          className="grid grid-cols-3 lg:grid-cols-6 gap-2 md:gap-4 px-[2rem] md:px-[5rem] lg:px-[8rem]"
+          className="grid grid-cols-3 lg:grid-cols-6 gap-2 md:gap-4 px-[2rem] md:px-[5rem] xl:px-[8rem]"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
@@ -194,7 +194,7 @@ const Home = () => {
           <hr className="mx-auto mt-[0.5rem] w-[4rem] border-2 text-[#efb771]" />
         </div>
         <motion.div
-          className="grid grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4 px-[2rem] md:px-[5rem] lg:px-[8rem]"
+          className="grid grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4 px-[2rem] md:px-[5rem] xl:px-[8rem]"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
@@ -254,7 +254,7 @@ const Home = () => {
             {slides?.map((group, index) => (
               <div
                 key={index}
-                className="min-w-full grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5 px-[2rem] md:px-[5rem] lg:px-[8rem]"
+                className="min-w-full grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5 px-[2rem] md:px-[5rem] xl:px-[8rem]"
               >
                 {group.map((comment, i) => (
                   <CommentCard key={i} comment={comment} />

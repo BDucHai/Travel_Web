@@ -20,75 +20,77 @@ import StylesPage from "../Pages/StylePage";
 import BannerPage from "../Pages/Admin/BannerPage";
 import AdminQuestionThread from "../Pages/Admin/AdminQuestionThread";
 import DestinationView from "../Pages/DestinationView";
+import SearchGlobalPage from "../Pages/SearchGlobalPage";
 
 const publicRoutes = [{ path: "/", component: Home }];
 
 const routesNavSticky = [
-  { path: "/blog", component: Blog },
-  { path: "/blog/detail/:slug", component: BlogDetail },
-  { path: "/about", component: AboutUs },
-  { path: "/tours", component: SearchTour },
-  { path: "/tours/detail/:id", component: TourDetail },
-  { path: "/review", component: ReviewPage },
-  { path: "/styles", component: StylesPage },
-  { path: "/destination/:id", component: DestinationView },
+    { path: "/blog", component: Blog },
+    { path: "/blog/detail/:slug", component: BlogDetail },
+    { path: "/about", component: AboutUs },
+    { path: "/tours", component: SearchTour },
+    { path: "/tours/detail/:id", component: TourDetail },
+    { path: "/review", component: ReviewPage },
+    { path: "/styles", component: StylesPage },
+    { path: "/destination/:id", component: DestinationView },
+    { path: "/globalSearch", component: SearchGlobalPage },
 ];
 
 const routeAdmin = [
-  {
-    path: "/admin/create/blog",
-    component: CreateBlog,
-    roles: ["user", "admin"],
-  },
-  {
-    path: "/admin/update/blog/:id",
-    component: CreateBlog,
-    roles: ["user", "admin"],
-  },
-  {
-    path: "/admin/review",
-    component: ReviewAdminPage,
-    roles: ["user", "admin"],
-  },
-  { path: "/admin/blog", component: BlogManage, roles: ["user", "admin"] },
-  { path: "/admin/contact", component: Contact, roles: ["user", "admin"] },
-  { path: "/admin/manageUser", component: UserManagePage, roles: ["admin"] },
-  { path: "/admin/tour", component: TourManage, roles: ["user", "admin"] },
-  {
-    path: "/admin/create/tour",
-    component: CreateTour,
-    roles: ["user", "admin"],
-  },
-  {
-    path: "/admin/update/tour/:id",
-    component: CreateTour,
-    roles: ["user", "admin"],
-  },
-  {
-    path: "/admin/profile/:id",
-    component: ProfilePage,
-    roles: ["user", "admin"],
-  },
-  {
-    path: "/admin/destinations",
-    component: DestinationList,
-    roles: ["user", "admin"],
-  },
-  {
-    path: "/admin/destinations/create/:id?",
-    component: CreateDestination,
-    roles: ["user", "admin"],
-  },
-  {
-    path: "/admin/questionThread",
-    component: AdminQuestionThread,
-    roles: ["user", "admin"],
-  },
-  { path: "/admin/banner", component: BannerPage, roles: ["user", "admin"] },
+    {
+        path: "/admin/create/blog",
+        component: CreateBlog,
+        roles: ["user", "admin"],
+    },
+    {
+        path: "/admin/update/blog/:id",
+        component: CreateBlog,
+        roles: ["user", "admin"],
+    },
+    {
+        path: "/admin/review",
+        component: ReviewAdminPage,
+        roles: ["user", "admin"],
+    },
+    { path: "/admin/blog", component: BlogManage, roles: ["user", "admin"] },
+    { path: "/admin/contact", component: Contact, roles: ["user", "admin"] },
+    { path: "/admin/manageUser", component: UserManagePage, roles: ["admin"] },
+    { path: "/admin/tour", component: TourManage, roles: ["user", "admin"] },
+    {
+        path: "/admin/create/tour",
+        component: CreateTour,
+        roles: ["user", "admin"],
+    },
+    {
+        path: "/admin/update/tour/:id",
+        component: CreateTour,
+        roles: ["user", "admin"],
+    },
+    {
+        path: "/admin/profile/:id",
+        component: ProfilePage,
+        roles: ["user", "admin"],
+    },
+    {
+        path: "/admin/destinations",
+        component: DestinationList,
+        roles: ["user", "admin"],
+    },
+    {
+        path: "/admin/destinations/create/:id?",
+        component: CreateDestination,
+        roles: ["user", "admin"],
+    },
+    {
+        path: "/admin/questionThread",
+        component: AdminQuestionThread,
+        roles: ["user", "admin"],
+    },
+    { path: "/admin/banner", component: BannerPage, roles: ["user", "admin"] },
 ];
 
 const routeLogin = [
-  { path: "/admin/login", component: Login },
-  { path: "/admin", component: Login },
+    { path: "/admin/login", component: Login },
+    { path: "/admin", component: Login },
 ];
 export { publicRoutes, routesNavSticky, routeAdmin, routeLogin };
