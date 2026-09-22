@@ -12,7 +12,7 @@ const Banner = ({ banners }) => {
     const startSlider = () => {
         intervalRef.current = setInterval(() => {
             setCurrentIndex((prev) => (prev === banners?.length - 1 ? 0 : prev + 1));
-        }, 50000);
+        }, 10000);
     };
 
     const resetSlider = () => {
