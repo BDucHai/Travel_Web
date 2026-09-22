@@ -22,7 +22,7 @@ export default function DestinationList() {
         mutate(
             (prev) => ({
                 ...prev,
-                data: prev.data.filter((item) => item.id !== id),
+                data: prev?.data?.filter((item) => item.id !== id),
             }),
             false,
         );

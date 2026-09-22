@@ -54,7 +54,7 @@ export const updateDestination = async (id, data) => {
 
 export const deleteDestination = async (id) => {
     try {
-        const response = await axiosClient.delete(`/destinations/${id}`);
+        const response = await axiosClient.delete(`/admin/destinations/${id}`);
 
         toast.success(i18n.t("notify.delete_success"));
         return response?.data;
