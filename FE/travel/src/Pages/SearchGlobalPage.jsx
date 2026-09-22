@@ -94,9 +94,9 @@ const SearchGlobalPage = () => {
                         fontWeight: 600,
                     },
                 }}>
-                <Tab label="All" {...a11yProps(0)} />
-                <Tab label="Blogs" {...a11yProps(1)} />
-                <Tab label="Tours" {...a11yProps(2)} />
+                <Tab label={t("all")} {...a11yProps(0)} />
+                <Tab label={t("blog")} {...a11yProps(1)} />
+                <Tab label={t("tour")} {...a11yProps(2)} />
             </Tabs>
 
             <CustomTabPanel value={value} index={0}>
