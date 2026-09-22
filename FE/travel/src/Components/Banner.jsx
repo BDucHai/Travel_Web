@@ -12,7 +12,7 @@ const Banner = ({ banners }) => {
     const startSlider = () => {
         intervalRef.current = setInterval(() => {
             setCurrentIndex((prev) => (prev === banners?.length - 1 ? 0 : prev + 1));
-        }, 300000);
+        }, 50000);
     };
 
     const resetSlider = () => {
@@ -58,19 +58,13 @@ const Banner = ({ banners }) => {
                                 className="w-full h-full object-cover contrast-105"
                                 loading="lazy"
                                 initial={{ scale: 1 }}
-                                animate={
-                                    index === currentIndex
-                                        ? { scale: [1, 1.06, 1] }
-                                        : { scale: 1 }
-                                }
+                                animate={index === currentIndex ? { scale: [1, 1.06, 1] } : { scale: 1 }}
                                 transition={
                                     index === currentIndex
                                         ? { duration: 12, repeat: Infinity, ease: "easeInOut" }
                                         : { duration: 0 }
                                 }
                             />
-
-
                         </div>
                     ))}
                 </motion.div>

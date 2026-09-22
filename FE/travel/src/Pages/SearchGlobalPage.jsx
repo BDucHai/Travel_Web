@@ -118,7 +118,7 @@ const SearchGlobalPage = () => {
                 </div>
 
                 {/* Tour */}
-                <hr className="mt-[3rem] w-full border-1 text-[#efb771]" />
+                <hr className="my-[3rem] w-full border-1 text-[#efb771]" />
 
                 <div className="my-[1rem] text-[1rem] md:text-[1.5rem] font-bold font-lora">{t("tour")}</div>
                 <div className="flex gap-4 overflow-x-auto pb-2 lg:overflow-x-visible">
@@ -140,39 +140,41 @@ const SearchGlobalPage = () => {
             {/* Blog Panel */}
             <CustomTabPanel value={value} index={1}>
                 <div className="my-[1rem] text-[1rem] md:text-[1.5rem] font-bold font-lora">{t("blog")}</div>
-                <div className="flex gap-4 overflow-x-auto pb-2 lg:overflow-x-visible">
-                    {searchValue?.blogs?.content?.slice(0, 3)?.map((blog, index) => (
-                        <div key={blog.id || index} className="w-[60%] shrink-0 sm:w-[50%] md:w-1/3">
-                            <BlogSmallCard blog={blog} isShortDesc={true} />
-                        </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-2">
+                    {searchValue?.blogs?.content?.map((blog) => (
+                        <BlogSmallCard blog={blog} isShortDesc={true} />
                     ))}
                 </div>
-                <div className="my-[1rem] flex justify-center">
-                    <div
-                        className="px-[3rem] py-[0.75rem] border-1 borer-[#76e16f] rounded-[0.5rem] bg-[#e1ab6f] text-white hover:bg-[#8f894e] cursor-pointer"
-                        onClick={() => setValue(1)}>
-                        {t("see_all")}
-                    </div>
-                </div>
 
-                <Pagination
-                    page={blogPage + 1}
-                    count={searchValue?.blogs?.totalPages || 0}
-                    onChange={(_, value) => {
-                        setBlogPage(value - 1);
-                    }}
-                />
+                <div className="flex justify-center mt-4">
+                    <Pagination
+                        page={blogPage + 1}
+                        count={searchValue?.blogs?.totalPages || 0}
+                        onChange={(_, value) => {
+                            setBlogPage(value - 1);
+                        }}
+                    />
+                </div>
             </CustomTabPanel>
 
             {/* TourPanel */}
             <CustomTabPanel value={value} index={2}>
-                <Pagination
-                    page={tourPage + 1}
-                    count={searchValue?.tours?.totalPages || 0}
-                    onChange={(event, value) => {
-                        setTourPage(value - 1);
-                    }}
-                />
+                <div className="my-[1rem] text-[1rem] md:text-[1.5rem] font-bold font-lora">{t("tour")}</div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 pb-2">
+                    {searchValue?.tours?.content?.map((tour) => (
+                        <CardHome tour={tour} isShortDesc={true} />
+                    ))}
+                </div>
+
+                <div className="flex justify-center mt-4">
+                    <Pagination
+                        page={tourPage + 1}
+                        count={searchValue?.tours?.totalPages || 0}
+                        onChange={(_, value) => {
+                            setTourPage(value - 1);
+                        }}
+                    />
+                </div>
             </CustomTabPanel>
 
             {/* BackDrop */}

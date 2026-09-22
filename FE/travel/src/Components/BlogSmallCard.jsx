@@ -23,7 +23,7 @@ const BlogSmallCard = ({ blog, isShortDesc = false }) => {
             <div className="px-4 pt-4 pb-2 flex flex-col justify-between">
                 {/* Guide */}
                 {/* <p className="text-xs text-[#f27000]">{blog?.guide}</p> */}
-                <h3 className=" text-[0.85rem] lg:text-[1.15rem] font-semibold">{blog?.title}</h3>
+                <h3 className={`text-[0.85rem] ${isShortDesc ? "lg:text-[1.1rem]" : "lg:text-[0.95rem]"}  font-semibold`}>{blog?.title}</h3>
             </div>
             {isShortDesc && (
                 <div className="px-4 text-[0.75rem] lg:text-[0.95rem] text-gray-700 line-clamp-3">{blog?.excerpt}</div>
