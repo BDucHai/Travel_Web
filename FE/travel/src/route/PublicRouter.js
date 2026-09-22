@@ -33,7 +33,7 @@ const routesNavSticky = [
     { path: "/review", component: ReviewPage },
     { path: "/styles", component: StylesPage },
     { path: "/destination/:id", component: DestinationView },
-    { path: "/globalSearch", component: SearchGlobalPage },
+    { path: "/globalSearch/:search", component: SearchGlobalPage },
 ];
 
 const routeAdmin = [

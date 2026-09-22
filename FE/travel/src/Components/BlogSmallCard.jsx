@@ -6,7 +6,7 @@ import { FaEye } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
-const BlogSmallCard = ({ blog }) => {
+const BlogSmallCard = ({ blog, isShortDesc = false }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     return (
@@ -23,8 +23,11 @@ const BlogSmallCard = ({ blog }) => {
             <div className="px-4 pt-4 pb-2 flex flex-col justify-between">
                 {/* Guide */}
                 {/* <p className="text-xs text-[#f27000]">{blog?.guide}</p> */}
-                <h3 className="text-lg font-semibold">{blog?.title}</h3>
+                <h3 className=" text-[0.85rem] lg:text-[1.15rem] font-semibold">{blog?.title}</h3>
             </div>
+            {isShortDesc && (
+                <div className="px-4 text-[0.75rem] lg:text-[0.95rem] text-gray-700 line-clamp-3">{blog?.excerpt}</div>
+            )}
             <div className="flex items-center text-[0.7rem] text-dark mt-2 p-4">
                 <span className="flex items-center mr-[0.8rem]">
                     <CiCalendar className="mr-[0.2rem]" />

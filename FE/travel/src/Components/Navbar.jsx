@@ -50,7 +50,9 @@ const Navbar = ({ home }) => {
             globalSearch({
                 keyword,
                 lang,
-                limit,
+                blogPage:0,
+                tourPage:0,
+                limit: 2
             }),
     );
 
@@ -90,7 +92,7 @@ const Navbar = ({ home }) => {
     };
 
     const handleSeeAllSearch = () => {
-        navigate("/globalSearch");
+        navigate(`/globalSearch/${debouncedSearch}`);
     }
 
     return (
