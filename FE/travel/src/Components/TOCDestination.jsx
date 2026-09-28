@@ -24,7 +24,7 @@ export function TOCDestination({ hideTOC, setHideTOC }) {
 
   return (
     <div className="my-[1.5rem] border-[1px] border-[#e4fae3] rounded-[0.25rem] shadow-lg py-[1rem] text-[#446bd1] bg-[#f9fafa]">
-      <div className="flex justify-between items-center md:px-[2rem] ">
+      <div className="flex justify-between items-center px-[1rem] md:px-[2rem] ">
         <div className="uppercase text-[1.15rem] font-bold">{t("table_content")}</div>
         <div className="text-[0.8rem]">
           {hideTOC ? (
