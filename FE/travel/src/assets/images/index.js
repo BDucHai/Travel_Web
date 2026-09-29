@@ -37,6 +37,11 @@ import familyStyle from "./familyStyle.webp";
 import foodStyle from "./foodStyle.jpg";
 import honeymoonStyle from "./honeymoonStyle.jpg";
 import natureStyle from "./natureStyle.jpg";
+import culturalTour from "./culturalTour.jpg";
+import familyHoliday from "./familyHoliday.jpg";
+import natureAdventure from "./natureAdventure.jpg";
+import bikeTour from "./bikeTour.jpg";
+import honeyMoon from "./honeyMoon.jpg";
 
 export const imgBanner = {
     cungvulam,
@@ -87,12 +92,16 @@ export const imgGlobal = {
     bannerBlog,
 };
 
-
 export const styleImg = {
     adventureStyle,
     cultural,
     familyStyle,
     foodStyle,
     honeymoonStyle,
-    natureStyle
-}
+    natureStyle,
+    culturalTour,
+    familyHoliday,
+    natureAdventure,
+    bikeTour,
+    honeyMoon
+};

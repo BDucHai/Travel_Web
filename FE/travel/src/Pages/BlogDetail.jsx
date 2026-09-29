@@ -53,7 +53,7 @@ const BlogDetail = () => {
     return (
         <div className="bg-white">
             {/* HERO */}
-            <div className="relative h-[650px] overflow-hidden">
+            <div className="relative h-[300px] lg:h-[550px] overflow-hidden">
                 <img
                     src={blog?.heroImageUrl}
                     alt=""
@@ -68,8 +68,10 @@ const BlogDetail = () => {
                 <div
                     className="
                         absolute
-                        bottom-[5rem]
-                        left-[10%]
+                        bottom-[1rem]
+                        lg:bottom-[5rem]
+                        left-[3%]
+                        lg:left-[10%]
                         text-white
                         max-w-[800px]
                     ">
@@ -77,8 +79,8 @@ const BlogDetail = () => {
 
                     <h1
                         className="
-                            text-3xl
-                            lg:text-5xl
+                            text-2xl
+                            lg:text-4xl
                             font-bold
                             leading-tight
                         ">

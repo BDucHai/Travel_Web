@@ -34,7 +34,7 @@ const Blog = () => {
         getBlog(params),
     );
 
-    const hasMore = (listBlogs?.page || 1) < (listBlogs?.totalPages || 1);
+    const hasMore = (listBlogs?.page + 1 || 1) < (listBlogs?.totalPages || 1);
 
     useEffect(() => {
         if (!listBlogs?.data) return;
