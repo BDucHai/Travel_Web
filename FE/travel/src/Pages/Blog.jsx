@@ -220,7 +220,7 @@ const Blog = () => {
                         <div className="flex-box-center mt-[2.5rem]">
                             <button
                                 disabled={loadingMore || !hasMore}
-                                className={`min-w-[180px] h-[48px] flex items-center justify-center gap-2 border-[2px] border-[#d38518] font-semibold uppercase transition-all duration-300 cursor-pointer
+                                className={`${!hasMore && "hidden"} min-w-[180px] h-[48px] flex items-center justify-center gap-2 border-[2px] border-[#d38518] font-semibold uppercase transition-all duration-300 cursor-pointer
                                 ${
                                     loadingMore
                                         ? "bg-[#d38518] text-white cursor-not-allowed"
