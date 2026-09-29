@@ -5,6 +5,8 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [lang, setLang] = useState("fr");
+    const [notiContact, setNotiContact] = useState(false);
+    const [notiComment, setNotiComment] = useState(false);
 
     const login = (data) => setUser(data);
     const logout = () => setUser(null);
@@ -54,6 +56,10 @@ export const AuthProvider = ({ children }) => {
                 login,
                 logout,
                 changeLang,
+                notiComment,
+                setNotiComment,
+                notiContact,
+                setNotiContact,
             }}>
             {children}
         </AuthContext.Provider>

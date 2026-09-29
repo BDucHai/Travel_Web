@@ -1,7 +1,7 @@
 import React from "react";
 import { Avatar, Drawer, useMediaQuery } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight, MdNotificationsActive } from "react-icons/md";
 
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -20,10 +20,11 @@ import { clearSession } from "../../utils/session";
 import { useAuth } from "../../contexts/AuthContext";
 import { ImLocation } from "react-icons/im";
 import * as Flags from "country-flag-icons/react/3x2";
+import { LuBadgeAlert } from "react-icons/lu";
 
 const SideBar = ({ openSideBar, setOpenSideBar }) => {
     const { t, i18n } = useTranslation();
-    const { user, changeLang } = useAuth();
+    const { user, changeLang, notiContact, notiComment } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -229,6 +230,9 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
                 <div className="flex-1 flex flex-col gap-2 p-4">
                     {listMenu?.map((item) => {
                         const active = location.pathname === item?.direct;
+
+                        const hasNotification = (item?.id === 7 && notiContact) || (item?.id === 9 && notiComment);
+
                         if (item?.id === 13) {
                             return (
                                 <motion.div
@@ -298,26 +302,15 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
                                 whileTap={{ scale: 0.98 }}
                                 key={item?.id}
                                 onClick={() => navigate(item.direct)}
-                                className={`
-                                    group
-                                    flex
-                                    items-center
-                                    justify-start px-4
-                                    gap-4
-                                    py-4
-                                    rounded-xl
-                                    cursor-pointer
-                                    transition-all
-                                    duration-50
-                                    ${active ? "bg-[#1e293b] border border-[#334155]" : "hover:bg-[#1f2937]"}
-                                `}>
+                                className={` group relative flex items-center justify-start px-4 gap-4 py-4 rounded-xl cursor-pointer transition-all duration-50 ${active ? "bg-[#1e293b] border border-[#334155]" : "hover:bg-[#1f2937]"}`}>
+                                {hasNotification && (
+                                    <span className=" absolute -top-1 -right-1 min-w-[20px] h-[20px] px-1 rounded-full bg-red-500 text-white text-[0.7rem] font-bold flex items-center justify-center border-2 border-[#0f172a] z-10">
+                                        {item?.id === 7 ? <LuBadgeAlert /> : <MdNotificationsActive />}
+                                    </span>
+                                )}
+
                                 {/* Icon */}
-                                <div
-                                    className={`
-                                        text-[1.2rem]
-                                        shrink-0
-                                        ${active ? "text-[#60a5fa]" : "text-white"}
-                                    `}>
+                                <div className={` text-[1.2rem] shrink-0 ${active ? "text-[#60a5fa]" : "text-white"}`}>
                                     {item?.icon}
                                 </div>
 
@@ -337,12 +330,7 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
                                                 opacity: 0,
                                                 x: -10,
                                             }}
-                                            className={`
-                                                text-[0.95rem]
-                                                font-medium
-                                                whitespace-nowrap
-                                                ${active ? "text-[#60a5fa]" : "text-white"}
-                                            `}>
+                                            className={`text-[0.95rem] font-medium whitespace-nowrap ${active ? "text-[#60a5fa]" : "text-white"}`}>
                                             {item?.title}
                                         </motion.p>
                                     )}

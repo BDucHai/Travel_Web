@@ -17,7 +17,7 @@ import { useAuth } from "../contexts/AuthContext";
 
 const ContactModal = ({ t, open, onClose, content = "" }) => {
     const [loading, setLoading] = useState(false);
-    const { lang } = useAuth();
+    const { lang, setNotiContact } = useAuth();
     const [contactPlan, setContactPlan] = useState({
         fullName: "",
         email: "",
@@ -29,6 +29,7 @@ const ContactModal = ({ t, open, onClose, content = "" }) => {
         setLoading(true);
         const res = await createContacts(contactPlan);
         if (res) {
+            setNotiContact(true);
             onClose();
         }
         setLoading(false);

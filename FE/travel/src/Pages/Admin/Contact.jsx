@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tabs, Tab, Box, Button, Pagination, Backdrop, CircularProgress } from "@mui/material";
 import { motion } from "framer-motion";
 import useSWR from "swr";
 import { getContacts, deleteContacts, updateStatusContact } from "../../api/Contact";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function Contact() {
+    const { setNotiContact } = useAuth();
+
     const statusTabs = [
         { label: "NEW", value: "NEW" },
         { label: "DONE", value: "DONE" },
@@ -27,10 +30,15 @@ export default function Contact() {
         await mutate();
     };
 
-    const deleteContact = async (id) => {
+    const deleteContact = async (id) =>     {
         await deleteContacts(id);
         await mutate();
     };
+
+    useEffect(() => {
+        setNotiContact(false);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <Box className="bg-[radial-gradient(circle,_#0e3637_0%,_#0d0d11ab_70%)] text-white min-h-screen p-6">
@@ -78,9 +86,7 @@ export default function Contact() {
                         <p className="text-xs text-gray-500 mt-2">
                             Nationality: {c?.nationality} - Hear From: {c?.hearFrom}
                         </p>
-                        <p className="text-red-400 font-bold mt-2">
-                            Contact Method: {c?.contactMethod}
-                        </p>
+                        <p className="text-red-400 font-bold mt-2">Contact Method: {c?.contactMethod}</p>
 
                         <div className="mt-4 flex gap-2">
                             {c?.status === "NEW" && (

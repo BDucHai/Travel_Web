@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useSWR from "swr";
 import {
     Avatar,
@@ -17,6 +17,7 @@ import {
     CircularProgress,
 } from "@mui/material";
 import { createQuestionReply, deleteQuestion, deleteReply, getQuestionsAdmin } from "../../api/Question";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function AdminQuestionThread() {
     const [tab, setTab] = useState(0);
@@ -25,6 +26,7 @@ export default function AdminQuestionThread() {
     const pageSize = 5;
     const [replyText, setReplyText] = useState({});
     const [loading, setLoading] = useState(false);
+    const { setNotiComment } = useAuth();
 
     const { data: questions, mutate } = useSWR(
         tab === 0 ? "/questions" : `/questions/status/${tab === 1 ? "pending" : "answered"}`,
@@ -73,6 +75,11 @@ export default function AdminQuestionThread() {
         await mutate();
         setLoading(false);
     };
+
+    useEffect(() => {
+        setNotiComment(false);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <div className="p-6 bg-gray-900 min-h-screen text-white">

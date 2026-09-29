@@ -35,8 +35,10 @@ import * as Flags from "country-flag-icons/react/3x2";
 import { createContacts } from "../api/Contact";
 import { IoMdCloseCircleOutline, IoMdSearch } from "react-icons/io";
 import { toast } from "react-toastify";
+import { useAuth } from "../contexts/AuthContext";
 
 const ContactModalFrm = ({ t, open, onClose, content = "" }) => {
+    const { setNotiContact } = useAuth();
     const [loading, setLoading] = useState(false);
     const countries = useMemo(() => countryList().getData(), []);
     const [contactPlan, setContactPlan] = useState({
@@ -66,6 +68,7 @@ const ContactModalFrm = ({ t, open, onClose, content = "" }) => {
             hearFrom: contactPlan?.hearFrom,
         });
         if (res) {
+            setNotiContact(true);
             onClose();
         }
         setLoading(false);

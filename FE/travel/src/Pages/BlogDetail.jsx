@@ -19,7 +19,7 @@ import Link from "@mui/material/Link";
 const BlogDetail = () => {
     const { slug } = useParams();
     const { t } = useTranslation();
-    const { lang } = useAuth();
+    const { lang, setNotiContact } = useAuth();
     const [openContactModal, setOpenContactModal] = useState(false);
     const navigate = useNavigate();
 
@@ -48,6 +48,7 @@ const BlogDetail = () => {
             contactMethod: "email",
             hearFrom: "None",
         });
+        setNotiContact(true);
     };
 
     return (

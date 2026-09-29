@@ -15,11 +15,13 @@ import { createQuestion, createQuestionReply, getQuestions } from "../api/Questi
 import { uploadImage } from "../utils/uploadImage";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function QuestionDestinationGuest({ destId }) {
     const { t } = useTranslation();
     const [page, setPage] = useState(1);
     const pageSize = 8;
+    const { setNotiComment } = useAuth();
 
     const { data: questions, mutate } = useSWR(
         destId ? [`/questions/destination/${destId}`, destId] : null,
@@ -71,13 +73,13 @@ export default function QuestionDestinationGuest({ destId }) {
                 avatarUrl: "",
                 content: "",
             });
-
+            setNotiComment(true);
             mutate();
-            setLoadingQues(true);
+            setLoadingQues(false);
             return true;
         } catch (error) {
             toast.error(t("question.submit_error"));
-            setLoadingQues(true);
+            setLoadingQues(false);
             return false;
         }
     };
@@ -111,7 +113,7 @@ export default function QuestionDestinationGuest({ destId }) {
                 ...prev,
                 [qid]: "",
             }));
-
+            setNotiComment(true);
             await mutate();
             setLoadingQues(false);
             return true;

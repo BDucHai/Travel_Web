@@ -9,17 +9,20 @@ import { IoIosSend } from "react-icons/io";
 import { imgGlobal } from "../assets/images";
 import { FaWhatsapp } from "react-icons/fa";
 import { createContacts } from "../api/Contact";
+import { useAuth } from "../contexts/AuthContext";
 
 const Footer = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
     const [sendMail, setSendMail] = useState("");
+        const { setNotiContact } = useAuth();
 
     const handleCreateRequest = async () => {
         const res = await createContacts({
             email: sendMail,
         });
         if (res) {
+            setNotiContact(true);
             setSendMail("");
         }
     };

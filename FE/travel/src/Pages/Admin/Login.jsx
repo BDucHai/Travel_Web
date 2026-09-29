@@ -5,9 +5,11 @@ import { getSession, setSession } from "../../utils/session";
 import { LoginUser } from "../../api/User";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { getContacts } from "../../api/Contact";
+import { getQuestionsAdmin } from "../../api/Question";
 
 export default function Login() {
-    const { setUser } = useAuth();
+    const { setUser, setNotiContact, setNotiComment } = useAuth();
     const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -32,6 +34,17 @@ export default function Login() {
             });
             setSession({ username: res?.username, fullName: res?.fullName, roles: res?.roles });
             localStorage.setItem("accessToken", res?.accessToken);
+
+            const contactRes = await getContacts("/admin/contact-messages", {
+                status: "NEW",
+                page: 0,
+                limit: 10,
+            });
+            setNotiContact(contactRes?.totalItems > 0 ? true : false);
+
+            const commentLocationRes = await getQuestionsAdmin("/questions/status/pending");
+
+            setNotiComment(commentLocationRes?.length > 0 ? true : false);
 
             navigate("/admin/blog");
         } catch (err) {
