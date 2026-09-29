@@ -178,7 +178,7 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
                                     my-[0.5rem]
                                     cursor-pointer
                                 "
-                                onClick={() => navigate(`/admin/profile/${user?.id}`)}>
+                                onClick={() => navigate(`/admin/profile/${user?.username}`)}>
                                 <Avatar alt="Remy Sharp" src={user?.avatar_url || ""} />
                             </motion.h1>
                         )}
@@ -229,7 +229,7 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
                 <div className="flex-1 flex flex-col gap-2 p-4">
                     {listMenu?.map((item) => {
                         const active = location.pathname === item?.direct;
-                        if (item?.id === 10) {
+                        if (item?.id === 13) {
                             return (
                                 <motion.div
                                     whileHover={{ x: 5 }}

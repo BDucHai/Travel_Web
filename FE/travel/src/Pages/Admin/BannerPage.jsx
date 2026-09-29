@@ -34,7 +34,7 @@ export default function BannerPage() {
             <h1 className="text-2xl font-bold mb-4">Banner</h1>
 
             {/* Upload */}
-            <div className="flex items-center gap-4 mb-6">
+            <div className="flex items-center gap-4 mb-6 text-white">
                 <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files[0])} className="text-sm" />
                 <Button variant="contained" color="primary" onClick={handleUpload} disabled={!file}>
                     Thêm Banner

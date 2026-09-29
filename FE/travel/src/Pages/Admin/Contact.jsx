@@ -75,6 +75,12 @@ export default function Contact() {
                         <p className="text-xs text-gray-500 mt-2">
                             Request Date: {new Date(c?.createdAt)?.toLocaleDateString("vi-VN")}
                         </p>
+                        <p className="text-xs text-gray-500 mt-2">
+                            Nationality: {c?.nationality} - Hear From: {c?.hearFrom}
+                        </p>
+                        <p className="text-red-400 font-bold mt-2">
+                            Contact Method: {c?.contactMethod}
+                        </p>
 
                         <div className="mt-4 flex gap-2">
                             {c?.status === "NEW" && (
@@ -83,8 +89,15 @@ export default function Contact() {
                                         variant="contained"
                                         color="success"
                                         size="small"
-                                        onClick={() => updateStatus({id: c?.id, status: "DONE"})}>
+                                        onClick={() => updateStatus({ id: c?.id, status: "DONE" })}>
                                         Accept
+                                    </Button>
+                                    <Button
+                                        variant="outlined"
+                                        color="error"
+                                        size="small"
+                                        onClick={() => deleteContact(c?.id)}>
+                                        Reject
                                     </Button>
                                 </>
                             )}

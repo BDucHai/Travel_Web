@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useAuth } from "../../contexts/AuthContext";
-import { setSession } from "../../utils/session";
+import { getSession, setSession } from "../../utils/session";
 import { LoginUser } from "../../api/User";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -41,14 +41,14 @@ export default function Login() {
         }
     };
 
-    // useEffect(() => {
-    //     const savedUser = getSession();
+    useEffect(() => {
+        const savedUser = getSession();
 
-    //     if (savedUser) {
-    //         setUser(savedUser);
-    //         navigate("/admin/blog", { replace: true });
-    //     }
-    // }, [navigate, setUser]);
+        if (savedUser) {
+            setUser(savedUser);
+            navigate("/admin/blog", { replace: true });
+        }
+    }, [navigate, setUser]);
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800">

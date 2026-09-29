@@ -86,7 +86,11 @@ const routeAdmin = [
         component: AdminQuestionThread,
         roles: ["user", "admin"],
     },
-    { path: "/admin/banner", component: BannerPage, roles: ["user", "admin"] },
+    {
+        path: "/admin/banner",
+        component: BannerPage,
+        roles: ["user", "admin"],
+    },
 ];
 
 const routeLogin = [

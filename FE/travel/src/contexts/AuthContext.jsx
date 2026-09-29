@@ -14,11 +14,33 @@ export const AuthProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        const data = JSON.parse(localStorage.getItem("session"));
-        if (data && new Date().getTime() < data.expiry) {
-            setUser(data.user);
-        } else {
+        const sessionStr = localStorage.getItem("session");
+
+        if (!sessionStr) {
+            setUser(null);
+            return;
+        }
+
+        try {
+            const session = JSON.parse(sessionStr);
+
+            if (Date.now() >= session.expiry) {
+                localStorage.removeItem("session");
+                localStorage.removeItem("accessToken");
+                setUser(null);
+                return;
+            }
+
+            setUser({
+                username: session.user?.username,
+                fullName: session.user?.fullName,
+                roles: session.user?.roles || [],
+            });
+        } catch (error) {
+            console.error("Invalid session data", error);
+
             localStorage.removeItem("session");
+            localStorage.removeItem("accessToken");
             setUser(null);
         }
     }, []);
