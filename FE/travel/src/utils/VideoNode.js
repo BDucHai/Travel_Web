@@ -25,7 +25,7 @@ export class VideoNode extends DecoratorNode {
 
     decorate() {
         return (
-            <div className="my-6 w-full aspect-video">
+            <div className="my-6 w-[90%] md:w-[60%] mx-auto aspect-video">
                 <iframe
                     src={this.__url}
                     className="w-full h-full rounded-lg"
