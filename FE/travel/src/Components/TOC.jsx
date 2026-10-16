@@ -73,11 +73,8 @@ export default function TOC() {
                                 <a
                                     href={`#${h.id}`}
                                     onClick={(e) => handleClick(h.id, e)}
-                                    className="group flex items-start gap-3 rounded-lg px-3 py-2.5 text-sm leading-5 text-[#59655f] transition-all duration-200 hover:bg-[#f6eee3] hover:text-[#183b36]"
+                                    className="group flex items-start gap-3 rounded-lg px-3 py-2.5 text-sm leading-2 text-[#000] transition-all duration-200 hover:bg-[#f6eee3] hover:text-[#183b36]"
                                 >
-                                    <span className="mt-0.5 min-w-5 text-xs font-semibold tabular-nums text-[#c47a32]">
-                                        {String(index + 1).padStart(2, "0")}
-                                    </span>
 
                                     <span className="flex-1">
                                         {h.text}
