@@ -1,3 +1,4 @@
+
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { useHeading } from "../utils/useHeading";
 import { useTranslation } from "react-i18next";
@@ -20,81 +21,167 @@ export default function TOC() {
     const { lang } = useAuth();
     const { t } = useTranslation();
 
-    const { data: listBlogs } = useSWR(lang ? ["/blogs/blogs/random", { lang }] : null, ([_, params]) =>
-        getBlogRandom(params),
+    const { data: listBlogs } = useSWR(
+        lang ? ["/blogs/blogs/random", { lang }] : null,
+        ([_, params]) => getBlogRandom(params),
     );
 
     const handleClick = (id, e) => {
         e.preventDefault();
+
         const el = document.getElementById(id);
+
         if (el) {
-            const y = el.getBoundingClientRect().top + window.scrollY - NAV_HEIGHT;
-            window.scrollTo({ top: y, behavior: "smooth" });
+            const y =
+                el.getBoundingClientRect().top +
+                window.scrollY -
+                NAV_HEIGHT;
+
+            window.scrollTo({
+                top: y,
+                behavior: "smooth",
+            });
         }
     };
 
+    const relatedBlogs = listBlogs
+        ? listBlogs.filter((b) => b.slug !== slug)
+        : [];
+
     return (
-        <div className="bg-[#8dd7ea4d] px-[1rem] py-[0.6rem] text-[0.85rem] lg:text-[1rem]">
-            <div>
-                <h3 className="font-bold mb-2 pl-[0.5rem] uppercase border-l-[0.5rem] border-[#ef8d21]">
-                    {t("in_this_page")}
-                </h3>
-                <ul>
-                    {headings?.map((h) => (
-                        <li key={h.id}>
-                            <a
-                                href={`#${h?.id}`}
-                                onClick={(e) => handleClick(h?.id, e)}
-                                className="hover:underline cursor-pointer">
-                                {h?.text}
-                            </a>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+        <aside className="rounded-2xl border border-[#eadfd2] bg-[#fffdf9] text-[#183b36] shadow-[0_8px_30px_rgba(55,40,20,0.05)]">
 
-            <div className="mt-[0.5rem] py-[1.5rem]">
-                <h3 className="font-bold pl-[0.5rem] uppercase border-l-[0.5rem] border-[#ef8d21]">
-                    {t("you_may_also_like")}
-                </h3>
-            </div>
-            <div className="overflow-hidden">
-                {(listBlogs ? listBlogs.filter((b) => b.slug !== slug) : [])?.map((post) => (
-                    <div
-                        key={post?.id}
-                        className="flex cursor-pointer mt-[0.5rem] max-h-[90px]"
-                        onClick={() => {
-                            navigate(`/blog/detail/${post?.slug}`);
-                        }}>
-                        <div className="flex-1 mr-[0.5rem]">
-                            <img src={post?.heroImageUrl} alt={post?.id} className="w-full h-full object-cover" />
-                        </div>
-                        <div className="flex-1">
-                            <div>
-                                {/* <p className="text-xs text-gray-500">{post?.guide}</p> */}
-                                <Tooltip title={post?.title}>
-                                    <h3 className="text-[0.75rem] font-semibold line-clamp-3">{post?.title}</h3>
-                                </Tooltip>
-                            </div>
-                            <div className="flex items-center text-xs text-dark mt-2">
-                                <span className="flex items-center mr-[0.8rem]">
-                                    <CiCalendar className="mr-[0.2rem]" />{" "}
-                                    {new Date(post?.publishedAt).toLocaleDateString("vi-VN")}
-                                </span>
-                                {/* <span className="hidden lg:flex items-center">
-                                    <FaEye className="mr-[0.2rem]" /> {post?.viewCount} {t("view")}
-                                </span> */}
-                            </div>
-                        </div>
+            {/* TABLE OF CONTENTS */}
+            <section className="p-5 md:p-6">
+                <div className="mb-5">
+                    <div className="mb-2 flex items-center gap-2">
+                        <span className="h-px w-6 bg-[#e38c2b]" />
+                        <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#b7793b]">
+                            {t("blog")}
+                        </span>
                     </div>
-                ))}
-            </div>
 
-            <div
-                className="mt-[1rem] mb-[0.5rem] text-[#d38518] font-semibold uppercase cursor-pointer"
-                onClick={() => navigate("/blog")}>
-                {t("view_more_article")}
-            </div>
-        </div>
+                    <h3 className="border-l-[3px] border-[#e38c2b] pl-3 text-base font-bold uppercase tracking-wide text-[#183b36]">
+                        {t("in_this_page")}
+                    </h3>
+                </div>
+
+                {headings?.length > 0 ? (
+                    <ul className="space-y-1.5">
+                        {headings.map((h, index) => (
+                            <li key={h.id}>
+                                <a
+                                    href={`#${h.id}`}
+                                    onClick={(e) => handleClick(h.id, e)}
+                                    className="group flex items-start gap-3 rounded-lg px-3 py-2.5 text-sm leading-5 text-[#59655f] transition-all duration-200 hover:bg-[#f6eee3] hover:text-[#183b36]"
+                                >
+                                    <span className="mt-0.5 min-w-5 text-xs font-semibold tabular-nums text-[#c47a32]">
+                                        {String(index + 1).padStart(2, "0")}
+                                    </span>
+
+                                    <span className="flex-1">
+                                        {h.text}
+                                    </span>
+
+                                    <span className="translate-x-[-4px] opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100">
+                                        <span className="text-[#c47a32]">
+                                            →
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p className="text-sm leading-6 text-gray-400">
+                        {t("in_this_page")}
+                    </p>
+                )}
+            </section>
+
+            {/* DIVIDER */}
+            <div className="mx-5 border-t border-[#eadfd2] md:mx-6" />
+
+            {/* RELATED ARTICLES */}
+            <section className="p-5 md:p-6">
+                <div className="mb-5">
+                    <div className="mb-2 flex items-center gap-2">
+                        <span className="h-px w-6 bg-[#e38c2b]" />
+                        <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#b7793b]">
+                            {t("discover_your_jouney")}
+                        </span>
+                    </div>
+
+                    <h3 className="border-l-[3px] border-[#e38c2b] pl-3 text-base font-bold uppercase tracking-wide text-[#183b36]">
+                        {t("you_may_also_like")}
+                    </h3>
+                </div>
+
+                <div className="space-y-4">
+                    {relatedBlogs.map((post) => (
+                        <article
+                            key={post?.id}
+                            onClick={() =>
+                                navigate(`/blog/detail/${post?.slug}`)
+                            }
+                            className="group flex cursor-pointer gap-3"
+                        >
+                            {/* Thumbnail */}
+                            <div className="relative h-[88px] w-[100px] shrink-0 overflow-hidden rounded-xl bg-[#f1dece]">
+                                <img
+                                    src={post?.heroImageUrl}
+                                    alt={post?.title || ""}
+                                    loading="lazy"
+                                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                />
+
+                                <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/10" />
+                            </div>
+
+                            {/* Article info */}
+                            <div className="flex min-w-0 flex-1 flex-col justify-between py-0.5">
+                                <Tooltip title={post?.title || ""} placement="top">
+                                    <h4 className="line-clamp-3 text-[13px] font-semibold leading-5 text-[#183b36] transition-colors duration-200 group-hover:text-[#c47a32]">
+                                        {post?.title}
+                                    </h4>
+                                </Tooltip>
+
+                                <div className="mt-2 flex items-center gap-1.5 text-[11px] text-[#8b918b]">
+                                    <CiCalendar
+                                        className="shrink-0 text-[#c47a32]"
+                                        size={15}
+                                    />
+
+                                    <span>
+                                        {post?.publishedAt
+                                            ? new Date(
+                                                  post.publishedAt,
+                                              ).toLocaleDateString(
+                                                  lang === "fr"
+                                                      ? "fr-FR"
+                                                      : "en-GB",
+                                              )
+                                            : ""}
+                                    </span>
+                                </div>
+                            </div>
+                        </article>
+                    ))}
+                </div>
+
+                {/* VIEW MORE */}
+                <button
+                    type="button"
+                    onClick={() => navigate("/blog")}
+                    className="group mt-6 flex w-full items-center justify-between rounded-xl border border-[#e4d4c1] px-4 py-3 text-xs font-bold uppercase tracking-wider text-[#183b36] transition-all duration-300 hover:border-[#183b36] hover:bg-[#183b36] hover:text-white"
+                >
+                    <span>{t("view_more_article")}</span>
+
+                    <span className="transition-transform duration-300 group-hover:translate-x-1">
+                        →
+                    </span>
+                </button>
+            </section>
+        </aside>
     );
 }
