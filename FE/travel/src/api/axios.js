@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-    baseURL: "https://reves-indochine.onrender.com/api",
+    //baseURL: "https://reves-indochine.onrender.com/api",
+    baseURL: "https://reves-indochine.fadehost.app/api",
     headers: {
         "Content-Type": "application/json",
     },
